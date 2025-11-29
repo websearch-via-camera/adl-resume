@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { EnvelopeSimple, Phone, Download, GithubLogo, LinkedinLogo, ArrowUpRight } from "@phosphor-icons/react"
 import { motion } from "framer-motion"
+import profileImage from "@/assets/images/Kiarash_Adl_Linkedin_Image.jpg"
 
 function App() {
   const fadeIn = {
@@ -34,7 +35,7 @@ function App() {
             <motion.div variants={fadeIn} className="flex-shrink-0">
               <div className="w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden ring-4 ring-primary/10 shadow-2xl">
                 <img 
-                  src="https://media.licdn.com/dms/image/v2/D5603AQGxILdCbWTDMw/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1707499085306?e=1744848000&v=beta&t=8YoLqSZoJ5FsZLjPVf7LKvqsLGRqW4Z3p2MH02Jx2E4"
+                  src={profileImage}
                   alt="Kiarash Adl"
                   className="w-full h-full object-cover"
                 />
@@ -305,51 +306,69 @@ function App() {
               </Card>
             </motion.div>
 
-            <motion.div variants={fadeIn} className="mb-12">
+            <motion.div variants={fadeIn}>
               <h3 className="text-2xl font-bold mb-6">Skills</h3>
-              <div className="grid md:grid-cols-2 gap-6">
-                <Card className="p-6">
-                  <h4 className="font-bold text-lg mb-3 text-primary">AI & Machine Learning</h4>
-                  <p className="text-foreground leading-relaxed">
-                    Deep learning (PyTorch, Transformers, CLIP), distributed ML (Ray), classical ML (scikit-learn, XGBoost), GPU acceleration (CUDA/cuDNN/NCCL), data tooling (NumPy, Pandas)
-                  </p>
-                </Card>
+              <motion.div 
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-50px" }}
+                variants={staggerContainer}
+                className="grid md:grid-cols-2 gap-6"
+              >
+                <motion.div variants={fadeIn}>
+                  <Card className="p-6 hover:shadow-lg transition-shadow">
+                    <h4 className="font-bold text-lg mb-3 text-primary">AI & Machine Learning</h4>
+                    <p className="text-foreground leading-relaxed">
+                      Deep learning (PyTorch, Transformers, CLIP), distributed ML (Ray), classical ML (scikit-learn, XGBoost), GPU acceleration (CUDA/cuDNN/NCCL), data tooling (NumPy, Pandas)
+                    </p>
+                  </Card>
+                </motion.div>
                 
-                <Card className="p-6">
-                  <h4 className="font-bold text-lg mb-3 text-primary">Backend & Distributed Systems</h4>
-                  <p className="text-foreground leading-relaxed">
-                    Python (FastAPI/Flask, asyncio, AIOHTTP), microservices, event-driven architectures, task orchestration (Celery, Ray), messaging systems (Kafka), caching (Redis), SQL/ORMs (PostgreSQL, SQLAlchemy, Peewee)
-                  </p>
-                </Card>
+                <motion.div variants={fadeIn}>
+                  <Card className="p-6 hover:shadow-lg transition-shadow">
+                    <h4 className="font-bold text-lg mb-3 text-primary">Backend & Distributed Systems</h4>
+                    <p className="text-foreground leading-relaxed">
+                      Python (FastAPI/Flask, asyncio, AIOHTTP), microservices, event-driven architectures, task orchestration (Celery, Ray), messaging systems (Kafka), caching (Redis), SQL/ORMs (PostgreSQL, SQLAlchemy, Peewee)
+                    </p>
+                  </Card>
+                </motion.div>
                 
-                <Card className="p-6">
-                  <h4 className="font-bold text-lg mb-3 text-primary">DevOps & Infrastructure</h4>
-                  <p className="text-foreground leading-relaxed">
-                    Docker & multi-service Compose (17+ services), async/high-performance servers (Uvicorn/uvloop), CI/CD, build/test tooling (Black, Ruff, PyTest), cloud platforms (Azure primary; AWS, GCP)
-                  </p>
-                </Card>
+                <motion.div variants={fadeIn}>
+                  <Card className="p-6 hover:shadow-lg transition-shadow">
+                    <h4 className="font-bold text-lg mb-3 text-primary">DevOps & Infrastructure</h4>
+                    <p className="text-foreground leading-relaxed">
+                      Docker & multi-service Compose (17+ services), async/high-performance servers (Uvicorn/uvloop), CI/CD, build/test tooling (Black, Ruff, PyTest), cloud platforms (Azure primary; AWS, GCP)
+                    </p>
+                  </Card>
+                </motion.div>
                 
-                <Card className="p-6">
-                  <h4 className="font-bold text-lg mb-3 text-primary">Observability & Performance</h4>
-                  <p className="text-foreground leading-relaxed">
-                    Prometheus, Grafana, OpenTelemetry, structlog, Sentry, profiling & benchmarking (pytest-benchmark)
-                  </p>
-                </Card>
+                <motion.div variants={fadeIn}>
+                  <Card className="p-6 hover:shadow-lg transition-shadow">
+                    <h4 className="font-bold text-lg mb-3 text-primary">Observability & Performance</h4>
+                    <p className="text-foreground leading-relaxed">
+                      Prometheus, Grafana, OpenTelemetry, structlog, Sentry, profiling & benchmarking (pytest-benchmark)
+                    </p>
+                  </Card>
+                </motion.div>
                 
-                <Card className="p-6">
-                  <h4 className="font-bold text-lg mb-3 text-primary">Leadership & Product</h4>
-                  <p className="text-foreground leading-relaxed">
-                    Technical roadmapping, architecture decisions, team building, MVP-to-production execution, startup leadership and fundraising
-                  </p>
-                </Card>
+                <motion.div variants={fadeIn}>
+                  <Card className="p-6 hover:shadow-lg transition-shadow">
+                    <h4 className="font-bold text-lg mb-3 text-primary">Leadership & Product</h4>
+                    <p className="text-foreground leading-relaxed">
+                      Technical roadmapping, architecture decisions, team building, MVP-to-production execution, startup leadership and fundraising
+                    </p>
+                  </Card>
+                </motion.div>
                 
-                <Card className="p-6">
-                  <h4 className="font-bold text-lg mb-3 text-primary">Frontend & Mobile</h4>
-                  <p className="text-foreground leading-relaxed">
-                    React.js, Expo React Native, UI prototyping, API integration, client-side AI workflows
-                  </p>
-                </Card>
-              </div>
+                <motion.div variants={fadeIn}>
+                  <Card className="p-6 hover:shadow-lg transition-shadow">
+                    <h4 className="font-bold text-lg mb-3 text-primary">Frontend & Mobile</h4>
+                    <p className="text-foreground leading-relaxed">
+                      React.js, Expo React Native, UI prototyping, API integration, client-side AI workflows
+                    </p>
+                  </Card>
+                </motion.div>
+              </motion.div>
             </motion.div>
 
             <motion.div variants={fadeIn}>

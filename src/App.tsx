@@ -464,8 +464,8 @@ function App() {
                         <ResponsiveContainer width="100%" height="100%">
                           <BarChart
                             data={technicalSkillsData}
-                            layout="horizontal"
-                            margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+                            layout="vertical"
+                            margin={{ top: 20, right: 30, left: 100, bottom: 20 }}
                           >
                             <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.80 0.05 75)" />
                             <XAxis 
@@ -477,7 +477,7 @@ function App() {
                               type="category" 
                               dataKey="name"
                               tick={{ fill: 'oklch(0.48 0.02 55)', fontSize: 13, fontWeight: 600 }}
-                              width={100}
+                              width={90}
                             />
                             <Tooltip 
                               contentStyle={{

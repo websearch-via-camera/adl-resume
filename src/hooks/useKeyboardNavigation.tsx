@@ -186,9 +186,17 @@ export function KeyboardHelp({ show, onClose }: KeyboardHelpProps) {
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.03 }}
-                    className="flex items-center justify-between py-2 border-b border-border last:border-0"
+                    className={`flex items-center justify-between py-2 border-b border-border last:border-0 ${
+                      shortcut.description === "Toggle this help" 
+                        ? "bg-primary/10 -mx-2 px-2 rounded-lg border-0" 
+                        : ""
+                    }`}
                   >
-                    <span className="text-sm">{shortcut.description}</span>
+                    <span className={`text-sm ${
+                      shortcut.description === "Toggle this help" 
+                        ? "font-medium text-primary" 
+                        : ""
+                    }`}>{shortcut.description}</span>
                     <div className="flex gap-1">
                       {shortcut.keys.map((key, i) => (
                         <span key={i}>

@@ -390,7 +390,7 @@ function App() {
                 <h2 className="text-3xl md:text-4xl font-bold">Skills Proficiency</h2>
               </div>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Interactive visualization of technical expertise and domain knowledge across AI, engineering, and leadership
+                Explore my technical capabilities through interactive charts—from AI/ML mastery to full-stack engineering and team leadership
               </p>
             </motion.div>
 

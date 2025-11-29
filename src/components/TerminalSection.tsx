@@ -305,7 +305,7 @@ export function TerminalSection() {
       <div className="px-4 py-2 bg-zinc-900 border-t border-zinc-800 text-xs text-zinc-500 font-mono">
         <span>↑↓ History</span>
         <span className="mx-3">|</span>
-        <span>Mens et Manus 🦫</span>
+        <span>Mens et Manus</span>
         <span className="mx-3">|</span>
         <span>Try: neofetch, whoami</span>
       </div>

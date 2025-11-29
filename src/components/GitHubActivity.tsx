@@ -29,10 +29,10 @@ const CONTRIBUTION_DATA = generateContributionData()
 
 const levelColors = [
   "bg-muted",
-  "bg-green-200 dark:bg-green-900/50",
-  "bg-green-400 dark:bg-green-700",
-  "bg-green-500",
-  "bg-green-600 dark:bg-green-400"
+  "bg-primary/20",
+  "bg-primary/40",
+  "bg-primary/70",
+  "bg-primary"
 ]
 
 export function GitHubActivity() {

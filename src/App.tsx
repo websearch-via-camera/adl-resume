@@ -365,8 +365,6 @@ function App() {
                     Available for work
                   </span>
                 </div>
-                <span className="text-muted-foreground/30">•</span>
-                <WeatherIndicator />
               </div>
               
               {/* Name & Title */}
@@ -956,7 +954,11 @@ function App() {
       <footer className="py-8 px-6 border-t border-border">
         <div className="max-w-5xl mx-auto">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-            <p>© 2025 Kiarash Adl</p>
+            <div className="flex items-center gap-3">
+              <p>© 2025 Kiarash Adl</p>
+              <span className="text-border">|</span>
+              <WeatherIndicator />
+            </div>
             <div className="flex items-center gap-4">
               <a href="https://www.linkedin.com/in/kiarashadl/" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
                 <LinkedinLogo size={20} weight="fill" />

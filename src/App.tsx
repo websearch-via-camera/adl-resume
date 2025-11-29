@@ -21,6 +21,7 @@ import { TechStack } from "@/components/TechStack"
 import { EngineeringMetrics } from "@/components/EngineeringMetrics"
 import { TerminalSection } from "@/components/TerminalSection"
 import { TypewriterTagline } from "@/components/TypewriterTagline"
+import { CustomCursor } from "@/components/CustomCursor"
 import { useKeyboardNavigation, KeyboardHelp } from "@/hooks/useKeyboardNavigation"
 
 function App() {
@@ -207,7 +208,8 @@ function App() {
   ]
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background cursor-none">
+      <CustomCursor />
       <motion.div
         className="fixed top-0 left-0 right-0 h-1 bg-muted z-50"
         initial={{ opacity: 0 }}

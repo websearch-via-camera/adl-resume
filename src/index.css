@@ -203,6 +203,14 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Custom cursor - hide default on desktop */
+@media (pointer: fine) {
+  .cursor-none,
+  .cursor-none * {
+    cursor: none !important;
+  }
+}
+
 /* Custom scrollbar for modern look */
 ::-webkit-scrollbar {
   width: 8px;

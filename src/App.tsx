@@ -407,6 +407,11 @@ function App() {
                 <TabsContent value="overview" className="space-y-8">
                   <Card className="p-8">
                     <h3 className="text-2xl font-bold mb-6 text-center">Competency Radar</h3>
+                    {isMounted ? (
+                      <div className="w-full h-[400px]">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <RadarChart data={skillsRadarData}>
+                            <PolarGrid stroke="oklch(0.80 0.05 75)" />
                             <PolarAngleAxis 
                               dataKey="category" 
                               tick={{ fill: 'oklch(0.48 0.02 55)', fontSize: 14, fontWeight: 600 }}
@@ -434,17 +439,12 @@ function App() {
                             />
                           </RadarChart>
                         </ResponsiveContainer>
-                                padding: '12px'
+                      </div>
                     ) : (
-                            /> flex items-center justify-center bg-muted/20 rounded-lg">
-                          </RadarChart>
-                        </ResponsiveContainer>
+                      <div className="w-full h-[400px] flex items-center justify-center bg-muted/20 rounded-lg">
+                        <p className="text-muted-foreground">Loading chart...</p>
+                      </div>
                     )}
-                    <div className="mt-6 grid grid-cols-2 md:grid-cols-3 gap-4">
-                      {skillsRadarData.map((skill) => (
-                        <div key={skill.category} className="text-center">
-                          <div className="text-3xl font-bold text-primary">{skill.proficiency}%</div>
-                          <div className="text-sm text-muted-foreground">{skill.category}</div>
                     <div className="mt-6 grid grid-cols-2 md:grid-cols-3 gap-4">
                       {skillsRadarData.map((skill) => (
                         <div key={skill.category} className="text-center">
@@ -453,12 +453,17 @@ function App() {
                         </div>
                       ))}
                     </div>
-                  </Card>3>
+                  </Card>
                 </TabsContent>
 
                 <TabsContent value="technical" className="space-y-8">
                   <Card className="p-8">
                     <h3 className="text-2xl font-bold mb-6 text-center">Technical Skills Distribution</h3>
+                    {isMounted ? (
+                      <div className="w-full h-[400px]">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <BarChart
+                            data={technicalSkillsData}
                             layout="horizontal"
                             margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
                           >
@@ -477,30 +482,25 @@ function App() {
                             <Tooltip 
                               contentStyle={{
                                 backgroundColor: 'oklch(0.99 0.01 75)',
-                              width={100}
-                            />
+                                border: '1px solid oklch(0.80 0.05 75)',
+                                borderRadius: '8px',
                                 padding: '12px'
                               }}
                               formatter={(value: number) => [`${value}%`, 'Proficiency']}
                             />
                             <Bar dataKey="proficiency" radius={[0, 8, 8, 0]}>
-                                padding: '12px'
+                              {technicalSkillsData.map((entry, index) => (
                                 <Cell key={`cell-${index}`} fill={entry.color} />
                               ))}
-                            />
+                            </Bar>
                           </BarChart>
                         </ResponsiveContainer>
                       </div>
                     ) : (
                       <div className="w-full h-[400px] flex items-center justify-center bg-muted/20 rounded-lg">
                         <p className="text-muted-foreground">Loading chart...</p>
-                        </ResponsiveContainer>
+                      </div>
                     )}
-                    <div className="mt-6 flex flex-wrap gap-2 justify-center">
-                      <Badge variant="secondary" className="bg-primary/10 text-primary">Backend/Infrastructure</Badge>
-                      <Badge variant="secondary" className="bg-accent/10 text-accent">DevOps/Cloud</Badge>
-                      <Badge variant="secondary" className="bg-secondary/30 text-secondary-foreground">Frontend</Badge>
-                    </div>
                     <div className="mt-6 flex flex-wrap gap-2 justify-center">
                       <Badge variant="secondary" className="bg-primary/10 text-primary">Backend/Infrastructure</Badge>
                       <Badge variant="secondary" className="bg-accent/10 text-accent">DevOps/Cloud</Badge>
@@ -518,6 +518,11 @@ function App() {
                           key={skill.name}
                           initial={{ opacity: 0, x: -20 }}
                           whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.5, delay: index * 0.1 }}
+                          className="space-y-2"
+                        >
+                          <div className="flex items-center justify-between">
                             <span className="font-semibold text-foreground">{skill.name}</span>
                             <span className="text-sm font-bold text-primary">{skill.proficiency}%</span>
                           </div>

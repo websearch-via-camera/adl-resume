@@ -14,6 +14,15 @@ import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Responsi
 import profileImage from "@/assets/images/Kiarash_Adl_Linkedin_Image.jpg"
 import resumePdf from "@/assets/documents/Kiarash-Adl-Resume-20251129.pdf"
 
+// New components for enhanced tech showcase
+import { ThemeToggle } from "@/components/ThemeToggle"
+import { GitHubActivity } from "@/components/GitHubActivity"
+import { CodeShowcase } from "@/components/CodeShowcase"
+import { TechStack } from "@/components/TechStack"
+import { EngineeringMetrics } from "@/components/EngineeringMetrics"
+import { TerminalSection } from "@/components/TerminalSection"
+import { useKeyboardNavigation, KeyboardHelp } from "@/hooks/useKeyboardNavigation"
+
 function App() {
   const [isMounted, setIsMounted] = useState(false)
   
@@ -161,6 +170,14 @@ function App() {
     { id: "contact", label: "Contact" }
   ]
 
+  // Keyboard navigation hook
+  const sections = navItems.map(item => item.id)
+  const { showHelp, setShowHelp } = useKeyboardNavigation({
+    sections,
+    scrollToSection,
+    scrollToTop
+  })
+
   const skillsRadarData = [
     { category: "AI/ML", proficiency: 95, fullMark: 100 },
     { category: "Backend", proficiency: 92, fullMark: 100 },
@@ -236,6 +253,9 @@ function App() {
                   {item.label}
                 </button>
               ))}
+              <div className="ml-2 border-l border-border pl-2">
+                <ThemeToggle />
+              </div>
             </div>
           </div>
         </div>
@@ -662,6 +682,58 @@ function App() {
 
       <Separator className="max-w-5xl mx-auto" />
 
+      {/* Enhanced Technical Showcase Section */}
+      <section className="py-16 px-6 md:py-20">
+        <div className="max-w-5xl mx-auto">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+          >
+            <motion.div variants={fadeIn} className="mb-10">
+              <h2 className="text-3xl md:text-4xl font-bold mb-3">Developer Showcase</h2>
+              <p className="text-muted-foreground">
+                Interactive demonstrations of engineering capabilities and code quality
+              </p>
+            </motion.div>
+
+            {/* Engineering Metrics */}
+            <motion.div variants={fadeIn} className="mb-8">
+              <EngineeringMetrics />
+            </motion.div>
+
+            {/* Tech Stack */}
+            <motion.div variants={fadeIn} className="mb-8">
+              <TechStack />
+            </motion.div>
+
+            {/* Code Showcase */}
+            <motion.div variants={fadeIn} className="mb-8">
+              <CodeShowcase />
+            </motion.div>
+
+            {/* GitHub Activity */}
+            <motion.div variants={fadeIn} className="mb-8">
+              <GitHubActivity />
+            </motion.div>
+
+            {/* Interactive Terminal */}
+            <motion.div variants={fadeIn}>
+              <div className="mb-4">
+                <h3 className="text-xl font-bold mb-2">Interactive Terminal</h3>
+                <p className="text-sm text-muted-foreground">
+                  Explore my profile using familiar terminal commands
+                </p>
+              </div>
+              <TerminalSection />
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      <Separator className="max-w-5xl mx-auto" />
+
       <section id="experience" className="py-16 px-6 md:py-20 scroll-mt-20">
         <div className="max-w-5xl mx-auto">
           <motion.div
@@ -947,6 +1019,10 @@ function App() {
               </a>
               <span className="text-border">|</span>
               <span>MIT EECS '14</span>
+              <span className="text-border">|</span>
+              <span className="hidden sm:inline">
+                Press <kbd className="px-1.5 py-0.5 text-xs font-mono bg-muted rounded border border-border">?</kbd> for shortcuts
+              </span>
             </div>
           </div>
         </div>
@@ -967,6 +1043,9 @@ function App() {
       >
         <CaretUp size={24} weight="bold" />
       </motion.button>
+
+      {/* Keyboard Navigation */}
+      <KeyboardHelp show={showHelp} onClose={() => setShowHelp(false)} />
     </div>
   )
 }

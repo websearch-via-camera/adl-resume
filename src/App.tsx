@@ -1000,7 +1000,7 @@ function App() {
 
       <footer className="py-12 px-6 border-t border-border">
         <div className="max-w-5xl mx-auto text-center text-muted-foreground">
-          <p className="mb-4">© 2024 Kiarash Adl. All rights reserved.</p>
+          <p className="mb-4">© 2025 Kiarash Adl. All rights reserved.</p>
           <p className="text-sm">US Citizen | MIT EECS 2014 | AI Innovation & Engineering Leadership</p>
         </div>
       </footer>

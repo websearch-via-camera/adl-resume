@@ -20,6 +20,7 @@ import { CustomCursor } from "@/components/CustomCursor"
 import { OnboardingChoice } from "@/components/OnboardingChoice"
 import { WeatherIndicator } from "@/components/WeatherIndicator"
 import { useKeyboardNavigation, KeyboardHelp } from "@/hooks/useKeyboardNavigation"
+import { A11yProvider, SkipLinks, useA11y } from "@/components/A11yProvider"
 
 // Heavy components lazy loaded for better initial performance
 const GitHubActivity = lazy(() => import("@/components/GitHubActivity").then(m => ({ default: m.GitHubActivity })))
@@ -191,16 +192,19 @@ function App() {
     
     if (!formData.name || !formData.email || !formData.message) {
       toast.error("Please fill in all required fields")
+      announce("Form error: Please fill in all required fields", "assertive")
       return
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(formData.email)) {
       toast.error("Please enter a valid email address")
+      announce("Form error: Please enter a valid email address", "assertive")
       return
     }
 
     setIsSubmitting(true)
+    announce("Sending message, please wait")
 
     try {
       // Send to Cloudflare Pages Function
@@ -219,6 +223,7 @@ function App() {
       }
 
       toast.success("Message sent successfully! I'll get back to you soon.")
+      announce("Message sent successfully", "assertive")
       
       setFormData({
         name: "",
@@ -228,31 +233,12 @@ function App() {
       })
     } catch (error) {
       console.error('Form submission error:', error)
-      toast.error(error instanceof Error ? error.message : "Failed to send message. Please try emailing directly.")
+      const errorMsg = error instanceof Error ? error.message : "Failed to send message. Please try emailing directly."
+      toast.error(errorMsg)
+      announce(`Error: ${errorMsg}`, "assertive")
     } finally {
       setIsSubmitting(false)
     }
-  }
-  
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      const offset = 80
-      const elementPosition = element.getBoundingClientRect().top
-      const offsetPosition = elementPosition + window.pageYOffset - offset
-      
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      })
-    }
-  }
-  
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    })
   }
   
   const navItems = [
@@ -264,6 +250,35 @@ function App() {
     { id: "contact", label: "Contact" }
   ]
 
+  // Accessibility context for screen reader announcements
+  const { announce, prefersReducedMotion } = useA11y()
+  
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId)
+    if (element) {
+      const offset = 80
+      const elementPosition = element.getBoundingClientRect().top
+      const offsetPosition = elementPosition + window.pageYOffset - offset
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: prefersReducedMotion ? "instant" : "smooth"
+      })
+      
+      // Announce section navigation to screen readers
+      const sectionLabel = navItems.find(item => item.id === sectionId)?.label || sectionId
+      announce(`Navigated to ${sectionLabel} section`)
+    }
+  }
+  
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: prefersReducedMotion ? "instant" : "smooth"
+    })
+    announce("Scrolled to top of page")
+  }
+
   // Keyboard navigation hook
   const sections = navItems.map(item => item.id)
   const { showHelp, setShowHelp } = useKeyboardNavigation({
@@ -274,6 +289,9 @@ function App() {
 
   return (
     <>
+      {/* Skip Links for keyboard/screen reader navigation */}
+      <SkipLinks />
+      
       {/* Onboarding Choice Modal */}
       {showOnboarding && (
         <OnboardingChoice onChoice={handleOnboardingChoice} />
@@ -301,19 +319,21 @@ function App() {
           y: isNavVisible ? 0 : -100,
           opacity: isNavVisible ? 1 : 0
         }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3, ease: "easeOut" }}
         className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border shadow-sm"
+        aria-label="Main navigation"
       >
         <div className="max-w-5xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between gap-4">
             <button
               onClick={() => scrollToSection("home")}
               className="text-lg font-bold text-foreground hover:text-primary transition-colors flex-shrink-0"
+              aria-label="Go to home section"
             >
               Kiarash Adl
             </button>
             
-            <div className="flex items-center gap-1 overflow-x-auto scrollbar-hide flex-shrink min-w-0">
+            <div className="flex items-center gap-1 overflow-x-auto scrollbar-hide flex-shrink min-w-0" role="navigation">
               {navItems.map((item) => (
                 <button
                   key={item.id}
@@ -323,6 +343,7 @@ function App() {
                       ? "bg-primary text-primary-foreground shadow-sm"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted"
                   }`}
+                  aria-current={activeSection === item.id ? "true" : undefined}
                 >
                   {item.label}
                 </button>
@@ -335,11 +356,12 @@ function App() {
         </div>
       </motion.nav>
 
+      <main id="main-content" role="main" aria-label="Portfolio content">
       <motion.header 
         id="home"
-        initial="hidden"
+        initial={prefersReducedMotion ? "visible" : "hidden"}
         animate="visible"
-        variants={staggerContainer}
+        variants={prefersReducedMotion ? undefined : staggerContainer}
         className="py-16 px-6 md:py-24"
       >
         <div className="max-w-5xl mx-auto">
@@ -965,8 +987,9 @@ function App() {
           </motion.div>
         </div>
       </section>
+      </main>
 
-      <footer className="py-8 px-6 border-t border-border">
+      <footer className="py-8 px-6 border-t border-border" role="contentinfo">
         <div className="max-w-5xl mx-auto">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
             <div className="flex items-center gap-4">

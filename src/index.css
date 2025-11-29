@@ -196,231 +196,108 @@ a:focus-visible {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Custom cursor - hide default on desktop */
-@media (pointer: fine) {
-  .cursor-none,
-  .cursor-none * {
-    cursor: none !important;
+  
+  /* Disable transform animations */
+  .animate-ping,
+  .animate-pulse,
+  .animate-bounce,
+  .animate-spin {
+    animation: none !important;
+  }
+  
+  /* Allow essential transitions for focus states */
+  *:focus,
+  *:focus-visible {
+    transition-duration: 0.15s !important;
   }
 }
 
-/* Custom scrollbar for modern look */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--muted);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--muted-foreground);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--foreground);
-}
-
-.dark ::-webkit-scrollbar-track {
-  background: oklch(0.22 0.015 45);
-}
-
-.dark ::-webkit-scrollbar-thumb {
-  background: oklch(0.40 0.02 45);
-}
-
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: oklch(0.55 0.02 45);
-}
-
-/* ===== Micro-interaction Animations ===== */
-
-/* Shake animation for invalid inputs */
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
-  20%, 40%, 60%, 80% { transform: translateX(4px); }
-}
-
-.animate-shake {
-  animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-}
-
-/* Pulse glow effect for focus states */
-@keyframes pulse-glow {
-  0%, 100% { 
-    box-shadow: 0 0 0 0 var(--ring);
-  }
-  50% { 
-    box-shadow: 0 0 0 4px oklch(from var(--ring) l c h / 0.15);
-  }
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-
-/* Subtle bounce for interactive elements */
-@keyframes micro-bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-2px); }
-}
-
-.hover\:animate-micro-bounce:hover {
-  animation: micro-bounce 0.3s ease-out;
-}
-
-/* Button press effect */
-@keyframes button-press {
-  0% { transform: scale(1); }
-  50% { transform: scale(0.97); }
-  100% { transform: scale(1); }
-}
-
-.animate-press {
-  animation: button-press 0.15s ease-out;
-}
-
-/* Ripple effect for buttons */
-@keyframes ripple {
-  0% {
-    transform: scale(0);
-    opacity: 0.5;
-  }
-  100% {
-    transform: scale(4);
-    opacity: 0;
-  }
-}
-
-.ripple-effect {
-  position: relative;
+/* Screen reader only utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
   overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
-.ripple-effect::after {
-  content: '';
+/* Skip Links - visible on focus */
+.skip-link {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  height: 100%;
-  background: currentColor;
-  opacity: 0;
-  border-radius: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  pointer-events: none;
-}
-
-.ripple-effect:active::after {
-  animation: ripple 0.6s ease-out;
-}
-
-/* Glow effect on hover for primary elements */
-.hover-glow {
-  transition: box-shadow 0.3s ease-out, transform 0.2s ease-out;
-}
-
-.hover-glow:hover {
-  box-shadow: 
-    0 4px 15px -3px oklch(from var(--primary) l c h / 0.3),
-    0 10px 20px -5px oklch(from var(--primary) l c h / 0.2);
-}
-
-.dark .hover-glow:hover {
-  box-shadow: 
-    0 4px 15px -3px oklch(from var(--primary) l c h / 0.4),
-    0 10px 20px -5px oklch(from var(--primary) l c h / 0.25);
-}
-
-/* Smooth border color transition for form elements */
-.form-interactive {
-  transition: 
-    border-color 0.2s ease-out,
-    box-shadow 0.2s ease-out,
-    background-color 0.2s ease-out,
-    transform 0.15s ease-out;
-}
-
-/* Scale up effect on hover */
-.hover-scale {
-  transition: transform 0.2s ease-out;
-}
-
-.hover-scale:hover {
-  transform: scale(1.02);
-}
-
-.hover-scale:active {
-  transform: scale(0.98);
-}
-
-/* Lift effect with shadow */
-.hover-lift {
-  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
-}
-
-.hover-lift:hover {
-  transform: translateY(-2px);
-  box-shadow: 
-    0 4px 12px -2px oklch(from var(--shadow-color) l c h / var(--shadow-opacity)),
-    0 8px 24px -4px oklch(from var(--shadow-color) l c h / calc(var(--shadow-opacity) * 0.5));
-}
-
-.hover-lift:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 4px -1px oklch(from var(--shadow-color) l c h / var(--shadow-opacity));
-}
-
-/* Icon rotation on hover */
-.hover-rotate-icon:hover [data-icon] {
-  transform: rotate(12deg);
-  transition: transform 0.2s ease-out;
-}
-
-/* Underline animation for links */
-.animated-underline {
-  position: relative;
-  text-decoration: none;
-}
-
-.animated-underline::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
   left: 0;
-  width: 0;
-  height: 2px;
-  background: currentColor;
-  transition: width 0.3s ease-out;
+  top: 0;
+  transform: translateY(-100%);
+  z-index: 100;
 }
 
-.animated-underline:hover::after {
-  width: 100%;
+.skip-link:focus {
+  transform: translateY(0);
 }
 
-/* Focus ring animation */
-@keyframes focus-ring-pulse {
+/* Enhanced focus indicators */
+*:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px oklch(from var(--primary) l c h / 0.2);
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 0;
+  box-shadow: 0 0 0 4px oklch(from var(--primary) l c h / 0.15);
+}
+
+/* High contrast focus for dark mode */
+.dark button:focus-visible,
+.dark a:focus-visible,
+.dark [role="button"]:focus-visible {
+  box-shadow: 0 0 0 6px oklch(from var(--primary) l c h / 0.3);
+}
+
+/* Focus visible with keyboard indicator */
+.focus-indicator {
+  position: relative;
+}
+
+.focus-indicator:focus-visible::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border: 2px solid var(--primary);
+  border-radius: inherit;
+  pointer-events: none;
+  animation: focus-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes focus-pulse {
   0%, 100% { 
-    box-shadow: 0 0 0 3px oklch(from var(--ring) l c h / 0.3);
+    opacity: 1;
+    transform: scale(1);
   }
   50% { 
-    box-shadow: 0 0 0 5px oklch(from var(--ring) l c h / 0.15);
+    opacity: 0.7;
+    transform: scale(1.02);
   }
 }
 
-.focus-visible\:animate-focus-ring:focus-visible {
-  animation: focus-ring-pulse 1.5s ease-in-out infinite;
+@media (prefers-reduced-motion: reduce) {
+  .focus-indicator:focus-visible::after {
+    animation: none;
+  }
 }
 
 /* Smooth color transitions for interactive elements */

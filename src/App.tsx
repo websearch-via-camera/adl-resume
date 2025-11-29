@@ -22,6 +22,7 @@ function App() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [activeSection, setActiveSection] = useState("home")
   const [isNavVisible, setIsNavVisible] = useState(false)
+  const [scrollProgress, setScrollProgress] = useState(0)
   
   const { scrollY } = useScroll()
   
@@ -41,6 +42,12 @@ function App() {
         }
       }
     }
+    
+    const windowHeight = window.innerHeight
+    const documentHeight = document.documentElement.scrollHeight
+    const scrollableHeight = documentHeight - windowHeight
+    const progress = (latest / scrollableHeight) * 100
+    setScrollProgress(Math.min(Math.max(progress, 0), 100))
   })
 
   const fadeIn = {
@@ -129,6 +136,20 @@ function App() {
 
   return (
     <div className="min-h-screen bg-background">
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-1 bg-muted z-50"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: scrollProgress > 0 ? 1 : 0 }}
+        transition={{ duration: 0.2 }}
+      >
+        <motion.div
+          className="h-full bg-gradient-to-r from-primary via-accent to-secondary"
+          style={{ width: `${scrollProgress}%` }}
+          initial={{ width: 0 }}
+          transition={{ duration: 0.1, ease: "easeOut" }}
+        />
+      </motion.div>
+
       <motion.nav
         initial={{ y: -100, opacity: 0 }}
         animate={{ 

@@ -15,16 +15,15 @@ interface TechItem {
 
 const techStack: TechItem[] = [
   // Languages
-  { name: "Python", category: "language", proficiency: "expert", yearsExp: 10, description: "Primary language for AI/ML, backend systems, and automation", color: "#3776AB", icon: "🐍" },
+  { name: "Python", category: "language", proficiency: "expert", yearsExp: 10, description: "Primary language for AI/ML, backend systems, and automation", color: "#3776AB", icon: "🤖" },
   { name: "TypeScript", category: "language", proficiency: "expert", yearsExp: 6, description: "Full-stack web development, type-safe applications", color: "#3178C6", icon: "📘" },
   { name: "JavaScript", category: "language", proficiency: "expert", yearsExp: 8, description: "Web development, dynamic UIs, Node.js backend", color: "#F7DF1E", icon: "🟨" },
     
   // Frameworks
-  { name: "React/React Native", category: "framework", proficiency: "expert", yearsExp: 7, description: "Production web apps, complex state management", color: "#61DAFB", icon: "⚛️" },
+  { name: "React Native", category: "framework", proficiency: "expert", yearsExp: 5, description: "Production web apps, complex state management", color: "#61DAFB", icon: "📱" },
   { name: "FastAPI", category: "framework", proficiency: "expert", yearsExp: 4, description: "High-performance Python APIs, async patterns", color: "#009688", icon: "🚀" },
   { name: "Next.js", category: "framework", proficiency: "advanced", yearsExp: 4, description: "Full-stack React, SSR, API routes", color: "#000000", icon: "▲" },
-  { name: "TensorFlow", category: "framework", proficiency: "advanced", yearsExp: 5, description: "Production ML, TFLite mobile deployment", color: "#FF6F00", icon: "🧠" },
-  
+    
   // Databases
   { name: "PostgreSQL", category: "database", proficiency: "advanced", yearsExp: 8, description: "Complex queries, optimization, extensions", color: "#336791", icon: "🐘" },
   { name: "Redis", category: "database", proficiency: "advanced", yearsExp: 6, description: "Caching, pub/sub, rate limiting", color: "#DC382D", icon: "📮" },

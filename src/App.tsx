@@ -40,7 +40,7 @@ function App() {
     setShowScrollTop(latest > 400)
     setShowScrollIndicator(latest < 100)
     
-    const sections = ["home", "projects", "experience", "contact"]
+    const sections = ["home", "projects", "skills", "experience", "contact"]
     const sectionElements = sections.map(id => document.getElementById(id))
     
     for (let i = sections.length - 1; i >= 0; i--) {

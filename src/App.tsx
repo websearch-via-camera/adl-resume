@@ -154,20 +154,20 @@ function App() {
   const skillsRadarData = [
     { category: "AI/ML", proficiency: 95, fullMark: 100 },
     { category: "Backend", proficiency: 92, fullMark: 100 },
-    { category: "DevOps", proficiency: 88, fullMark: 100 },
-    { category: "Frontend", proficiency: 82, fullMark: 100 },
+    { category: "Frontend", proficiency: 90, fullMark: 100 },
+    { category: "DevOps", proficiency: 70, fullMark: 100 },
     { category: "Leadership", proficiency: 90, fullMark: 100 },
     { category: "Research", proficiency: 85, fullMark: 100 }
   ]
 
   const technicalSkillsData = [
     { name: "Python", proficiency: 95, color: "oklch(0.58 0.15 65)" },
+    { name: "React/React Native", proficiency: 90, color: "oklch(0.68 0.10 85)" },
     { name: "FastAPI", proficiency: 92, color: "oklch(0.58 0.15 65)" },
     { name: "Docker", proficiency: 88, color: "oklch(0.78 0.12 45)" },
-    { name: "PostgreSQL", proficiency: 85, color: "oklch(0.78 0.12 45)" },
-    { name: "React/React Native", proficiency: 82, color: "oklch(0.68 0.10 85)" },
-    { name: "CI/CD", proficiency: 87, color: "oklch(0.78 0.12 45)" },
-    { name: "Azure/AWS", proficiency: 84, color: "oklch(0.78 0.12 45)" }
+    { name: "Azure/AWS", proficiency: 84, color: "oklch(0.78 0.12 45)" },
+    { name: "PostgreSQL", proficiency: 65, color: "oklch(0.78 0.12 45)" },
+    { name: "CI/CD", proficiency: 65, color: "oklch(0.78 0.12 45)" }
   ]
 
   const aiMLSkillsData = [

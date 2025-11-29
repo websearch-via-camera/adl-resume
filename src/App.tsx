@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator"
 import { EnvelopeSimple, Phone, Download, GithubLogo, LinkedinLogo, ArrowUpRight } from "@phosphor-icons/react"
 import { motion } from "framer-motion"
 import profileImage from "@/assets/images/Kiarash_Adl_Linkedin_Image.jpg"
+import resumePdf from "@/assets/documents/Kiarash-Adl-Resume-20251129.pdf"
 
 function App() {
   const fadeIn = {
@@ -159,7 +160,7 @@ function App() {
             <motion.div variants={fadeIn} className="flex flex-col sm:flex-row items-center justify-between gap-6 mb-12">
               <h2 className="text-3xl md:text-4xl font-bold">Experience & Background</h2>
               <Button className="gap-2 bg-primary hover:bg-primary/90 shadow-lg hover:shadow-xl transition-all" asChild>
-                <a href="#" onClick={(e) => e.preventDefault()}>
+                <a href={resumePdf} download="Kiarash-Adl-Resume.pdf">
                   <Download size={20} weight="bold" />
                   Download Full Resume (PDF)
                 </a>

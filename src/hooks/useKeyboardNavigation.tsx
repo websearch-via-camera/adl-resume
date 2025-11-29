@@ -186,9 +186,10 @@ export function KeyboardHelp({ show, onClose }: KeyboardHelpProps) {
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.03 }}
+                    onClick={shortcut.description === "Toggle this help" ? onClose : undefined}
                     className={`flex items-center justify-between py-2 border-b border-border last:border-0 ${
                       shortcut.description === "Toggle this help" 
-                        ? "bg-primary/10 -mx-2 px-2 rounded-lg border-0" 
+                        ? "bg-primary/10 -mx-2 px-2 rounded-lg border-0 cursor-pointer hover:bg-primary/20 transition-colors" 
                         : ""
                     }`}
                   >

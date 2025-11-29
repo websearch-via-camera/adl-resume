@@ -162,7 +162,6 @@ function App() {
 
   const technicalSkillsData = [
     { name: "Python", proficiency: 95, color: "oklch(0.58 0.15 65)" },
-    { name: "PyTorch", proficiency: 90, color: "oklch(0.58 0.15 65)" },
     { name: "FastAPI", proficiency: 92, color: "oklch(0.58 0.15 65)" },
     { name: "Docker", proficiency: 88, color: "oklch(0.78 0.12 45)" },
     { name: "PostgreSQL", proficiency: 85, color: "oklch(0.78 0.12 45)" },

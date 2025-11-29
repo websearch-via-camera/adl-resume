@@ -1,133 +1,425 @@
+import { useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { Tabs, TabsList, TabsTrigger} from "@/components/ui/tabs"
+import { Code, Cube, Database, Cloud, Wrench, Star, Lightning, TrendUp } from "@phosphor-icons/react"
 
 interface TechItem {
   name: string
   category: "language" | "framework" | "database" | "cloud" | "tool"
-  proficiency: "expert" | "advanced" | "intermediate"
+  proficiency: number // 0-100
   yearsExp: number
   description: string
-  color: string
-  icon: string
+  gradient: string
+  featured?: boolean
+  highlights?: string[]
 }
 
 const techStack: TechItem[] = [
-  // Languages
-  { name: "Python", category: "language", proficiency: "expert", yearsExp: 10, description: "Primary language for AI/ML, backend systems, and automation", color: "#3776AB", icon: "🤖" },
-  { name: "TypeScript", category: "language", proficiency: "expert", yearsExp: 6, description: "Full-stack web development, type-safe applications", color: "#3178C6", icon: "📘" },
-  { name: "JavaScript", category: "language", proficiency: "expert", yearsExp: 8, description: "Web development, dynamic UIs, Node.js backend", color: "#F7DF1E", icon: "🟨" },
+  // Languages - Featured
+  { 
+    name: "Python", 
+    category: "language", 
+    proficiency: 95, 
+    yearsExp: 10, 
+    description: "Primary language for AI/ML, backend systems, and automation",
+    gradient: "from-blue-500 to-yellow-500",
+    featured: true,
+    highlights: ["AI/ML", "FastAPI", "Data Science"]
+  },
+  { 
+    name: "TypeScript", 
+    category: "language", 
+    proficiency: 90, 
+    yearsExp: 6, 
+    description: "Full-stack web development, type-safe applications",
+    gradient: "from-blue-600 to-blue-400",
+    featured: true,
+    highlights: ["React", "Node.js", "Type Safety"]
+  },
+  { 
+    name: "JavaScript", 
+    category: "language", 
+    proficiency: 92, 
+    yearsExp: 8, 
+    description: "Web development, dynamic UIs, Node.js backend",
+    gradient: "from-yellow-400 to-orange-500"
+  },
     
-  // Frameworks
-  { name: "React Native", category: "framework", proficiency: "expert", yearsExp: 5, description: "Production web apps, complex state management", color: "#61DAFB", icon: "📱" },
-  { name: "FastAPI", category: "framework", proficiency: "expert", yearsExp: 4, description: "High-performance Python APIs, async patterns", color: "#009688", icon: "🚀" },
-  { name: "Next.js", category: "framework", proficiency: "advanced", yearsExp: 4, description: "Full-stack React, SSR, API routes", color: "#000000", icon: "▲" },
+  // Frameworks - Featured
+  { 
+    name: "React / React Native", 
+    category: "framework", 
+    proficiency: 92, 
+    yearsExp: 5, 
+    description: "Production web & mobile apps, complex state management",
+    gradient: "from-cyan-400 to-blue-500",
+    featured: true,
+    highlights: ["Hooks", "Redux", "Native"]
+  },
+  { 
+    name: "FastAPI", 
+    category: "framework", 
+    proficiency: 88, 
+    yearsExp: 4, 
+    description: "High-performance Python APIs, async patterns",
+    gradient: "from-teal-500 to-emerald-500",
+    featured: true,
+    highlights: ["Async", "OpenAPI", "Pydantic"]
+  },
+  { 
+    name: "Next.js", 
+    category: "framework", 
+    proficiency: 85, 
+    yearsExp: 4, 
+    description: "Full-stack React, SSR, API routes",
+    gradient: "from-gray-700 to-gray-900 dark:from-gray-300 dark:to-gray-100"
+  },
     
   // Databases
-  { name: "PostgreSQL", category: "database", proficiency: "advanced", yearsExp: 8, description: "Complex queries, optimization, extensions", color: "#336791", icon: "🐘" },
-  { name: "Redis", category: "database", proficiency: "advanced", yearsExp: 6, description: "Caching, pub/sub, rate limiting", color: "#DC382D", icon: "📮" },
+  { 
+    name: "PostgreSQL", 
+    category: "database", 
+    proficiency: 85, 
+    yearsExp: 8, 
+    description: "Complex queries, optimization, extensions",
+    gradient: "from-blue-700 to-indigo-600",
+    featured: true,
+    highlights: ["Performance", "Extensions", "JSON"]
+  },
+  { 
+    name: "Redis", 
+    category: "database", 
+    proficiency: 82, 
+    yearsExp: 6, 
+    description: "Caching, pub/sub, rate limiting",
+    gradient: "from-red-500 to-red-700"
+  },
+  { 
+    name: "MongoDB", 
+    category: "database", 
+    proficiency: 78, 
+    yearsExp: 5, 
+    description: "Document stores, aggregation pipelines",
+    gradient: "from-green-500 to-green-700"
+  },
   
   // Cloud & DevOps
-  { name: "AWS", category: "cloud", proficiency: "advanced", yearsExp: 7, description: "EC2, Lambda, S3", color: "#FF9900", icon: "☁️" },
-  { name: "Azure", category: "cloud", proficiency: "intermediate", yearsExp: 3, description: "App Services, Functions, Blob Storage", color: "#0089D6", icon: "🔷" },
-  { name: "Docker", category: "cloud", proficiency: "expert", yearsExp: 6, description: "Containerization, multi-stage builds", color: "#2496ED", icon: "🐳" },
+  { 
+    name: "AWS", 
+    category: "cloud", 
+    proficiency: 85, 
+    yearsExp: 7, 
+    description: "EC2, Lambda, S3, ECS, CloudFormation",
+    gradient: "from-orange-400 to-orange-600",
+    featured: true,
+    highlights: ["Lambda", "ECS", "S3"]
+  },
+  { 
+    name: "Docker", 
+    category: "cloud", 
+    proficiency: 90, 
+    yearsExp: 6, 
+    description: "Containerization, multi-stage builds, orchestration",
+    gradient: "from-blue-400 to-blue-600",
+    featured: true,
+    highlights: ["Compose", "Multi-stage", "K8s"]
+  },
+  { 
+    name: "Azure", 
+    category: "cloud", 
+    proficiency: 72, 
+    yearsExp: 3, 
+    description: "App Services, Functions, Blob Storage",
+    gradient: "from-sky-500 to-blue-600"
+  },
+  { 
+    name: "Kubernetes", 
+    category: "cloud", 
+    proficiency: 75, 
+    yearsExp: 4, 
+    description: "Container orchestration, Helm charts",
+    gradient: "from-blue-500 to-indigo-500"
+  },
   
   // Tools
-  { name: "Git", category: "tool", proficiency: "expert", yearsExp: 10, description: "Version control, complex workflows", color: "#F05032", icon: "📝" },
-  { name: "Linux", category: "tool", proficiency: "expert", yearsExp: 10, description: "System administration, scripting", color: "#FCC624", icon: "🐧" },
+  { 
+    name: "Git", 
+    category: "tool", 
+    proficiency: 95, 
+    yearsExp: 10, 
+    description: "Version control, complex workflows, CI/CD",
+    gradient: "from-orange-500 to-red-500"
+  },
+  { 
+    name: "Linux", 
+    category: "tool", 
+    proficiency: 92, 
+    yearsExp: 10, 
+    description: "System administration, scripting, DevOps",
+    gradient: "from-yellow-500 to-amber-600"
+  },
+  { 
+    name: "CI/CD", 
+    category: "tool", 
+    proficiency: 88, 
+    yearsExp: 7, 
+    description: "GitHub Actions, Jenkins, automated deployments",
+    gradient: "from-purple-500 to-pink-500"
+  },
 ]
 
-const categoryLabels: Record<TechItem["category"], string> = {
-  language: "Languages",
-  framework: "Frameworks",
-  database: "Databases",
-  cloud: "Cloud & DevOps",
-  tool: "Developer Tools"
+const categoryConfig: Record<TechItem["category"], { label: string; icon: typeof Code; color: string }> = {
+  language: { label: "Languages", icon: Code, color: "text-violet-500" },
+  framework: { label: "Frameworks", icon: Cube, color: "text-cyan-500" },
+  database: { label: "Databases", icon: Database, color: "text-emerald-500" },
+  cloud: { label: "Cloud & DevOps", icon: Cloud, color: "text-orange-500" },
+  tool: { label: "Dev Tools", icon: Wrench, color: "text-pink-500" }
 }
 
 const categoryOrder: TechItem["category"][] = ["language", "framework", "database", "cloud", "tool"]
 
-const proficiencyColors = {
-  expert: "bg-green-500/20 text-green-600 dark:text-green-400 border-green-500/30",
-  advanced: "bg-blue-500/20 text-blue-600 dark:text-blue-400 border-blue-500/30",
-  intermediate: "bg-amber-500/20 text-amber-600 dark:text-amber-400 border-amber-500/30"
+// Skill bar component with animation
+function SkillBar({ proficiency, gradient }: { proficiency: number; gradient: string }) {
+  return (
+    <div className="h-1.5 w-full bg-muted/50 rounded-full overflow-hidden">
+      <div 
+        className={`h-full bg-gradient-to-r ${gradient} rounded-full transition-all duration-1000 ease-out`}
+        style={{ width: `${proficiency}%` }}
+      />
+    </div>
+  )
+}
+
+// Featured tech card with glassmorphism
+function FeaturedTechCard({ tech }: { tech: TechItem }) {
+  return (
+    <div className="group relative">
+      {/* Gradient background glow */}
+      <div 
+        className={`absolute -inset-0.5 bg-gradient-to-r ${tech.gradient} rounded-2xl opacity-0 group-hover:opacity-70 blur transition-all duration-500`}
+      />
+      
+      <Card className="relative h-full p-5 bg-card/80 backdrop-blur-sm border-border/50 hover:border-primary/30 transition-all duration-300 overflow-hidden">
+        {/* Background pattern */}
+        <div className="absolute top-0 right-0 w-32 h-32 opacity-5">
+          <div className={`w-full h-full bg-gradient-to-br ${tech.gradient} rounded-full blur-2xl`} />
+        </div>
+        
+        <div className="relative z-10">
+          {/* Header */}
+          <div className="flex items-start justify-between mb-3">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <Star size={14} weight="fill" className="text-amber-500" />
+                <span className="text-xs font-medium text-amber-600 dark:text-amber-400">Featured</span>
+              </div>
+              <h4 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
+                {tech.name}
+              </h4>
+            </div>
+            <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-muted/50 text-xs font-medium">
+              <TrendUp size={12} className="text-green-500" />
+              <span>{tech.yearsExp}+ yrs</span>
+            </div>
+          </div>
+          
+          {/* Description */}
+          <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+            {tech.description}
+          </p>
+          
+          {/* Proficiency */}
+          <div className="mb-4">
+            <div className="flex items-center justify-between text-xs mb-1.5">
+              <span className="text-muted-foreground">Proficiency</span>
+              <span className="font-semibold">{tech.proficiency}%</span>
+            </div>
+            <SkillBar proficiency={tech.proficiency} gradient={tech.gradient} />
+          </div>
+          
+          {/* Highlights */}
+          {tech.highlights && (
+            <div className="flex flex-wrap gap-1.5">
+              {tech.highlights.map((highlight) => (
+                <Badge 
+                  key={highlight} 
+                  variant="secondary" 
+                  className="text-xs px-2 py-0.5 bg-muted/50 hover:bg-muted transition-colors"
+                >
+                  {highlight}
+                </Badge>
+              ))}
+            </div>
+          )}
+        </div>
+      </Card>
+    </div>
+  )
+}
+
+// Regular tech item (compact)
+function TechItem({ tech }: { tech: TechItem }) {
+  return (
+    <div className="group relative flex items-center gap-3 p-3 rounded-xl bg-muted/30 hover:bg-muted/60 border border-transparent hover:border-border/50 transition-all duration-200">
+      {/* Gradient accent bar */}
+      <div className={`w-1 h-8 rounded-full bg-gradient-to-b ${tech.gradient} opacity-60 group-hover:opacity-100 transition-opacity`} />
+      
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center justify-between gap-2">
+          <span className="font-medium text-sm truncate">{tech.name}</span>
+          <span className="text-xs text-muted-foreground whitespace-nowrap">{tech.yearsExp}+ yrs</span>
+        </div>
+        <div className="mt-1.5">
+          <SkillBar proficiency={tech.proficiency} gradient={tech.gradient} />
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export function TechStack() {
+  const [activeCategory, setActiveCategory] = useState<TechItem["category"] | "all">("all")
+  
+  const featuredTech = techStack.filter(tech => tech.featured)
+  const filteredTech = activeCategory === "all" 
+    ? techStack.filter(tech => !tech.featured)
+    : techStack.filter(tech => tech.category === activeCategory && !tech.featured)
+  
+  // Group by category for "all" view
   const groupedTech = categoryOrder.reduce((acc, category) => {
-    acc[category] = techStack.filter(tech => tech.category === category)
+    acc[category] = techStack.filter(tech => tech.category === category && !tech.featured)
     return acc
   }, {} as Record<TechItem["category"], TechItem[]>)
   
   return (
-    <Card className="p-6 md:p-8">
-      <div className="mb-6">
-        <h3 className="text-2xl font-bold mb-2">Technology Stack</h3>
-        <p className="text-muted-foreground">
-          Comprehensive expertise across the full development spectrum
-        </p>
-      </div>
+    <Card className="p-6 md:p-8 overflow-hidden relative">
+      {/* Decorative background elements */}
+      <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-primary/5 to-transparent rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-violet-500/5 to-transparent rounded-full blur-3xl pointer-events-none" />
       
-      <TooltipProvider delayDuration={200}>
-        <div className="space-y-8">
-          {categoryOrder.map((category) => (
-            <div key={category}>
-              <h4 className="text-lg font-semibold mb-4 text-primary">
-                {categoryLabels[category]}
-              </h4>
-              
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-                {groupedTech[category].map((tech) => (
-                  <Tooltip key={tech.name}>
-                    <TooltipTrigger asChild>
-                      <div className="group cursor-pointer">
-                        <div 
-                          className="flex flex-col items-center p-4 rounded-lg border border-border bg-card hover:border-primary/50 hover:shadow-md transition-all duration-200 hover:scale-105 hover:-translate-y-0.5"
-                          style={{ 
-                            borderLeftWidth: '3px',
-                            borderLeftColor: tech.color 
-                          }}
-                        >
-                          <span className="text-2xl mb-2">{tech.icon}</span>
-                          <span className="text-sm font-medium text-center">{tech.name}</span>
-                          <span className="text-xs text-muted-foreground mt-1">
-                            {tech.yearsExp}+ yrs
-                          </span>
-                        </div>
-                      </div>
-                    </TooltipTrigger>
-                    <TooltipContent side="top" className="max-w-xs">
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="font-bold">{tech.name}</span>
-                          <Badge 
-                            variant="outline" 
-                            className={`text-xs ${proficiencyColors[tech.proficiency]}`}
-                          >
-                            {tech.proficiency}
-                          </Badge>
-                        </div>
-                        <p className="text-sm">{tech.description}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {tech.yearsExp}+ years of experience
-                        </p>
-                      </div>
-                    </TooltipContent>
-                  </Tooltip>
-                ))}
+      <div className="relative z-10">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <div className="p-2 rounded-lg bg-primary/10">
+                <Lightning size={20} weight="fill" className="text-primary" />
               </div>
+              <h3 className="text-2xl font-bold">Technology Stack</h3>
             </div>
-          ))}
+            <p className="text-muted-foreground">
+              10+ years of hands-on experience across the full development spectrum
+            </p>
+          </div>
+          
+          {/* Stats */}
+          <div className="flex gap-4">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-primary">{techStack.length}</div>
+              <div className="text-xs text-muted-foreground">Technologies</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-primary">{featuredTech.length}</div>
+              <div className="text-xs text-muted-foreground">Expert Level</div>
+            </div>
+          </div>
         </div>
-      </TooltipProvider>
-      
-      {/* Legend */}
-      <div className="mt-8 pt-6 border-t border-border">
-        <div className="flex flex-wrap items-center justify-center gap-4 text-sm">
-          <span className="text-muted-foreground">Proficiency:</span>
-          <Badge variant="outline" className={proficiencyColors.expert}>Expert</Badge>
-          <Badge variant="outline" className={proficiencyColors.advanced}>Advanced</Badge>
-          <Badge variant="outline" className={proficiencyColors.intermediate}>Intermediate</Badge>
+        
+        {/* Featured Section */}
+        <div className="mb-8">
+          <div className="flex items-center gap-2 mb-4">
+            <Star size={16} weight="fill" className="text-amber-500" />
+            <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+              Core Expertise
+            </h4>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {featuredTech.map((tech) => (
+              <FeaturedTechCard key={tech.name} tech={tech} />
+            ))}
+          </div>
+        </div>
+        
+        {/* Category Tabs */}
+        <div className="mb-6">
+          <Tabs value={activeCategory} onValueChange={(v) => setActiveCategory(v as typeof activeCategory)}>
+            <TabsList className="h-auto flex-wrap gap-1 bg-muted/30 p-1">
+              <TabsTrigger 
+                value="all" 
+                className="data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs px-3 py-1.5"
+              >
+                All
+              </TabsTrigger>
+              {categoryOrder.map((category) => {
+                const config = categoryConfig[category]
+                const Icon = config.icon
+                return (
+                  <TabsTrigger 
+                    key={category} 
+                    value={category}
+                    className="data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs px-3 py-1.5 gap-1.5"
+                  >
+                    <Icon size={14} className={config.color} />
+                    <span className="hidden sm:inline">{config.label}</span>
+                  </TabsTrigger>
+                )
+              })}
+            </TabsList>
+          </Tabs>
+        </div>
+        
+        {/* Tech Grid */}
+        {activeCategory === "all" ? (
+          <div className="space-y-6">
+            {categoryOrder.map((category) => {
+              const techs = groupedTech[category]
+              if (techs.length === 0) return null
+              
+              const config = categoryConfig[category]
+              const Icon = config.icon
+              
+              return (
+                <div key={category}>
+                  <div className="flex items-center gap-2 mb-3">
+                    <Icon size={16} className={config.color} />
+                    <h4 className="text-sm font-semibold text-muted-foreground">
+                      {config.label}
+                    </h4>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                    {techs.map((tech) => (
+                      <TechItem key={tech.name} tech={tech} />
+                    ))}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+            {filteredTech.map((tech) => (
+              <TechItem key={tech.name} tech={tech} />
+            ))}
+          </div>
+        )}
+        
+        {/* Bottom accent */}
+        <div className="mt-8 pt-6 border-t border-border/50">
+          <div className="flex flex-wrap items-center justify-center gap-6 text-xs text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-1.5 rounded-full bg-gradient-to-r from-green-500 to-emerald-500" />
+              <span>90%+ Expert</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-1.5 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500" />
+              <span>80-89% Advanced</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-1.5 rounded-full bg-gradient-to-r from-amber-500 to-orange-500" />
+              <span>70-79% Proficient</span>
+            </div>
+          </div>
         </div>
       </div>
     </Card>

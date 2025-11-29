@@ -746,7 +746,7 @@ function App() {
                   <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-muted border-4 border-background"></div>
                   <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 mb-2">
                     <h4 className="text-lg font-bold">Researcher</h4>
-                    <span className="text-primary font-medium">Tim Berners-Lee Lab</span>
+                    <span className="text-primary font-medium">MIT CSAIL</span>
                     <span className="text-muted-foreground text-sm">2014</span>
                   </div>
                   <p className="text-foreground text-sm leading-relaxed">

@@ -22,7 +22,7 @@ const techStack: TechItem[] = [
     category: "language", 
     proficiency: 95, 
     yearsExp: 10, 
-    description: "Primary language for AI/ML, backend systems, and automation",
+    description: "Primary language for AI/ML, backend APIs, automation, and data pipelines",
     gradient: "from-blue-500 to-yellow-500",
     featured: true,
     highlights: ["AI/ML", "FastAPI", "Data Science"]
@@ -32,7 +32,7 @@ const techStack: TechItem[] = [
     category: "language", 
     proficiency: 90, 
     yearsExp: 6, 
-    description: "Full-stack web development, type-safe applications",
+    description: "Full-stack web development with type safety for React and Node.js",
     gradient: "from-blue-600 to-blue-400",
     featured: true,
     highlights: ["React", "Node.js", "Type Safety"]
@@ -42,104 +42,112 @@ const techStack: TechItem[] = [
     category: "language", 
     proficiency: 92, 
     yearsExp: 8, 
-    description: "Web development, dynamic UIs, Node.js backend",
+    description: "Web development, dynamic UIs, and Node.js backend services",
     gradient: "from-yellow-400 to-orange-500"
+  },
+  { 
+    name: "C++/CUDA", 
+    category: "language", 
+    proficiency: 85, 
+    yearsExp: 6, 
+    description: "GPU programming for ML acceleration - achieved 55x speedup at MIT CSAIL",
+    gradient: "from-green-600 to-teal-500"
+  },
+  { 
+    name: "Go", 
+    category: "language", 
+    proficiency: 75, 
+    yearsExp: 4, 
+    description: "Backend microservices and high-performance systems",
+    gradient: "from-cyan-500 to-blue-500"
   },
     
   // Frameworks - Featured
   { 
     name: "React / React Native", 
     category: "framework", 
-    proficiency: 92, 
+    proficiency: 90, 
     yearsExp: 5, 
-    description: "Production web & mobile apps, complex state management",
+    description: "Production web & mobile apps with complex state management",
     gradient: "from-cyan-400 to-blue-500",
     featured: true,
-    highlights: ["Hooks", "Redux", "Native"]
+    highlights: ["Hooks", "Expo", "Mobile"]
   },
   { 
     name: "FastAPI", 
     category: "framework", 
-    proficiency: 88, 
+    proficiency: 92, 
     yearsExp: 4, 
-    description: "High-performance Python APIs, async patterns",
+    description: "High-performance async Python APIs with OpenAPI docs",
     gradient: "from-teal-500 to-emerald-500",
     featured: true,
-    highlights: ["Async", "OpenAPI", "Pydantic"]
+    highlights: ["Async", "Pydantic", "OpenAPI"]
   },
   { 
     name: "Next.js", 
     category: "framework", 
     proficiency: 85, 
     yearsExp: 4, 
-    description: "Full-stack React, SSR, API routes",
+    description: "Full-stack React with SSR, API routes, and edge functions",
     gradient: "from-gray-700 to-gray-900 dark:from-gray-300 dark:to-gray-100"
   },
-    
+ 
   // Databases
   { 
     name: "PostgreSQL", 
     category: "database", 
     proficiency: 85, 
     yearsExp: 8, 
-    description: "Complex queries, optimization, extensions",
+    description: "Complex queries, optimization, JSON operations, and extensions",
     gradient: "from-blue-700 to-indigo-600",
     featured: true,
-    highlights: ["Performance", "Extensions", "JSON"]
+    highlights: ["Performance", "JSONB", "Extensions"]
   },
   { 
     name: "Redis", 
     category: "database", 
-    proficiency: 82, 
+    proficiency: 80, 
     yearsExp: 6, 
-    description: "Caching, pub/sub, rate limiting",
+    description: "Caching, session management, pub/sub, and rate limiting",
     gradient: "from-red-500 to-red-700"
   },
-  { 
-    name: "MongoDB", 
-    category: "database", 
-    proficiency: 78, 
-    yearsExp: 5, 
-    description: "Document stores, aggregation pipelines",
-    gradient: "from-green-500 to-green-700"
-  },
   
-  // Cloud & DevOps
+  // Cloud & DevOps - Azure featured since Kiarash knows it better
   { 
-    name: "AWS", 
+    name: "Azure", 
     category: "cloud", 
-    proficiency: 85, 
-    yearsExp: 7, 
-    description: "EC2, Lambda, S3, ECS, CloudFormation",
-    gradient: "from-orange-400 to-orange-600",
+    proficiency: 88, 
+    yearsExp: 5, 
+    description: "Azure OpenAI, App Services, Functions, Blob Storage, and DevOps",
+    gradient: "from-sky-500 to-blue-600",
     featured: true,
-    highlights: ["Lambda", "ECS", "S3"]
+    highlights: ["OpenAI", "Functions", "DevOps"]
   },
   { 
     name: "Docker", 
     category: "cloud", 
     proficiency: 90, 
     yearsExp: 6, 
-    description: "Containerization, multi-stage builds, orchestration",
+    description: "Containerization, multi-stage builds, Docker Compose orchestration",
     gradient: "from-blue-400 to-blue-600",
     featured: true,
-    highlights: ["Compose", "Multi-stage", "K8s"]
+    highlights: ["Compose", "Multi-stage", "CI/CD"]
   },
   { 
-    name: "Azure", 
+    name: "AWS", 
     category: "cloud", 
-    proficiency: 72, 
-    yearsExp: 3, 
-    description: "App Services, Functions, Blob Storage",
-    gradient: "from-sky-500 to-blue-600"
+    proficiency: 78, 
+    yearsExp: 5, 
+    description: "EC2, Lambda, S3, and core cloud infrastructure",
+    gradient: "from-orange-400 to-orange-600"
   },
   { 
-    name: "Kubernetes", 
+    name: "GCP", 
     category: "cloud", 
-    proficiency: 75, 
+    proficiency: 82, 
     yearsExp: 4, 
-    description: "Container orchestration, Helm charts",
-    gradient: "from-blue-500 to-indigo-500"
+    description: "Experience from Google - Cloud Functions, BigQuery, GKE",
+    gradient: "from-blue-500 to-red-500"
   },
   
   // Tools
@@ -148,7 +156,7 @@ const techStack: TechItem[] = [
     category: "tool", 
     proficiency: 95, 
     yearsExp: 10, 
-    description: "Version control, complex workflows, CI/CD",
+    description: "Version control, complex workflows, branching strategies",
     gradient: "from-orange-500 to-red-500"
   },
   { 
@@ -156,15 +164,15 @@ const techStack: TechItem[] = [
     category: "tool", 
     proficiency: 92, 
     yearsExp: 10, 
-    description: "System administration, scripting, DevOps",
+    description: "System administration, shell scripting, DevOps workflows",
     gradient: "from-yellow-500 to-amber-600"
   },
   { 
     name: "CI/CD", 
     category: "tool", 
-    proficiency: 88, 
-    yearsExp: 7, 
-    description: "GitHub Actions, Jenkins, automated deployments",
+    proficiency: 85, 
+    yearsExp: 6, 
+    description: "GitHub Actions, automated testing, deployment pipelines",
     gradient: "from-purple-500 to-pink-500"
   },
 ]

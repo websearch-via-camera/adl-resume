@@ -24,6 +24,7 @@ import { TypewriterTagline } from "@/components/TypewriterTagline"
 import { CustomCursor } from "@/components/CustomCursor"
 import { Guestbook } from "@/components/Guestbook"
 import { OnboardingChoice } from "@/components/OnboardingChoice"
+import { WeatherIndicator } from "@/components/WeatherIndicator"
 import { useKeyboardNavigation, KeyboardHelp } from "@/hooks/useKeyboardNavigation"
 
 function App() {
@@ -351,6 +352,21 @@ function App() {
             </motion.div>
             
             <motion.div variants={fadeIn} className="flex-1 text-center md:text-left">
+              {/* Live Status & Weather */}
+              <div className="flex items-center justify-center md:justify-start gap-4 mb-3">
+                <div className="flex items-center gap-2">
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+                  </span>
+                  <span className="text-sm font-medium text-green-600 dark:text-green-400">
+                    Available for work
+                  </span>
+                </div>
+                <span className="text-muted-foreground/30">•</span>
+                <WeatherIndicator />
+              </div>
+              
               {/* Name & Title */}
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-2">
                 Kiarash Adl

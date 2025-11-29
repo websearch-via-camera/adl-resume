@@ -63,13 +63,6 @@ export function OnboardingChoice({ onChoice }: OnboardingChoiceProps) {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="mb-8"
             >
-              <div className="flex items-center justify-center gap-2 mb-4">
-                <Sparkle size={24} weight="fill" className="text-primary" />
-                <span className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-                  Welcome to my portfolio
-                </span>
-                <Sparkle size={24} weight="fill" className="text-primary" />
-              </div>
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
                 Hey there! 👋
               </h1>

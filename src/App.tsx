@@ -384,7 +384,7 @@ function App() {
 
       <Separator className="max-w-5xl mx-auto" />
 
-      <section id="projects" className="py-16 px-6 md:py-24 scroll-mt-20">
+      <section id="projects" className="py-16 px-6 md:py-20 scroll-mt-20">
         <div className="max-w-5xl mx-auto">
           <motion.div
             initial="hidden"
@@ -392,64 +392,98 @@ function App() {
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
           >
-            <motion.h2 variants={fadeIn} className="text-3xl md:text-4xl font-bold mb-12 text-center">
+            <motion.h2 variants={fadeIn} className="text-3xl md:text-4xl font-bold mb-10">
               Featured Projects
             </motion.h2>
             
-            <div className="grid md:grid-cols-2 gap-6 md:gap-8">
+            <div className="space-y-6">
               <motion.div variants={fadeIn}>
-                <Card className="p-8 h-full hover:shadow-xl transition-all duration-300 hover:border-primary/50 group">
-                  <div className="flex items-start justify-between mb-4">
-                    <h3 className="text-2xl font-bold group-hover:text-primary transition-colors">
-                      Financial Intelligence Meta-Layer (FIML)
-                    </h3>
-                    <GithubLogo size={28} weight="fill" className="text-muted-foreground flex-shrink-0 ml-2" />
-                  </div>
-                  <div className="space-y-4">
-                    <p className="text-foreground leading-relaxed">
-                      Built an AI-native MCP server for financial data aggregation with intelligent multi-provider orchestration and multilingual compliance guardrails.
-                    </p>
-                    <p className="text-foreground leading-relaxed">
-                      Architected a <strong className="text-primary">32,000+ LOC</strong> codebase in Python featuring a custom DSL, mobile app (Expo), usage analytics & quota management, and comprehensive CI/CD pipelines with <strong className="text-primary">1,403+ automated tests</strong> at 100% pass rate.
-                    </p>
-                    <p className="text-muted-foreground">
-                      Phase 1 complete with infrastructure tests, agent workflows, and provider integrations. Open-source on GitHub with active Phase 2 development.
-                    </p>
-                    <div className="flex flex-wrap gap-2 pt-2">
-                      <Badge variant="secondary">Python</Badge>
-                      <Badge variant="secondary">MCP Server</Badge>
-                      <Badge variant="secondary">AI Orchestration</Badge>
-                      <Badge variant="secondary">Expo</Badge>
-                      <Badge variant="secondary">CI/CD</Badge>
+                <Card className="p-6 md:p-8 hover:shadow-lg transition-all duration-300 hover:border-primary/40 group">
+                  <div className="flex flex-col md:flex-row md:items-start gap-6">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-3">
+                        <h3 className="text-xl md:text-2xl font-bold group-hover:text-primary transition-colors">
+                          Financial Intelligence Meta-Layer (FIML)
+                        </h3>
+                        <Badge variant="outline" className="border-green-500/50 text-green-600 text-xs">Open Source</Badge>
+                      </div>
+                      <p className="text-foreground mb-4">
+                        AI-native MCP server for financial data aggregation with intelligent multi-provider orchestration and multilingual compliance guardrails.
+                      </p>
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                        <div className="text-center p-2 bg-muted/50 rounded-lg">
+                          <div className="text-lg font-bold text-primary">32K+</div>
+                          <div className="text-xs text-muted-foreground">Lines of Code</div>
+                        </div>
+                        <div className="text-center p-2 bg-muted/50 rounded-lg">
+                          <div className="text-lg font-bold text-primary">1,403</div>
+                          <div className="text-xs text-muted-foreground">Automated Tests</div>
+                        </div>
+                        <div className="text-center p-2 bg-muted/50 rounded-lg">
+                          <div className="text-lg font-bold text-primary">100%</div>
+                          <div className="text-xs text-muted-foreground">Pass Rate</div>
+                        </div>
+                        <div className="text-center p-2 bg-muted/50 rounded-lg">
+                          <div className="text-lg font-bold text-primary">Phase 2</div>
+                          <div className="text-xs text-muted-foreground">In Progress</div>
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap gap-1.5">
+                        <Badge variant="secondary" className="text-xs">Python</Badge>
+                        <Badge variant="secondary" className="text-xs">MCP Server</Badge>
+                        <Badge variant="secondary" className="text-xs">AI Orchestration</Badge>
+                        <Badge variant="secondary" className="text-xs">Expo</Badge>
+                        <Badge variant="secondary" className="text-xs">CI/CD</Badge>
+                      </div>
                     </div>
+                    <a href="https://github.com/kiarashplusplus/" target="_blank" rel="noopener noreferrer" className="flex-shrink-0 p-3 rounded-lg bg-muted hover:bg-muted/80 transition-colors">
+                      <GithubLogo size={24} weight="fill" className="text-foreground" />
+                    </a>
                   </div>
                 </Card>
               </motion.div>
 
               <motion.div variants={fadeIn}>
-                <Card className="p-8 h-full hover:shadow-xl transition-all duration-300 hover:border-primary/50 group">
-                  <div className="flex items-start justify-between mb-4">
-                    <h3 className="text-2xl font-bold group-hover:text-primary transition-colors">
-                      HireAligna.ai
-                    </h3>
-                    <ArrowUpRight size={28} weight="bold" className="text-muted-foreground flex-shrink-0 ml-2" />
-                  </div>
-                  <div className="space-y-4">
-                    <p className="text-foreground leading-relaxed">
-                      Developed a conversational AI recruiter platform that schedules and conducts voice interviews via LiveKit, transcribes with Azure OpenAI, and performs automated candidate-job matching.
-                    </p>
-                    <p className="text-foreground leading-relaxed">
-                      Backend stack: Express.js API, Next.js 16 frontend, PostgreSQL, Redis, Python-based LiveKit voice agent; deployed via Docker with Prometheus metrics, Grafana dashboards, and Sentry error tracking.
-                    </p>
-                    <p className="text-muted-foreground">
-                      Implemented bi-directional smart matching with skill-based scoring, AI-generated candidate summaries, and dual user flows for candidates and employers.
-                    </p>
-                    <div className="flex flex-wrap gap-2 pt-2">
-                      <Badge variant="secondary">Next.js 16</Badge>
-                      <Badge variant="secondary">LiveKit</Badge>
-                      <Badge variant="secondary">Azure OpenAI</Badge>
-                      <Badge variant="secondary">PostgreSQL</Badge>
-                      <Badge variant="secondary">Docker</Badge>
+                <Card className="p-6 md:p-8 hover:shadow-lg transition-all duration-300 hover:border-primary/40 group">
+                  <div className="flex flex-col md:flex-row md:items-start gap-6">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-3">
+                        <h3 className="text-xl md:text-2xl font-bold group-hover:text-primary transition-colors">
+                          HireAligna.ai
+                        </h3>
+                        <Badge variant="outline" className="border-blue-500/50 text-blue-600 text-xs">SaaS Platform</Badge>
+                      </div>
+                      <p className="text-foreground mb-4">
+                        Conversational AI recruiter that schedules and conducts voice interviews via LiveKit, transcribes with Azure OpenAI, and performs automated candidate-job matching.
+                      </p>
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                        <div className="text-center p-2 bg-muted/50 rounded-lg">
+                          <div className="text-lg font-bold text-primary">AI</div>
+                          <div className="text-xs text-muted-foreground">Voice Interviews</div>
+                        </div>
+                        <div className="text-center p-2 bg-muted/50 rounded-lg">
+                          <div className="text-lg font-bold text-primary">17+</div>
+                          <div className="text-xs text-muted-foreground">Docker Services</div>
+                        </div>
+                        <div className="text-center p-2 bg-muted/50 rounded-lg">
+                          <div className="text-lg font-bold text-primary">2-Way</div>
+                          <div className="text-xs text-muted-foreground">Smart Matching</div>
+                        </div>
+                        <div className="text-center p-2 bg-muted/50 rounded-lg">
+                          <div className="text-lg font-bold text-primary">Full</div>
+                          <div className="text-xs text-muted-foreground">Observability</div>
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap gap-1.5">
+                        <Badge variant="secondary" className="text-xs">Next.js</Badge>
+                        <Badge variant="secondary" className="text-xs">LiveKit</Badge>
+                        <Badge variant="secondary" className="text-xs">Azure OpenAI</Badge>
+                        <Badge variant="secondary" className="text-xs">PostgreSQL</Badge>
+                        <Badge variant="secondary" className="text-xs">Docker</Badge>
+                      </div>
+                    </div>
+                    <div className="flex-shrink-0 p-3 rounded-lg bg-muted">
+                      <ArrowUpRight size={24} weight="bold" className="text-muted-foreground" />
                     </div>
                   </div>
                 </Card>
@@ -461,7 +495,7 @@ function App() {
 
       <Separator className="max-w-5xl mx-auto" />
 
-      <section id="skills" className="py-16 px-6 md:py-24 scroll-mt-20">
+      <section id="skills" className="py-16 px-6 md:py-20 scroll-mt-20">
         <div className="max-w-5xl mx-auto">
           <motion.div
             initial="hidden"
@@ -469,13 +503,10 @@ function App() {
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
           >
-            <motion.div variants={fadeIn} className="text-center mb-12">
-              <div className="flex items-center justify-center gap-3 mb-4">
-                <ChartBar size={40} weight="duotone" className="text-primary" />
-                <h2 className="text-3xl md:text-4xl font-bold">Technical Expertise</h2>
-              </div>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                See what I bring to the table from cutting-edge AI and machine learning to full-stack development and engineering leadership
+            <motion.div variants={fadeIn} className="mb-10">
+              <h2 className="text-3xl md:text-4xl font-bold mb-3">Technical Expertise</h2>
+              <p className="text-muted-foreground">
+                From AI/ML to full-stack development and engineering leadership
               </p>
             </motion.div>
 
@@ -652,7 +683,7 @@ function App() {
 
       <Separator className="max-w-5xl mx-auto" />
 
-      <section id="experience" className="py-16 px-6 md:py-24 scroll-mt-20">
+      <section id="experience" className="py-16 px-6 md:py-20 scroll-mt-20">
         <div className="max-w-5xl mx-auto">
           <motion.div
             initial="hidden"
@@ -660,272 +691,126 @@ function App() {
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
           >
-            <motion.div variants={fadeIn} className="flex flex-col sm:flex-row items-center justify-between gap-6 mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold">Experience & Background</h2>
-              <Button className="gap-2 bg-primary hover:bg-primary/90 shadow-lg hover:shadow-xl transition-all" asChild>
+            <motion.div variants={fadeIn} className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-10">
+              <div>
+                <h2 className="text-3xl md:text-4xl font-bold mb-2">Experience</h2>
+                <p className="text-muted-foreground">10+ years building AI systems at scale</p>
+              </div>
+              <Button className="gap-2 shadow-md" asChild>
                 <a href={resumePdf} download="Kiarash-Adl-Resume.pdf">
-                  <Download size={20} weight="bold" />
-                  Download Full Resume (PDF)
+                  <Download size={18} weight="bold" />
+                  Resume (PDF)
                 </a>
               </Button>
             </motion.div>
 
-            <motion.div variants={fadeIn} className="mb-12">
-              <Card className="p-8">
-                <h3 className="text-2xl font-bold mb-4 text-primary">Summary</h3>
-                <p className="text-foreground leading-relaxed text-lg">
-                  AI innovator and entrepreneur with <strong>10+ years</strong> building scalable computer vision and machine learning solutions, from Google Search features serving billions of queries to patent-pending applications in home services. Proven track record taking products from prototype to production, securing venture funding, and leading high-performing engineering teams. Seeking to drive AI product innovation leveraging deep learning, full-stack development, and strategic technical leadership.
-                </p>
-              </Card>
-            </motion.div>
-
-            <motion.div variants={fadeIn} className="mb-12">
-              <h3 className="text-2xl font-bold mb-6">Professional Experience</h3>
-              <div className="space-y-6">
-                <Card className="p-6 hover:shadow-lg transition-shadow">
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
-                    <div>
-                      <h4 className="text-xl font-bold">Founder & CEO</h4>
-                      <p className="text-primary font-semibold">AI Vision</p>
-                    </div>
-                    <div className="text-muted-foreground text-sm sm:text-right">
-                      <p>Austin, TX</p>
-                      <p>Feb 2024 – Present</p>
-                    </div>
+            <motion.div variants={fadeIn} className="mb-10">
+              <div className="relative border-l-2 border-primary/20 pl-6 space-y-8 ml-3">
+                <div className="relative">
+                  <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-primary border-4 border-background"></div>
+                  <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 mb-2">
+                    <h4 className="text-lg font-bold">Founder & CEO</h4>
+                    <span className="text-primary font-medium">AI Vision</span>
+                    <span className="text-muted-foreground text-sm">2024 – Present</span>
                   </div>
-                  <ul className="space-y-2 text-foreground list-disc list-inside">
-                    <li>Built patent-pending AI and computer vision solutions to address real-world challenges in repair estimation and home improvement services</li>
-                    <li>Led the development and deployment of production-grade AI features, moving innovations from prototype to market-ready app in the App Store</li>
-                    <li>Established company strategy and built a high-performing multidisciplinary team</li>
-                    <li>Drove technical infrastructure decisions, ensuring scalable, efficient delivery of advanced AI-driven services</li>
-                  </ul>
-                </Card>
+                  <p className="text-foreground text-sm leading-relaxed">
+                    Built patent-pending AI and computer vision solutions for home services. Led development from prototype to App Store. Established company strategy and high-performing team.
+                  </p>
+                </div>
 
-                <Card className="p-6 hover:shadow-lg transition-shadow">
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
-                    <div>
-                      <h4 className="text-xl font-bold">Technical Consulting</h4>
-                      <p className="text-primary font-semibold">Various Clients</p>
-                    </div>
-                    <div className="text-muted-foreground text-sm sm:text-right">
-                      <p>USA</p>
-                      <p>Mar 2019 – Jan 2024</p>
-                    </div>
+                <div className="relative">
+                  <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-primary/60 border-4 border-background"></div>
+                  <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 mb-2">
+                    <h4 className="text-lg font-bold">Technical Consulting</h4>
+                    <span className="text-primary font-medium">Various Clients</span>
+                    <span className="text-muted-foreground text-sm">2019 – 2024</span>
                   </div>
-                  <ul className="space-y-2 text-foreground list-disc list-inside">
-                    <li>Collaborated on engineering projects, delivered MVPs and prototypes, and established best practices in product development</li>
-                    <li>Advised companies on technology roadmaps to support innovation</li>
-                    <li>Collaborated with executives to translate product vision into actionable engineering plans and effective delivery</li>
-                  </ul>
-                </Card>
+                  <p className="text-foreground text-sm leading-relaxed">
+                    Delivered MVPs and prototypes, established best practices. Advised on technology roadmaps. Translated product vision into actionable engineering plans.
+                  </p>
+                </div>
 
-                <Card className="p-6 hover:shadow-lg transition-shadow">
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
-                    <div>
-                      <h4 className="text-xl font-bold">Founder & CEO</h4>
-                      <p className="text-primary font-semibold">Monir</p>
-                    </div>
-                    <div className="text-muted-foreground text-sm sm:text-right">
-                      <p>New York, NY</p>
-                      <p>Mar 2018 – Mar 2019</p>
-                    </div>
+                <div className="relative">
+                  <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-primary/60 border-4 border-background"></div>
+                  <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 mb-2">
+                    <h4 className="text-lg font-bold">Founder & CEO</h4>
+                    <span className="text-primary font-medium">Monir</span>
+                    <span className="text-muted-foreground text-sm">2018 – 2019</span>
                   </div>
-                  <ul className="space-y-2 text-foreground list-disc list-inside">
-                    <li>Developed AI technology for personalized content creation in shopping</li>
-                    <li>Architected and delivered a scalable, serverless platform using Python microservices</li>
-                    <li>Secured venture capital funding; recruited and led a team of full-time employees and creative contractors</li>
-                    <li>Oversaw all aspects of product development, team management, and go-to-market strategy</li>
-                  </ul>
-                </Card>
+                  <p className="text-foreground text-sm leading-relaxed">
+                    AI technology for personalized shopping content. Serverless Python microservices platform. Secured VC funding and led multidisciplinary team.
+                  </p>
+                </div>
 
-                <Card className="p-6 hover:shadow-lg transition-shadow">
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
-                    <div>
-                      <h4 className="text-xl font-bold">Software Engineer</h4>
-                      <p className="text-primary font-semibold">Google</p>
-                    </div>
-                    <div className="text-muted-foreground text-sm sm:text-right">
-                      <p>New York, NY</p>
-                      <p>Dec 2014 – Mar 2018</p>
-                    </div>
+                <div className="relative">
+                  <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-primary/60 border-4 border-background"></div>
+                  <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 mb-2">
+                    <h4 className="text-lg font-bold">Software Engineer</h4>
+                    <span className="text-primary font-medium">Google</span>
+                    <span className="text-muted-foreground text-sm">2014 – 2018</span>
                   </div>
-                  <ul className="space-y-2 text-foreground list-disc list-inside">
-                    <li>Designed, built prototypes, and deployed to production new features in the Search Knowledge Panel</li>
-                    <li>Improved infrastructure for delivering informational messages to users across Google</li>
-                    <li>Implemented quality improvements on a system designed to select a representative image for every entity in the Knowledge Graph</li>
-                    <li>Collaborated with cross-functional teams to enhance user experience for billions of daily queries</li>
-                  </ul>
-                </Card>
+                  <p className="text-foreground text-sm leading-relaxed">
+                    Search Knowledge Panel features serving billions of queries. Knowledge Graph image selection system. Cross-functional collaboration on user experience.
+                  </p>
+                </div>
 
-                <Card className="p-6 hover:shadow-lg transition-shadow">
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
-                    <div>
-                      <h4 className="text-xl font-bold">Software Engineering Intern</h4>
-                      <p className="text-primary font-semibold">Twitter Ads</p>
-                    </div>
-                    <div className="text-muted-foreground text-sm sm:text-right">
-                      <p>San Francisco, CA</p>
-                      <p>June 2014 – Sep 2014</p>
-                    </div>
+                <div className="relative">
+                  <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-muted border-4 border-background"></div>
+                  <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 mb-2">
+                    <h4 className="text-lg font-bold">SWE Intern</h4>
+                    <span className="text-primary font-medium">Twitter Ads</span>
+                    <span className="text-muted-foreground text-sm">2014</span>
                   </div>
-                  <ul className="space-y-2 text-foreground list-disc list-inside">
-                    <li>Contributed to an experimental machine learning algorithm for Twitter Ads to expand the target audience to non-Twitter users</li>
-                    <li>Implemented a scalable multi-label ridge regression model by utilizing matrix factorization and multiplications in Hadoop and Scalding</li>
-                  </ul>
-                </Card>
+                  <p className="text-foreground text-sm leading-relaxed">
+                    Experimental ML algorithm for audience expansion. Scalable multi-label ridge regression in Hadoop/Scalding.
+                  </p>
+                </div>
 
-                <Card className="p-6 hover:shadow-lg transition-shadow">
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
-                    <div>
-                      <h4 className="text-xl font-bold">Student Researcher</h4>
-                      <p className="text-primary font-semibold">BlockedOnline.com</p>
-                    </div>
-                    <div className="text-muted-foreground text-sm sm:text-right">
-                      <p>Cambridge, MA</p>
-                      <p>Feb 2014 – Oct 2014</p>
-                    </div>
+                <div className="relative">
+                  <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-muted border-4 border-background"></div>
+                  <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 mb-2">
+                    <h4 className="text-lg font-bold">Researcher</h4>
+                    <span className="text-primary font-medium">Tim Berners-Lee Lab</span>
+                    <span className="text-muted-foreground text-sm">2014</span>
                   </div>
-                  <ul className="space-y-2 text-foreground list-disc list-inside">
-                    <li>Student under the supervision of Sir Tim Berners-Lee, founder of the World Wide Web</li>
-                    <li>Developed servers and multiple client-side tools to gather and visualize internet censorship data</li>
-                    <li>Implemented processes to automate data validation and scrubbing</li>
-                  </ul>
-                </Card>
+                  <p className="text-foreground text-sm leading-relaxed">
+                    Under Sir Tim Berners-Lee. Built tools for internet censorship data visualization and analysis.
+                  </p>
+                </div>
               </div>
             </motion.div>
 
-            <motion.div variants={fadeIn} className="mb-12">
-              <h3 className="text-2xl font-bold mb-6">Education</h3>
+            <motion.div variants={fadeIn} className="grid md:grid-cols-2 gap-6">
+              {/* Education */}
               <Card className="p-6">
-                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+                <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-primary"></span>
+                  Education
+                </h3>
+                <div>
+                  <h4 className="font-bold">MIT</h4>
+                  <p className="text-primary text-sm font-medium">B.S. Electrical Engineering & Computer Science</p>
+                  <p className="text-muted-foreground text-sm">Class of 2014</p>
+                </div>
+              </Card>
+
+              {/* Research Publications */}
+              <Card className="p-6">
+                <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-primary"></span>
+                  Research Publications
+                </h3>
+                <div className="space-y-3">
                   <div>
-                    <h4 className="text-xl font-bold">Massachusetts Institute of Technology (MIT)</h4>
-                    <p className="text-primary font-semibold">B.S. in Electrical Engineering and Computer Science</p>
+                    <p className="text-sm font-medium">55x GPU Speech Recognition Speed-up</p>
+                    <p className="text-xs text-muted-foreground">ICASSP 2012 • MIT CSAIL</p>
                   </div>
-                  <div className="text-muted-foreground text-sm sm:text-right">
-                    <p>Cambridge, MA</p>
-                    <p>Class of 2014</p>
+                  <div>
+                    <p className="text-sm font-medium">Feature Factory: Crowdsourced Discovery</p>
+                    <p className="text-xs text-muted-foreground">ACM L@S 2015 • MIT CSAIL</p>
                   </div>
                 </div>
               </Card>
-            </motion.div>
-
-            <motion.div variants={fadeIn}>
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-2xl font-bold">Skills</h3>
-                <Button 
-                  variant="outline" 
-                  className="gap-2"
-                  onClick={() => scrollToSection("skills")}
-                >
-                  <ChartBar size={20} weight="duotone" />
-                  View Interactive Charts
-                </Button>
-              </div>
-              <motion.div 
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-50px" }}
-                variants={staggerContainer}
-                className="grid md:grid-cols-2 gap-6"
-              >
-                <motion.div variants={fadeIn}>
-                  <Card className="p-6 hover:shadow-lg transition-shadow">
-                    <h4 className="font-bold text-lg mb-3 text-primary">AI & Machine Learning</h4>
-                    <p className="text-foreground leading-relaxed">
-                      Deep learning (PyTorch, Transformers, CLIP), distributed ML (Ray), classical ML (scikit-learn, XGBoost), GPU acceleration (CUDA/cuDNN/NCCL), data tooling (NumPy, Pandas)
-                    </p>
-                  </Card>
-                </motion.div>
-                
-                <motion.div variants={fadeIn}>
-                  <Card className="p-6 hover:shadow-lg transition-shadow">
-                    <h4 className="font-bold text-lg mb-3 text-primary">Backend & Distributed Systems</h4>
-                    <p className="text-foreground leading-relaxed">
-                      Python (FastAPI/Flask, asyncio, AIOHTTP), microservices, event-driven architectures, task orchestration (Celery, Ray), messaging systems (Kafka), caching (Redis), SQL/ORMs (PostgreSQL, SQLAlchemy, Peewee)
-                    </p>
-                  </Card>
-                </motion.div>
-                
-                <motion.div variants={fadeIn}>
-                  <Card className="p-6 hover:shadow-lg transition-shadow">
-                    <h4 className="font-bold text-lg mb-3 text-primary">DevOps & Infrastructure</h4>
-                    <p className="text-foreground leading-relaxed">
-                      Docker & multi-service Compose (17+ services), async/high-performance servers (Uvicorn/uvloop), CI/CD, build/test tooling (Black, Ruff, PyTest), cloud platforms (Azure primary; AWS, GCP)
-                    </p>
-                  </Card>
-                </motion.div>
-                
-                <motion.div variants={fadeIn}>
-                  <Card className="p-6 hover:shadow-lg transition-shadow">
-                    <h4 className="font-bold text-lg mb-3 text-primary">Observability & Performance</h4>
-                    <p className="text-foreground leading-relaxed">
-                      Prometheus, Grafana, OpenTelemetry, structlog, Sentry, profiling & benchmarking (pytest-benchmark)
-                    </p>
-                  </Card>
-                </motion.div>
-                
-                <motion.div variants={fadeIn}>
-                  <Card className="p-6 hover:shadow-lg transition-shadow">
-                    <h4 className="font-bold text-lg mb-3 text-primary">Leadership & Product</h4>
-                    <p className="text-foreground leading-relaxed">
-                      Technical roadmapping, architecture decisions, team building, MVP-to-production execution, startup leadership and fundraising
-                    </p>
-                  </Card>
-                </motion.div>
-                
-                <motion.div variants={fadeIn}>
-                  <Card className="p-6 hover:shadow-lg transition-shadow">
-                    <h4 className="font-bold text-lg mb-3 text-primary">Frontend & Mobile</h4>
-                    <p className="text-foreground leading-relaxed">
-                      React.js, Expo React Native, UI prototyping, API integration, client-side AI workflows
-                    </p>
-                  </Card>
-                </motion.div>
-              </motion.div>
-            </motion.div>
-
-            <motion.div variants={fadeIn} className="mt-16">
-              <h3 className="text-2xl font-bold mb-6">Research</h3>
-              <div className="space-y-4">
-                <Card className="p-6">
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
-                    <div>
-                      <h4 className="text-lg font-bold">MIT CSAIL Laboratory</h4>
-                      <p className="text-muted-foreground text-sm">Machine Learning Research</p>
-                    </div>
-                    <div className="text-muted-foreground text-sm sm:text-right">
-                      <p>Cambridge, MA</p>
-                      <p>Jan 2014 – May 2014</p>
-                    </div>
-                  </div>
-                  <p className="text-foreground mb-2">
-                    Contributed to machine learning research based on online students' activity data from edX courses
-                  </p>
-                  <p className="text-sm text-muted-foreground italic">
-                    Co-authored "Feature factory: Crowdsourced feature discovery," in Proc. ACM Conference on Learning @ Scale – L@S '15, pp. 373–376, ACM, 2015
-                  </p>
-                </Card>
-
-                <Card className="p-6">
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
-                    <div>
-                      <h4 className="text-lg font-bold">MIT CSAIL Laboratory</h4>
-                      <p className="text-muted-foreground text-sm">GPU-Accelerated Speech Recognition</p>
-                    </div>
-                    <div className="text-muted-foreground text-sm sm:text-right">
-                      <p>Cambridge, MA</p>
-                      <p>June 2011 – Jan 2012</p>
-                    </div>
-                  </div>
-                  <p className="text-foreground mb-2">
-                    Achieved <strong className="text-primary">55x speed-up</strong> by implementing novel speech recognition method to run on GPUs
-                  </p>
-                  <p className="text-sm text-muted-foreground italic">
-                    Co-authored "Fast Spoken Query Detection Using Lower-Bound Dynamic Time Warping on Graphical Processing Units," in Proc. ICASSP, pp. 5173–5176, Kyoto, Apr. 2012
-                  </p>
-                </Card>
-              </div>
             </motion.div>
           </motion.div>
         </div>
@@ -933,7 +818,7 @@ function App() {
 
       <Separator className="max-w-5xl mx-auto" />
 
-      <section id="contact" className="py-16 px-6 md:py-24 scroll-mt-20">
+      <section id="contact" className="py-16 px-6 md:py-20 scroll-mt-20">
         <div className="max-w-5xl mx-auto">
           <motion.div
             initial="hidden"
@@ -941,97 +826,95 @@ function App() {
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
           >
-            <motion.div variants={fadeIn} className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Get In Touch</h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Interested in collaborating or discussing opportunities? Feel free to reach out using the form below or contact me directly.
+            <motion.div variants={fadeIn} className="mb-10">
+              <h2 className="text-3xl md:text-4xl font-bold mb-2">Get In Touch</h2>
+              <p className="text-muted-foreground">
+                Let's discuss AI innovation, collaboration, or your next project.
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 gap-8 md:gap-12">
-              <motion.div variants={fadeIn}>
-                <Card className="p-8 h-full">
-                  <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
-                  <div className="space-y-6">
-                    <div className="flex items-start gap-4">
-                      <div className="p-3 bg-primary/10 rounded-lg flex-shrink-0">
-                        <EnvelopeSimple size={24} weight="fill" className="text-primary" />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold mb-1">Email</h4>
-                        <a 
-                          href="mailto:kiarasha@alum.mit.edu" 
-                          className="text-accent hover:underline transition-colors"
-                        >
-                          kiarasha@alum.mit.edu
-                        </a>
-                      </div>
-                    </div>
-
-                    <div className="flex items-start gap-4">
-                      <div className="p-3 bg-primary/10 rounded-lg flex-shrink-0">
-                        <Phone size={24} weight="fill" className="text-primary" />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold mb-1">Phone</h4>
-                        <a 
-                          href="tel:+18579281608" 
-                          className="text-accent hover:underline transition-colors"
-                        >
-                          +1-857-928-1608
-                        </a>
-                      </div>
-                    </div>
-
-                    <div className="pt-6 border-t border-border">
-                      <p className="text-foreground leading-relaxed">
-                        Whether you're looking to discuss AI innovation, explore collaboration opportunities, or talk about your next big project, I'd love to hear from you.
-                      </p>
-                    </div>
+            <div className="grid md:grid-cols-5 gap-6 md:gap-8">
+              <motion.div variants={fadeIn} className="md:col-span-2 space-y-4">
+                <a 
+                  href="mailto:kiarasha@alum.mit.edu" 
+                  className="flex items-center gap-3 p-4 bg-muted/50 hover:bg-muted rounded-lg transition-colors group"
+                >
+                  <div className="p-2 bg-primary/10 rounded-lg">
+                    <EnvelopeSimple size={20} weight="fill" className="text-primary" />
                   </div>
-                </Card>
+                  <div>
+                    <div className="text-xs text-muted-foreground">Email</div>
+                    <div className="font-medium group-hover:text-primary transition-colors">kiarasha@alum.mit.edu</div>
+                  </div>
+                </a>
+
+                <a 
+                  href="tel:+18579281608" 
+                  className="flex items-center gap-3 p-4 bg-muted/50 hover:bg-muted rounded-lg transition-colors group"
+                >
+                  <div className="p-2 bg-primary/10 rounded-lg">
+                    <Phone size={20} weight="fill" className="text-primary" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-muted-foreground">Phone</div>
+                    <div className="font-medium group-hover:text-primary transition-colors">+1-857-928-1608</div>
+                  </div>
+                </a>
+
+                <div className="flex gap-3 pt-2">
+                  <a 
+                    href="https://www.linkedin.com/in/kiarashadl/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center gap-2 p-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all font-medium"
+                  >
+                    <LinkedinLogo size={20} weight="fill" />
+                    LinkedIn
+                  </a>
+                  <a 
+                    href="https://github.com/kiarashplusplus/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center gap-2 p-3 bg-foreground text-background rounded-lg hover:bg-foreground/90 transition-all font-medium"
+                  >
+                    <GithubLogo size={20} weight="fill" />
+                    GitHub
+                  </a>
+                </div>
               </motion.div>
 
-              <motion.div variants={fadeIn}>
-                <Card className="p-8">
-                  <h3 className="text-2xl font-bold mb-6">Send a Message</h3>
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="name" className="text-sm font-medium">
-                        Name <span className="text-destructive">*</span>
-                      </Label>
-                      <Input
-                        id="name"
-                        name="name"
-                        type="text"
-                        placeholder="Your name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full"
-                      />
+              <motion.div variants={fadeIn} className="md:col-span-3">
+                <Card className="p-6">
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <Label htmlFor="name" className="text-sm">Name *</Label>
+                        <Input
+                          id="name"
+                          name="name"
+                          type="text"
+                          placeholder="Your name"
+                          value={formData.name}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <Label htmlFor="email" className="text-sm">Email *</Label>
+                        <Input
+                          id="email"
+                          name="email"
+                          type="email"
+                          placeholder="your@email.com"
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
                     </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="email" className="text-sm font-medium">
-                        Email <span className="text-destructive">*</span>
-                      </Label>
-                      <Input
-                        id="email"
-                        name="email"
-                        type="email"
-                        placeholder="your.email@example.com"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="subject" className="text-sm font-medium">
-                        Subject
-                      </Label>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="subject" className="text-sm">Subject</Label>
                       <Input
                         id="subject"
                         name="subject"
@@ -1039,32 +922,29 @@ function App() {
                         placeholder="What's this about?"
                         value={formData.subject}
                         onChange={handleInputChange}
-                        className="w-full"
                       />
                     </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="message" className="text-sm font-medium">
-                        Message <span className="text-destructive">*</span>
-                      </Label>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="message" className="text-sm">Message *</Label>
                       <Textarea
                         id="message"
                         name="message"
-                        placeholder="Tell me about your project or opportunity..."
+                        placeholder="Tell me about your project..."
                         value={formData.message}
                         onChange={handleInputChange}
                         required
-                        rows={6}
-                        className="w-full resize-none"
+                        rows={4}
+                        className="resize-none"
                       />
                     </div>
 
                     <Button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full gap-2 bg-primary hover:bg-primary/90 shadow-lg hover:shadow-xl transition-all"
+                      className="w-full gap-2"
                     >
-                      <PaperPlaneTilt size={20} weight="fill" />
+                      <PaperPlaneTilt size={18} weight="fill" />
                       {isSubmitting ? "Sending..." : "Send Message"}
                     </Button>
                   </form>
@@ -1075,10 +955,21 @@ function App() {
         </div>
       </section>
 
-      <footer className="py-12 px-6 border-t border-border">
-        <div className="max-w-5xl mx-auto text-center text-muted-foreground">
-          <p className="mb-4">© 2025 Kiarash Adl. All rights reserved.</p>
-          <p className="text-sm">MIT EECS 2014 | AI Innovation & Engineering Leadership</p>
+      <footer className="py-8 px-6 border-t border-border">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
+            <p>© 2025 Kiarash Adl</p>
+            <div className="flex items-center gap-4">
+              <a href="https://www.linkedin.com/in/kiarashadl/" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
+                <LinkedinLogo size={20} weight="fill" />
+              </a>
+              <a href="https://github.com/kiarashplusplus/" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
+                <GithubLogo size={20} weight="fill" />
+              </a>
+              <span className="text-border">|</span>
+              <span>MIT EECS '14</span>
+            </div>
+          </div>
         </div>
       </footer>
 

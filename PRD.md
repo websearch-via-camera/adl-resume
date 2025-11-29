@@ -33,6 +33,13 @@ A sophisticated portfolio and resume website for Kiarash Adl, an AI innovator an
 - **Progression**: Section title appears → Project cards fade in sequentially → Hover reveals additional emphasis
 - **Success criteria**: Projects are immediately recognizable and scannable with key technical details visible
 
+### Skills Proficiency Visualization
+- **Functionality**: Interactive charts displaying skill proficiencies across multiple dimensions using radar charts, bar charts, and animated progress bars
+- **Purpose**: Provide visual, data-driven representation of technical expertise that's more engaging than text lists
+- **Trigger**: Scroll to skills section
+- **Progression**: Section header appears → Tab navigation becomes visible → User selects chart type → Chart animates in with data visualization → User can interact with tooltips
+- **Success criteria**: Charts are readable, interactive, and accurately represent skill levels; smooth animations enhance rather than distract
+
 ### Resume Summary Section
 - **Functionality**: Present major resume sections (Summary, Experience, Education, Skills, Research) in digestible format with link to full PDF
 - **Purpose**: Provide comprehensive professional background while offering escape hatch to complete document

@@ -752,13 +752,18 @@ function App() {
                 
                 <div className="relative z-10 space-y-5">
                   {/* Feature Factory Paper */}
-                  <div className="space-y-2">
+                  <a 
+                    href="https://dl.acm.org/doi/abs/10.1145/2724660.2728696" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="block space-y-2 p-3 -m-3 rounded-xl hover:bg-muted/50 transition-all duration-200 group/paper"
+                  >
                     <div className="flex items-start gap-3">
-                      <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold shadow-md">
+                      <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold shadow-md group-hover/paper:shadow-lg group-hover/paper:scale-105 transition-all duration-200">
                         L@S
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h4 className="font-semibold text-sm text-foreground leading-tight">Feature Factory: Crowdsourced Feature Discovery</h4>
+                        <h4 className="font-semibold text-sm text-foreground leading-tight group-hover/paper:text-primary transition-colors">Feature Factory: Crowdsourced Feature Discovery</h4>
                         <p className="text-xs text-primary font-medium mt-0.5">ACM Learning @ Scale 2015</p>
                         <p className="text-xs text-muted-foreground">MIT CSAIL • Jan – May 2014</p>
                       </div>
@@ -766,16 +771,21 @@ function App() {
                     <p className="text-xs text-muted-foreground pl-13 leading-relaxed">
                       Machine learning research on edX student activity data. Published in Proc. ACM L@S '15, pp. 373–376.
                     </p>
-                  </div>
+                  </a>
                   
                   {/* GPU Speech Recognition Paper */}
-                  <div className="space-y-2">
+                  <a 
+                    href="https://ieeexplore.ieee.org/abstract/document/6289085" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="block space-y-2 p-3 -m-3 rounded-xl hover:bg-muted/50 transition-all duration-200 group/paper"
+                  >
                     <div className="flex items-start gap-3">
-                      <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500 to-teal-600 flex items-center justify-center text-white text-xs font-bold shadow-md">
+                      <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500 to-teal-600 flex items-center justify-center text-white text-xs font-bold shadow-md group-hover/paper:shadow-lg group-hover/paper:scale-105 transition-all duration-200">
                         IEEE
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h4 className="font-semibold text-sm text-foreground leading-tight">Fast Spoken Query Detection Using GPU DTW</h4>
+                        <h4 className="font-semibold text-sm text-foreground leading-tight group-hover/paper:text-primary transition-colors">Fast Spoken Query Detection Using GPU DTW</h4>
                         <p className="text-xs text-primary font-medium mt-0.5">IEEE ICASSP 2012 • Kyoto</p>
                         <p className="text-xs text-muted-foreground">MIT CSAIL • June 2011 – Jan 2012</p>
                       </div>
@@ -783,7 +793,7 @@ function App() {
                     <p className="text-xs text-muted-foreground pl-13 leading-relaxed">
                       Achieved <span className="text-foreground font-medium">55x speedup</span> with novel GPU speech recognition. Published in Proc. ICASSP, pp. 5173–5176.
                     </p>
-                  </div>
+                  </a>
                 </div>
                 
                 {/* Citation count hint */}

@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { EnvelopeSimple, Phone, Download, GithubLogo, LinkedinLogo, ArrowUpRight, PaperPlaneTilt, CaretUp, ChartBar } from "@phosphor-icons/react"
+import { EnvelopeSimple, Phone, Download, GithubLogo, LinkedinLogo, ArrowUpRight, PaperPlaneTilt, CaretUp, ChartBar, CaretDown } from "@phosphor-icons/react"
 import { motion, useScroll, useMotionValueEvent } from "framer-motion"
 import { useState, useEffect } from "react"
 import { toast } from "sonner"
@@ -31,12 +31,14 @@ function App() {
   const [isNavVisible, setIsNavVisible] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
   const [showScrollTop, setShowScrollTop] = useState(false)
+  const [showScrollIndicator, setShowScrollIndicator] = useState(true)
   
   const { scrollY } = useScroll()
   
   useMotionValueEvent(scrollY, "change", (latest) => {
     setIsNavVisible(latest > 200)
     setShowScrollTop(latest > 400)
+    setShowScrollIndicator(latest < 100)
     
     const sections = ["home", "projects", "experience", "contact"]
     const sectionElements = sections.map(id => document.getElementById(id))
@@ -304,6 +306,33 @@ function App() {
           </div>
         </div>
       </motion.header>
+
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ 
+          opacity: showScrollIndicator ? 1 : 0,
+          y: showScrollIndicator ? 0 : -10
+        }}
+        transition={{ duration: 0.3 }}
+        className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 md:hidden pointer-events-none"
+      >
+        <motion.div
+          animate={{
+            y: [0, 12, 0],
+          }}
+          transition={{
+            duration: 1.5,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="flex flex-col items-center gap-1"
+        >
+          <span className="text-sm font-medium text-muted-foreground bg-background/80 backdrop-blur-sm px-3 py-1 rounded-full">
+            Scroll down
+          </span>
+          <CaretDown size={32} weight="bold" className="text-primary" />
+        </motion.div>
+      </motion.div>
 
       <Separator className="max-w-5xl mx-auto" />
 

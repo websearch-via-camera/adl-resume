@@ -13,6 +13,19 @@ interface Env {
   CONTACT_EMAIL: string;
 }
 
+type PagesFunction<Env = unknown> = (context: EventContext<Env, any, Record<string, unknown>>) => Response | Promise<Response>;
+
+interface EventContext<Env = unknown, P extends string = any, Data extends Record<string, unknown> = Record<string, unknown>> {
+  request: Request;
+  functionPath: string;
+  waitUntil: (promise: Promise<any>) => void;
+  passThroughOnException: () => void;
+  next: (input?: Request | string, init?: RequestInit) => Promise<Response>;
+  env: Env;
+  params: Record<P, string>;
+  data: Data;
+}
+
 export const onRequestPost: PagesFunction<Env> = async (context) => {
   // CORS headers
   const corsHeaders = {

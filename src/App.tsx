@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { EnvelopeSimple, Phone, Download, GithubLogo, LinkedinLogo, ArrowUpRight, PaperPlaneTilt } from "@phosphor-icons/react"
-import { motion } from "framer-motion"
+import { motion, useScroll, useMotionValueEvent } from "framer-motion"
 import { useState } from "react"
 import { toast } from "sonner"
 import profileImage from "@/assets/images/Kiarash_Adl_Linkedin_Image.jpg"
@@ -20,6 +20,28 @@ function App() {
     message: ""
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [activeSection, setActiveSection] = useState("home")
+  const [isNavVisible, setIsNavVisible] = useState(false)
+  
+  const { scrollY } = useScroll()
+  
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    setIsNavVisible(latest > 200)
+    
+    const sections = ["home", "projects", "experience", "contact"]
+    const sectionElements = sections.map(id => document.getElementById(id))
+    
+    for (let i = sections.length - 1; i >= 0; i--) {
+      const element = sectionElements[i]
+      if (element) {
+        const rect = element.getBoundingClientRect()
+        if (rect.top <= 150) {
+          setActiveSection(sections[i])
+          break
+        }
+      }
+    }
+  })
 
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
@@ -83,10 +105,69 @@ function App() {
       setIsSubmitting(false)
     }
   }
+  
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId)
+    if (element) {
+      const offset = 80
+      const elementPosition = element.getBoundingClientRect().top
+      const offsetPosition = elementPosition + window.pageYOffset - offset
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      })
+    }
+  }
+  
+  const navItems = [
+    { id: "home", label: "Home" },
+    { id: "projects", label: "Projects" },
+    { id: "experience", label: "Experience" },
+    { id: "contact", label: "Contact" }
+  ]
 
   return (
     <div className="min-h-screen bg-background">
+      <motion.nav
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ 
+          y: isNavVisible ? 0 : -100,
+          opacity: isNavVisible ? 1 : 0
+        }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border shadow-sm"
+      >
+        <div className="max-w-5xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <button
+              onClick={() => scrollToSection("home")}
+              className="text-lg font-bold text-foreground hover:text-primary transition-colors"
+            >
+              Kiarash Adl
+            </button>
+            
+            <div className="flex items-center gap-1">
+              {navItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => scrollToSection(item.id)}
+                  className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
+                    activeSection === item.id
+                      ? "bg-primary text-primary-foreground shadow-sm"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </motion.nav>
+
       <motion.header 
+        id="home"
         initial="hidden"
         animate="visible"
         variants={staggerContainer}
@@ -133,7 +214,7 @@ function App() {
 
       <Separator className="max-w-5xl mx-auto" />
 
-      <section className="py-16 px-6 md:py-24">
+      <section id="projects" className="py-16 px-6 md:py-24 scroll-mt-20">
         <div className="max-w-5xl mx-auto">
           <motion.div
             initial="hidden"
@@ -210,7 +291,7 @@ function App() {
 
       <Separator className="max-w-5xl mx-auto" />
 
-      <section className="py-16 px-6 md:py-24">
+      <section id="experience" className="py-16 px-6 md:py-24 scroll-mt-20">
         <div className="max-w-5xl mx-auto">
           <motion.div
             initial="hidden"
@@ -481,7 +562,7 @@ function App() {
 
       <Separator className="max-w-5xl mx-auto" />
 
-      <section className="py-16 px-6 md:py-24">
+      <section id="contact" className="py-16 px-6 md:py-24 scroll-mt-20">
         <div className="max-w-5xl mx-auto">
           <motion.div
             initial="hidden"

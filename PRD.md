@@ -12,6 +12,13 @@ A sophisticated portfolio and resume website for Kiarash Adl, an AI innovator an
 
 ## Essential Features
 
+### Smooth Scroll Navigation
+- **Functionality**: Sticky navigation menu that appears after scrolling with smooth scroll-to-section behavior and active section highlighting
+- **Purpose**: Provide quick access to all major sections of the portfolio without losing context
+- **Trigger**: Appears after scrolling ~200px down from top
+- **Progression**: User scrolls → Navigation slides down from top → User clicks section → Page smoothly scrolls to section → Active indicator updates
+- **Success criteria**: Navigation appears smoothly, scroll behavior is fluid, active section is always correctly highlighted
+
 ### Hero Header with Profile
 - **Functionality**: Display professional headshot, name, title emphasizing "Human + AI Projects" and "Senior Software Engineering"
 - **Purpose**: Immediately establish credibility and dual expertise in AI innovation and engineering leadership
@@ -41,7 +48,9 @@ A sophisticated portfolio and resume website for Kiarash Adl, an AI innovator an
 - **Success criteria**: Contact methods are one-click accessible and form provides clear validation and feedback
 
 ## Edge Case Handling
-- **Mobile responsiveness**: Layout adapts gracefully to mobile screens with single-column flow and appropriately sized text
+- **Mobile responsiveness**: Layout adapts gracefully to mobile screens with single-column flow and appropriately sized text; navigation stacks on smaller screens
+- **Navigation state tracking**: Active section indicator updates accurately as user scrolls through different sections
+- **Smooth scroll compatibility**: Scroll behavior works across different browsers and respects user's motion preferences
 - **Missing PDF**: If PDF link isn't available, section gracefully shows resume content without download option
 - **Long content**: Text truncates or scrolls appropriately within sections to maintain visual balance
 - **Slow image load**: Profile image container maintains aspect ratio with subtle background during load
@@ -88,10 +97,11 @@ Animations should be subtle and purposeful, enhancing the sense of quality witho
 ## Component Selection
 
 - **Components**:
+  - Navigation Bar: Sticky header with smooth scroll links and active section indicators
   - Card: For project showcases and experience sections - modified with subtle hover states and border accents in primary blue
   - Badge: For skills tags - customized with technical blue and amber colors
   - Separator: Between major sections - thin line in muted gray
-  - Button: For PDF download link - primary variant with vibrant styling
+  - Button: For PDF download link and navigation items - primary variant with vibrant styling
   - Avatar: For profile image - large circular variant
   - Scroll Area: If resume content is extensive - subtle scrollbars
   

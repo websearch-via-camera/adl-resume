@@ -214,20 +214,20 @@ function App() {
         className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border shadow-sm"
       >
         <div className="max-w-5xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-4">
             <button
               onClick={() => scrollToSection("home")}
-              className="text-lg font-bold text-foreground hover:text-primary transition-colors"
+              className="text-lg font-bold text-foreground hover:text-primary transition-colors flex-shrink-0"
             >
               Kiarash Adl
             </button>
             
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 overflow-x-auto scrollbar-hide flex-shrink min-w-0">
               {navItems.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
+                  className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 whitespace-nowrap flex-shrink-0 ${
                     activeSection === item.id
                       ? "bg-primary text-primary-foreground shadow-sm"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -1030,7 +1030,7 @@ function App() {
       <footer className="py-12 px-6 border-t border-border">
         <div className="max-w-5xl mx-auto text-center text-muted-foreground">
           <p className="mb-4">© 2025 Kiarash Adl. All rights reserved.</p>
-          <p className="text-sm">US Citizen | MIT EECS 2014 | AI Innovation & Engineering Leadership</p>
+          <p className="text-sm">MIT EECS 2014 | AI Innovation & Engineering Leadership</p>
         </div>
       </footer>
 

@@ -22,6 +22,7 @@ import { EngineeringMetrics } from "@/components/EngineeringMetrics"
 import { TerminalSection } from "@/components/TerminalSection"
 import { TypewriterTagline } from "@/components/TypewriterTagline"
 import { CustomCursor } from "@/components/CustomCursor"
+import { Guestbook } from "@/components/Guestbook"
 import { useKeyboardNavigation, KeyboardHelp } from "@/hooks/useKeyboardNavigation"
 
 function App() {
@@ -1002,6 +1003,24 @@ function App() {
                 </Card>
               </motion.div>
             </div>
+          </motion.div>
+        </div>
+      </section>
+
+      <Separator className="max-w-5xl mx-auto" />
+
+      {/* Guestbook Section */}
+      <section id="guestbook" className="py-16 px-6 md:py-20 scroll-mt-20">
+        <div className="max-w-5xl mx-auto">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+          >
+            <motion.div variants={fadeIn}>
+              <Guestbook />
+            </motion.div>
           </motion.div>
         </div>
       </section>

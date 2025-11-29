@@ -17,6 +17,7 @@ const commands: Record<string, string[]> = {
     "  projects   - List featured projects",
     "  contact    - Get contact information",
     "  experience - View work history",
+    "  guestbook  - Sign the guestbook",
     "  whoami     - Who am I?",
     "  clear      - Clear terminal",
     "  help       - Show this help message",
@@ -110,6 +111,18 @@ const commands: Record<string, string[]> = {
     "🐙 GitHub:   github.com/kiarashplusplus",
     "",
     "Open to: AI/ML roles, consulting, collaboration"
+  ],
+  guestbook: [
+    "📝 Guestbook",
+    "",
+    "Leave a message for future visitors!",
+    "",
+    "→ Scroll down to find the guestbook section",
+    "→ Click 'Sign Guestbook' to leave your mark",
+    "→ Pick an emoji, write a message",
+    "→ Your entry will appear after review",
+    "",
+    "Be the first to sign! 🎉"
   ],
   experience: [
     "Work History:",

@@ -731,7 +731,7 @@ function App() {
                   
                   {/* Skills badges */}
                   <div className="pl-16 flex flex-wrap gap-1.5 pt-1">
-                    {["Algorithms", "ML/AI", "Systems", "CUDA"].map((skill) => (
+                    {["Algorithms", "ML/AI", "Systems", "Python"].map((skill) => (
                       <span key={skill} className="px-2 py-0.5 text-xs rounded-full bg-muted/60 text-muted-foreground border border-border/50">
                         {skill}
                       </span>
@@ -741,20 +741,55 @@ function App() {
               </Card>
 
               {/* Research Publications */}
-              <Card className="p-6">
-                <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-primary"></span>
+              <Card className="p-6 relative overflow-hidden group">
+                {/* Decorative gradient */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-violet-500/10 to-cyan-500/5 rounded-full blur-2xl opacity-60 group-hover:opacity-100 transition-opacity" />
+                
+                <h3 className="text-lg font-bold mb-5 flex items-center gap-2 relative z-10">
+                  <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
                   Research Publications
                 </h3>
-                <div className="space-y-3">
-                  <div>
-                    <p className="text-sm font-medium">55x GPU Speech Recognition Speed-up</p>
-                    <p className="text-xs text-muted-foreground">ICASSP 2012 • MIT CSAIL</p>
+                
+                <div className="relative z-10 space-y-5">
+                  {/* Feature Factory Paper */}
+                  <div className="space-y-2">
+                    <div className="flex items-start gap-3">
+                      <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold shadow-md">
+                        L@S
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-semibold text-sm text-foreground leading-tight">Feature Factory: Crowdsourced Feature Discovery</h4>
+                        <p className="text-xs text-primary font-medium mt-0.5">ACM Learning @ Scale 2015</p>
+                        <p className="text-xs text-muted-foreground">MIT CSAIL • Jan – May 2014</p>
+                      </div>
+                    </div>
+                    <p className="text-xs text-muted-foreground pl-13 leading-relaxed">
+                      Machine learning research on edX student activity data. Published in Proc. ACM L@S '15, pp. 373–376.
+                    </p>
                   </div>
-                  <div>
-                    <p className="text-sm font-medium">Feature Factory: Crowdsourced Discovery</p>
-                    <p className="text-xs text-muted-foreground">ACM L@S 2015 • MIT CSAIL</p>
+                  
+                  {/* GPU Speech Recognition Paper */}
+                  <div className="space-y-2">
+                    <div className="flex items-start gap-3">
+                      <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500 to-teal-600 flex items-center justify-center text-white text-xs font-bold shadow-md">
+                        IEEE
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-semibold text-sm text-foreground leading-tight">Fast Spoken Query Detection Using GPU DTW</h4>
+                        <p className="text-xs text-primary font-medium mt-0.5">IEEE ICASSP 2012 • Kyoto</p>
+                        <p className="text-xs text-muted-foreground">MIT CSAIL • June 2011 – Jan 2012</p>
+                      </div>
+                    </div>
+                    <p className="text-xs text-muted-foreground pl-13 leading-relaxed">
+                      Achieved <span className="text-foreground font-medium">55x speedup</span> with novel GPU speech recognition. Published in Proc. ICASSP, pp. 5173–5176.
+                    </p>
                   </div>
+                </div>
+                
+                {/* Citation count hint */}
+                <div className="mt-4 pt-3 border-t border-border/50 flex items-center gap-2 text-xs text-muted-foreground">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                  <span>Peer-reviewed & published in top-tier venues</span>
                 </div>
               </Card>
             </motion.div>

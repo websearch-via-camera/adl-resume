@@ -1,4 +1,3 @@
-import { motion } from "framer-motion"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
@@ -69,34 +68,21 @@ export function TechStack() {
         </p>
       </div>
       
-      <TooltipProvider delayDuration={100}>
+      <TooltipProvider delayDuration={200}>
         <div className="space-y-8">
-          {categoryOrder.map((category, categoryIndex) => (
-            <motion.div
-              key={category}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: categoryIndex * 0.1 }}
-            >
+          {categoryOrder.map((category) => (
+            <div key={category}>
               <h4 className="text-lg font-semibold mb-4 text-primary">
                 {categoryLabels[category]}
               </h4>
               
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-                {groupedTech[category].map((tech, index) => (
+                {groupedTech[category].map((tech) => (
                   <Tooltip key={tech.name}>
                     <TooltipTrigger asChild>
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.3, delay: index * 0.05 }}
-                        whileHover={{ scale: 1.05, y: -2 }}
-                        className="group cursor-pointer"
-                      >
+                      <div className="group cursor-pointer">
                         <div 
-                          className="flex flex-col items-center p-4 rounded-lg border border-border bg-card hover:border-primary/50 hover:shadow-md transition-all duration-200"
+                          className="flex flex-col items-center p-4 rounded-lg border border-border bg-card hover:border-primary/50 hover:shadow-md transition-all duration-200 hover:scale-105 hover:-translate-y-0.5"
                           style={{ 
                             borderLeftWidth: '3px',
                             borderLeftColor: tech.color 
@@ -108,7 +94,7 @@ export function TechStack() {
                             {tech.yearsExp}+ yrs
                           </span>
                         </div>
-                      </motion.div>
+                      </div>
                     </TooltipTrigger>
                     <TooltipContent side="top" className="max-w-xs">
                       <div className="space-y-2">
@@ -130,7 +116,7 @@ export function TechStack() {
                   </Tooltip>
                 ))}
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </TooltipProvider>

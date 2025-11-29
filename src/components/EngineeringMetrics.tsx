@@ -1,4 +1,3 @@
-import { motion } from "framer-motion"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { 
@@ -96,16 +95,8 @@ export function EngineeringMetrics() {
       </div>
       
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {engineeringMetrics.map((metric, index) => (
-          <motion.div
-            key={metric.label}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: index * 0.05 }}
-            whileHover={{ scale: 1.02 }}
-            className="group"
-          >
+        {engineeringMetrics.map((metric) => (
+          <div key={metric.label} className="group">
             <div className="p-4 rounded-lg border border-border bg-card hover:border-primary/50 hover:shadow-md transition-all duration-200 h-full">
               <div className="flex items-start justify-between mb-3">
                 <div className="p-2 bg-primary/10 rounded-lg text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
@@ -129,18 +120,12 @@ export function EngineeringMetrics() {
                 </div>
               )}
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
       
       {/* Highlight Achievement */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-        className="mt-6 p-4 bg-gradient-to-r from-primary/10 via-accent/10 to-secondary/10 rounded-lg border border-primary/20"
-      >
+      <div className="mt-6 p-4 bg-gradient-to-r from-primary/10 via-accent/10 to-secondary/10 rounded-lg border border-primary/20">
         <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
           <div className="flex-shrink-0">
             <Trophy size={32} weight="fill" className="text-primary" />
@@ -154,7 +139,7 @@ export function EngineeringMetrics() {
             </p>
           </div>
         </div>
-      </motion.div>
+      </div>
     </Card>
   )
 }

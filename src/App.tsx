@@ -269,7 +269,13 @@ function App() {
                   Human + AI Projects
                 </p>
                 <p className="text-xl md:text-2xl font-semibold text-secondary">
-                  Senior Software Engineering
+                  Senior Software Engineer & Full-Stack Systems Architect
+                </p>
+                <p className="text-lg md:text-xl text-foreground">
+                  Building end-to-end AI platforms, agentic systems, and scalable cloud architectures.
+                </p>
+                <p className="text-base md:text-lg text-muted-foreground">
+                  MIT EECS '14 | 10+ years experience | AI infrastructure, orchestration, and full-stack engineering.
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 text-muted-foreground mb-6">
@@ -333,6 +339,25 @@ function App() {
           <CaretDown size={32} weight="bold" className="text-primary" />
         </motion.div>
       </motion.div>
+
+      <Separator className="max-w-5xl mx-auto" />
+
+      <section className="py-12 px-6 md:py-16">
+        <div className="max-w-5xl mx-auto">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeIn}
+          >
+            <Card className="p-8 md:p-10 bg-gradient-to-br from-primary/5 via-background to-secondary/5 border-primary/20">
+              <blockquote className="text-lg md:text-xl leading-relaxed text-foreground italic">
+                "I build AI-native systems across the full stack—from MCP servers and orchestration layers to distributed backend infra, conversational voice agents, and production-grade CI/CD pipelines. I specialize in Python, TypeScript, LLM integrations, and cloud-native architecture."
+              </blockquote>
+            </Card>
+          </motion.div>
+        </div>
+      </section>
 
       <Separator className="max-w-5xl mx-auto" />
 

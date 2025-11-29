@@ -113,28 +113,28 @@ export function GitHubActivity() {
     <Card className="p-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-xl font-bold">GitHub Activity</h3>
-        <span className="text-sm text-muted-foreground">
-          {stats.totalContributions.toLocaleString()} contributions in the last year
+        <span className="text-sm text-muted-foreground italic">
+          Simulated visualization — real commits live on GitHub
         </span>
       </div>
       
-      {/* Stats Grid */}
-      <div className="grid grid-cols-4 gap-4 mb-6">
+      {/* Stats Grid - Fun phrases instead of fake numbers */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div className="text-center p-3 bg-muted/50 rounded-lg">
-          <div className="text-2xl font-bold text-primary">{stats.totalContributions.toLocaleString()}</div>
-          <div className="text-xs text-muted-foreground">Total Contributions</div>
+          <div className="text-lg font-bold text-primary">Lots 🚀</div>
+          <div className="text-xs text-muted-foreground">Commits Shipped</div>
         </div>
         <div className="text-center p-3 bg-muted/50 rounded-lg">
-          <div className="text-2xl font-bold text-primary">{stats.activeDays}</div>
-          <div className="text-xs text-muted-foreground">Active Days</div>
+          <div className="text-lg font-bold text-primary">Consistently</div>
+          <div className="text-xs text-muted-foreground">Building Things</div>
         </div>
         <div className="text-center p-3 bg-muted/50 rounded-lg">
-          <div className="text-2xl font-bold text-primary">{stats.currentStreak}</div>
-          <div className="text-xs text-muted-foreground">Current Streak</div>
+          <div className="text-lg font-bold text-primary">Coffee ☕</div>
+          <div className="text-xs text-muted-foreground">Powered By</div>
         </div>
         <div className="text-center p-3 bg-muted/50 rounded-lg">
-          <div className="text-2xl font-bold text-primary">{stats.longestStreak}</div>
-          <div className="text-xs text-muted-foreground">Longest Streak</div>
+          <div className="text-lg font-bold text-primary">∞</div>
+          <div className="text-xs text-muted-foreground">Curiosity Level</div>
         </div>
       </div>
       

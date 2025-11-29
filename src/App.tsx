@@ -8,13 +8,18 @@ import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { EnvelopeSimple, Phone, Download, GithubLogo, LinkedinLogo, ArrowUpRight, PaperPlaneTilt, CaretUp, ChartBar } from "@phosphor-icons/react"
 import { motion, useScroll, useMotionValueEvent } from "framer-motion"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { toast } from "sonner"
-import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell } from "recharts"
+import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Cell } from "recharts"
 import profileImage from "@/assets/images/Kiarash_Adl_Linkedin_Image.jpg"
 import resumePdf from "@/assets/documents/Kiarash-Adl-Resume-20251129.pdf"
 
 function App() {
+  const [isMounted, setIsMounted] = useState(false)
+  
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -402,38 +407,44 @@ function App() {
                 <TabsContent value="overview" className="space-y-8">
                   <Card className="p-8">
                     <h3 className="text-2xl font-bold mb-6 text-center">Competency Radar</h3>
-                    <div className="w-full h-[400px] md:h-[500px]">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <RadarChart data={skillsRadarData}>
-                          <PolarGrid stroke="oklch(0.80 0.05 75)" />
-                          <PolarAngleAxis 
-                            dataKey="category" 
-                            tick={{ fill: 'oklch(0.48 0.02 55)', fontSize: 14, fontWeight: 600 }}
-                          />
-                          <PolarRadiusAxis 
-                            angle={90} 
-                            domain={[0, 100]}
-                            tick={{ fill: 'oklch(0.48 0.02 55)', fontSize: 12 }}
-                          />
-                          <Radar
-                            name="Proficiency"
-                            dataKey="proficiency"
-                            stroke="oklch(0.58 0.15 65)"
-                            fill="oklch(0.58 0.15 65)"
-                            fillOpacity={0.6}
-                            strokeWidth={2}
-                          />
-                          <Tooltip 
-                            contentStyle={{
-                              backgroundColor: 'oklch(0.99 0.01 75)',
-                              border: '1px solid oklch(0.80 0.05 75)',
-                              borderRadius: '8px',
-                              padding: '12px'
-                            }}
-                          />
-                        </RadarChart>
-                      </ResponsiveContainer>
-                    </div>
+                    {isMounted ? (
+                      <div className="w-full h-[400px] md:h-[500px]">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <RadarChart data={skillsRadarData}>
+                            <PolarGrid stroke="oklch(0.80 0.05 75)" />
+                            <PolarAngleAxis 
+                              dataKey="category" 
+                              tick={{ fill: 'oklch(0.48 0.02 55)', fontSize: 14, fontWeight: 600 }}
+                            />
+                            <PolarRadiusAxis 
+                              angle={90} 
+                              domain={[0, 100]}
+                              tick={{ fill: 'oklch(0.48 0.02 55)', fontSize: 12 }}
+                            />
+                            <Radar
+                              name="Proficiency"
+                              dataKey="proficiency"
+                              stroke="oklch(0.58 0.15 65)"
+                              fill="oklch(0.58 0.15 65)"
+                              fillOpacity={0.6}
+                              strokeWidth={2}
+                            />
+                            <Tooltip 
+                              contentStyle={{
+                                backgroundColor: 'oklch(0.99 0.01 75)',
+                                border: '1px solid oklch(0.80 0.05 75)',
+                                borderRadius: '8px',
+                                padding: '12px'
+                              }}
+                            />
+                          </RadarChart>
+                        </ResponsiveContainer>
+                      </div>
+                    ) : (
+                      <div className="w-full h-[400px] md:h-[500px] flex items-center justify-center bg-muted/20 rounded-lg">
+                        <p className="text-muted-foreground">Loading chart...</p>
+                      </div>
+                    )}
                     <div className="mt-6 grid grid-cols-2 md:grid-cols-3 gap-4">
                       {skillsRadarData.map((skill) => (
                         <div key={skill.category} className="text-center">
@@ -448,42 +459,48 @@ function App() {
                 <TabsContent value="technical" className="space-y-8">
                   <Card className="p-8">
                     <h3 className="text-2xl font-bold mb-6 text-center">Technical Skills Distribution</h3>
-                    <div className="w-full h-[400px]">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <BarChart 
-                          data={technicalSkillsData}
-                          layout="horizontal"
-                          margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
-                        >
-                          <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.80 0.05 75)" />
-                          <XAxis 
-                            type="number" 
-                            domain={[0, 100]}
-                            tick={{ fill: 'oklch(0.48 0.02 55)', fontSize: 12 }}
-                          />
-                          <YAxis 
-                            type="category" 
-                            dataKey="name"
-                            tick={{ fill: 'oklch(0.48 0.02 55)', fontSize: 13, fontWeight: 600 }}
-                            width={100}
-                          />
-                          <Tooltip 
-                            contentStyle={{
-                              backgroundColor: 'oklch(0.99 0.01 75)',
-                              border: '1px solid oklch(0.80 0.05 75)',
-                              borderRadius: '8px',
-                              padding: '12px'
-                            }}
-                            formatter={(value: number) => [`${value}%`, 'Proficiency']}
-                          />
-                          <Bar dataKey="proficiency" radius={[0, 8, 8, 0]}>
-                            {technicalSkillsData.map((entry, index) => (
-                              <Cell key={`cell-${index}`} fill={entry.color} />
-                            ))}
-                          </Bar>
-                        </BarChart>
-                      </ResponsiveContainer>
-                    </div>
+                    {isMounted ? (
+                      <div className="w-full h-[400px]">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <BarChart 
+                            data={technicalSkillsData}
+                            layout="horizontal"
+                            margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+                          >
+                            <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.80 0.05 75)" />
+                            <XAxis 
+                              type="number" 
+                              domain={[0, 100]}
+                              tick={{ fill: 'oklch(0.48 0.02 55)', fontSize: 12 }}
+                            />
+                            <YAxis 
+                              type="category" 
+                              dataKey="name"
+                              tick={{ fill: 'oklch(0.48 0.02 55)', fontSize: 13, fontWeight: 600 }}
+                              width={100}
+                            />
+                            <Tooltip 
+                              contentStyle={{
+                                backgroundColor: 'oklch(0.99 0.01 75)',
+                                border: '1px solid oklch(0.80 0.05 75)',
+                                borderRadius: '8px',
+                                padding: '12px'
+                              }}
+                              formatter={(value: number) => [`${value}%`, 'Proficiency']}
+                            />
+                            <Bar dataKey="proficiency" radius={[0, 8, 8, 0]}>
+                              {technicalSkillsData.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={entry.color} />
+                              ))}
+                            </Bar>
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </div>
+                    ) : (
+                      <div className="w-full h-[400px] flex items-center justify-center bg-muted/20 rounded-lg">
+                        <p className="text-muted-foreground">Loading chart...</p>
+                      </div>
+                    )}
                     <div className="mt-6 flex flex-wrap gap-2 justify-center">
                       <Badge variant="secondary" className="bg-primary/10 text-primary">Backend/Infrastructure</Badge>
                       <Badge variant="secondary" className="bg-accent/10 text-accent">DevOps/Cloud</Badge>

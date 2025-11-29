@@ -1023,21 +1023,15 @@ function App() {
         </div>
       </footer>
 
-      <motion.button
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ 
-          opacity: showScrollTop ? 1 : 0,
-          scale: showScrollTop ? 1 : 0.8,
-          y: showScrollTop ? 0 : 20
-        }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
-        onClick={scrollToTop}
-        className="fixed bottom-8 right-8 p-4 bg-primary text-primary-foreground rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-200 z-40 disabled:opacity-0"
-        disabled={!showScrollTop}
-        aria-label="Scroll to top"
-      >
-        <CaretUp size={24} weight="bold" />
-      </motion.button>
+      {showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-8 p-4 bg-primary text-primary-foreground rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-200 z-40 animate-in fade-in zoom-in"
+          aria-label="Scroll to top"
+        >
+          <CaretUp size={24} weight="bold" />
+        </button>
+      )}
 
       {/* Keyboard Navigation */}
       <KeyboardHelp show={showHelp} onClose={() => setShowHelp(false)} />

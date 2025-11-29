@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { EnvelopeSimple, Phone, Download, GithubLogo, LinkedinLogo, ArrowUpRight, PaperPlaneTilt, CaretUp, ChartBar, CaretDown } from "@phosphor-icons/react"
 import { motion, useScroll, useMotionValueEvent } from "framer-motion"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { toast } from "sonner"
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Cell } from "recharts"
 import profileImage from "@/assets/images/Kiarash_Adl_Linkedin_Image.jpg"
@@ -23,18 +23,74 @@ import { TerminalSection } from "@/components/TerminalSection"
 import { TypewriterTagline } from "@/components/TypewriterTagline"
 import { CustomCursor } from "@/components/CustomCursor"
 import { Guestbook } from "@/components/Guestbook"
+import { OnboardingChoice } from "@/components/OnboardingChoice"
 import { useKeyboardNavigation, KeyboardHelp } from "@/hooks/useKeyboardNavigation"
 
 function App() {
   const [isMounted, setIsMounted] = useState(false)
+  const [showOnboarding, setShowOnboarding] = useState(false)
+  const [visitorType, setVisitorType] = useState<"developer" | "visitor" | null>(null)
+  const terminalRef = useRef<HTMLDivElement>(null)
   
   useEffect(() => {
     setIsMounted(true)
+    
+    // Check if user has already made a choice
+    const savedType = localStorage.getItem("kiarash-visitor-type") as "developer" | "visitor" | null
+    if (savedType) {
+      setVisitorType(savedType)
+      setShowOnboarding(false)
+      
+      // If returning developer, scroll to terminal
+      if (savedType === "developer") {
+        setTimeout(() => {
+          const terminalElement = document.getElementById("showcase")
+          if (terminalElement) {
+            const offset = 80
+            const elementPosition = terminalElement.getBoundingClientRect().top
+            const offsetPosition = elementPosition + window.pageYOffset - offset
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: "smooth"
+            })
+          }
+        }, 100)
+      }
+    } else {
+      setShowOnboarding(true)
+    }
+    
     // Signal that app is ready - removes initial opacity:0
     requestAnimationFrame(() => {
       document.getElementById('root')?.classList.add('ready')
     })
   }, [])
+  
+  // Handle onboarding choice
+  const handleOnboardingChoice = (isDeveloper: boolean) => {
+    const type = isDeveloper ? "developer" : "visitor"
+    setVisitorType(type)
+    setShowOnboarding(false)
+    
+    // If developer, scroll to terminal after a short delay
+    if (isDeveloper) {
+      setTimeout(() => {
+        const terminalElement = document.getElementById("showcase")
+        if (terminalElement) {
+          const offset = 80
+          const elementPosition = terminalElement.getBoundingClientRect().top
+          const offsetPosition = elementPosition + window.pageYOffset - offset
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+          })
+        }
+      }, 100)
+    } else {
+      // For regular visitors, ensure we're at the top
+      window.scrollTo({ top: 0, behavior: "instant" })
+    }
+  }
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -213,7 +269,13 @@ function App() {
   ]
 
   return (
-    <div className="min-h-screen bg-background cursor-none">
+    <>
+      {/* Onboarding Choice Modal */}
+      {showOnboarding && (
+        <OnboardingChoice onChoice={handleOnboardingChoice} />
+      )}
+      
+      <div className="min-h-screen bg-background cursor-none">
       <CustomCursor />
       <motion.div
         className="fixed top-0 left-0 right-0 h-1 bg-muted z-50"
@@ -1060,6 +1122,7 @@ function App() {
       {/* Keyboard Navigation */}
       <KeyboardHelp show={showHelp} onClose={() => setShowHelp(false)} />
     </div>
+    </>
   )
 }
 

@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-import { EnvelopeSimple, Phone, Download, GithubLogo, LinkedinLogo, ArrowUpRight, PaperPlaneTilt } from "@phosphor-icons/react"
+import { EnvelopeSimple, Phone, Download, GithubLogo, LinkedinLogo, ArrowUpRight, PaperPlaneTilt, CaretUp } from "@phosphor-icons/react"
 import { motion, useScroll, useMotionValueEvent } from "framer-motion"
 import { useState } from "react"
 import { toast } from "sonner"
@@ -23,11 +23,13 @@ function App() {
   const [activeSection, setActiveSection] = useState("home")
   const [isNavVisible, setIsNavVisible] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
+  const [showScrollTop, setShowScrollTop] = useState(false)
   
   const { scrollY } = useScroll()
   
   useMotionValueEvent(scrollY, "change", (latest) => {
     setIsNavVisible(latest > 200)
+    setShowScrollTop(latest > 400)
     
     const sections = ["home", "projects", "experience", "contact"]
     const sectionElements = sections.map(id => document.getElementById(id))
@@ -125,6 +127,13 @@ function App() {
         behavior: "smooth"
       })
     }
+  }
+  
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    })
   }
   
   const navItems = [
@@ -731,6 +740,22 @@ function App() {
           <p className="text-sm">US Citizen | MIT EECS 2014 | AI Innovation & Engineering Leadership</p>
         </div>
       </footer>
+
+      <motion.button
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ 
+          opacity: showScrollTop ? 1 : 0,
+          scale: showScrollTop ? 1 : 0.8,
+          y: showScrollTop ? 0 : 20
+        }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        onClick={scrollToTop}
+        className="fixed bottom-8 right-8 p-4 bg-primary text-primary-foreground rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-200 z-40 disabled:opacity-0"
+        disabled={!showScrollTop}
+        aria-label="Scroll to top"
+      >
+        <CaretUp size={24} weight="bold" />
+      </motion.button>
     </div>
   )
 }

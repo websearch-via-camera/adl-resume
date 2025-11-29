@@ -885,11 +885,6 @@ function App() {
       <footer className="py-8 px-6 border-t border-border">
         <div className="max-w-5xl mx-auto">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-            <div className="flex items-center gap-3">
-              <p>© 2025 Kiarash Adl</p>
-              <span className="text-border">|</span>
-              <WeatherIndicator />
-            </div>
             <div className="flex items-center gap-4">
               <a href="https://www.linkedin.com/in/kiarashadl/" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
                 <LinkedinLogo size={20} weight="fill" />
@@ -898,11 +893,16 @@ function App() {
                 <GithubLogo size={20} weight="fill" />
               </a>
               <span className="text-border">|</span>
+              <p>© 2025 Kiarash Adl</p>
+            </div>
+            <div className="flex items-center gap-3">
               <span>MIT EECS '14</span>
               <span className="text-border">|</span>
               <span className="hidden sm:inline">
                 Press <kbd className="px-1.5 py-0.5 text-xs font-mono bg-muted rounded border border-border">?</kbd> for shortcuts
               </span>
+              <span className="text-border">|</span>
+              <WeatherIndicator />
             </div>
           </div>
         </div>

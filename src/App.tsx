@@ -328,47 +328,56 @@ function App() {
       </motion.header>
 
       <motion.div
-        initial={{ opacity: 0, y: -10 }}
+        initial={{ opacity: 0 }}
         animate={{ 
-          opacity: showScrollIndicator ? 1 : 0,
-          y: showScrollIndicator ? 0 : -10
+          opacity: showScrollIndicator ? 0.7 : 0
         }}
         transition={{ duration: 0.3 }}
-        className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 md:hidden pointer-events-none"
+        className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 pointer-events-none"
       >
         <motion.div
-          animate={{
-            y: [0, 12, 0],
-          }}
-          transition={{
-            duration: 1.5,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          className="flex flex-col items-center gap-1"
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         >
-          <span className="text-sm font-medium text-muted-foreground bg-background/80 backdrop-blur-sm px-3 py-1 rounded-full">
-            Scroll down
-          </span>
-          <CaretDown size={32} weight="bold" className="text-primary" />
+          <CaretDown size={28} weight="bold" className="text-muted-foreground" />
         </motion.div>
       </motion.div>
 
       <Separator className="max-w-5xl mx-auto" />
 
-      <section className="py-12 px-6 md:py-16">
+      <section className="py-10 px-6 md:py-14">
         <div className="max-w-5xl mx-auto">
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            variants={fadeIn}
+            variants={staggerContainer}
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6"
           >
-            <Card className="p-8 md:p-10 bg-gradient-to-br from-primary/5 via-background to-secondary/5 border-primary/20">
-              <blockquote className="text-lg md:text-xl leading-relaxed text-foreground italic">
-                "I build AI-native systems across the full stack—from MCP servers and orchestration layers to distributed backend infra, conversational voice agents, and production-grade CI/CD pipelines. I specialize in Python, TypeScript, LLM integrations, and cloud-native architecture."
-              </blockquote>
-            </Card>
+            <motion.div variants={fadeIn}>
+              <Card className="p-5 text-center h-full bg-gradient-to-br from-primary/5 to-transparent border-primary/10 hover:border-primary/30 transition-colors">
+                <div className="text-3xl md:text-4xl font-bold text-primary mb-1">10+</div>
+                <div className="text-sm text-muted-foreground">Years Experience</div>
+              </Card>
+            </motion.div>
+            <motion.div variants={fadeIn}>
+              <Card className="p-5 text-center h-full bg-gradient-to-br from-accent/5 to-transparent border-accent/10 hover:border-accent/30 transition-colors">
+                <div className="text-3xl md:text-4xl font-bold text-accent mb-1">32K+</div>
+                <div className="text-sm text-muted-foreground">Lines of Code (FIML)</div>
+              </Card>
+            </motion.div>
+            <motion.div variants={fadeIn}>
+              <Card className="p-5 text-center h-full bg-gradient-to-br from-secondary/10 to-transparent border-secondary/10 hover:border-secondary/30 transition-colors">
+                <div className="text-3xl md:text-4xl font-bold text-secondary-foreground mb-1">55x</div>
+                <div className="text-sm text-muted-foreground">GPU Speed-up</div>
+              </Card>
+            </motion.div>
+            <motion.div variants={fadeIn}>
+              <Card className="p-5 text-center h-full bg-gradient-to-br from-primary/5 to-transparent border-primary/10 hover:border-primary/30 transition-colors">
+                <div className="text-3xl md:text-4xl font-bold text-primary mb-1">B+</div>
+                <div className="text-sm text-muted-foreground">Queries at Google</div>
+              </Card>
+            </motion.div>
           </motion.div>
         </div>
       </section>

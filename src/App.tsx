@@ -99,15 +99,22 @@ function App() {
     setIsSubmitting(true)
 
     try {
-      const mailtoLink = `mailto:kiarasha@alum.mit.edu?subject=${encodeURIComponent(
-        formData.subject || `Contact from ${formData.name}`
-      )}&body=${encodeURIComponent(
-        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-      )}`
-      
-      window.location.href = mailtoLink
-      
-      toast.success("Opening your email client...")
+      // Send to Cloudflare Pages Function
+      const response = await fetch('/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to send message')
+      }
+
+      toast.success("Message sent successfully! I'll get back to you soon.")
       
       setFormData({
         name: "",
@@ -116,7 +123,8 @@ function App() {
         message: ""
       })
     } catch (error) {
-      toast.error("There was an error. Please try emailing directly.")
+      console.error('Form submission error:', error)
+      toast.error(error instanceof Error ? error.message : "Failed to send message. Please try emailing directly.")
     } finally {
       setIsSubmitting(false)
     }

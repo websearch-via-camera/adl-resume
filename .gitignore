@@ -25,6 +25,10 @@ dist-ssr
 *.sw?
 
 .env
+.env.local
+.env.*.local
+.dev.vars
+
 **/agent-eval-report*
 packages
 pids
@@ -32,3 +36,7 @@ pids
 .devcontainer/
 
 .spark-workbench-id
+
+# Wrangler/Cloudflare
+.wrangler/
+wrangler.toml

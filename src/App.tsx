@@ -261,51 +261,65 @@ function App() {
             </motion.div>
             
             <motion.div variants={fadeIn} className="flex-1 text-center md:text-left">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-3">
+              {/* Name & Title */}
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-2">
                 Kiarash Adl
               </h1>
-              <div className="space-y-2 mb-6">
-                <p className="text-xl md:text-2xl font-semibold text-primary">
+              <p className="text-xl md:text-2xl font-semibold text-primary mb-6">
+                Senior Software Engineer & Full-Stack AI Systems Architect
+              </p>
+              
+              {/* Quick Stats */}
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-6">
+                <Badge variant="secondary" className="px-3 py-1.5 text-sm font-medium">
+                  MIT EECS '14
+                </Badge>
+                <Badge variant="secondary" className="px-3 py-1.5 text-sm font-medium">
+                  10+ Years Experience
+                </Badge>
+                <Badge variant="outline" className="px-3 py-1.5 text-sm font-medium border-primary/30 text-primary">
                   Human + AI Projects
-                </p>
-                <p className="text-xl md:text-2xl font-semibold text-secondary">
-                  Senior Software Engineer & Full-Stack Systems Architect
-                </p>
-                <p className="text-lg md:text-xl text-foreground">
-                  Building end-to-end AI platforms, agentic systems, and scalable cloud architectures.
-                </p>
-                <p className="text-base md:text-lg text-muted-foreground">
-                  MIT EECS '14 | 10+ years experience | AI infrastructure, orchestration, and full-stack engineering.
-                </p>
+                </Badge>
               </div>
-              <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 text-muted-foreground mb-6">
-                <a href="mailto:kiarasha@alum.mit.edu" className="flex items-center gap-2 hover:text-accent transition-colors">
-                  <EnvelopeSimple size={20} weight="fill" />
+              
+              {/* What I Do - Concise */}
+              <p className="text-lg text-foreground mb-6 max-w-xl">
+                Building end-to-end AI platforms, agentic systems, and scalable cloud architectures.
+              </p>
+              
+              {/* Contact & Socials - Unified Row */}
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
+                <a 
+                  href="mailto:kiarasha@alum.mit.edu" 
+                  className="flex items-center gap-2 px-4 py-2 bg-muted hover:bg-muted/80 rounded-lg transition-all text-sm font-medium"
+                >
+                  <EnvelopeSimple size={18} weight="fill" className="text-primary" />
                   <span>kiarasha@alum.mit.edu</span>
                 </a>
-                <a href="tel:+18579281608" className="flex items-center gap-2 hover:text-accent transition-colors">
-                  <Phone size={20} weight="fill" />
-                  <span>+1-857-928-1608</span>
+                <a 
+                  href="tel:+18579281608" 
+                  className="flex items-center gap-2 px-4 py-2 bg-muted hover:bg-muted/80 rounded-lg transition-all text-sm font-medium"
+                >
+                  <Phone size={18} weight="fill" className="text-primary" />
+                  <span>857-928-1608</span>
                 </a>
-              </div>
-              <div className="flex items-center justify-center md:justify-start gap-4">
                 <a 
                   href="https://www.linkedin.com/in/kiarashadl/" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all shadow-md hover:shadow-lg"
+                  className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all shadow-sm hover:shadow-md text-sm font-medium"
                 >
-                  <LinkedinLogo size={24} weight="fill" />
-                  <span className="font-medium">LinkedIn</span>
+                  <LinkedinLogo size={18} weight="fill" />
+                  <span>LinkedIn</span>
                 </a>
                 <a 
                   href="https://github.com/kiarashplusplus/" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 bg-foreground text-background rounded-lg hover:bg-foreground/90 transition-all shadow-md hover:shadow-lg"
+                  className="flex items-center gap-2 px-4 py-2 bg-foreground text-background rounded-lg hover:bg-foreground/90 transition-all shadow-sm hover:shadow-md text-sm font-medium"
                 >
-                  <GithubLogo size={24} weight="fill" />
-                  <span className="font-medium">GitHub</span>
+                  <GithubLogo size={18} weight="fill" />
+                  <span>GitHub</span>
                 </a>
               </div>
             </motion.div>

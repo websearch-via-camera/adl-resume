@@ -166,7 +166,7 @@ function App() {
     { name: "FastAPI", proficiency: 92, color: "oklch(0.58 0.15 65)" },
     { name: "Docker", proficiency: 88, color: "oklch(0.78 0.12 45)" },
     { name: "PostgreSQL", proficiency: 85, color: "oklch(0.78 0.12 45)" },
-    { name: "React", proficiency: 82, color: "oklch(0.68 0.10 85)" },
+    { name: "React/React Native", proficiency: 82, color: "oklch(0.68 0.10 85)" },
     { name: "CI/CD", proficiency: 87, color: "oklch(0.78 0.12 45)" },
     { name: "Azure/AWS", proficiency: 84, color: "oklch(0.78 0.12 45)" }
   ]

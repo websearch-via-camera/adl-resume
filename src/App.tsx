@@ -165,12 +165,11 @@ function App() {
     { name: "React/React Native", proficiency: 90, color: "oklch(0.68 0.10 85)" },
     { name: "FastAPI", proficiency: 92, color: "oklch(0.58 0.15 65)" },
     { name: "Docker", proficiency: 88, color: "oklch(0.78 0.12 45)" },
-    { name: "Azure/AWS", proficiency: 84, color: "oklch(0.78 0.12 45)" },
     { name: "PostgreSQL", proficiency: 65, color: "oklch(0.78 0.12 45)" },
     { name: "CI/CD", proficiency: 65, color: "oklch(0.78 0.12 45)" }
   ]
+  ]
 
-  const aiMLSkillsData = [
     { name: "Deep Learning", proficiency: 95 },
     { name: "Computer Vision", proficiency: 93 },
     { name: "NLP/LLMs", proficiency: 90 },

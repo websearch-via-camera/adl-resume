@@ -387,10 +387,10 @@ function App() {
             <motion.div variants={fadeIn} className="text-center mb-12">
               <div className="flex items-center justify-center gap-3 mb-4">
                 <ChartBar size={40} weight="duotone" className="text-primary" />
-                <h2 className="text-3xl md:text-4xl font-bold">Skills Proficiency</h2>
+                <h2 className="text-3xl md:text-4xl font-bold">Technical Expertise</h2>
               </div>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Explore my technical capabilities through interactive charts—from AI/ML mastery to full-stack engineering and team leadership
+                See what I bring to the table—from cutting-edge AI and machine learning to full-stack development and engineering leadership
               </p>
             </motion.div>
 

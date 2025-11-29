@@ -168,8 +168,8 @@ function App() {
     { name: "PostgreSQL", proficiency: 65, color: "oklch(0.78 0.12 45)" },
     { name: "CI/CD", proficiency: 65, color: "oklch(0.78 0.12 45)" }
   ]
-  ]
 
+  const aiMLSkillsData = [
     { name: "Deep Learning", proficiency: 95 },
     { name: "Computer Vision", proficiency: 93 },
     { name: "NLP/LLMs", proficiency: 90 },

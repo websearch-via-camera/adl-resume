@@ -166,9 +166,9 @@ export function KeyboardHelp({ show, onClose }: KeyboardHelpProps) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 flex items-center justify-center z-50 p-4"
+            className="fixed inset-0 flex items-center justify-center z-50 p-4 pointer-events-none"
           >
-            <Card className="w-full max-w-md p-6 shadow-2xl">
+            <Card className="w-full max-w-md p-6 shadow-2xl pointer-events-auto">
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-2 bg-primary/10 rounded-lg">
                   <Keyboard size={24} className="text-primary" weight="fill" />

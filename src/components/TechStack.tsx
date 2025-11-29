@@ -53,14 +53,6 @@ const techStack: TechItem[] = [
     description: "GPU programming for ML acceleration - achieved 55x speedup at MIT CSAIL",
     gradient: "from-green-600 to-teal-500"
   },
-  { 
-    name: "Go", 
-    category: "language", 
-    proficiency: 75, 
-    yearsExp: 4, 
-    description: "Backend microservices and high-performance systems",
-    gradient: "from-cyan-500 to-blue-500"
-  },
     
   // Frameworks - Featured
   { 

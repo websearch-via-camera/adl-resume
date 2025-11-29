@@ -800,7 +800,7 @@ function App() {
               </motion.div>
             </motion.div>
 
-            <motion.div variants={fadeIn}>
+            <motion.div variants={fadeIn} className="mt-16">
               <h3 className="text-2xl font-bold mb-6">Research</h3>
               <div className="space-y-4">
                 <Card className="p-6">

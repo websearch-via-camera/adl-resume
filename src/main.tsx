@@ -1,6 +1,15 @@
 import { createRoot } from 'react-dom/client'
 import { ErrorBoundary } from "react-error-boundary";
-import "@github/spark/spark"
+
+// Only import spark in production (GitHub Spark environment)
+try {
+  // @ts-ignore - spark module may not exist in all environments
+  import("@github/spark/spark").catch(() => {
+    // Silently fail if spark is not available (local development)
+  });
+} catch {
+  // Spark not available
+}
 
 import App from './App.tsx'
 import { ErrorFallback } from './ErrorFallback.tsx'

@@ -37,27 +37,38 @@ function App() {
     setIsMounted(true)
     
     // Check if user has already made a choice
-    const savedType = localStorage.getItem("kiarash-visitor-type") as "developer" | "visitor" | null
-    if (savedType) {
-      setVisitorType(savedType)
-      setShowOnboarding(false)
+    try {
+      const savedType = localStorage.getItem("kiarash-visitor-type")
       
-      // If returning developer, scroll to terminal
-      if (savedType === "developer") {
-        setTimeout(() => {
-          const terminalElement = document.getElementById("showcase")
-          if (terminalElement) {
-            const offset = 80
-            const elementPosition = terminalElement.getBoundingClientRect().top
-            const offsetPosition = elementPosition + window.pageYOffset - offset
-            window.scrollTo({
-              top: offsetPosition,
-              behavior: "smooth"
-            })
-          }
-        }, 100)
+      // Validate that the saved type is one of our expected values
+      if (savedType === "developer" || savedType === "visitor") {
+        setVisitorType(savedType)
+        setShowOnboarding(false)
+        
+        // If returning developer, scroll to terminal
+        if (savedType === "developer") {
+          setTimeout(() => {
+            const terminalElement = document.getElementById("showcase")
+            if (terminalElement) {
+              const offset = 80
+              const elementPosition = terminalElement.getBoundingClientRect().top
+              const offsetPosition = elementPosition + window.pageYOffset - offset
+              window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+              })
+            }
+          }, 100)
+        }
+      } else {
+        // Clear any invalid values and show onboarding
+        if (savedType !== null) {
+          localStorage.removeItem("kiarash-visitor-type")
+        }
+        setShowOnboarding(true)
       }
-    } else {
+    } catch {
+      // localStorage might not be available (private browsing, etc.)
       setShowOnboarding(true)
     }
     
@@ -72,6 +83,13 @@ function App() {
     const type = isDeveloper ? "developer" : "visitor"
     setVisitorType(type)
     setShowOnboarding(false)
+    
+    // Store preference safely (localStorage might throw in some browsers)
+    try {
+      localStorage.setItem("kiarash-visitor-type", type)
+    } catch {
+      // localStorage not available, preference won't persist
+    }
     
     // If developer, scroll to terminal after a short delay
     if (isDeveloper) {

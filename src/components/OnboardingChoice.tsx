@@ -12,8 +12,6 @@ export function OnboardingChoice({ onChoice }: OnboardingChoiceProps) {
 
   const handleChoice = (isDeveloper: boolean) => {
     setIsExiting(true)
-    // Store preference in localStorage
-    localStorage.setItem("kiarash-visitor-type", isDeveloper ? "developer" : "visitor")
     // Small delay for exit animation
     setTimeout(() => {
       onChoice(isDeveloper)

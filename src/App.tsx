@@ -20,6 +20,7 @@ import { GitHubActivity } from "@/components/GitHubActivity"
 import { TechStack } from "@/components/TechStack"
 import { EngineeringMetrics } from "@/components/EngineeringMetrics"
 import { TerminalSection } from "@/components/TerminalSection"
+import { TypewriterTagline } from "@/components/TypewriterTagline"
 import { useKeyboardNavigation, KeyboardHelp } from "@/hooks/useKeyboardNavigation"
 
 function App() {
@@ -285,9 +286,7 @@ function App() {
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-2">
                 Kiarash Adl
               </h1>
-              <p className="text-xl md:text-2xl font-semibold text-primary mb-6">
-                Senior Software Engineer & Full-Stack AI Systems Architect
-              </p>
+              <TypewriterTagline />
               
               {/* Quick Stats */}
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-6">

@@ -27,6 +27,7 @@ const TechStack = lazy(() => import("@/components/TechStack").then(m => ({ defau
 const EngineeringMetrics = lazy(() => import("@/components/EngineeringMetrics").then(m => ({ default: m.EngineeringMetrics })))
 const TerminalSection = lazy(() => import("@/components/TerminalSection").then(m => ({ default: m.TerminalSection })))
 const Guestbook = lazy(() => import("@/components/Guestbook").then(m => ({ default: m.Guestbook })))
+const InteractiveTimeline = lazy(() => import("@/components/InteractiveTimeline").then(m => ({ default: m.InteractiveTimeline })))
 
 // Recharts components lazy loaded (heavy charting library)
 const SkillsCharts = lazy(() => import("@/components/SkillsCharts"))
@@ -681,79 +682,9 @@ function App() {
             </motion.div>
 
             <motion.div variants={fadeIn} className="mb-10">
-              <div className="relative border-l-2 border-primary/20 pl-6 space-y-8 ml-3">
-                <div className="relative">
-                  <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-primary border-4 border-background"></div>
-                  <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 mb-2">
-                    <h4 className="text-lg font-bold">Founder & CEO</h4>
-                    <span className="text-primary font-medium">AI Vision</span>
-                    <span className="text-muted-foreground text-sm">2024 – Present</span>
-                  </div>
-                  <p className="text-foreground text-sm leading-relaxed">
-                    Built patent-pending AI and computer vision solutions for home services. Led development from prototype to App Store. Established company strategy and high-performing team.
-                  </p>
-                </div>
-
-                <div className="relative">
-                  <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-primary/60 border-4 border-background"></div>
-                  <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 mb-2">
-                    <h4 className="text-lg font-bold">Technical Consulting</h4>
-                    <span className="text-primary font-medium">Various Clients</span>
-                    <span className="text-muted-foreground text-sm">2019 – 2024</span>
-                  </div>
-                  <p className="text-foreground text-sm leading-relaxed">
-                    Delivered MVPs and prototypes, established best practices. Advised on technology roadmaps. Translated product vision into actionable engineering plans.
-                  </p>
-                </div>
-
-                <div className="relative">
-                  <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-primary/60 border-4 border-background"></div>
-                  <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 mb-2">
-                    <h4 className="text-lg font-bold">Founder & CEO</h4>
-                    <span className="text-primary font-medium">Monir</span>
-                    <span className="text-muted-foreground text-sm">2018 – 2019</span>
-                  </div>
-                  <p className="text-foreground text-sm leading-relaxed">
-                    AI technology for personalized shopping content. Serverless Python microservices platform. Secured VC funding and led multidisciplinary team.
-                  </p>
-                </div>
-
-                <div className="relative">
-                  <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-primary/60 border-4 border-background"></div>
-                  <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 mb-2">
-                    <h4 className="text-lg font-bold">Software Engineer</h4>
-                    <span className="text-primary font-medium">Google</span>
-                    <span className="text-muted-foreground text-sm">2014 – 2018</span>
-                  </div>
-                  <p className="text-foreground text-sm leading-relaxed">
-                    Search Knowledge Panel features serving billions of queries. Knowledge Graph image selection system. Cross-functional collaboration on user experience.
-                  </p>
-                </div>
-
-                <div className="relative">
-                  <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-muted border-4 border-background"></div>
-                  <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 mb-2">
-                    <h4 className="text-lg font-bold">SWE Intern</h4>
-                    <span className="text-primary font-medium">Twitter Ads</span>
-                    <span className="text-muted-foreground text-sm">2014</span>
-                  </div>
-                  <p className="text-foreground text-sm leading-relaxed">
-                    Experimental ML algorithm for audience expansion. Scalable multi-label ridge regression in Hadoop/Scalding.
-                  </p>
-                </div>
-
-                <div className="relative">
-                  <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-muted border-4 border-background"></div>
-                  <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 mb-2">
-                    <h4 className="text-lg font-bold">Researcher</h4>
-                    <span className="text-primary font-medium">MIT CSAIL</span>
-                    <span className="text-muted-foreground text-sm">2014</span>
-                  </div>
-                  <p className="text-foreground text-sm leading-relaxed">
-                    Under Sir Tim Berners-Lee. Built tools for internet censorship data visualization and analysis.
-                  </p>
-                </div>
-              </div>
+              <Suspense fallback={<SectionLoader height="h-96" />}>
+                <InteractiveTimeline />
+              </Suspense>
             </motion.div>
 
             <motion.div variants={fadeIn} className="grid md:grid-cols-2 gap-6">

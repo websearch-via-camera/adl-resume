@@ -29,6 +29,10 @@ function App() {
   
   useEffect(() => {
     setIsMounted(true)
+    // Signal that app is ready - removes initial opacity:0
+    requestAnimationFrame(() => {
+      document.getElementById('root')?.classList.add('ready')
+    })
   }, [])
   const [formData, setFormData] = useState({
     name: "",

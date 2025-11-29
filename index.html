@@ -1,9 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Prevent theme flash -->
+    <script>
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      })();
+    </script>
     
     <!-- SEO Meta Tags -->
     <title>Kiarash Adl ✦ AI Systems Architect | Building the Future of AI</title>
@@ -16,10 +28,18 @@
     <meta property="og:image" content="https://kiarash-adl.pages.dev/assets/Kiarash_Adl_Linkedin_Image-DIX9jsou.jpg">
     <meta property="og:url" content="https://kiarash-adl.pages.dev/">
     
+    <!-- Preload fonts to prevent FOUT -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins&family=Merriweather&family=Source+Code+Pro&display=swap" as="style">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&family=Merriweather&family=Source+Code+Pro&display=swap">
     <link href="/src/main.css" rel="stylesheet" />
+    
+    <!-- Hide content until ready -->
+    <style>
+      #root { opacity: 0; transition: opacity 0.15s ease-in; }
+      #root.ready { opacity: 1; }
+    </style>
 </head>
 
 <body>

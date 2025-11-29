@@ -689,15 +689,54 @@ function App() {
 
             <motion.div variants={fadeIn} className="grid md:grid-cols-2 gap-6">
               {/* Education */}
-              <Card className="p-6">
-                <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-primary"></span>
+              <Card className="p-6 relative overflow-hidden group">
+                {/* Decorative MIT-inspired gradient */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-red-500/10 to-gray-500/5 rounded-full blur-2xl opacity-60 group-hover:opacity-100 transition-opacity" />
+                
+                <h3 className="text-lg font-bold mb-5 flex items-center gap-2 relative z-10">
+                  <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
                   Education
                 </h3>
-                <div>
-                  <h4 className="font-bold">MIT</h4>
-                  <p className="text-primary text-sm font-medium">B.S. Electrical Engineering & Computer Science</p>
-                  <p className="text-muted-foreground text-sm">Class of 2014</p>
+                
+                <div className="relative z-10 space-y-4">
+                  {/* MIT Main Entry */}
+                  <div className="flex gap-4">
+                    <div className="flex-shrink-0">
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-red-600 to-gray-800 flex items-center justify-center text-white font-bold text-sm shadow-lg">
+                        MIT
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-bold text-foreground">Massachusetts Institute of Technology</h4>
+                      <p className="text-primary text-sm font-semibold">B.S. Electrical Engineering & Computer Science</p>
+                      <p className="text-muted-foreground text-xs mt-0.5">Cambridge, MA • Class of 2014</p>
+                    </div>
+                  </div>
+                  
+                  {/* Highlights */}
+                  <div className="pl-16 space-y-2">
+                    <div className="flex items-start gap-2 text-sm">
+                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 mt-1.5 flex-shrink-0"></span>
+                      <span className="text-muted-foreground">Research at <span className="text-foreground font-medium">MIT CSAIL</span> - Computer Science & AI Laboratory</span>
+                    </div>
+                    <div className="flex items-start gap-2 text-sm">
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-1.5 flex-shrink-0"></span>
+                      <span className="text-muted-foreground">Focus: <span className="text-foreground font-medium">Machine Learning, GPU Computing, Systems</span></span>
+                    </div>
+                    <div className="flex items-start gap-2 text-sm">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0"></span>
+                      <span className="text-muted-foreground">Published research achieving <span className="text-foreground font-medium">55x GPU speedup</span></span>
+                    </div>
+                  </div>
+                  
+                  {/* Skills badges */}
+                  <div className="pl-16 flex flex-wrap gap-1.5 pt-1">
+                    {["Algorithms", "ML/AI", "Systems", "CUDA"].map((skill) => (
+                      <span key={skill} className="px-2 py-0.5 text-xs rounded-full bg-muted/60 text-muted-foreground border border-border/50">
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </Card>
 

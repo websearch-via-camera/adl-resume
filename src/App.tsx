@@ -2,12 +2,25 @@ import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
-import { EnvelopeSimple, Phone, Download, GithubLogo, LinkedinLogo, ArrowUpRight } from "@phosphor-icons/react"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Label } from "@/components/ui/label"
+import { EnvelopeSimple, Phone, Download, GithubLogo, LinkedinLogo, ArrowUpRight, PaperPlaneTilt } from "@phosphor-icons/react"
 import { motion } from "framer-motion"
+import { useState } from "react"
+import { toast } from "sonner"
 import profileImage from "@/assets/images/Kiarash_Adl_Linkedin_Image.jpg"
 import resumePdf from "@/assets/documents/Kiarash-Adl-Resume-20251129.pdf"
 
 function App() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: ""
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 }
@@ -20,6 +33,54 @@ function App() {
       transition: {
         staggerChildren: 0.15
       }
+    }
+  }
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!formData.name || !formData.email || !formData.message) {
+      toast.error("Please fill in all required fields")
+      return
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(formData.email)) {
+      toast.error("Please enter a valid email address")
+      return
+    }
+
+    setIsSubmitting(true)
+
+    try {
+      const mailtoLink = `mailto:kiarasha@alum.mit.edu?subject=${encodeURIComponent(
+        formData.subject || `Contact from ${formData.name}`
+      )}&body=${encodeURIComponent(
+        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+      )}`
+      
+      window.location.href = mailtoLink
+      
+      toast.success("Opening your email client...")
+      
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: ""
+      })
+    } catch (error) {
+      toast.error("There was an error. Please try emailing directly.")
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -414,6 +475,150 @@ function App() {
                 </Card>
               </div>
             </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      <Separator className="max-w-5xl mx-auto" />
+
+      <section className="py-16 px-6 md:py-24">
+        <div className="max-w-5xl mx-auto">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+          >
+            <motion.div variants={fadeIn} className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Get In Touch</h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Interested in collaborating or discussing opportunities? Feel free to reach out using the form below or contact me directly.
+              </p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-2 gap-8 md:gap-12">
+              <motion.div variants={fadeIn}>
+                <Card className="p-8 h-full">
+                  <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
+                  <div className="space-y-6">
+                    <div className="flex items-start gap-4">
+                      <div className="p-3 bg-primary/10 rounded-lg flex-shrink-0">
+                        <EnvelopeSimple size={24} weight="fill" className="text-primary" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold mb-1">Email</h4>
+                        <a 
+                          href="mailto:kiarasha@alum.mit.edu" 
+                          className="text-accent hover:underline transition-colors"
+                        >
+                          kiarasha@alum.mit.edu
+                        </a>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-4">
+                      <div className="p-3 bg-primary/10 rounded-lg flex-shrink-0">
+                        <Phone size={24} weight="fill" className="text-primary" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold mb-1">Phone</h4>
+                        <a 
+                          href="tel:+18579281608" 
+                          className="text-accent hover:underline transition-colors"
+                        >
+                          +1-857-928-1608
+                        </a>
+                      </div>
+                    </div>
+
+                    <div className="pt-6 border-t border-border">
+                      <p className="text-foreground leading-relaxed">
+                        Whether you're looking to discuss AI innovation, explore collaboration opportunities, or talk about your next big project, I'd love to hear from you.
+                      </p>
+                    </div>
+                  </div>
+                </Card>
+              </motion.div>
+
+              <motion.div variants={fadeIn}>
+                <Card className="p-8">
+                  <h3 className="text-2xl font-bold mb-6">Send a Message</h3>
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="name" className="text-sm font-medium">
+                        Name <span className="text-destructive">*</span>
+                      </Label>
+                      <Input
+                        id="name"
+                        name="name"
+                        type="text"
+                        placeholder="Your name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        required
+                        className="w-full"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="email" className="text-sm font-medium">
+                        Email <span className="text-destructive">*</span>
+                      </Label>
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        placeholder="your.email@example.com"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                        className="w-full"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="subject" className="text-sm font-medium">
+                        Subject
+                      </Label>
+                      <Input
+                        id="subject"
+                        name="subject"
+                        type="text"
+                        placeholder="What's this about?"
+                        value={formData.subject}
+                        onChange={handleInputChange}
+                        className="w-full"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="message" className="text-sm font-medium">
+                        Message <span className="text-destructive">*</span>
+                      </Label>
+                      <Textarea
+                        id="message"
+                        name="message"
+                        placeholder="Tell me about your project or opportunity..."
+                        value={formData.message}
+                        onChange={handleInputChange}
+                        required
+                        rows={6}
+                        className="w-full resize-none"
+                      />
+                    </div>
+
+                    <Button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full gap-2 bg-primary hover:bg-primary/90 shadow-lg hover:shadow-xl transition-all"
+                    >
+                      <PaperPlaneTilt size={20} weight="fill" />
+                      {isSubmitting ? "Sending..." : "Send Message"}
+                    </Button>
+                  </form>
+                </Card>
+              </motion.div>
+            </div>
           </motion.div>
         </div>
       </section>

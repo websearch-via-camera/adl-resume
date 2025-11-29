@@ -34,11 +34,11 @@ A sophisticated portfolio and resume website for Kiarash Adl, an AI innovator an
 - **Success criteria**: Visitors can quickly scan career highlights and access full resume if needed
 
 ### Contact Information
-- **Functionality**: Display email and phone number prominently
-- **Purpose**: Enable easy communication for opportunities
-- **Trigger**: Visible in header or footer
-- **Progression**: Always accessible
-- **Success criteria**: Contact methods are one-click accessible
+- **Functionality**: Display email and phone number prominently with a contact form for visitors to send messages
+- **Purpose**: Enable easy communication for opportunities through multiple channels
+- **Trigger**: Visible in header and dedicated contact form section
+- **Progression**: Contact info always accessible in header → Scroll to contact section → Form fields appear → User fills form → Submit triggers email client → Success feedback shown
+- **Success criteria**: Contact methods are one-click accessible and form provides clear validation and feedback
 
 ## Edge Case Handling
 - **Mobile responsiveness**: Layout adapts gracefully to mobile screens with single-column flow and appropriately sized text

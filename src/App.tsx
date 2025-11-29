@@ -227,7 +227,7 @@ function App() {
                   Senior Software Engineering
                 </p>
               </div>
-              <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 text-muted-foreground">
+              <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 text-muted-foreground mb-6">
                 <a href="mailto:kiarasha@alum.mit.edu" className="flex items-center gap-2 hover:text-accent transition-colors">
                   <EnvelopeSimple size={20} weight="fill" />
                   <span>kiarasha@alum.mit.edu</span>
@@ -235,6 +235,26 @@ function App() {
                 <a href="tel:+18579281608" className="flex items-center gap-2 hover:text-accent transition-colors">
                   <Phone size={20} weight="fill" />
                   <span>+1-857-928-1608</span>
+                </a>
+              </div>
+              <div className="flex items-center justify-center md:justify-start gap-4">
+                <a 
+                  href="https://www.linkedin.com/in/kiarashadl/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all shadow-md hover:shadow-lg"
+                >
+                  <LinkedinLogo size={24} weight="fill" />
+                  <span className="font-medium">LinkedIn</span>
+                </a>
+                <a 
+                  href="https://github.com/kiarashplusplus/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-2 bg-foreground text-background rounded-lg hover:bg-foreground/90 transition-all shadow-md hover:shadow-lg"
+                >
+                  <GithubLogo size={24} weight="fill" />
+                  <span className="font-medium">GitHub</span>
                 </a>
               </div>
             </motion.div>

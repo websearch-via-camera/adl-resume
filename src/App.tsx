@@ -345,39 +345,18 @@ function App() {
 
       <Separator className="max-w-5xl mx-auto" />
 
-      <section className="py-10 px-6 md:py-14">
-        <div className="max-w-5xl mx-auto">
+      <section className="py-12 px-6 md:py-16">
+        <div className="max-w-3xl mx-auto">
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
-            className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6"
+            variants={fadeIn}
+            className="text-center"
           >
-            <motion.div variants={fadeIn}>
-              <Card className="p-5 text-center h-full bg-gradient-to-br from-primary/5 to-transparent border-primary/10 hover:border-primary/30 transition-colors">
-                <div className="text-3xl md:text-4xl font-bold text-primary mb-1">10+</div>
-                <div className="text-sm text-muted-foreground">Years Experience</div>
-              </Card>
-            </motion.div>
-            <motion.div variants={fadeIn}>
-              <Card className="p-5 text-center h-full bg-gradient-to-br from-accent/5 to-transparent border-accent/10 hover:border-accent/30 transition-colors">
-                <div className="text-3xl md:text-4xl font-bold text-accent mb-1">32K+</div>
-                <div className="text-sm text-muted-foreground">Lines of Code (FIML)</div>
-              </Card>
-            </motion.div>
-            <motion.div variants={fadeIn}>
-              <Card className="p-5 text-center h-full bg-gradient-to-br from-secondary/10 to-transparent border-secondary/10 hover:border-secondary/30 transition-colors">
-                <div className="text-3xl md:text-4xl font-bold text-secondary-foreground mb-1">55x</div>
-                <div className="text-sm text-muted-foreground">GPU Speed-up</div>
-              </Card>
-            </motion.div>
-            <motion.div variants={fadeIn}>
-              <Card className="p-5 text-center h-full bg-gradient-to-br from-primary/5 to-transparent border-primary/10 hover:border-primary/30 transition-colors">
-                <div className="text-3xl md:text-4xl font-bold text-primary mb-1">B+</div>
-                <div className="text-sm text-muted-foreground">Queries at Google</div>
-              </Card>
-            </motion.div>
+            <p className="text-xl md:text-2xl lg:text-3xl font-light text-foreground/80 italic leading-relaxed">
+              Simple ideas are hard-earned, but that's where true power lives.
+            </p>
           </motion.div>
         </div>
       </section>

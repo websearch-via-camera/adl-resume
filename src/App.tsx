@@ -17,7 +17,6 @@ import resumePdf from "@/assets/documents/Kiarash-Adl-Resume-20251129.pdf"
 // New components for enhanced tech showcase
 import { ThemeToggle } from "@/components/ThemeToggle"
 import { GitHubActivity } from "@/components/GitHubActivity"
-import { CodeShowcase } from "@/components/CodeShowcase"
 import { TechStack } from "@/components/TechStack"
 import { EngineeringMetrics } from "@/components/EngineeringMetrics"
 import { TerminalSection } from "@/components/TerminalSection"
@@ -49,7 +48,7 @@ function App() {
     setShowScrollTop(latest > 400)
     setShowScrollIndicator(latest < 100)
     
-    const sections = ["home", "projects", "skills", "experience", "contact"]
+    const sections = ["home", "projects", "skills", "showcase", "experience", "contact"]
     const sectionElements = sections.map(id => document.getElementById(id))
     
     for (let i = sections.length - 1; i >= 0; i--) {
@@ -166,6 +165,7 @@ function App() {
     { id: "home", label: "Home" },
     { id: "projects", label: "Projects" },
     { id: "skills", label: "Skills" },
+    { id: "showcase", label: "Showcase" },
     { id: "experience", label: "Experience" },
     { id: "contact", label: "Contact" }
   ]
@@ -683,7 +683,7 @@ function App() {
       <Separator className="max-w-5xl mx-auto" />
 
       {/* Enhanced Technical Showcase Section */}
-      <section className="py-16 px-6 md:py-20">
+      <section id="showcase" className="py-16 px-6 md:py-20 scroll-mt-20">
         <div className="max-w-5xl mx-auto">
           <motion.div
             initial="hidden"
@@ -706,11 +706,6 @@ function App() {
             {/* Tech Stack */}
             <motion.div variants={fadeIn} className="mb-8">
               <TechStack />
-            </motion.div>
-
-            {/* Code Showcase */}
-            <motion.div variants={fadeIn} className="mb-8">
-              <CodeShowcase />
             </motion.div>
 
             {/* GitHub Activity */}

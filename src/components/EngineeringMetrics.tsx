@@ -38,15 +38,15 @@ const engineeringMetrics: Metric[] = [
   {
     icon: <Buildings size={24} weight="fill" />,
     label: "Companies",
-    value: "8+",
+    value: "9+",
     subtext: "Including Google, startups",
     trend: "neutral"
   },
   {
     icon: <Trophy size={24} weight="fill" />,
     label: "Patents",
-    value: "2",
-    subtext: "Pending in AI/CV",
+    value: "3",
+    subtext: "2 pending in AI",
     trend: "up"
   },
   {

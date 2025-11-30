@@ -16,13 +16,14 @@ const commands: Record<string, string[]> = {
     "  skills     - View technical skills",
     "  projects   - List featured projects",
     "  contact    - Get contact information",
+    "  book       - Schedule a call",
     "  experience - View work history",
     "  guestbook  - Sign the guestbook",
     "  whoami     - Who am I?",
     "  clear      - Clear terminal",
     "  help       - Show this help message",
     "",
-    "Try: skills --ai"
+    "Try: book (to schedule a free 30-min call)"
   ],
   about: [
     "╔══════════════════════════════════════════╗",
@@ -108,7 +109,26 @@ const commands: Record<string, string[]> = {
     "🔗 LinkedIn: linkedin.com/in/kiarashadl",
     "🐙 GitHub:   github.com/kiarashplusplus",
     "",
-    "Open to: AI roles, consulting, collaboration"
+    "📅 Schedule a call: calendly.com/kiarasha-alum/30min",
+    "",
+    "Open to: AI roles, consulting, collaboration",
+    "",
+    "Tip: Type 'book' to open scheduling page"
+  ],
+  book: [
+    "📅 Schedule a Call",
+    "",
+    "Book a free 30-minute call with Kiarash:",
+    "",
+    "→ calendly.com/kiarasha-alum/30min",
+    "",
+    "Let's discuss:",
+    "  • AI/ML projects and architecture",
+    "  • Technical consulting",
+    "  • Collaboration opportunities",
+    "  • Your next big idea",
+    "",
+    "Opening Calendly in new tab..."
   ],
   guestbook: [
     "📝 Guestbook",
@@ -190,11 +210,19 @@ export function TerminalSection() {
       return
     }
     
+    // Special handling for 'book' command - open Calendly
+    if (trimmedInput === "book" || trimmedInput === "schedule" || trimmedInput === "calendly") {
+      window.open("https://calendly.com/kiarasha-alum/30min", "_blank", "noopener,noreferrer")
+    }
+    
     let output: string[]
     let isError = false
     
     if (trimmedInput === "") {
       output = [""]
+    } else if (trimmedInput === "schedule" || trimmedInput === "calendly") {
+      // Alias commands for book
+      output = commands["book"]
     } else if (commands[trimmedInput]) {
       output = commands[trimmedInput]
     } else {

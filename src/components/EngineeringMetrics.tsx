@@ -197,7 +197,7 @@ export function EngineeringMetrics() {
             </h4>
             <p className="text-muted-foreground text-sm leading-relaxed">
               Achieved <span className="text-primary font-semibold transition-all duration-300 group-hover/featured:text-accent">55x speedup</span> in speech recognition 
-              through GPU optimization at MIT CSAIL, published at ICASSP 2012 — demonstrating 
+              through GPU optimization at MIT CSAIL, published at ICASSP 2012 demonstrating 
               deep expertise in high-performance computing and ML systems.
             </p>
           </div>

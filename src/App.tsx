@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Mail, Phone, Download, Github, Linkedin, ArrowUpRight, Send, ChevronUp, ChevronDown, Link } from "lucide-react"
+import { Mail, Phone, Download, Github, Linkedin, ArrowUpRight, Send, ChevronUp, ChevronDown, Link, Calendar } from "lucide-react"
 import { motion } from "framer-motion"
 import { useState, useEffect, lazy, Suspense } from "react"
 import { toast } from "sonner"
@@ -637,7 +637,9 @@ function App() {
               {/* Contact & Socials - Personalized CTAs with glow effects */}
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
                 <a 
-                  href="mailto:kiarasha@alum.mit.edu?subject=Let's%20Chat%20About%20AI" 
+                  href="https://calendly.com/kiarasha-alum/30min" 
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-xl hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all duration-300 text-sm font-semibold group"
                 >
                   <Mail className="h-[18px] w-[18px] group-hover:scale-110 transition-transform" />
@@ -1140,6 +1142,22 @@ function App() {
                   <div>
                     <div className="text-xs text-muted-foreground uppercase tracking-wider mb-0.5">Phone</div>
                     <div className="font-semibold group-hover:text-primary transition-colors">+1-857-928-1608</div>
+                  </div>
+                </a>
+
+                {/* Calendly - Schedule a Call */}
+                <a 
+                  href="https://calendly.com/kiarasha-alum/30min" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-4 p-5 bg-gradient-to-br from-green-500/10 to-green-500/5 hover:from-green-500/20 hover:to-green-500/10 rounded-2xl transition-all duration-300 group border border-green-500/30 hover:border-green-500/50 hover:shadow-lg hover:shadow-green-500/10"
+                >
+                  <div className="p-3 bg-gradient-to-br from-green-500/20 to-green-600/10 rounded-xl group-hover:from-green-500/30 group-hover:to-green-600/20 transition-colors">
+                    <Calendar className="h-5 w-5 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-green-600 dark:text-green-400 uppercase tracking-wider mb-0.5 font-medium">Free 30-min call</div>
+                    <div className="font-semibold group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">Schedule on Calendly</div>
                   </div>
                 </a>
 

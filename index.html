@@ -87,13 +87,7 @@
       ]
     }
     </script>
-    
-    <!-- DNS Prefetch for external resources -->
-    <link rel="dns-prefetch" href="https://api.github.com">
-    <link rel="dns-prefetch" href="https://api.resend.com">
-    <link rel="dns-prefetch" href="https://api.open-meteo.com">
-    <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
-    
+
     <!-- LCP image preload - will be replaced with hashed path during build -->
     <link rel="preload" as="image" type="image/webp" href="/src/assets/images/profile-384w.webp" fetchpriority="high">
     
@@ -285,9 +279,9 @@
       .text-green-600 { color: #16a34a; }
       .dark .text-green-400 { color: #4ade80; }
       
-      /* Hide #root until React hydrates to prevent flashing */
-      #root:empty {
-        visibility: hidden;
+      /* Hide initial loader after React hydrates */
+      #root[data-hydrated] #initial-loader {
+        display: none;
       }
       
       /* Deferred animations - only for non-LCP elements */

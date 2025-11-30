@@ -5,7 +5,8 @@ import { resolve } from 'path'
 
 const projectRoot = process.env.PROJECT_ROOT || import.meta.dirname
 
-// Custom plugin to add high-priority preload hints for critical chunks and LCP image
+// Custom plugin to update LCP image path and optimize CSS loading
+// Note: Modulepreload is handled automatically by Vite - do not add manual preloads
 function criticalChunksPreload(): Plugin {
   return {
     name: 'critical-chunks-preload',
@@ -14,13 +15,11 @@ function criticalChunksPreload(): Plugin {
       // Only apply in production build
       if (!ctx.bundle) return html;
       
-      // Find critical chunk filenames and LCP image from the bundle
-      const criticalChunks: string[] = [];
-      let mainEntry = '';
+      // Find LCP image and main CSS from the bundle
       let profileImagePath = '';
       let mainCssPath = '';
       
-      for (const [fileName, chunk] of Object.entries(ctx.bundle)) {
+      for (const [fileName] of Object.entries(ctx.bundle)) {
         // Find the profile image (LCP element)
         if (fileName.includes('profile-384w') && fileName.endsWith('.webp')) {
           profileImagePath = fileName;
@@ -29,26 +28,7 @@ function criticalChunksPreload(): Plugin {
         else if (fileName.startsWith('assets/index-') && fileName.endsWith('.css')) {
           mainCssPath = fileName;
         }
-        // Prioritize vendor-react (needed for everything)
-        else if (fileName.includes('vendor-react')) {
-          criticalChunks.unshift(fileName);
-        }
-        // Find main entry point
-        else if ('isEntry' in chunk && chunk.isEntry && fileName.endsWith('.js')) {
-          mainEntry = fileName;
-        }
       }
-      
-      // Add main entry after vendor-react
-      if (mainEntry) {
-        criticalChunks.push(mainEntry);
-      }
-      
-      // Generate preload link tags with high priority
-      const preloadTags = criticalChunks
-        .slice(0, 2) // Only preload the most critical chunks
-        .map(chunk => `<link rel="modulepreload" href="/${chunk}" />`)
-        .join('\n    ');
       
       // Replace the placeholder preload with the actual hashed image path
       if (profileImagePath) {
@@ -67,11 +47,7 @@ function criticalChunksPreload(): Plugin {
         );
       }
       
-      // Insert after the opening head tag
-      return html.replace(
-        '<head>',
-        `<head>\n    <!-- Critical JS chunks preload -->\n    ${preloadTags}`
-      );
+      return html;
     }
   };
 }

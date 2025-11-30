@@ -11,11 +11,15 @@ import { A11yProvider } from "@/components/A11yProvider"
 import "./main.css"
 import "./index.css"
 
-// Remove initial loader when React renders
-const loader = document.getElementById('initial-loader')
-if (loader) loader.remove()
+// Mark hydration complete and remove initial loader
+const root = document.getElementById('root')
+if (root) {
+  root.setAttribute('data-hydrated', 'true')
+  const loader = document.getElementById('initial-loader')
+  if (loader) loader.remove()
+}
 
-createRoot(document.getElementById('root')!).render(
+createRoot(root!).render(
   <ErrorBoundary FallbackComponent={ErrorFallback}>
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <A11yProvider>

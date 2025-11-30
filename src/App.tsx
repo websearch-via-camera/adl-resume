@@ -542,7 +542,10 @@ function App() {
                         <Badge variant="secondary" className="text-xs">CI/CD</Badge>
                       </div>
                     </div>
-                    <a href="https://github.com/kiarashplusplus/" target="_blank" rel="noopener noreferrer" className="flex-shrink-0 min-h-[44px] min-w-[44px] p-3 rounded-lg bg-muted hover:bg-muted/80 transition-colors flex items-center justify-center" aria-label="View FIML project on GitHub">
+                    <a href="https://kiarashplusplus.github.io/FIML/" target="_blank" rel="noopener noreferrer" className="flex-shrink-0 min-h-[44px] min-w-[44px] p-3 rounded-lg bg-muted hover:bg-muted/80 transition-colors flex items-center justify-center" aria-label="View FIML project website">
+                      <PaperPlaneTilt size={24} weight="fill" className="text-foreground" />
+                    </a>
+                    <a href="https://github.com/kiarashplusplus/FIML" target="_blank" rel="noopener noreferrer" className="flex-shrink-0 min-h-[44px] min-w-[44px] p-3 rounded-lg bg-muted hover:bg-muted/80 transition-colors flex items-center justify-center" aria-label="View FIML project on GitHub">
                       <GithubLogo size={24} weight="fill" className="text-foreground" />
                     </a>
                   </div>

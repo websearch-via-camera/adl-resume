@@ -431,8 +431,8 @@ function App() {
         {/* Gradient border bottom */}
         <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
         
-        {/* Glassmorphism background */}
-        <div className="absolute inset-0 bg-background/70 backdrop-blur-xl" />
+        {/* Glassmorphism background - reduced blur for scroll performance */}
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-md" />
         
         <div className="max-w-5xl mx-auto px-6 py-4 relative z-10">
           <div className="flex items-center justify-between gap-4">
@@ -473,19 +473,19 @@ function App() {
         id="home"
         className="relative py-16 px-6 md:py-24 overflow-hidden hero-pattern"
       >
-        {/* Decorative floating elements */}
+        {/* Decorative gradient elements - static for performance (no animation on blurred elements) */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-          <div className="absolute top-20 left-[10%] w-72 h-72 bg-primary/5 rounded-full blur-3xl animate-float" />
-          <div className="absolute top-40 right-[15%] w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-float-delayed" />
-          <div className="absolute bottom-20 left-[20%] w-64 h-64 bg-primary/3 rounded-full blur-3xl animate-float-slow" />
+          <div className="absolute top-20 left-[10%] w-72 h-72 bg-primary/5 rounded-full blur-2xl" />
+          <div className="absolute top-40 right-[15%] w-96 h-96 bg-accent/5 rounded-full blur-2xl" />
+          <div className="absolute bottom-20 left-[20%] w-64 h-64 bg-primary/3 rounded-full blur-2xl" />
         </div>
         
         <div className="max-w-5xl mx-auto relative z-10">
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
             {/* LCP element - Enhanced with glow effect */}
             <div className="flex-shrink-0 relative group">
-              {/* Outer glow ring */}
-              <div className="absolute -inset-2 bg-gradient-to-br from-primary/20 via-accent/10 to-primary/20 rounded-full blur-xl opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
+              {/* Outer glow ring - reduced blur for performance */}
+              <div className="absolute -inset-2 bg-gradient-to-br from-primary/20 via-accent/10 to-primary/20 rounded-full blur-lg opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
               
               {/* Rotating gradient border */}
               <div className="absolute -inset-1 bg-gradient-to-r from-primary via-accent to-primary rounded-full opacity-30 group-hover:opacity-60 transition-opacity" style={{ background: 'conic-gradient(from 0deg, var(--primary), var(--accent), var(--primary))' }} />
@@ -1091,8 +1091,8 @@ function App() {
 
               <motion.div variants={fadeIn} className="md:col-span-3">
                 <div className="relative group">
-                  {/* Gradient glow effect */}
-                  <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-3xl opacity-0 group-hover:opacity-100 blur-xl transition-all duration-500" />
+                  {/* Gradient glow effect - reduced blur for performance */}
+                  <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-3xl opacity-0 group-hover:opacity-100 blur-md transition-all duration-500" />
                   
                   <Card className="relative p-8 bg-card/90 backdrop-blur-sm border-border/50">
                     <div className="flex items-center gap-3 mb-6">

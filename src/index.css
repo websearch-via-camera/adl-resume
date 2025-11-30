@@ -349,11 +349,19 @@ select:focus-visible {
   background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: gradient-shift 8s ease infinite;
+  will-change: background-position;
 }
 
 @keyframes gradient-shift {
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gradient-text {
+    animation: none;
+    background-position: 0% 50%;
+  }
 }
 
 /* Glassmorphism effect */
@@ -384,16 +392,31 @@ select:focus-visible {
 
 .animate-float {
   animation: float 6s ease-in-out infinite;
+  will-change: transform;
+  contain: layout style;
 }
 
 .animate-float-delayed {
   animation: float 6s ease-in-out infinite;
   animation-delay: -2s;
+  will-change: transform;
+  contain: layout style;
 }
 
 .animate-float-slow {
   animation: float 8s ease-in-out infinite;
   animation-delay: -4s;
+  will-change: transform;
+  contain: layout style;
+}
+
+/* Disable float animations for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-float-delayed,
+  .animate-float-slow {
+    animation: none !important;
+  }
 }
 
 /* Gradient border effect */
@@ -469,7 +492,18 @@ select:focus-visible {
     transparent
   );
   transform: translateX(-100%);
-  animation: shimmer 3s ease-in-out infinite;
+  /* Animation only on hover to save resources */
+}
+
+.shimmer:hover::after {
+  animation: shimmer 2s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shimmer::after,
+  .shimmer:hover::after {
+    animation: none !important;
+  }
 }
 
 /* Hero section background pattern */

@@ -136,8 +136,8 @@ export const SectionDivider = memo(function SectionDivider({ variant = "default"
             
             {/* Sparkle center */}
             <div className="relative mx-8">
-              {/* Outer glow ring */}
-              <div className="absolute inset-0 w-10 h-10 -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 blur-xl" />
+              {/* Outer glow ring - reduced blur for performance */}
+              <div className="absolute inset-0 w-10 h-10 -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 blur-lg" />
               
               {/* Main sparkle */}
               <svg width="40" height="40" viewBox="0 0 40 40" className="text-primary">

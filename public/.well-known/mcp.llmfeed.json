@@ -45,12 +45,14 @@
   "capabilities": {
     "rateLimit": "10/min",
     "auth": "none",
-    "cors": true
+    "cors": true,
+    "mode": "development"
   },
   "trust": {
     "signature": "unsigned",
     "signatureAlgorithm": "ed25519",
-    "note": "Static discovery file. For production, implement server-side signing via Cloudflare Workers."
+    "publicKey": null,
+    "note": "Unsigned manifest - tools are read-only and return public portfolio data only. For signed manifests, deploy the Cloudflare Worker at /workers/mcp-signer.ts"
   },
   "contact": {
     "email": "kiarasha@alum.mit.edu",

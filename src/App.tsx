@@ -73,8 +73,9 @@ function App() {
         setVisitorType(savedType)
         setShowOnboarding(false)
         
-        // If returning developer, scroll to terminal
+        // Scroll based on visitor type
         if (savedType === "developer") {
+          // Returning developer: scroll to terminal
           setTimeout(() => {
             const terminalElement = document.getElementById("terminal")
             if (terminalElement) {
@@ -86,6 +87,12 @@ function App() {
                 behavior: "smooth"
               })
             }
+          }, 100)
+        } else {
+          // Returning visitor: scroll to top (override browser scroll restoration)
+          // Using 100ms delay to ensure scroll happens after browser's scroll restoration
+          setTimeout(() => {
+            window.scrollTo({ top: 0, behavior: "instant" })
           }, 100)
         }
       } else {

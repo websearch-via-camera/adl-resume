@@ -50,7 +50,6 @@ function criticalChunksPreload(): Plugin {
       
       // Add early modulepreload hints in <head> for critical JS chunks
       // These are placed early in <head> so the browser starts fetching them sooner
-      // than Vite's default modulepreload links which appear after the script tag
       const earlyPreloads: string[] = [];
       
       if (vendorReactPath) {
@@ -69,6 +68,23 @@ function criticalChunksPreload(): Plugin {
         html = html.replace(
           /<!-- Critical JS chunk preloads[^>]*-->\n\s*<!-- modulepreload hints[^>]*-->\n\s*<!-- These will be replaced[^>]*-->\n/,
           preloadBlock
+        );
+      }
+      
+      // Remove Vite's auto-generated modulepreload links for chunks we already preloaded
+      // This avoids duplicate modulepreload hints in the final HTML
+      if (vendorReactPath) {
+        // Remove Vite's modulepreload for vendor-react (we added it early with fetchpriority)
+        html = html.replace(
+          new RegExp(`\\s*<link rel="modulepreload" crossorigin href="/${vendorReactPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}">`),
+          ''
+        );
+      }
+      if (mainJsPath) {
+        // Remove Vite's modulepreload for main entry (we added it early with fetchpriority)
+        html = html.replace(
+          new RegExp(`\\s*<link rel="modulepreload" crossorigin href="/${mainJsPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}">`),
+          ''
         );
       }
       

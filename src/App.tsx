@@ -73,6 +73,9 @@ function App() {
         setVisitorType(savedType)
         setShowOnboarding(false)
         
+        // Delay to ensure scroll happens after browser's scroll restoration
+        const SCROLL_DELAY_MS = 100
+        
         // Scroll based on visitor type
         if (savedType === "developer") {
           // Returning developer: scroll to terminal
@@ -87,13 +90,12 @@ function App() {
                 behavior: "smooth"
               })
             }
-          }, 100)
+          }, SCROLL_DELAY_MS)
         } else {
           // Returning visitor: scroll to top (override browser scroll restoration)
-          // Using 100ms delay to ensure scroll happens after browser's scroll restoration
           setTimeout(() => {
             window.scrollTo({ top: 0, behavior: "instant" })
-          }, 100)
+          }, SCROLL_DELAY_MS)
         }
       } else {
         // Clear any invalid values and show onboarding

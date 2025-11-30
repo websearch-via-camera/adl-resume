@@ -14,19 +14,20 @@ interface CommandOutput {
 const commands: Record<string, string[]> = {
   help: [
     "Available commands:",
-    "  about      - Learn about Kiarash",
-    "  skills     - View technical skills",
-    "  projects   - List featured projects",
-    "  contact    - Get contact information",
-    "  book       - Schedule a call",
-    "  experience - View work history",
-    "  guestbook  - Sign the guestbook",
-    "  whoami     - Who am I?",
-    "  mcp        - Toggle MCP mode for AI agents",
-    "  clear      - Clear terminal",
-    "  help       - Show this help message",
+    "  about       - Learn about Kiarash",
+    "  skills      - View technical skills",
+    "  projects    - List featured projects",
+    "  contact     - Get contact information",
+    "  book        - Schedule a call",
+    "  experience  - View work history",
+    "  guestbook   - Sign the guestbook",
+    "  whoami      - Who am I?",
+    "  mcp         - Toggle MCP mode for AI agents",
+    "  mcp connect - How to connect Claude/AI agents",
+    "  clear       - Clear terminal",
+    "  help        - Show this help message",
     "",
-    "Try: book (to schedule a free 30-min call)"
+    "Try: mcp connect (to connect AI assistants)"
   ],
   about: [
     "╔══════════════════════════════════════════╗",
@@ -228,6 +229,47 @@ export function TerminalSection() {
     
     if (trimmedInput === "clear") {
       setHistory([])
+      return
+    }
+    
+    // MCP connection info
+    if (trimmedInput === "mcp connect" || trimmedInput === "mcp info") {
+      setHistory(prev => [...prev, {
+        command: input,
+        output: [
+          "🤖 CONNECT AI AGENTS TO THIS PORTFOLIO",
+          "═══════════════════════════════════════",
+          "",
+          "FOR CLAUDE DESKTOP:",
+          "Add to your claude_desktop_config.json:",
+          "",
+          '{',
+          '  "mcpServers": {',
+          '    "kiarash-portfolio": {',
+          '      "url": "https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json"',
+          '    }',
+          '  }',
+          '}',
+          "",
+          "Then restart Claude Desktop.",
+          "",
+          "FOR OTHER AI AGENTS:",
+          "Discovery: https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json",
+          "Endpoint:  POST https://kiarash-adl.pages.dev/mcp/invoke",
+          "",
+          "AVAILABLE TOOLS:",
+          "• get_project_details - Get project info (fiml, hirealigna, aivision)",
+          "• run_terminal_command - about, skills, projects, contact, experience",
+          "",
+          "The manifest is cryptographically signed with Ed25519.",
+          ""
+        ],
+        isMCP: true
+      }])
+      if (trimmedInput) {
+        setCommandHistory(prev => [...prev, trimmedInput])
+      }
+      setHistoryIndex(-1)
       return
     }
     

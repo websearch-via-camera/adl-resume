@@ -159,12 +159,56 @@ skills      - View technical skills and proficiency
 projects    - List featured projects
 contact     - Get contact information
 experience  - View work history and education
+mcp         - How to connect AI agents (Claude, etc.)
 help        - Show this help message
 
 MCP TOOLS
 =========
 get_project_details  - Get detailed project information
-run_terminal_command - Execute terminal commands`
+run_terminal_command - Execute terminal commands`,
+
+  mcp: `
+🤖 CONNECT AI AGENTS TO THIS PORTFOLIO
+======================================
+
+This portfolio supports the Model Context Protocol (MCP),
+allowing AI assistants like Claude to query it directly.
+
+FOR CLAUDE DESKTOP
+------------------
+Add to your claude_desktop_config.json:
+
+{
+  "mcpServers": {
+    "kiarash-portfolio": {
+      "url": "https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json"
+    }
+  }
+}
+
+Then restart Claude Desktop.
+
+FOR OTHER AI AGENTS
+-------------------
+Discovery URL:
+  https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json
+
+Tool Endpoint:
+  POST https://kiarash-adl.pages.dev/mcp/invoke
+  Body: { "tool": "tool_name", "input": { ... } }
+
+AVAILABLE TOOLS
+---------------
+• get_project_details - Get info about projects (fiml, hirealigna, aivision)
+• run_terminal_command - Run commands (about, skills, projects, contact, experience)
+
+EXAMPLE CURL
+------------
+curl -X POST https://kiarash-adl.pages.dev/mcp/invoke \\
+  -H "Content-Type: application/json" \\
+  -d '{"tool":"get_project_details","input":{"projectId":"fiml"}}'
+
+The manifest is cryptographically signed with Ed25519.`
 };
 
 // Tool handlers

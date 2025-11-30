@@ -48,14 +48,14 @@ const mcpManifest = {
     },
     {
       "name": "run_terminal_command",
-      "description": "Execute a terminal command to get information about Kiarash. Available commands: about, skills, projects, contact, experience, help. Returns formatted text output.",
+      "description": "Execute a terminal command to get information about Kiarash. Available commands: about, skills, projects, contact, experience, mcp, help. Returns formatted text output.",
       "inputSchema": {
         "type": "object",
         "properties": {
           "command": {
             "type": "string",
             "description": "The terminal command to execute",
-            "enum": ["about", "skills", "projects", "contact", "experience", "help"]
+            "enum": ["about", "skills", "projects", "contact", "experience", "mcp", "help"]
           }
         },
         "required": ["command"]

@@ -22,12 +22,15 @@ import profileJpg384 from "@/assets/images/profile-384w.jpg"
 // Lightweight components loaded immediately
 import { ThemeToggle } from "@/components/ThemeToggle"
 import { TypewriterTagline } from "@/components/TypewriterTagline"
-import { CustomCursor } from "@/components/CustomCursor"
-import { useKeyboardNavigation, KeyboardHelp } from "@/hooks/useKeyboardNavigation"
+import { useKeyboardNavigation } from "@/hooks/useKeyboardNavigation"
 import { useNativeScroll } from "@/hooks/useNativeScroll"
 
 // Lazy load onboarding modal (not needed for initial render)
 const OnboardingChoice = lazy(() => import("@/components/OnboardingChoice").then(m => ({ default: m.OnboardingChoice })))
+
+// Decorative components lazy-loaded (not critical for initial render)
+const CustomCursor = lazy(() => import("@/components/CustomCursor").then(m => ({ default: m.CustomCursor })))
+const KeyboardHelp = lazy(() => import("@/components/KeyboardHelp").then(m => ({ default: m.KeyboardHelp })))
 
 // Weather indicator lazy-loaded to avoid blocking critical path with API call
 const WeatherIndicator = lazy(() => import("@/components/WeatherIndicator").then(m => ({ default: m.WeatherIndicator })))
@@ -302,7 +305,9 @@ function App() {
           )}
           
           <div className="min-h-screen bg-background cursor-none">
-      <CustomCursor />
+      <Suspense fallback={null}>
+        <CustomCursor />
+      </Suspense>
       {/* Scroll Progress Bar - CSS-based for performance */}
       <div
         className={`fixed top-0 left-0 right-0 h-1 bg-muted z-50 transition-opacity duration-200 ${
@@ -1034,7 +1039,9 @@ function App() {
       )}
 
       {/* Keyboard Navigation */}
-      <KeyboardHelp show={showHelp} onClose={() => setShowHelp(false)} />
+      <Suspense fallback={null}>
+        <KeyboardHelp show={showHelp} onClose={() => setShowHelp(false)} />
+      </Suspense>
     </div>
         </>
       )}

@@ -670,9 +670,6 @@ function App() {
                         <Badge variant="secondary" className="text-xs">Docker</Badge>
                       </div>
                     </div>
-                    <div className="flex-shrink-0 p-3 rounded-lg bg-muted">
-                      <ArrowUpRight size={24} weight="bold" className="text-muted-foreground" />
-                    </div>
                   </div>
                 </Card>
               </motion.div>

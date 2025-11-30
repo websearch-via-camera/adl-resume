@@ -145,6 +145,12 @@ function App() {
       // localStorage not available, preference won't persist
     }
     
+    // For non-developers, disable browser's automatic scroll restoration
+    // to ensure we stay at the top
+    if (!isDeveloper && "scrollRestoration" in history) {
+      history.scrollRestoration = "manual"
+    }
+    
     // Scroll after a short delay to ensure content has rendered
     setTimeout(() => {
       if (isDeveloper) {
@@ -174,7 +180,14 @@ function App() {
         }
       } else {
         // Non-developer: scroll to top (hero header)
-        window.scrollTo({ top: 0, behavior: "instant" })
+        // Use multiple attempts since the page is rendering for the first time
+        // and layout may take time to stabilize
+        const scrollToTop = () => window.scrollTo({ top: 0, behavior: "instant" })
+        scrollToTop()
+        setTimeout(scrollToTop, 0)
+        setTimeout(scrollToTop, 50)
+        setTimeout(scrollToTop, 100)
+        setTimeout(scrollToTop, 200)
       }
     }, 100)
   }

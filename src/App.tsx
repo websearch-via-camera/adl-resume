@@ -62,6 +62,8 @@ function App() {
   // Start with null to indicate we haven't checked localStorage yet
   const [showOnboarding, setShowOnboarding] = useState<boolean | null>(null)
   const [visitorType, setVisitorType] = useState<"developer" | "visitor" | null>(null)
+  // Track if this is a fresh onboarding choice (not a page reload)
+  const [isNewVisitorChoice, setIsNewVisitorChoice] = useState(false)
   
   useEffect(() => {
     // Check if user has already made a choice
@@ -138,6 +140,11 @@ function App() {
     setVisitorType(type)
     setShowOnboarding(false)
     
+    // Mark this as a fresh choice so the scroll effect can handle it
+    if (!isDeveloper) {
+      setIsNewVisitorChoice(true)
+    }
+    
     // Store preference safely (localStorage might throw in some browsers)
     try {
       localStorage.setItem("kiarash-visitor-type", type)
@@ -152,8 +159,8 @@ function App() {
     }
     
     // Scroll after a short delay to ensure content has rendered
-    setTimeout(() => {
-      if (isDeveloper) {
+    if (isDeveloper) {
+      setTimeout(() => {
         // Developer: scroll to terminal section
         // Use multiple attempts since lazy-loaded components may take time
         const scrollToTerminal = () => {
@@ -178,19 +185,54 @@ function App() {
             }
           }, 200)
         }
-      } else {
-        // Non-developer: scroll to top (hero header)
-        // Use multiple attempts since the page is rendering for the first time
-        // and layout may take time to stabilize
-        const scrollToTop = () => window.scrollTo({ top: 0, behavior: "instant" })
-        scrollToTop()
-        setTimeout(scrollToTop, 0)
-        setTimeout(scrollToTop, 50)
-        setTimeout(scrollToTop, 100)
-        setTimeout(scrollToTop, 200)
-      }
-    }, 100)
+      }, 100)
+    }
+    // Non-developer scroll is handled by the useEffect below for better timing
   }
+  
+  // Effect to force scroll to top for new visitor choices
+  // This runs after React has committed the DOM update
+  useEffect(() => {
+    if (!isNewVisitorChoice || showOnboarding !== false) return
+    
+    // Aggressively scroll to top using requestAnimationFrame for proper timing
+    const forceScrollToTop = () => {
+      window.scrollTo({ top: 0, behavior: "instant" })
+    }
+    
+    // Immediate scroll
+    forceScrollToTop()
+    
+    // Use RAF to scroll after paint
+    let rafId = requestAnimationFrame(() => {
+      forceScrollToTop()
+      rafId = requestAnimationFrame(() => {
+        forceScrollToTop()
+        // Continue for a bit longer to fight any layout shifts
+        rafId = requestAnimationFrame(forceScrollToTop)
+      })
+    })
+    
+    // Also use timeouts as backup
+    const timeouts = [
+      setTimeout(forceScrollToTop, 50),
+      setTimeout(forceScrollToTop, 100),
+      setTimeout(forceScrollToTop, 200),
+      setTimeout(forceScrollToTop, 300),
+      setTimeout(forceScrollToTop, 500),
+    ]
+    
+    // Clear the flag after scrolling is done
+    const clearFlag = setTimeout(() => {
+      setIsNewVisitorChoice(false)
+    }, 600)
+    
+    return () => {
+      cancelAnimationFrame(rafId)
+      timeouts.forEach(clearTimeout)
+      clearTimeout(clearFlag)
+    }
+  }, [isNewVisitorChoice, showOnboarding])
   const [formData, setFormData] = useState({
     name: "",
     email: "",

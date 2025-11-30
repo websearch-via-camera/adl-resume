@@ -1060,13 +1060,13 @@ function App() {
               <p>© 2025 Kiarash Adl</p>
             </div>
             <div className="flex items-center gap-3">
+              <WeatherIndicator />
+              <span className="text-border">|</span>
               <span>MIT EECS '14</span>
               <span className="text-border">|</span>
               <span className="hidden sm:inline">
                 Press <kbd className="px-1.5 py-0.5 text-xs font-mono bg-muted rounded border border-border">?</kbd> for shortcuts
               </span>
-              <span className="text-border">|</span>
-              <WeatherIndicator />
             </div>
           </div>
         </div>

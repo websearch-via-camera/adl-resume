@@ -11,6 +11,10 @@ import { A11yProvider } from "@/components/A11yProvider"
 import "./main.css"
 import "./index.css"
 
+// Remove initial loader when React renders
+const loader = document.getElementById('initial-loader')
+if (loader) loader.remove()
+
 createRoot(document.getElementById('root')!).render(
   <ErrorBoundary FallbackComponent={ErrorFallback}>
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

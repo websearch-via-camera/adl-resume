@@ -52,7 +52,8 @@ const SectionLoader = ({ height = "h-64" }: { height?: string }) => (
 )
 
 function App() {
-  const [showOnboarding, setShowOnboarding] = useState(false)
+  // Start with null to indicate we haven't checked localStorage yet
+  const [showOnboarding, setShowOnboarding] = useState<boolean | null>(null)
   const [visitorType, setVisitorType] = useState<"developer" | "visitor" | null>(null)
   
   useEffect(() => {
@@ -284,14 +285,23 @@ function App() {
       {/* Skip Links for keyboard/screen reader navigation */}
       <SkipLinks />
       
-      {/* Onboarding Choice Modal - lazy loaded */}
-      {showOnboarding && (
-        <Suspense fallback={null}>
-          <OnboardingChoice onChoice={handleOnboardingChoice} />
-        </Suspense>
-      )}
-      
-      <div className="min-h-screen bg-background cursor-none">
+      {/* Show nothing while checking localStorage to prevent flash */}
+      {showOnboarding === null ? (
+        <div className="min-h-screen bg-background" />
+      ) : (
+        <>
+          {/* Onboarding Choice Modal - lazy loaded */}
+          {showOnboarding && (
+            <Suspense fallback={
+              <div className="fixed inset-0 z-[100] bg-background flex items-center justify-center">
+                <div className="animate-pulse text-muted-foreground">Loading...</div>
+              </div>
+            }>
+              <OnboardingChoice onChoice={handleOnboardingChoice} />
+            </Suspense>
+          )}
+          
+          <div className="min-h-screen bg-background cursor-none">
       <CustomCursor />
       {/* Scroll Progress Bar - CSS-based for performance */}
       <div
@@ -380,7 +390,7 @@ function App() {
               </div>
             </div>
             
-            <div className="flex-1 text-center md:text-left animate-fade-in">
+            <div className="flex-1 text-center md:text-left">
               {/* Live Status & Weather */}
               <div className="flex items-center justify-center md:justify-start gap-4 mb-3">
                 <div className="flex items-center gap-2">
@@ -1026,6 +1036,8 @@ function App() {
       {/* Keyboard Navigation */}
       <KeyboardHelp show={showHelp} onClose={() => setShowHelp(false)} />
     </div>
+        </>
+      )}
     </>
   )
 }

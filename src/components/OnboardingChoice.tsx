@@ -28,7 +28,7 @@ export function OnboardingChoice({ onChoice }: OnboardingChoiceProps) {
           className="fixed inset-0 z-[100] bg-background flex items-center justify-center px-6"
         >
           {/* Subtle animated background pattern - deferred to not block LCP */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-0 animate-fade-in" style={{ animationDelay: '500ms', animationFillMode: 'forwards' }}>
+          <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ opacity: 0, animation: 'fade-in 0.5s ease-out 0.5s forwards' }}>
             <div
               className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-primary/5 blur-3xl"
             />

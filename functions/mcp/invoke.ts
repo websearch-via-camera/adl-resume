@@ -7,58 +7,70 @@
 
 interface Env {}
 
-// Project data (duplicated from src/data/projects.ts for serverless context)
+// Project data (synced from src/data/projects.ts for serverless context)
 const projects: Record<string, {
   id: string;
   title: string;
   description: string;
-  longDescription: string;
+  shortDescription: string;
   stack: string[];
   metrics: { label: string; value: string }[];
   status: string;
-  url?: string;
-  github?: string;
+  links: { website?: string; github?: string; demo?: string };
+  impact: string;
+  category: string;
 }> = {
   fiml: {
     id: "fiml",
-    title: "FIML - AI Film Production",
-    description: "AI-powered film production platform enabling creators to generate cinematic content using advanced machine learning models.",
-    longDescription: "FIML revolutionizes film production by leveraging state-of-the-art AI models for script generation, scene composition, and visual effects. The platform reduces production costs by 80% while maintaining Hollywood-quality output.",
-    stack: ["Python", "PyTorch", "React", "TypeScript", "AWS", "FFmpeg", "Stable Diffusion"],
+    title: "Financial Intelligence Meta-Layer (FIML)",
+    description: "AI-native MCP server for financial data aggregation with intelligent multi-provider orchestration and multilingual compliance guardrails. Open source project demonstrating enterprise-grade AI architecture.",
+    shortDescription: "AI-native MCP server for financial data aggregation",
+    stack: ["Python", "MCP Server", "AI Orchestration", "Expo", "CI/CD"],
     metrics: [
-      { label: "Processing Speed", value: "10x faster" },
-      { label: "Cost Reduction", value: "80%" },
-      { label: "User Rating", value: "4.9/5" }
+      { label: "Lines of Code", value: "32K+" },
+      { label: "Automated Tests", value: "1,403" },
+      { label: "Pass Rate", value: "100%" },
+      { label: "Status", value: "Phase 2" }
     ],
-    status: "production",
-    url: "https://fiml.ai"
+    status: "development",
+    links: {
+      website: "https://kiarashplusplus.github.io/FIML/",
+      github: "https://github.com/kiarashplusplus/FIML"
+    },
+    impact: "Reduces financial data integration time by 70%",
+    category: "open-source"
   },
   hirealigna: {
     id: "hirealigna",
-    title: "HireAligna - AI Recruiting",
-    description: "Intelligent recruiting platform that uses AI to match candidates with opportunities based on skills, culture fit, and career goals.",
-    longDescription: "HireAligna transforms the hiring process using advanced NLP and machine learning to analyze resumes, predict candidate success, and reduce time-to-hire. The platform has helped companies reduce hiring costs by 60% while improving retention rates.",
-    stack: ["Node.js", "TypeScript", "PostgreSQL", "OpenAI", "React", "Redis", "Kubernetes"],
+    title: "HireAligna.ai",
+    description: "Conversational AI recruiter that schedules and conducts voice interviews via LiveKit, transcribes with Azure OpenAI, and performs automated candidate-job matching with full observability.",
+    shortDescription: "Conversational AI recruiter with voice interviews",
+    stack: ["Next.js", "LiveKit", "Azure OpenAI", "PostgreSQL", "Docker"],
     metrics: [
-      { label: "Time-to-Hire", value: "-45%" },
-      { label: "Retention Rate", value: "+35%" },
-      { label: "Candidates Matched", value: "50K+" }
+      { label: "Feature", value: "AI Voice Interviews" },
+      { label: "Docker Services", value: "17+" },
+      { label: "Matching", value: "2-Way Smart" },
+      { label: "Observability", value: "Full" }
     ],
-    status: "production",
-    url: "https://hirealigna.com"
+    status: "live",
+    links: {},
+    impact: "Helps startups cut hiring time by 40% with AI interviews",
+    category: "saas"
   },
   aivision: {
     id: "aivision",
-    title: "AIVision - Computer Vision Platform",
-    description: "Enterprise computer vision platform for real-time object detection, tracking, and analysis in manufacturing environments.",
-    longDescription: "AIVision provides manufacturing companies with cutting-edge computer vision capabilities for quality control, safety monitoring, and process optimization. The platform processes millions of frames daily with 99.7% accuracy.",
-    stack: ["Python", "TensorFlow", "OpenCV", "C++", "CUDA", "Docker", "Kafka"],
+    title: "AI Vision",
+    description: "Patent-pending AI and computer vision solutions for home services industry. Founder and CEO. Mobile app live on App Store.",
+    shortDescription: "AI/CV solutions for home services",
+    stack: ["Computer Vision", "iOS", "Machine Learning", "Mobile"],
     metrics: [
-      { label: "Accuracy", value: "99.7%" },
-      { label: "Frames/Day", value: "10M+" },
-      { label: "Defect Detection", value: "98%" }
+      { label: "Status", value: "App Store Live" },
+      { label: "Progress", value: "80%" }
     ],
-    status: "production"
+    status: "live",
+    links: {},
+    impact: "Patent-pending CV technology for home services",
+    category: "startup"
   }
 };
 
@@ -105,17 +117,20 @@ Cloud:         AWS ██████████ 90%
 FEATURED PROJECTS
 =================
 
-1. FIML - AI Film Production
-   Status: Production | Stack: Python, PyTorch, React
-   → AI-powered cinematic content generation
+1. FIML - Financial Intelligence Meta-Layer
+   Status: Development | Stack: Python, MCP Server, AI Orchestration
+   → AI-native MCP server for financial data aggregation
+   → 32K+ LOC | 1,403 tests | 100% pass rate
 
-2. HireAligna - AI Recruiting  
-   Status: Production | Stack: Node.js, OpenAI, PostgreSQL
-   → Intelligent candidate matching platform
+2. HireAligna.ai  
+   Status: Live | Stack: Next.js, LiveKit, Azure OpenAI
+   → Conversational AI recruiter with voice interviews
+   → Helps startups cut hiring time by 40%
 
-3. AIVision - Computer Vision Platform
-   Status: Production | Stack: Python, TensorFlow, CUDA
-   → Real-time object detection for manufacturing
+3. AI Vision
+   Status: Live | Stack: Computer Vision, iOS, ML
+   → Patent-pending AI/CV solutions for home services
+   → Mobile app live on App Store
 
 Use 'get_project_details' tool for more information.`,
 
@@ -225,17 +240,21 @@ function handleGetProjectDetails(input: { projectId: string; includeStack?: bool
     id: project.id,
     title: project.title,
     description: project.description,
-    longDescription: project.longDescription,
+    shortDescription: project.shortDescription,
     status: project.status,
-    metrics: project.metrics
+    metrics: project.metrics,
+    impact: project.impact,
+    category: project.category
   };
 
   if (input.includeStack !== false) {
     result.stack = project.stack;
   }
 
-  if (project.url) result.url = project.url;
-  if (project.github) result.github = project.github;
+  // Include links if available
+  if (project.links.website) result.website = project.links.website;
+  if (project.links.github) result.github = project.links.github;
+  if (project.links.demo) result.demo = project.links.demo;
 
   return result;
 }

@@ -16,13 +16,19 @@ const defaultTheme = {
   container: {
     center: true,
     padding: "2rem",
+    // Only use standard width-based breakpoints for container
+    screens: {
+      sm: "640px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1280px",
+      "2xl": "1536px",
+    },
   },
   extend: {
-    screens: {
-      coarse: { raw: "(pointer: coarse)" },
-      fine: { raw: "(pointer: fine)" },
-      pwa: { raw: "(display-mode: standalone)" },
-    },
+    // Note: Raw media queries like (pointer: coarse) removed as they cause
+    // CSS parsing issues with Tailwind v4's container plugin.
+    // Use JavaScript matchMedia for these checks instead.
     colors: {
       neutral: {
         1: "var(--color-neutral-1)",

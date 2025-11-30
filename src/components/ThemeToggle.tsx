@@ -1,6 +1,6 @@
 import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
-import { Moon, Sun } from "@phosphor-icons/react"
+import { Moon, Sun } from "lucide-react"
 import { useEffect, useState } from "react"
 
 export function ThemeToggle() {
@@ -19,13 +19,13 @@ export function ThemeToggle() {
   }
 
   const getIcon = () => {
-    if (!mounted) return <Sun size={18} weight="fill" />
+    if (!mounted) return <Sun className="h-[18px] w-[18px]" />
     
     // Use resolvedTheme to show the actual theme (handles "system" case)
     const currentTheme = resolvedTheme || "light"
     return currentTheme === "dark" 
-      ? <Moon size={18} weight="fill" />
-      : <Sun size={18} weight="fill" />
+      ? <Moon className="h-[18px] w-[18px]" />
+      : <Sun className="h-[18px] w-[18px]" />
   }
 
   const getLabel = () => {

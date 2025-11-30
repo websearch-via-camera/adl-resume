@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsList, TabsTrigger} from "@/components/ui/tabs"
-import { Code, Cube, Database, Cloud, Wrench, Star, Lightning, TrendUp } from "@phosphor-icons/react"
+import { Code, Box, Database, Cloud, Wrench, Star, Zap, TrendingUp } from "lucide-react"
 
 interface TechItem {
   name: string
@@ -171,7 +171,7 @@ const techStack: TechItem[] = [
 
 const categoryConfig: Record<TechItem["category"], { label: string; icon: typeof Code; color: string }> = {
   language: { label: "Languages", icon: Code, color: "text-violet-500" },
-  framework: { label: "Frameworks", icon: Cube, color: "text-cyan-500" },
+  framework: { label: "Frameworks", icon: Box, color: "text-cyan-500" },
   database: { label: "Databases", icon: Database, color: "text-emerald-500" },
   cloud: { label: "Cloud & DevOps", icon: Cloud, color: "text-orange-500" },
   tool: { label: "Dev Tools", icon: Wrench, color: "text-pink-500" }
@@ -211,7 +211,7 @@ function FeaturedTechCard({ tech }: { tech: TechItem }) {
           <div className="flex items-start justify-between mb-3">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <Star size={14} weight="fill" className="text-amber-500" />
+                <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
                 <span className="text-xs font-medium text-amber-600 dark:text-amber-400">Featured</span>
               </div>
               <h4 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
@@ -219,7 +219,7 @@ function FeaturedTechCard({ tech }: { tech: TechItem }) {
               </h4>
             </div>
             <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-muted/50 text-xs font-medium">
-              <TrendUp size={12} className="text-green-500" />
+              <TrendingUp className="h-3 w-3 text-green-500" />
               <span>{tech.yearsExp}+ yrs</span>
             </div>
           </div>
@@ -304,7 +304,7 @@ export function TechStack() {
           <div>
             <div className="flex items-center justify-center gap-2 mb-2">
               <div className="p-2 rounded-lg bg-primary/10">
-                <Lightning size={20} weight="fill" className="text-primary" />
+                <Zap className="h-5 w-5 fill-primary text-primary" />
               </div>
               <h3 className="text-2xl font-bold">Technology Stack</h3>
             </div>
@@ -329,7 +329,7 @@ export function TechStack() {
         {/* Featured Section */}
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-4">
-            <Star size={16} weight="fill" className="text-amber-500" />
+            <Star className="h-4 w-4 fill-amber-500 text-amber-500" />
             <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
               Core Expertise
             </h4>
@@ -360,7 +360,7 @@ export function TechStack() {
                     value={category}
                     className="data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs px-3 py-1.5 gap-1.5"
                   >
-                    <Icon size={14} className={config.color} />
+                    <Icon className={`h-3.5 w-3.5 ${config.color}`} />
                     <span className="hidden sm:inline">{config.label}</span>
                   </TabsTrigger>
                 )
@@ -382,7 +382,7 @@ export function TechStack() {
               return (
                 <div key={category}>
                   <div className="flex items-center gap-2 mb-3">
-                    <Icon size={16} className={config.color} />
+                    <Icon className={`h-4 w-4 ${config.color}`} />
                     <h4 className="text-sm font-semibold text-muted-foreground">
                       {config.label}
                     </h4>

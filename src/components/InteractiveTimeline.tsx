@@ -8,12 +8,12 @@ import {
   GraduationCap, 
   Code, 
   Rocket,
-  Buildings,
+  Building2,
   MapPin,
   Calendar,
   ArrowRight,
   X
-} from "@phosphor-icons/react"
+} from "lucide-react"
 
 interface TimelineEntry {
   id: string
@@ -28,7 +28,7 @@ interface TimelineEntry {
   highlights: string[]
   technologies: string[]
   impact?: string
-  icon: typeof Briefcase
+  icon: React.ComponentType<{ className?: string }>
 }
 
 const timelineData: TimelineEntry[] = [
@@ -110,7 +110,7 @@ const timelineData: TimelineEntry[] = [
     ],
     technologies: ["C++", "Python", "Go", "Borg", "MapReduce", "Spanner"],
     impact: "Features serving billions of users worldwide",
-    icon: Buildings
+    icon: Building2
   },
   {
     id: "twitter",
@@ -290,7 +290,7 @@ export function InteractiveTimeline() {
                 <div className="flex items-start gap-3">
                   {/* Icon */}
                   <div className={`p-2 rounded-lg bg-gradient-to-br ${typeColors[entry.type]} text-white shrink-0`}>
-                    <Icon size={20} weight="fill" />
+                    <Icon className="h-5 w-5" />
                   </div>
                   
                   {/* Content */}
@@ -314,7 +314,7 @@ export function InteractiveTimeline() {
                     {/* Expand indicator */}
                     <div className="flex items-center gap-1 mt-2 text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity">
                       <span>View details</span>
-                      <ArrowRight size={12} />
+                      <ArrowRight className="h-3 w-3" />
                     </div>
                   </div>
                 </div>
@@ -338,18 +338,18 @@ export function InteractiveTimeline() {
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-4">
                   <div className={`p-3 rounded-xl bg-gradient-to-br ${typeColors[selectedEntry.type]} text-white`}>
-                    <selectedEntry.icon size={28} weight="fill" />
+                    <selectedEntry.icon className="h-7 w-7" />
                   </div>
                   <div>
                     <h3 className="text-xl font-bold">{selectedEntry.role}</h3>
                     <p className="text-primary font-medium text-lg">{selectedEntry.company}</p>
                     <div className="flex items-center gap-4 mt-1 text-sm text-muted-foreground">
                       <span className="flex items-center gap-1">
-                        <Calendar size={14} />
+                        <Calendar className="h-3.5 w-3.5" />
                         {selectedEntry.period}
                       </span>
                       <span className="flex items-center gap-1">
-                        <MapPin size={14} />
+                        <MapPin className="h-3.5 w-3.5" />
                         {selectedEntry.location}
                       </span>
                     </div>
@@ -360,7 +360,7 @@ export function InteractiveTimeline() {
                   className="min-h-[44px] min-w-[44px] p-2 hover:bg-muted rounded-lg transition-colors flex items-center justify-center"
                   aria-label="Close details panel"
                 >
-                  <X size={20} aria-hidden="true" />
+                  <X className="h-5 w-5" aria-hidden="true" />
                 </button>
               </div>
               

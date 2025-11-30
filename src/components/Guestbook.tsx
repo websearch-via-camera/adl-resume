@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-import { PaperPlaneTilt, PencilLine, Sparkle, Heart } from "@phosphor-icons/react"
+import { Send, PenLine, Sparkles, Heart } from "lucide-react"
 import { toast } from "sonner"
 
 // Manually curated guestbook entries - add new ones here after receiving via email
@@ -74,7 +74,7 @@ export function Guestbook() {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="p-2 bg-primary/10 rounded-lg">
-            <PencilLine size={24} className="text-primary" weight="fill" />
+            <PenLine className="h-6 w-6 text-primary" />
           </div>
           <div>
             <h3 className="text-xl font-bold">Guestbook</h3>
@@ -84,7 +84,7 @@ export function Guestbook() {
         
         {!isFormOpen && (
           <Button onClick={() => setIsFormOpen(true)} className="gap-2">
-            <PencilLine size={18} weight="bold" />
+            <PenLine className="h-[18px] w-[18px]" />
             Sign Guestbook
           </Button>
         )}
@@ -148,7 +148,7 @@ export function Guestbook() {
                 Cancel
               </Button>
               <Button type="submit" disabled={isSubmitting} className="gap-2">
-                <PaperPlaneTilt size={18} weight="bold" />
+                <Send className="h-[18px] w-[18px]" />
                 {isSubmitting ? "Sending..." : "Sign Guestbook"}
               </Button>
             </div>
@@ -180,12 +180,10 @@ export function Guestbook() {
           <div className="max-w-sm mx-auto space-y-4">
             <div className="relative inline-block">
               <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
-                <PencilLine size={40} className="text-primary" weight="duotone" />
+                <PenLine className="h-10 w-10 text-primary" />
               </div>
-              <Sparkle 
-                size={24} 
-                weight="fill" 
-                className="absolute -top-1 -right-1 text-accent animate-pulse" 
+              <Sparkles 
+                className="absolute -top-1 -right-1 h-6 w-6 text-accent animate-pulse" 
               />
             </div>
             
@@ -199,13 +197,13 @@ export function Guestbook() {
             </div>
 
             <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-              <Heart size={16} weight="fill" className="text-red-400" />
+              <Heart className="h-4 w-4 fill-red-400 text-red-400" />
               <span>Messages are reviewed with care before appearing</span>
             </div>
 
             {!isFormOpen && (
               <Button onClick={() => setIsFormOpen(true)} size="lg" className="gap-2 mt-2">
-                <PencilLine size={20} weight="bold" />
+                <PenLine className="h-5 w-5" />
                 Leave the First Message
               </Button>
             )}

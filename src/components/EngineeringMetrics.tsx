@@ -3,13 +3,13 @@ import { Badge } from "@/components/ui/badge"
 import { 
   Code, 
   GitBranch, 
-  Buildings, 
+  Building2, 
   Trophy,
-  Lightning,
-  ChartLineUp,
+  Zap,
+  TrendingUp,
   Users,
   Clock
-} from "@phosphor-icons/react"
+} from "lucide-react"
 
 interface Metric {
   icon: React.ReactNode
@@ -21,56 +21,56 @@ interface Metric {
 
 const engineeringMetrics: Metric[] = [
   {
-    icon: <Code size={24} weight="fill" />,
+    icon: <Code className="h-6 w-6" />,
     label: "Lines of Code",
     value: "500K+",
     subtext: "Production code shipped",
     trend: "up"
   },
   {
-    icon: <GitBranch size={24} weight="fill" />,
+    icon: <GitBranch className="h-6 w-6" />,
     label: "Pull Requests",
     value: "2,500+",
     subtext: "Merged to main",
     trend: "up"
   },
   {
-    icon: <Buildings size={24} weight="fill" />,
+    icon: <Building2 className="h-6 w-6" />,
     label: "Companies",
     value: "9+",
     subtext: "Including Google, startups",
     trend: "neutral"
   },
   {
-    icon: <Trophy size={24} weight="fill" />,
+    icon: <Trophy className="h-6 w-6" />,
     label: "Patents",
     value: "3",
     subtext: "2 pending in AI",
     trend: "up"
   },
   {
-    icon: <Lightning size={24} weight="fill" />,
+    icon: <Zap className="h-6 w-6" />,
     label: "Performance Gains",
     value: "55x",
     subtext: "GPU optimization record",
     trend: "up"
   },
   {
-    icon: <ChartLineUp size={24} weight="fill" />,
+    icon: <TrendingUp className="h-6 w-6" />,
     label: "Test Coverage",
     value: "95%+",
     subtext: "On critical systems",
     trend: "neutral"
   },
   {
-    icon: <Users size={24} weight="fill" />,
+    icon: <Users className="h-6 w-6" />,
     label: "Team Size Led",
     value: "12+",
     subtext: "Cross-functional engineers",
     trend: "neutral"
   },
   {
-    icon: <Clock size={24} weight="fill" />,
+    icon: <Clock className="h-6 w-6" />,
     label: "Years Experience",
     value: "10+",
     subtext: "In production systems",
@@ -128,7 +128,7 @@ export function EngineeringMetrics() {
       <div className="mt-6 p-4 bg-gradient-to-r from-primary/10 via-accent/10 to-secondary/10 rounded-lg border border-primary/20">
         <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
           <div className="flex-shrink-0">
-            <Trophy size={32} weight="fill" className="text-primary" />
+            <Trophy className="h-8 w-8 text-primary" />
           </div>
           <div className="flex-1">
             <h4 className="font-bold text-lg">Featured Achievement</h4>

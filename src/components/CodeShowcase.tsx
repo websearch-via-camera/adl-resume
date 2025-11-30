@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Copy, Check } from "@phosphor-icons/react"
+import { Copy, Check } from "lucide-react"
 import { toast } from "sonner"
 
 interface CodeExample {
@@ -433,9 +433,9 @@ export function CodeShowcase() {
                     className="h-7 text-xs text-zinc-400 hover:text-white"
                   >
                     {copiedId === example.id ? (
-                      <><Check size={14} className="mr-1" /> Copied</>
+                      <><Check className="h-3.5 w-3.5 mr-1" /> Copied</>
                     ) : (
-                      <><Copy size={14} className="mr-1" /> Copy</>
+                      <><Copy className="h-3.5 w-3.5 mr-1" /> Copy</>
                     )}
                   </Button>
                 </div>

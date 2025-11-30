@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { EnvelopeSimple, Phone, Download, GithubLogo, LinkedinLogo, ArrowUpRight, PaperPlaneTilt, CaretUp, CaretDown, Link  } from "@phosphor-icons/react"
+import { Mail, Phone, Download, Github, Linkedin, ArrowUpRight, Send, ChevronUp, ChevronDown, Link } from "lucide-react"
 import { motion } from "framer-motion"
 import { useState, useEffect, lazy, Suspense } from "react"
 import { toast } from "sonner"
@@ -511,14 +511,14 @@ function App() {
                   href="mailto:kiarasha@alum.mit.edu" 
                   className="flex items-center gap-2 px-4 py-2 bg-muted hover:bg-muted/80 rounded-lg transition-all text-sm font-medium"
                 >
-                  <EnvelopeSimple size={18} weight="fill" className="text-primary" />
+                  <Mail className="h-[18px] w-[18px] text-primary" />
                   <span>kiarasha@alum.mit.edu</span>
                 </a>
                 <a 
                   href="tel:+18579281608" 
                   className="flex items-center gap-2 px-4 py-2 bg-muted hover:bg-muted/80 rounded-lg transition-all text-sm font-medium"
                 >
-                  <Phone size={18} weight="fill" className="text-primary" />
+                  <Phone className="h-[18px] w-[18px] text-primary" />
                   <span>857-928-1608</span>
                 </a>
                 <a 
@@ -527,7 +527,7 @@ function App() {
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all shadow-sm hover:shadow-md text-sm font-medium"
                 >
-                  <LinkedinLogo size={18} weight="fill" />
+                  <Linkedin className="h-[18px] w-[18px]" />
                   <span>LinkedIn</span>
                 </a>
               </div>
@@ -551,10 +551,8 @@ function App() {
             <div className="w-6 h-10 rounded-full border-2 border-muted-foreground/40 flex justify-center pt-2 group-hover:border-primary/60 transition-colors">
               <div className="w-1.5 h-1.5 bg-muted-foreground/60 rounded-full animate-scroll-dot group-hover:bg-primary transition-colors" />
             </div>
-            <CaretDown 
-              size={20} 
-              weight="bold" 
-              className="text-muted-foreground/60 animate-scroll-arrow group-hover:text-primary transition-colors" 
+            <ChevronDown 
+              className="h-5 w-5 text-muted-foreground/60 animate-scroll-arrow group-hover:text-primary transition-colors" 
             />
           </button>
         </div>
@@ -634,10 +632,10 @@ function App() {
                     </div>
                     <div className="flex flex-row gap-2">
                       <a href="https://kiarashplusplus.github.io/FIML/" target="_blank" rel="noopener noreferrer" className="flex-shrink-0 min-h-[44px] min-w-[44px] p-3 rounded-lg bg-muted hover:bg-muted/80 transition-colors flex items-center justify-center" aria-label="View FIML project website">
-                        <Link size={24} weight="fill" className="text-foreground" />
+                        <Link className="h-6 w-6 text-foreground" />
                       </a>
                       <a href="https://github.com/kiarashplusplus/FIML" target="_blank" rel="noopener noreferrer" className="flex-shrink-0 min-h-[44px] min-w-[44px] p-3 rounded-lg bg-muted hover:bg-muted/80 transition-colors flex items-center justify-center" aria-label="View FIML project on GitHub">
-                        <GithubLogo size={24} weight="fill" className="text-foreground" />
+                        <Github className="h-6 w-6 text-foreground" />
                       </a>
                     </div>
                   </div>
@@ -789,7 +787,7 @@ function App() {
               </div>
               <Button className="gap-2 shadow-md" asChild>
                 <a href={resumePdf} download="Kiarash-Adl-Resume.pdf">
-                  <Download size={18} weight="bold" />
+                  <Download className="h-[18px] w-[18px]" />
                   Resume (PDF)
                 </a>
               </Button>
@@ -942,7 +940,7 @@ function App() {
                   className="flex items-center gap-3 p-4 bg-muted/50 hover:bg-muted rounded-lg transition-colors group"
                 >
                   <div className="p-2 bg-primary/10 rounded-lg">
-                    <EnvelopeSimple size={20} weight="fill" className="text-primary" />
+                    <Mail className="h-5 w-5 text-primary" />
                   </div>
                   <div>
                     <div className="text-xs text-muted-foreground">Email</div>
@@ -955,7 +953,7 @@ function App() {
                   className="flex items-center gap-3 p-4 bg-muted/50 hover:bg-muted rounded-lg transition-colors group"
                 >
                   <div className="p-2 bg-primary/10 rounded-lg">
-                    <Phone size={20} weight="fill" className="text-primary" />
+                    <Phone className="h-5 w-5 text-primary" />
                   </div>
                   <div>
                     <div className="text-xs text-muted-foreground">Phone</div>
@@ -970,7 +968,7 @@ function App() {
                     rel="noopener noreferrer"
                     className="flex-1 flex items-center justify-center gap-2 p-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all font-medium"
                   >
-                    <LinkedinLogo size={20} weight="fill" />
+                    <Linkedin className="h-5 w-5" />
                     LinkedIn
                   </a>
                   <a 
@@ -979,7 +977,7 @@ function App() {
                     rel="noopener noreferrer"
                     className="flex-1 flex items-center justify-center gap-2 p-3 bg-foreground text-background rounded-lg hover:bg-foreground/90 transition-all font-medium"
                   >
-                    <GithubLogo size={20} weight="fill" />
+                    <Github className="h-5 w-5" />
                     GitHub
                   </a>
                 </div>
@@ -1046,7 +1044,7 @@ function App() {
                       disabled={isSubmitting}
                       className="w-full gap-2"
                     >
-                      <PaperPlaneTilt size={18} weight="fill" />
+                      <Send className="h-[18px] w-[18px]" />
                       {isSubmitting ? "Sending..." : "Send Message"}
                     </Button>
                   </form>
@@ -1083,10 +1081,10 @@ function App() {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
             <div className="flex items-center gap-4">
               <a href="https://www.linkedin.com/in/kiarashadl/" target="_blank" rel="noopener noreferrer" className="min-h-[44px] min-w-[44px] flex items-center justify-center hover:text-foreground transition-colors" aria-label="Visit Kiarash's LinkedIn profile">
-                <LinkedinLogo size={20} weight="fill" />
+                <Linkedin className="h-5 w-5" />
               </a>
               <a href="https://github.com/kiarashplusplus/" target="_blank" rel="noopener noreferrer" className="min-h-[44px] min-w-[44px] flex items-center justify-center hover:text-foreground transition-colors" aria-label="Visit Kiarash's GitHub profile">
-                <GithubLogo size={20} weight="fill" />
+                <Github className="h-5 w-5" />
               </a>
               <p>© 2025 Kiarash Adl</p>
             </div>
@@ -1106,7 +1104,7 @@ function App() {
           className="fixed bottom-8 right-8 min-h-[44px] min-w-[44px] p-4 bg-primary text-primary-foreground rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-200 z-40 animate-in fade-in zoom-in"
           aria-label="Scroll to top"
         >
-          <CaretUp size={24} weight="bold" />
+          <ChevronUp className="h-6 w-6" />
         </button>
       )}
 

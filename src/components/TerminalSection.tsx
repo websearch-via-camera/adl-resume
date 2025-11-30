@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Card } from "@/components/ui/card"
-import { Terminal as TerminalIcon } from "@phosphor-icons/react"
+import { Terminal } from "lucide-react"
 
 interface CommandOutput {
   command: string
@@ -251,7 +251,7 @@ export function TerminalSection() {
             <div className="w-3 h-3 rounded-full bg-yellow-500/80" aria-hidden="true"></div>
             <div className="w-3 h-3 rounded-full bg-green-500/80" aria-hidden="true"></div>
           </div>
-          <TerminalIcon size={16} className="text-zinc-400 ml-2" weight="fill" aria-hidden="true" />
+          <Terminal className="h-4 w-4 text-zinc-400 ml-2" aria-hidden="true" />
           <span className="text-xs text-zinc-400 font-mono">kiarash@portfolio — zsh</span>
         </div>
         <span className="text-xs text-zinc-500 font-mono" aria-hidden="true">bash</span>

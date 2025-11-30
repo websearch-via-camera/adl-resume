@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Terminal, User, Code, Sparkle } from "@phosphor-icons/react"
+import { Terminal, User, Code, Sparkles } from "lucide-react"
 
 interface OnboardingChoiceProps {
   onChoice: (isDeveloper: boolean) => void
@@ -78,7 +78,7 @@ export function OnboardingChoice({ onChoice }: OnboardingChoiceProps) {
                         : "bg-muted text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary"
                     }`}
                   >
-                    <Terminal size={28} weight="bold" />
+                    <Terminal className="h-7 w-7" />
                   </div>
                   <div className="flex-1">
                     <h2 className="text-xl md:text-2xl font-bold mb-2 group-hover:text-primary transition-colors">
@@ -109,7 +109,7 @@ export function OnboardingChoice({ onChoice }: OnboardingChoiceProps) {
 
                 {/* Decorative code symbols */}
                 <div className="absolute top-3 right-3 opacity-10 group-hover:opacity-20 transition-opacity">
-                  <Code size={32} weight="bold" />
+                  <Code className="h-8 w-8" />
                 </div>
               </motion.button>
 
@@ -136,7 +136,7 @@ export function OnboardingChoice({ onChoice }: OnboardingChoiceProps) {
                         : "bg-muted text-muted-foreground group-hover:bg-accent/10 group-hover:text-accent"
                     }`}
                   >
-                    <User size={28} weight="bold" />
+                    <User className="h-7 w-7" />
                   </div>
                   <div className="flex-1">
                     <h2 className="text-xl md:text-2xl font-bold mb-2 group-hover:text-accent transition-colors">
@@ -165,7 +165,7 @@ export function OnboardingChoice({ onChoice }: OnboardingChoiceProps) {
 
                 {/* Decorative user symbol */}
                 <div className="absolute top-3 right-3 opacity-10 group-hover:opacity-20 transition-opacity">
-                  <User size={32} weight="bold" />
+                  <User className="h-8 w-8" />
                 </div>
               </motion.button>
             </div>

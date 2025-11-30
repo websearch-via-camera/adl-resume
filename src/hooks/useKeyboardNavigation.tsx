@@ -2,7 +2,7 @@ import { useEffect, useCallback, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Keyboard } from "@phosphor-icons/react"
+import { Keyboard } from "lucide-react"
 
 interface KeyboardShortcut {
   keys: string[]
@@ -174,7 +174,7 @@ export function KeyboardHelp({ show, onClose }: KeyboardHelpProps) {
             <Card className="w-full max-w-md p-6 shadow-2xl pointer-events-auto">
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-2 bg-primary/10 rounded-lg">
-                  <Keyboard size={24} className="text-primary" weight="fill" aria-hidden="true" />
+                  <Keyboard className="h-6 w-6 text-primary" aria-hidden="true" />
                 </div>
                 <div>
                   <h2 id="keyboard-help-title" className="text-xl font-bold">Keyboard Shortcuts</h2>
@@ -249,7 +249,7 @@ export function KeyboardHint() {
           className="fixed bottom-20 right-8 z-30"
         >
           <Badge variant="secondary" className="gap-1.5 py-1.5 px-3 shadow-md">
-            <Keyboard size={14} weight="fill" />
+            <Keyboard className="h-3.5 w-3.5" />
             Press <kbd className="px-1 font-mono bg-background rounded text-xs">?</kbd> for shortcuts
           </Badge>
         </motion.div>

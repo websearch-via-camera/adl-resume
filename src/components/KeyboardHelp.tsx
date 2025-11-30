@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion"
 import { Card } from "@/components/ui/card"
-import { Keyboard } from "@phosphor-icons/react"
+import { Keyboard } from "lucide-react"
 
 interface KeyboardHelpProps {
   show: boolean
@@ -48,7 +48,7 @@ export function KeyboardHelp({ show, onClose }: KeyboardHelpProps) {
             <Card className="w-full max-w-md p-6 shadow-2xl pointer-events-auto">
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-2 bg-primary/10 rounded-lg">
-                  <Keyboard size={24} className="text-primary" weight="fill" aria-hidden="true" />
+                  <Keyboard className="h-6 w-6 text-primary" aria-hidden="true" />
                 </div>
                 <div>
                   <h2 id="keyboard-help-title" className="text-xl font-bold">Keyboard Shortcuts</h2>

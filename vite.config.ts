@@ -145,8 +145,8 @@ export default defineConfig({
           if (id.includes('@radix-ui')) {
             return 'vendor-radix';
           }
-          // Phosphor icons - split to separate chunk
-          if (id.includes('@phosphor-icons')) {
+          // Lucide icons - tree-shakeable, only used icons bundled
+          if (id.includes('lucide-react')) {
             return 'vendor-icons';
           }
         }

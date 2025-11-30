@@ -7,8 +7,8 @@ import { Toaster } from "@/components/ui/sonner"
 import { ThemeProvider } from "@/components/ThemeProvider"
 import { A11yProvider } from "@/components/A11yProvider"
 
+// Single consolidated CSS import
 import "./main.css"
-import "./styles/theme.css"
 import "./index.css"
 
 createRoot(document.getElementById('root')!).render(

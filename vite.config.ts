@@ -16,33 +16,54 @@ export default defineConfig({
       '@': resolve(projectRoot, 'src')
     }
   },
+  // Optimize dependency pre-bundling
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'framer-motion'],
+  },
   build: {
     // Production optimizations
     minify: 'esbuild',
-    cssMinify: true,
+    cssMinify: 'lightningcss',
+    cssCodeSplit: true,
+    // Reduce chunk size warnings threshold
+    chunkSizeWarningLimit: 500,
     rollupOptions: {
       output: {
-        manualChunks: {
-          // Core React vendor chunk
-          'vendor-react': ['react', 'react-dom'],
-          // Charting libraries (heavy)
-          'vendor-charts': ['recharts', 'd3'],
+        // Optimize chunk naming for better caching
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]',
+        manualChunks: (id) => {
+          // Core React - smallest possible chunk loaded first
+          if (id.includes('react-dom') || id.includes('react/')) {
+            return 'vendor-react';
+          }
+          // Charting libraries - lazy loaded, large
+          if (id.includes('recharts') || id.includes('d3-')) {
+            return 'vendor-charts';
+          }
           // Animation library
-          'vendor-motion': ['framer-motion'],
-          // Radix UI components
-          'vendor-radix': [
-            '@radix-ui/react-tabs',
-            '@radix-ui/react-dialog',
-            '@radix-ui/react-tooltip',
-            '@radix-ui/react-popover',
-            '@radix-ui/react-dropdown-menu',
-          ],
+          if (id.includes('framer-motion')) {
+            return 'vendor-motion';
+          }
+          // Radix UI components - used throughout
+          if (id.includes('@radix-ui')) {
+            return 'vendor-radix';
+          }
+          // Phosphor icons - lazy load
+          if (id.includes('@phosphor-icons')) {
+            return 'vendor-icons';
+          }
         }
       }
     },
     // Generate source maps for debugging in production (optional)
     sourcemap: false,
     // Target modern browsers for smaller bundle
-    target: 'es2020',
+    target: 'esnext',
+    // Enable module preload polyfill for older browsers
+    modulePreload: {
+      polyfill: true,
+    },
   },
 });

@@ -70,23 +70,56 @@
     }
     </script>
     
-    <!-- Preload fonts to prevent FOUT -->
+    <!-- DNS Prefetch for external resources -->
+    <link rel="dns-prefetch" href="https://api.github.com">
+    <link rel="dns-prefetch" href="https://api.resend.com">
+    
+    <!-- Preconnect for fonts (high priority) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins&family=Merriweather&family=Source+Code+Pro&display=swap" as="style">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&family=Merriweather&family=Source+Code+Pro&display=swap">
+    
+    <!-- Preload critical fonts with display=swap for faster text rendering -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"></noscript>
+    
+    <!-- Preload hero image for faster LCP -->
+    <link rel="preload" href="/src/assets/images/Kiarash_Adl_Linkedin_Image.jpg" as="image" type="image/jpeg" fetchpriority="high">
+    
     <link href="/src/main.css" rel="stylesheet" />
     
-    <!-- Hide content until ready -->
+    <!-- Critical inline CSS for above-the-fold content -->
     <style>
+      /* Hide content until ready */
       #root { opacity: 0; transition: opacity 0.15s ease-in; }
       #root.ready { opacity: 1; }
+      
+      /* Critical layout styles for faster FCP */
+      body { margin: 0; font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+      .dark { --background: oklch(0.15 0.02 40); --foreground: oklch(0.92 0.02 70); }
+      :root { --background: oklch(0.98 0.008 65); --foreground: oklch(0.20 0.03 40); }
+      body { background-color: var(--background); color: var(--foreground); }
+      
+      /* Prevent layout shift for hero section */
+      .hero-image-placeholder { width: 12rem; height: 12rem; border-radius: 9999px; background: var(--background); }
+      @media (min-width: 768px) { .hero-image-placeholder { width: 14rem; height: 14rem; } }
     </style>
 </head>
 
 <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Performance metrics (only in production) -->
+    <script>
+      if ('PerformanceObserver' in window && location.hostname !== 'localhost') {
+        // Report LCP
+        new PerformanceObserver((list) => {
+          const entries = list.getEntries();
+          const lcp = entries[entries.length - 1];
+          console.log('LCP:', lcp.startTime.toFixed(0), 'ms');
+        }).observe({ type: 'largest-contentful-paint', buffered: true });
+      }
+    </script>
 </body>
 
 </html>

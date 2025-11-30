@@ -429,6 +429,9 @@ function App() {
                   src={profileImage}
                   alt="Kiarash Adl"
                   className="w-full h-full object-cover"
+                  fetchPriority="high"
+                  decoding="async"
+                  loading="eager"
                 />
               </div>
             </motion.div>

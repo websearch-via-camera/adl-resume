@@ -534,18 +534,31 @@ function App() {
             </div>
           </div>
         </div>
-      </header>
-
-      {/* Scroll indicator - CSS animation */}
-      <div
-        className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-40 pointer-events-none transition-opacity duration-300 ${
-          showScrollIndicator ? 'opacity-70' : 'opacity-0'
-        }`}
-      >
-        <div className="animate-bounce">
-          <CaretDown size={28} weight="bold" className="text-muted-foreground" />
+        {/* Scroll indicator - integrated into hero section */}
+        <div
+          className={`flex flex-col items-center mt-12 md:mt-16 transition-opacity duration-500 ${
+            showScrollIndicator ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
+          <span className="text-xs uppercase tracking-widest text-muted-foreground mb-3">
+            Explore
+          </span>
+          <button
+            onClick={() => scrollToSection('projects')}
+            className="group flex flex-col items-center gap-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg p-2"
+            aria-label="Scroll down to explore content"
+          >
+            <div className="w-6 h-10 rounded-full border-2 border-muted-foreground/40 flex justify-center pt-2 group-hover:border-primary/60 transition-colors">
+              <div className="w-1.5 h-1.5 bg-muted-foreground/60 rounded-full animate-scroll-dot group-hover:bg-primary transition-colors" />
+            </div>
+            <CaretDown 
+              size={20} 
+              weight="bold" 
+              className="text-muted-foreground/60 animate-scroll-arrow group-hover:text-primary transition-colors" 
+            />
+          </button>
         </div>
-      </div>
+      </header>
 
       <Separator className="max-w-5xl mx-auto" />
 

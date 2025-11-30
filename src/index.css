@@ -353,3 +353,46 @@ select:focus-visible {
     0 4px 8px -2px oklch(from var(--shadow-color) l c h / calc(var(--shadow-opacity) * 0.5));
   border-color: var(--primary);
 }
+
+/* Scroll indicator animations */
+@keyframes scroll-dot {
+  0%, 20% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  80%, 100% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+@keyframes scroll-arrow {
+  0%, 100% {
+    opacity: 0.4;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(4px);
+  }
+}
+
+.animate-scroll-dot {
+  animation: scroll-dot 2s ease-in-out infinite;
+  will-change: transform, opacity;
+  contain: layout style;
+}
+
+.animate-scroll-arrow {
+  animation: scroll-arrow 2s ease-in-out infinite;
+  animation-delay: 0.3s;
+  will-change: transform, opacity;
+  contain: layout style;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-scroll-dot,
+  .animate-scroll-arrow {
+    animation: none !important;
+  }
+}

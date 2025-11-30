@@ -96,13 +96,13 @@ export function SkipLinks() {
   return (
     <nav
       aria-label="Skip links"
-      className="fixed top-0 left-0 z-[100] flex flex-col gap-1 p-2"
+      className="sr-only focus-within:not-sr-only"
     >
       {skipLinks.map((link) => (
         <a
           key={link.href}
           href={link.href}
-          className="skip-link bg-primary text-primary-foreground px-4 py-2 rounded-md font-medium text-sm shadow-lg transform -translate-y-full focus:translate-y-0 transition-transform duration-200 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          className="skip-link bg-primary text-primary-foreground px-4 py-2 rounded-md font-medium text-sm shadow-lg transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
           {link.label}
         </a>

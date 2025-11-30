@@ -227,15 +227,19 @@ a:focus-visible {
 
 /* Skip Links - visible on focus */
 .skip-link {
-  position: absolute;
-  left: 0;
-  top: 0;
-  transform: translateY(-100%);
-  z-index: 100;
+  position: fixed;
+  left: 1rem;
+  top: -100%;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
 }
 
-.skip-link:focus {
-  transform: translateY(0);
+.skip-link:focus,
+.skip-link:focus-visible {
+  top: 1rem;
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* Enhanced focus indicators */

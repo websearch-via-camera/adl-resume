@@ -21,6 +21,14 @@ import { OnboardingChoice } from "@/components/OnboardingChoice"
 import { WeatherIndicator } from "@/components/WeatherIndicator"
 import { useKeyboardNavigation, KeyboardHelp } from "@/hooks/useKeyboardNavigation"
 import { A11yProvider, SkipLinks, useA11y } from "@/components/A11yProvider"
+import { 
+  ScrollReveal, 
+  StaggerContainer, 
+  StaggerItem, 
+  SectionTransition,
+  HoverCard,
+  PageTransition
+} from "@/components/ScrollAnimations"
 
 // Heavy components lazy loaded for better initial performance
 const GitHubActivity = lazy(() => import("@/components/GitHubActivity").then(m => ({ default: m.GitHubActivity })))
@@ -164,20 +172,72 @@ function App() {
     setScrollProgress(Math.min(Math.max(progress, 0), 100))
   })
 
-  const fadeIn = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
-  }
+  // Accessibility context - must be before animation variants
+  const { announce, prefersReducedMotion } = useA11y()
 
-  const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15
+  // Enhanced animation variants with reduced motion support
+  const fadeIn = prefersReducedMotion 
+    ? { hidden: { opacity: 1 }, visible: { opacity: 1 } }
+    : {
+        hidden: { opacity: 0, y: 30 },
+        visible: { 
+          opacity: 1, 
+          y: 0,
+          transition: { 
+            duration: 0.6, 
+            ease: "easeOut" as const
+          }
+        }
       }
-    }
-  }
+
+  const staggerContainer = prefersReducedMotion
+    ? { hidden: { opacity: 1 }, visible: { opacity: 1 } }
+    : {
+        hidden: { opacity: 0 },
+        visible: {
+          opacity: 1,
+          transition: {
+            staggerChildren: 0.12,
+            delayChildren: 0.1
+          }
+        }
+      }
+  
+  // Slide in from left for alternating effects
+  const slideInLeft = prefersReducedMotion
+    ? { hidden: { opacity: 1 }, visible: { opacity: 1 } }
+    : {
+        hidden: { opacity: 0, x: -50 },
+        visible: { 
+          opacity: 1, 
+          x: 0,
+          transition: { duration: 0.6, ease: "easeOut" as const }
+        }
+      }
+  
+  // Slide in from right
+  const slideInRight = prefersReducedMotion
+    ? { hidden: { opacity: 1 }, visible: { opacity: 1 } }
+    : {
+        hidden: { opacity: 0, x: 50 },
+        visible: { 
+          opacity: 1, 
+          x: 0,
+          transition: { duration: 0.6, ease: "easeOut" as const }
+        }
+      }
+  
+  // Scale up effect for cards
+  const scaleIn = prefersReducedMotion
+    ? { hidden: { opacity: 1 }, visible: { opacity: 1 } }
+    : {
+        hidden: { opacity: 0, scale: 0.9 },
+        visible: { 
+          opacity: 1, 
+          scale: 1,
+          transition: { duration: 0.5, ease: "easeOut" as const }
+        }
+      }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -249,9 +309,6 @@ function App() {
     { id: "experience", label: "Experience" },
     { id: "contact", label: "Contact" }
   ]
-
-  // Accessibility context for screen reader announcements
-  const { announce, prefersReducedMotion } = useA11y()
   
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)

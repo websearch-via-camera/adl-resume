@@ -642,3 +642,25 @@ select:focus-visible {
     animation: none !important;
   }
 }
+
+/* Slow pulse for CTA buttons */
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 oklch(from var(--primary) 0.5 0.2 145 / 0.4);
+  }
+  50% {
+    opacity: 0.95;
+    box-shadow: 0 0 0 8px oklch(from var(--primary) 0.5 0.2 145 / 0);
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse-slow {
+    animation: none !important;
+  }
+}

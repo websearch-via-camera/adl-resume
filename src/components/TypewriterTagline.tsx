@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react"
 
 const taglines = [
-  "Senior Software Engineer",
-  "Full-Stack AI Systems Architect", 
-  "MIT EECS '14",
-  "Building AI-Native Products",
-  "From Prototype to Production"
+  "I Build AI That Works For You",
+  "Turning Complex Ideas Into Simple Solutions", 
+  "Making Tech Feel Human",
+  "From Vision to Reality, Fast",
+  "MIT-Trained, Startup-Tested"
 ]
 
 export function TypewriterTagline() {

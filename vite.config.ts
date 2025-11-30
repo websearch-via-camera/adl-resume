@@ -18,11 +18,16 @@ function criticalChunksPreload(): Plugin {
       const criticalChunks: string[] = [];
       let mainEntry = '';
       let profileImagePath = '';
+      let mainCssPath = '';
       
       for (const [fileName, chunk] of Object.entries(ctx.bundle)) {
         // Find the profile image (LCP element)
         if (fileName.includes('profile-384w') && fileName.endsWith('.webp')) {
           profileImagePath = fileName;
+        }
+        // Find the main CSS file
+        else if (fileName.startsWith('assets/index-') && fileName.endsWith('.css')) {
+          mainCssPath = fileName;
         }
         // Prioritize vendor-react (needed for everything)
         else if (fileName.includes('vendor-react')) {
@@ -50,6 +55,15 @@ function criticalChunksPreload(): Plugin {
         html = html.replace(
           /(<link rel="preload" as="image" type="image\/webp" href=")\/src\/assets\/images\/profile-384w\.webp(" fetchpriority="high">)/,
           `$1/${profileImagePath}$2`
+        );
+      }
+      
+      // Make CSS non-render-blocking by using media="print" with onload swap
+      // This allows the page to render with critical inline CSS first
+      if (mainCssPath) {
+        html = html.replace(
+          new RegExp(`<link rel="stylesheet"[^>]*href="/${mainCssPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"[^>]*>`),
+          `<link rel="stylesheet" href="/${mainCssPath}" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="/${mainCssPath}"></noscript>`
         );
       }
       

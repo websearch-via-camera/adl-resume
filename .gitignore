@@ -40,3 +40,7 @@ pids
 # Wrangler/Cloudflare
 .wrangler/
 wrangler.toml
+
+# MCP signing keys - never commit
+workers/.keys/
+*.pem

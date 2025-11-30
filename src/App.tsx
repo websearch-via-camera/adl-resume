@@ -98,11 +98,6 @@ function App() {
       // localStorage might not be available (private browsing, etc.)
       setShowOnboarding(true)
     }
-    
-    // Signal that app is ready - removes initial opacity:0
-    requestAnimationFrame(() => {
-      document.getElementById('root')?.classList.add('ready')
-    })
   }, [])
   
   // Handle onboarding choice

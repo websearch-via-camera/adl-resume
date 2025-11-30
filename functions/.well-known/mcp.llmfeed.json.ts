@@ -19,6 +19,12 @@ const mcpManifest = {
   "name": "Kiarash Adl Portfolio",
   "description": "AI-enabled portfolio of Kiarash Adl, AI Systems Architect and Full-Stack Engineer. Query projects, skills, and contact information programmatically.",
   "homepage": "https://kiarash-adl.pages.dev",
+  "server": {
+    "endpoint": "https://kiarash-adl.pages.dev/mcp/invoke",
+    "transport": "https",
+    "protocol": "json-rpc",
+    "documentation": "POST with JSON body: { \"tool\": \"tool_name\", \"input\": { ... } }"
+  },
   "tools": [
     {
       "name": "get_project_details",

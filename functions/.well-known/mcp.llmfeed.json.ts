@@ -136,7 +136,8 @@ async function signManifest(manifest: object, privateKeyBase64: string): Promise
   }
 }
 
-export const onRequest: PagesFunction<Env> = async (context) => {
+// Cloudflare Pages Function handler
+export const onRequest = async (context: { request: Request; env: Env }): Promise<Response> => {
   const { request, env } = context;
   
   // Handle CORS preflight

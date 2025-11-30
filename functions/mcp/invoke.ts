@@ -69,7 +69,7 @@ const terminalCommands: Record<string, string> = {
 │                    KIARASH ADL                               │
 │           AI Systems Architect & Full-Stack Engineer         │
 ├─────────────────────────────────────────────────────────────┤
-│  MIT Alumnus | 10+ Years Experience | Based in San Francisco │
+│  MIT Alumnus | 10+ Years Experience | Human + AI Projects   │
 │                                                              │
 │  Specializing in:                                            │
 │  • Large Language Models & AI Systems                        │
@@ -126,7 +126,7 @@ CONTACT INFORMATION
 Email:    kiarasha@alum.mit.edu
 GitHub:   github.com/kiarashplusplus
 LinkedIn: linkedin.com/in/kiarashadl
-Location: San Francisco, CA
+Phone:    +1-857-928-1608
 
 Open to: Consulting, Advisory, Full-time opportunities`,
 
@@ -254,7 +254,8 @@ function handleRunTerminalCommand(input: { command: string }) {
   };
 }
 
-export const onRequest: PagesFunction<Env> = async (context) => {
+// Cloudflare Pages Function handler
+export const onRequest = async (context: { request: Request }): Promise<Response> => {
   const { request } = context;
 
   // CORS headers

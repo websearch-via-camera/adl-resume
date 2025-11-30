@@ -41,6 +41,7 @@ const TerminalSection = lazy(() => import("@/components/TerminalSection").then(m
 const Guestbook = lazy(() => import("@/components/Guestbook").then(m => ({ default: m.Guestbook })))
 const InteractiveTimeline = lazy(() => import("@/components/InteractiveTimeline").then(m => ({ default: m.InteractiveTimeline })))
 const DeveloperHero = lazy(() => import("@/components/DeveloperHero").then(m => ({ default: m.DeveloperHero })))
+const WebMCPSection = lazy(() => import("@/components/WebMCPSection").then(m => ({ default: m.WebMCPSection })))
 
 // Recharts components lazy loaded (heavy charting library)
 const SkillsCharts = lazy(() => import("@/components/SkillsCharts"))
@@ -491,6 +492,12 @@ function App() {
                 <motion.div variants={fadeIn} className="mb-8">
                   <Suspense fallback={<SectionLoader />}>
                     <GitHubActivity />
+                  </Suspense>
+                </motion.div>
+
+                <motion.div variants={fadeIn} className="mb-8">
+                  <Suspense fallback={<SectionLoader section="WebMCP" />}>
+                    <WebMCPSection />
                   </Suspense>
                 </motion.div>
               </motion.div>

@@ -434,7 +434,7 @@ function App() {
         </div>
       </nav>
 
-      <main id="main-content" role="main" aria-label="Portfolio content">
+      <main id="main-content" role="main" aria-label="Portfolio content" tabIndex={-1}>
       {/* Hero Section - LCP-optimized: profile image renders immediately without animation */}
       <header 
         id="home"
@@ -567,7 +567,7 @@ function App() {
 
       <Separator className="max-w-5xl mx-auto" />
 
-      <section id="projects" className="py-16 px-6 md:py-20 scroll-mt-20">
+      <section id="projects" className="py-16 px-6 md:py-20 scroll-mt-20" tabIndex={-1}>
         <div className="max-w-5xl mx-auto">
           <motion.div
             initial="hidden"
@@ -680,7 +680,7 @@ function App() {
 
       <Separator className="max-w-5xl mx-auto" />
 
-      <section id="skills" className="py-16 px-6 md:py-20 scroll-mt-20">
+      <section id="skills" className="py-16 px-6 md:py-20 scroll-mt-20" tabIndex={-1}>
         <div className="max-w-5xl mx-auto">
           <motion.div
             initial="hidden"
@@ -910,7 +910,7 @@ function App() {
 
       <Separator className="max-w-5xl mx-auto" />
 
-      <section id="contact" className="py-16 px-6 md:py-20 scroll-mt-20">
+      <section id="contact" className="py-16 px-6 md:py-20 scroll-mt-20" tabIndex={-1}>
         <div className="max-w-5xl mx-auto">
           <motion.div
             initial="hidden"

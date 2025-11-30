@@ -50,7 +50,7 @@ const SkillsCharts = lazy(() => import("@/components/SkillsCharts"))
 // Loading fallback component
 const SectionLoader = ({ height = "h-64" }: { height?: string }) => (
   <div className={`${height} flex items-center justify-center bg-muted/20 rounded-lg animate-pulse`}>
-    <div className="text-muted-foreground text-sm">Loading...</div>
+    <div className="text-muted-foreground text-sm">Starting up the portfolio of Kiarash Adl..</div>
   </div>
 )
 
@@ -291,20 +291,18 @@ function App() {
       {/* Show nothing while checking localStorage to prevent flash */}
       {showOnboarding === null ? (
         <div className="min-h-screen bg-background" />
+      ) : showOnboarding ? (
+        /* Onboarding Choice Modal - lazy loaded, nothing else renders until choice is made */
+        <Suspense fallback={
+          <div className="fixed inset-0 z-[100] bg-background flex items-center justify-center">
+            <div className="animate-pulse text-muted-foreground">Loading...</div>
+          </div>
+        }>
+          <OnboardingChoice onChoice={handleOnboardingChoice} />
+        </Suspense>
       ) : (
-        <>
-          {/* Onboarding Choice Modal - lazy loaded */}
-          {showOnboarding && (
-            <Suspense fallback={
-              <div className="fixed inset-0 z-[100] bg-background flex items-center justify-center">
-                <div className="animate-pulse text-muted-foreground">Loading...</div>
-              </div>
-            }>
-              <OnboardingChoice onChoice={handleOnboardingChoice} />
-            </Suspense>
-          )}
-          
-          <div className="min-h-screen bg-background cursor-none">
+        /* Main content - only renders after onboarding is complete */
+        <div className="min-h-screen bg-background cursor-none">
       <Suspense fallback={null}>
         <CustomCursor />
       </Suspense>
@@ -1043,7 +1041,6 @@ function App() {
         <KeyboardHelp show={showHelp} onClose={() => setShowHelp(false)} />
       </Suspense>
     </div>
-        </>
       )}
     </>
   )

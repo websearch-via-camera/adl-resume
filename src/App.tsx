@@ -993,6 +993,7 @@ function App() {
                           id="name"
                           name="name"
                           type="text"
+                          autoComplete="name"
                           placeholder="Your name"
                           value={formData.name}
                           onChange={handleInputChange}
@@ -1005,6 +1006,7 @@ function App() {
                           id="email"
                           name="email"
                           type="email"
+                          autoComplete="email"
                           placeholder="your@email.com"
                           value={formData.email}
                           onChange={handleInputChange}

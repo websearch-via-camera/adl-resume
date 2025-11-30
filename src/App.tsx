@@ -40,6 +40,7 @@ const EngineeringMetrics = lazy(() => import("@/components/EngineeringMetrics").
 const TerminalSection = lazy(() => import("@/components/TerminalSection").then(m => ({ default: m.TerminalSection })))
 const Guestbook = lazy(() => import("@/components/Guestbook").then(m => ({ default: m.Guestbook })))
 const InteractiveTimeline = lazy(() => import("@/components/InteractiveTimeline").then(m => ({ default: m.InteractiveTimeline })))
+const DeveloperHero = lazy(() => import("@/components/DeveloperHero").then(m => ({ default: m.DeveloperHero })))
 
 // Recharts components lazy loaded (heavy charting library)
 const SkillsCharts = lazy(() => import("@/components/SkillsCharts"))
@@ -62,11 +63,15 @@ function App() {
   // Start with null to indicate we haven't checked localStorage yet
   const [showOnboarding, setShowOnboarding] = useState<boolean | null>(null)
   const [visitorType, setVisitorType] = useState<"developer" | "visitor" | null>(null)
-  // Track if this is a fresh onboarding choice (not a page reload)
-  const [isNewVisitorChoice, setIsNewVisitorChoice] = useState(false)
-  const [isNewDeveloperChoice, setIsNewDeveloperChoice] = useState(false)
   
   useEffect(() => {
+    // Disable browser scroll restoration - we control the view via state, not scroll position
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual"
+    }
+    // Always start at top
+    window.scrollTo({ top: 0, behavior: "instant" })
+    
     // Check if user has already made a choice
     try {
       const savedType = localStorage.getItem("kiarash-visitor-type")
@@ -75,28 +80,6 @@ function App() {
       if (savedType === "developer" || savedType === "visitor") {
         setVisitorType(savedType)
         setShowOnboarding(false)
-        
-        // For visitors, disable browser's automatic scroll restoration
-        // This prevents the browser from restoring the previous scroll position
-        if (savedType === "visitor" && "scrollRestoration" in history) {
-          history.scrollRestoration = "manual"
-        }
-        
-        // Scroll based on visitor type - use the same robust approach as new choices
-        if (savedType === "developer") {
-          // Returning developer: use the same scroll effect as new developers
-          setIsNewDeveloperChoice(true)
-        } else {
-          // Returning visitor: scroll to top immediately and repeatedly to ensure override
-          // Browser scroll restoration can happen at unpredictable times, so we
-          // scroll to top multiple times in quick succession
-          const scrollToTop = () => window.scrollTo({ top: 0, behavior: "instant" })
-          scrollToTop()
-          setTimeout(scrollToTop, 0)
-          setTimeout(scrollToTop, 50)
-          setTimeout(scrollToTop, 100)
-          setTimeout(scrollToTop, 200)
-        }
       } else {
         // Clear any invalid values and show onboarding
         if (savedType !== null) {
@@ -110,7 +93,7 @@ function App() {
     }
   }, [])
   
-  // Handle onboarding choice
+  // Handle onboarding choice - NO scrolling needed, view mode changes content order
   const handleOnboardingChoice = (isDeveloper: boolean) => {
     const type = isDeveloper ? "developer" : "visitor"
     setVisitorType(type)
@@ -123,125 +106,33 @@ function App() {
       // localStorage not available, preference won't persist
     }
     
-    // For non-developers, disable browser's automatic scroll restoration
-    // to ensure we stay at the top
-    if (!isDeveloper && "scrollRestoration" in history) {
-      history.scrollRestoration = "manual"
-    }
-    
-    // Mark as fresh choice - scroll handling is done by dedicated useEffects
-    if (isDeveloper) {
-      setIsNewDeveloperChoice(true)
-    } else {
-      setIsNewVisitorChoice(true)
-    }
+    // Ensure we're at the top when transitioning
+    window.scrollTo({ top: 0, behavior: "instant" })
   }
   
-  // Effect to force scroll to terminal for new developer choices
-  // Uses continuous scrolling until the terminal is in view, to handle lazy loading
-  useEffect(() => {
-    if (!isNewDeveloperChoice || showOnboarding !== false) return
-    
-    let attempts = 0
-    const maxAttempts = 30 // Try for up to 3 seconds
-    let intervalId: NodeJS.Timeout
-    let timeoutId: NodeJS.Timeout
-    
-    const scrollToTerminal = () => {
-      const terminalElement = document.getElementById("terminal")
-      if (!terminalElement) return false
-      
-      const rect = terminalElement.getBoundingClientRect()
-      const targetTop = 80 // We want the terminal 80px from top
-      
-      // Check if terminal is close enough to target position (within 20px)
-      if (Math.abs(rect.top - targetTop) < 20) {
-        return true // We're at the right spot
-      }
-      
-      // Scroll to terminal
-      const offset = 80
-      const elementPosition = rect.top
-      const offsetPosition = elementPosition + window.pageYOffset - offset
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "instant" // Use instant to avoid animation conflicts
-      })
-      
-      return false
+  // Switch between developer and visitor modes
+  const switchToVisitorMode = () => {
+    setVisitorType("visitor")
+    try {
+      localStorage.setItem("kiarash-visitor-type", "visitor")
+    } catch {
+      // localStorage not available
     }
-    
-    // Initial delay to let React render
-    timeoutId = setTimeout(() => {
-      // Keep trying every 100ms until terminal is in correct position
-      intervalId = setInterval(() => {
-        attempts++
-        const success = scrollToTerminal()
-        
-        if (success || attempts >= maxAttempts) {
-          clearInterval(intervalId)
-          setIsNewDeveloperChoice(false)
-          
-          // One final smooth scroll to make it look nice
-          if (success) {
-            const terminalElement = document.getElementById("terminal")
-            if (terminalElement) {
-              terminalElement.scrollIntoView({ behavior: "smooth", block: "start" })
-            }
-          }
-        }
-      }, 100)
-    }, 100)
-    
-    return () => {
-      clearTimeout(timeoutId)
-      clearInterval(intervalId)
-    }
-  }, [isNewDeveloperChoice, showOnboarding])
+    window.scrollTo({ top: 0, behavior: "instant" })
+  }
   
-  // Effect to force scroll to top for new visitor choices
-  // This runs after React has committed the DOM update
-  useEffect(() => {
-    if (!isNewVisitorChoice || showOnboarding !== false) return
-    
-    // Aggressively scroll to top using requestAnimationFrame for proper timing
-    const forceScrollToTop = () => {
-      window.scrollTo({ top: 0, behavior: "instant" })
+  const switchToDeveloperMode = () => {
+    setVisitorType("developer")
+    try {
+      localStorage.setItem("kiarash-visitor-type", "developer")
+    } catch {
+      // localStorage not available
     }
-    
-    // Immediate scroll
-    forceScrollToTop()
-    
-    // Use RAF to scroll after paint
-    let rafId = requestAnimationFrame(() => {
-      forceScrollToTop()
-      rafId = requestAnimationFrame(() => {
-        forceScrollToTop()
-        // Continue for a bit longer to fight any layout shifts
-        rafId = requestAnimationFrame(forceScrollToTop)
-      })
-    })
-    
-    // Also use timeouts as backup
-    const timeouts = [
-      setTimeout(forceScrollToTop, 50),
-      setTimeout(forceScrollToTop, 100),
-      setTimeout(forceScrollToTop, 200),
-      setTimeout(forceScrollToTop, 300),
-      setTimeout(forceScrollToTop, 500),
-    ]
-    
-    // Clear the flag after scrolling is done
-    const clearFlag = setTimeout(() => {
-      setIsNewVisitorChoice(false)
-    }, 600)
-    
-    return () => {
-      cancelAnimationFrame(rafId)
-      timeouts.forEach(clearTimeout)
-      clearTimeout(clearFlag)
-    }
-  }, [isNewVisitorChoice, showOnboarding])
+    window.scrollTo({ top: 0, behavior: "instant" })
+  }
+  
+  // Helper to check if developer mode
+  const isDeveloperMode = visitorType === "developer"
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -250,8 +141,16 @@ function App() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   
-  // Navigation sections for scroll tracking
-  const navItems = [
+  // Navigation sections for scroll tracking - different for each mode
+  const navItems = isDeveloperMode ? [
+    { id: "home", label: "Home" },
+    { id: "terminal", label: "Terminal" },
+    { id: "showcase", label: "Showcase" },
+    { id: "projects", label: "Projects" },
+    { id: "skills", label: "Skills" },
+    { id: "experience", label: "Experience" },
+    { id: "contact", label: "Contact" }
+  ] : [
     { id: "home", label: "Home" },
     { id: "projects", label: "Projects" },
     { id: "skills", label: "Skills" },
@@ -532,6 +431,77 @@ function App() {
       </nav>
 
       <main id="main-content" role="main" aria-label="Portfolio content" tabIndex={-1}>
+      
+      {/* DEVELOPER MODE: Show Terminal-first layout */}
+      {isDeveloperMode ? (
+        <>
+          {/* Developer Hero - Compact terminal-focused header */}
+          <Suspense fallback={<div className="h-48 bg-background" />}>
+            <DeveloperHero 
+              onSwitchToVisitor={switchToVisitorMode} 
+              prefersReducedMotion={prefersReducedMotion}
+            />
+          </Suspense>
+          
+          {/* Terminal Section - Immediately visible for developers */}
+          <section id="terminal" className="py-8 px-6 scroll-mt-20 relative">
+            <div className="absolute inset-0 bg-mesh opacity-30 pointer-events-none" />
+            <div className="max-w-5xl mx-auto relative z-10">
+              <Suspense fallback={<SectionLoader height="h-96" section="terminal" />}>
+                <TerminalSection />
+              </Suspense>
+            </div>
+          </section>
+          
+          <SectionDivider variant="gradient" />
+          
+          {/* Developer Showcase Section - After terminal */}
+          <section id="showcase" className="py-16 px-6 md:py-20 scroll-mt-20 relative">
+            <div className="absolute inset-0 bg-mesh opacity-30 pointer-events-none" />
+            <div className="max-w-5xl mx-auto relative z-10">
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+                variants={staggerContainer}
+              >
+                <motion.div variants={fadeIn} className="mb-10">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="h-1 w-12 bg-gradient-to-r from-primary to-accent rounded-full" />
+                    <span className="text-sm font-medium text-primary uppercase tracking-wider">Developer</span>
+                  </div>
+                  <h2 className="text-3xl md:text-4xl font-bold mb-3">Developer Showcase</h2>
+                  <p className="text-muted-foreground">
+                    Interactive demonstrations of engineering capabilities and code quality
+                  </p>
+                </motion.div>
+
+                <motion.div variants={fadeIn} className="mb-8">
+                  <Suspense fallback={<SectionLoader />}>
+                    <EngineeringMetrics />
+                  </Suspense>
+                </motion.div>
+
+                <motion.div variants={fadeIn} className="mb-8">
+                  <Suspense fallback={<SectionLoader />}>
+                    <TechStack />
+                  </Suspense>
+                </motion.div>
+
+                <motion.div variants={fadeIn} className="mb-8">
+                  <Suspense fallback={<SectionLoader />}>
+                    <GitHubActivity />
+                  </Suspense>
+                </motion.div>
+              </motion.div>
+            </div>
+          </section>
+          
+          <SectionDivider variant="sparkle" />
+        </>
+      ) : (
+        <>
+      {/* VISITOR MODE: Show standard Hero-first layout */}
       {/* Hero Section - Beautiful glassmorphism with floating elements */}
       <header 
         id="home"
@@ -718,7 +688,10 @@ function App() {
           </motion.div>
         </div>
       </section>
-
+        </>
+      )}
+      
+      {/* SHARED: Projects section - both modes see this */}
       <SectionDivider variant="constellation" />
 
       <section id="projects" className="py-16 px-6 md:py-20 scroll-mt-20 relative" tabIndex={-1}>
@@ -868,7 +841,8 @@ function App() {
       </section>
 
       <SectionDivider variant="sparkle" />
-
+      
+      {/* SHARED CONTENT: Both modes see skills and below */}
       <section id="skills" className="py-16 px-6 md:py-20 scroll-mt-20 relative" tabIndex={-1}>
         {/* Subtle background gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-muted/20 to-transparent pointer-events-none" />
@@ -902,7 +876,8 @@ function App() {
 
       <SectionDivider variant="ornate" />
 
-      {/* Enhanced Technical Showcase Section */}
+      {/* Enhanced Technical Showcase Section - Only for visitors (developers see it first) */}
+      {!isDeveloperMode && (
       <section id="showcase" className="py-16 px-6 md:py-20 scroll-mt-20 relative">
         {/* Background mesh */}
         <div className="absolute inset-0 bg-mesh opacity-30 pointer-events-none" />
@@ -961,6 +936,7 @@ function App() {
           </motion.div>
         </div>
       </section>
+      )}
 
       <SectionDivider variant="gradient" />
 
@@ -1328,6 +1304,18 @@ function App() {
             
             {/* Divider */}
             <div className="w-24 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+            
+            {/* View Mode Switcher */}
+            <button
+              onClick={isDeveloperMode ? switchToVisitorMode : switchToDeveloperMode}
+              className="text-xs text-muted-foreground hover:text-primary transition-colors flex items-center gap-1.5"
+            >
+              {isDeveloperMode ? (
+                <>👀 Switch to regular view</>
+              ) : (
+                <>💻 Switch to developer view</>
+              )}
+            </button>
             
             {/* Bottom info */}
             <div className="flex flex-col sm:flex-row items-center gap-3 text-sm text-muted-foreground">

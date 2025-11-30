@@ -695,7 +695,7 @@ function App() {
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
           >
-            <motion.div variants={fadeIn} className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
+            <motion.div variants={fadeIn} className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-10">
               <div>
                 <h2 className="text-3xl md:text-4xl font-bold mb-2">Experience</h2>
                 <p className="text-muted-foreground">10+ years building AI systems at scale</p>

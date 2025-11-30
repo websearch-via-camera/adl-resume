@@ -589,7 +589,7 @@ function App() {
                     Available for Work
                   </span>
                 </a>
-                <span className="text-xs text-muted-foreground mt-1">Let's build your AI dream team — starting today</span>
+                <span className="text-xs text-muted-foreground mt-1">Let's build your AI dream team, starting today</span>
               </div>
               
               {/* Name with gradient effect */}

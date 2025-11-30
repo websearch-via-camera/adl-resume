@@ -5,7 +5,7 @@ import { resolve } from 'path'
 
 const projectRoot = process.env.PROJECT_ROOT || import.meta.dirname
 
-// Custom plugin to add high-priority preload hints for critical chunks
+// Custom plugin to add high-priority preload hints for critical chunks and LCP image
 function criticalChunksPreload(): Plugin {
   return {
     name: 'critical-chunks-preload',
@@ -14,13 +14,18 @@ function criticalChunksPreload(): Plugin {
       // Only apply in production build
       if (!ctx.bundle) return html;
       
-      // Find critical chunk filenames from the bundle
+      // Find critical chunk filenames and LCP image from the bundle
       const criticalChunks: string[] = [];
       let mainEntry = '';
+      let profileImagePath = '';
       
       for (const [fileName, chunk] of Object.entries(ctx.bundle)) {
+        // Find the profile image (LCP element)
+        if (fileName.includes('profile-384w') && fileName.endsWith('.webp')) {
+          profileImagePath = fileName;
+        }
         // Prioritize vendor-react (needed for everything)
-        if (fileName.includes('vendor-react')) {
+        else if (fileName.includes('vendor-react')) {
           criticalChunks.unshift(fileName);
         }
         // Find main entry point
@@ -39,6 +44,14 @@ function criticalChunksPreload(): Plugin {
         .slice(0, 2) // Only preload the most critical chunks
         .map(chunk => `<link rel="modulepreload" href="/${chunk}" />`)
         .join('\n    ');
+      
+      // Replace the placeholder preload with the actual hashed image path
+      if (profileImagePath) {
+        html = html.replace(
+          /(<link rel="preload" as="image" type="image\/webp" href=")\/src\/assets\/images\/profile-384w\.webp(" fetchpriority="high">)/,
+          `$1/${profileImagePath}$2`
+        );
+      }
       
       // Insert after the opening head tag
       return html.replace(

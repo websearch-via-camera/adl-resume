@@ -76,6 +76,9 @@
     <link rel="dns-prefetch" href="https://api.open-meteo.com">
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     
+    <!-- Preload LCP image (profile photo) for immediate discovery -->
+    <link rel="preload" as="image" type="image/webp" href="/src/assets/images/profile-384w.webp" fetchpriority="high">
+    
     <!-- Preconnect for fonts (high priority) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

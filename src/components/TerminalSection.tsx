@@ -203,11 +203,10 @@ export function TerminalSection() {
   const inputRef = useRef<HTMLInputElement>(null)
   const terminalRef = useRef<HTMLDivElement>(null)
   
-  // Claude Desktop config for copy button - the server entry to add
-  const claudeConfig = `"kiarash-portfolio": {
-  "command": "node",
-  "args": ["~/mcp-proxy.mjs"]
-}`
+  // Example curl command for copy button
+  const curlExample = `curl -X POST https://kiarash-adl.pages.dev/mcp/invoke \\
+  -H "Content-Type: application/json" \\
+  -d '{"tool":"run_terminal_command","input":{"command":"about"}}'`
   
   const copyToClipboard = (text: string, index: number) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -252,25 +251,26 @@ export function TerminalSection() {
       setHistory(prev => [...prev, {
         command: input,
         output: [
-          "🤖 CONNECT CLAUDE DESKTOP TO THIS PORTFOLIO",
-          "════════════════════════════════════════════",
+          "🤖 WEBMCP - AI AGENT API",
+          "════════════════════════",
           "",
-          "STEP 1: Download the proxy script",
-          "  curl -o ~/mcp-proxy.mjs https://kiarash-adl.pages.dev/mcp-proxy.mjs",
+          "This portfolio implements the WebMCP standard, allowing AI agents",
+          "to discover and call tools programmatically.",
           "",
-          "STEP 2: Add to claude_desktop_config.json (see below)",
-          "  macOS: ~/Library/Application Support/Claude/claude_desktop_config.json",
-          "  Windows: %APPDATA%\\Claude\\claude_desktop_config.json",
+          "DISCOVERY (signed manifest):",
+          "  https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json",
           "",
-          "STEP 3: Restart Claude Desktop",
-          "",
-          "─────────────────────────────────────────────",
-          "",
-          "FOR DIRECT API ACCESS:",
+          "API ENDPOINT:",
           "  POST https://kiarash-adl.pages.dev/mcp/invoke",
-          "  Body: { \"tool\": \"run_terminal_command\", \"input\": { \"command\": \"about\" } }",
           "",
-          "DISCOVERY: https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json",
+          "AVAILABLE TOOLS:",
+          "  • get_project_details  - Get project info (fiml, hirealigna, aivision)",
+          "  • run_terminal_command - about, skills, projects, contact, experience",
+          "",
+          "EXAMPLE:",
+          '  curl -X POST https://kiarash-adl.pages.dev/mcp/invoke \\',
+          '    -H "Content-Type: application/json" \\',
+          '    -d \'{"tool":"run_terminal_command","input":{"command":"about"}}\'',
           ""
         ],
         isMCP: true,
@@ -544,12 +544,12 @@ export function TerminalSection() {
                 <div className="mt-3 bg-zinc-900 rounded-lg p-3 border border-zinc-700">
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-cyan-400 text-xs font-semibold uppercase tracking-wide">
-                      Add to mcpServers
+                      Try it now
                     </span>
                     <button
                       onClick={(e) => {
                         e.stopPropagation()
-                        copyToClipboard(claudeConfig, index)
+                        copyToClipboard(curlExample, index)
                       }}
                       className="flex items-center gap-1.5 px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white text-xs rounded-md transition-colors font-medium"
                     >
@@ -567,7 +567,7 @@ export function TerminalSection() {
                     </button>
                   </div>
                   <pre className="text-green-300 text-xs bg-black/50 p-2 rounded overflow-x-auto select-all font-mono">
-                    {claudeConfig}
+                    {curlExample}
                   </pre>
                 </div>
               )}

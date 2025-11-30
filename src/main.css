@@ -1,5 +1,6 @@
-/* Main CSS - imports index.css which has all theme variables */
+/* Main CSS - consolidated entry point */
 @import './index.css';
+@import './styles/theme.css';
 
 @custom-variant dark (&:is(.dark *));
 

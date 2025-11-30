@@ -1,12 +1,14 @@
-/* Theme CSS - streamlined for performance */
-/* Removed unused Radix color imports to reduce CSS bundle */
-
+/* Theme layer - layout containment for performance */
 @layer base {
+  /* Optimized border inheritance */
   *,
   ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
+  ::before {
+    border-color: var(--border);
+  }
+  
+  /* Layout containment for better performance */
+  main, section, article {
+    contain: layout style;
   }
 }

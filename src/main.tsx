@@ -7,9 +7,8 @@ import { Toaster } from "@/components/ui/sonner"
 import { ThemeProvider } from "@/components/ThemeProvider"
 import { A11yProvider } from "@/components/A11yProvider"
 
-// Single consolidated CSS import
+// Single consolidated CSS import (main.css imports index.css)
 import "./main.css"
-import "./index.css"
 
 // Mark hydration complete and remove initial loader
 const root = document.getElementById('root')

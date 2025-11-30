@@ -204,13 +204,15 @@ export function InteractiveTimeline() {
     return Math.min((row + 1) * cols - 1, timelineData.length - 1)
   }
   
-  // Scroll to detail panel when opened
+  // Scroll to detail panel when opened - use a more stable approach
   useEffect(() => {
     if (selectedEntry && detailRef.current) {
-      // Small delay to let animation start
-      setTimeout(() => {
-        detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-      }, 100)
+      // Use requestAnimationFrame for smoother scrolling after layout settles
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+        })
+      })
     }
   }, [selectedEntry])
   
@@ -324,21 +326,17 @@ export function InteractiveTimeline() {
               <motion.div
                 key={`detail-${item.entry.id}`}
                 ref={detailRef}
-                initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                animate={{ opacity: 1, height: "auto", marginTop: 0 }}
-                exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
                 className="col-span-full"
+                layout={false}
               >
                 <Card className="relative p-0 overflow-hidden border-2 border-primary/30 bg-gradient-to-br from-card via-card to-muted/30 shadow-xl shadow-primary/5">
                   {/* Decorative gradient backgrounds */}
                   <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-primary/10 to-transparent rounded-full blur-3xl pointer-events-none" />
                   <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-accent/10 to-transparent rounded-full blur-3xl pointer-events-none" />
-                  
-                  {/* Arrow indicator pointing to the card above */}
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <div className="w-6 h-6 rotate-45 bg-card border-l-2 border-t-2 border-primary/30" />
-                  </div>
                   
                   <div className="relative z-10 p-6 md:p-8">
                     {/* Header */}
@@ -387,11 +385,7 @@ export function InteractiveTimeline() {
                     
                     {/* Impact badge - prominent */}
                     {item.entry.impact && (
-                      <motion.div 
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.1 }}
-                        className="mb-6 p-4 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent rounded-xl border border-primary/20 flex items-start gap-3"
+                      <div className="mb-6 p-4 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent rounded-xl border border-primary/20 flex items-start gap-3"
                       >
                         <div className="p-2 bg-primary/20 rounded-lg">
                           <Target className="h-5 w-5 text-primary" />
@@ -400,7 +394,7 @@ export function InteractiveTimeline() {
                           <span className="text-xs font-semibold text-primary uppercase tracking-wider">Impact</span>
                           <p className="text-foreground font-medium mt-0.5">{item.entry.impact}</p>
                         </div>
-                      </motion.div>
+                      </div>
                     )}
                     
                     {/* Two column layout for achievements and technologies */}
@@ -413,16 +407,13 @@ export function InteractiveTimeline() {
                         </h4>
                         <ul className="space-y-2">
                           {item.entry.highlights.map((highlight, i) => (
-                            <motion.li 
+                            <li 
                               key={i}
-                              initial={{ opacity: 0, x: -10 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              transition={{ delay: 0.15 + i * 0.05 }}
                               className="flex items-start gap-3 p-2 -mx-2 rounded-lg hover:bg-muted/50 transition-colors group/item"
                             >
                               <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform" />
                               <span className="text-foreground/80 group-hover/item:text-foreground transition-colors">{highlight}</span>
-                            </motion.li>
+                            </li>
                           ))}
                         </ul>
                       </div>
@@ -435,19 +426,13 @@ export function InteractiveTimeline() {
                         </h4>
                         <div className="flex flex-wrap gap-2">
                           {item.entry.technologies.map((tech, i) => (
-                            <motion.div
+                            <Badge 
                               key={tech}
-                              initial={{ opacity: 0, scale: 0.8 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              transition={{ delay: 0.2 + i * 0.03 }}
+                              variant="secondary" 
+                              className="px-3 py-1.5 text-sm bg-muted/60 hover:bg-primary/10 hover:text-primary border border-transparent hover:border-primary/30 transition-all duration-200 cursor-default"
                             >
-                              <Badge 
-                                variant="secondary" 
-                                className="px-3 py-1.5 text-sm bg-muted/60 hover:bg-primary/10 hover:text-primary border border-transparent hover:border-primary/30 transition-all duration-200 cursor-default"
-                              >
-                                {tech}
-                              </Badge>
-                            </motion.div>
+                              {tech}
+                            </Badge>
                           ))}
                         </div>
                       </div>

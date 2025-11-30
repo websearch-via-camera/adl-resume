@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Card } from "@/components/ui/card"
-import { Terminal, Sparkles } from "lucide-react"
+import { Terminal, Sparkles, Copy, Check } from "lucide-react"
 import { isMCPMode, enableMCPMode, disableMCPMode, type UseMCPResult } from "@/mcp/useMCP"
 
 interface CommandOutput {
@@ -9,6 +9,7 @@ interface CommandOutput {
   output: string[]
   isError?: boolean
   isMCP?: boolean
+  showCopyButton?: boolean
 }
 
 const commands: Record<string, string[]> = {
@@ -198,8 +199,25 @@ export function TerminalSection() {
   const [commandHistory, setCommandHistory] = useState<string[]>([])
   const [historyIndex, setHistoryIndex] = useState(-1)
   const [mcpEnabled, setMcpEnabled] = useState(false)
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const terminalRef = useRef<HTMLDivElement>(null)
+  
+  // Claude Desktop config for copy button
+  const claudeConfig = `{
+  "mcpServers": {
+    "kiarash-portfolio": {
+      "url": "https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json"
+    }
+  }
+}`
+  
+  const copyToClipboard = (text: string, index: number) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedIndex(index)
+      setTimeout(() => setCopiedIndex(null), 2000)
+    })
+  }
   
   // Check MCP mode on mount
   useEffect(() => {
@@ -241,17 +259,8 @@ export function TerminalSection() {
           "═══════════════════════════════════════",
           "",
           "FOR CLAUDE DESKTOP:",
-          "Add to your claude_desktop_config.json:",
-          "",
-          '{',
-          '  "mcpServers": {',
-          '    "kiarash-portfolio": {',
-          '      "url": "https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json"',
-          '    }',
-          '  }',
-          '}',
-          "",
-          "Then restart Claude Desktop.",
+          "Add to ~/Library/Application Support/Claude/claude_desktop_config.json",
+          "(Windows: %APPDATA%\\Claude\\claude_desktop_config.json)",
           "",
           "FOR OTHER AI AGENTS:",
           "Discovery: https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json",
@@ -264,7 +273,8 @@ export function TerminalSection() {
           "The manifest is cryptographically signed with Ed25519.",
           ""
         ],
-        isMCP: true
+        isMCP: true,
+        showCopyButton: true
       }])
       if (trimmedInput) {
         setCommandHistory(prev => [...prev, trimmedInput])
@@ -490,7 +500,14 @@ export function TerminalSection() {
       {/* Terminal Body */}
       <div 
         ref={terminalRef}
-        onClick={() => inputRef.current?.focus()}
+        onClick={(e) => {
+          // Don't focus input if user is selecting text or clicking a button
+          const selection = window.getSelection()
+          if (selection && selection.toString().length > 0) return
+          const target = e.target as HTMLElement
+          if (target.tagName === 'BUTTON' || target.closest('button')) return
+          inputRef.current?.focus()
+        }}
         className="bg-zinc-950 p-4 h-[400px] overflow-y-auto font-mono text-sm cursor-text"
         role="log"
         aria-label="Terminal output"
@@ -517,11 +534,43 @@ export function TerminalSection() {
               {item.output.map((line, lineIndex) => (
                 <div 
                   key={lineIndex} 
-                  className={`whitespace-pre ${item.isError ? "text-red-400" : item.isMCP ? "text-violet-300" : "text-zinc-300"}`}
+                  className={`whitespace-pre select-text ${item.isError ? "text-red-400" : item.isMCP ? "text-violet-300" : "text-zinc-300"}`}
                 >
                   {line || "\u00A0"}
                 </div>
               ))}
+              {/* Copy button for MCP connect command */}
+              {item.showCopyButton && (
+                <div className="mt-3 bg-zinc-900 rounded-lg p-3 border border-zinc-700">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-cyan-400 text-xs font-semibold uppercase tracking-wide">
+                      Claude Desktop Config
+                    </span>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        copyToClipboard(claudeConfig, index)
+                      }}
+                      className="flex items-center gap-1.5 px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white text-xs rounded-md transition-colors font-medium"
+                    >
+                      {copiedIndex === index ? (
+                        <>
+                          <Check className="h-3 w-3" />
+                          Copied!
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="h-3 w-3" />
+                          Copy Config
+                        </>
+                      )}
+                    </button>
+                  </div>
+                  <pre className="text-green-300 text-xs bg-black/50 p-2 rounded overflow-x-auto select-all font-mono">
+                    {claudeConfig}
+                  </pre>
+                </div>
+              )}
             </motion.div>
           ))}
         </AnimatePresence>

@@ -494,17 +494,23 @@ function App() {
                     <GitHubActivity />
                   </Suspense>
                 </motion.div>
-
-                <motion.div variants={fadeIn} className="mb-8">
-                  <Suspense fallback={<SectionLoader section="WebMCP" />}>
-                    <WebMCPSection />
-                  </Suspense>
-                </motion.div>
               </motion.div>
             </div>
           </section>
           
           <SectionDivider variant="sparkle" />
+
+          {/* WebMCP Section - AI Agent Integration */}
+          <section id="webmcp" className="py-16 px-6 md:py-20 scroll-mt-20 relative">
+            <div className="absolute inset-0 bg-mesh opacity-30 pointer-events-none" />
+            <div className="max-w-5xl mx-auto relative z-10">
+              <Suspense fallback={<SectionLoader section="WebMCP" />}>
+                <WebMCPSection />
+              </Suspense>
+            </div>
+          </section>
+          
+          <SectionDivider variant="gradient" />
         </>
       ) : (
         <>

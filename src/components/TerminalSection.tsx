@@ -248,15 +248,15 @@ export function TerminalSection() {
       {/* Terminal Header */}
       <div className="flex items-center justify-between px-4 py-2 bg-zinc-900 border-b border-zinc-800">
         <div className="flex items-center gap-2">
-          <div className="flex gap-1.5">
-            <div className="w-3 h-3 rounded-full bg-red-500/80 hover:bg-red-500 transition-colors cursor-pointer"></div>
-            <div className="w-3 h-3 rounded-full bg-yellow-500/80 hover:bg-yellow-500 transition-colors cursor-pointer"></div>
-            <div className="w-3 h-3 rounded-full bg-green-500/80 hover:bg-green-500 transition-colors cursor-pointer"></div>
+          <div className="flex gap-1.5" role="group" aria-label="Terminal window controls (decorative)">
+            <div className="w-3 h-3 rounded-full bg-red-500/80" aria-hidden="true"></div>
+            <div className="w-3 h-3 rounded-full bg-yellow-500/80" aria-hidden="true"></div>
+            <div className="w-3 h-3 rounded-full bg-green-500/80" aria-hidden="true"></div>
           </div>
-          <TerminalIcon size={16} className="text-zinc-400 ml-2" weight="fill" />
+          <TerminalIcon size={16} className="text-zinc-400 ml-2" weight="fill" aria-hidden="true" />
           <span className="text-xs text-zinc-400 font-mono">kiarash@portfolio — zsh</span>
         </div>
-        <span className="text-xs text-zinc-500 font-mono">bash</span>
+        <span className="text-xs text-zinc-500 font-mono" aria-hidden="true">bash</span>
       </div>
       
       {/* Terminal Body */}
@@ -264,6 +264,9 @@ export function TerminalSection() {
         ref={terminalRef}
         onClick={() => inputRef.current?.focus()}
         className="bg-zinc-950 p-4 h-[400px] overflow-y-auto font-mono text-sm cursor-text"
+        role="log"
+        aria-label="Terminal output"
+        aria-live="polite"
       >
         <AnimatePresence>
           {history.map((item, index) => (
@@ -296,11 +299,13 @@ export function TerminalSection() {
         
         {/* Current Input Line */}
         <div className="flex items-center gap-2 text-zinc-100">
-          <span className="text-green-400">kiarash@portfolio</span>
-          <span className="text-zinc-500">:</span>
-          <span className="text-blue-400">~</span>
-          <span className="text-zinc-500">$</span>
+          <span className="text-green-400" aria-hidden="true">kiarash@portfolio</span>
+          <span className="text-zinc-500" aria-hidden="true">:</span>
+          <span className="text-blue-400" aria-hidden="true">~</span>
+          <span className="text-zinc-500" aria-hidden="true">$</span>
+          <label htmlFor="terminal-input" className="sr-only">Enter terminal command</label>
           <input
+            id="terminal-input"
             ref={inputRef}
             type="text"
             value={currentInput}
@@ -310,6 +315,7 @@ export function TerminalSection() {
             autoFocus
             spellCheck={false}
             autoComplete="off"
+            aria-label="Terminal command input. Type help for available commands."
           />
         </div>
       </div>

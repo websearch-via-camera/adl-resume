@@ -229,6 +229,8 @@ export function InteractiveTimeline() {
                 }}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                aria-label={`${entry.role} at ${entry.company}, ${entry.period}. Click to view details.`}
+                aria-pressed={selectedEntry?.id === entry.id}
               >
                 <div 
                   className={`w-full h-full rounded-lg bg-gradient-to-r ${typeColors[entry.type]} ${
@@ -355,9 +357,10 @@ export function InteractiveTimeline() {
                 </div>
                 <button 
                   onClick={() => setSelectedEntry(null)}
-                  className="p-2 hover:bg-muted rounded-lg transition-colors"
+                  className="min-h-[44px] min-w-[44px] p-2 hover:bg-muted rounded-lg transition-colors flex items-center justify-center"
+                  aria-label="Close details panel"
                 >
-                  <X size={20} />
+                  <X size={20} aria-hidden="true" />
                 </button>
               </div>
               

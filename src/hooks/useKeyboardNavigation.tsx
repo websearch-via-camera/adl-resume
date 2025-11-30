@@ -167,14 +167,17 @@ export function KeyboardHelp({ show, onClose }: KeyboardHelpProps) {
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.2 }}
             className="fixed inset-0 flex items-center justify-center z-50 p-4 pointer-events-none"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="keyboard-help-title"
           >
             <Card className="w-full max-w-md p-6 shadow-2xl pointer-events-auto">
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-2 bg-primary/10 rounded-lg">
-                  <Keyboard size={24} className="text-primary" weight="fill" />
+                  <Keyboard size={24} className="text-primary" weight="fill" aria-hidden="true" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold">Keyboard Shortcuts</h2>
+                  <h2 id="keyboard-help-title" className="text-xl font-bold">Keyboard Shortcuts</h2>
                   <p className="text-sm text-muted-foreground">Navigate like a pro</p>
                 </div>
               </div>

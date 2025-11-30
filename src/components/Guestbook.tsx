@@ -106,18 +106,20 @@ export function Guestbook() {
                 />
               </div>
               <div className="space-y-2">
-                <Label>Pick an Emoji</Label>
-                <div className="flex gap-1 flex-wrap">
+                <Label id="emoji-picker-label">Pick an Emoji</Label>
+                <div className="flex gap-1 flex-wrap" role="group" aria-labelledby="emoji-picker-label">
                   {emojis.map((emoji) => (
                     <button
                       key={emoji}
                       type="button"
                       onClick={() => setFormData(prev => ({ ...prev, emoji }))}
-                      className={`w-9 h-9 text-lg rounded-md transition-all ${
+                      className={`min-w-[44px] min-h-[44px] w-11 h-11 text-lg rounded-md transition-all flex items-center justify-center ${
                         formData.emoji === emoji
                           ? "bg-primary text-primary-foreground scale-110"
                           : "bg-muted hover:bg-muted/80"
                       }`}
+                      aria-label={`Select ${emoji} emoji`}
+                      aria-pressed={formData.emoji === emoji}
                     >
                       {emoji}
                     </button>

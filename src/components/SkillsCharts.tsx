@@ -69,7 +69,14 @@ function RadarChartSVG({ data }: { data: typeof skillsRadarData }) {
   }
 
   return (
-    <svg viewBox={`0 0 ${size} ${size}`} className="w-full max-w-[400px] mx-auto">
+    <svg 
+      viewBox={`0 0 ${size} ${size}`} 
+      className="w-full max-w-[400px] mx-auto"
+      role="img"
+      aria-label="Radar chart showing proficiency levels: AI/ML 95%, Backend 92%, Frontend 90%, DevOps 70%, Leadership 90%, Research 85%"
+    >
+      <title>Competency Radar Chart</title>
+      <desc>A hexagonal radar chart displaying skill proficiency across six categories</desc>
       {/* Grid levels */}
       {[1, 2, 3, 4, 5].map((level) => (
         <polygon

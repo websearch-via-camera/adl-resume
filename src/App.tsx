@@ -426,12 +426,12 @@ function App() {
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 whitespace-nowrap flex-shrink-0 ${
+                  className={`min-h-[44px] min-w-[44px] px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 whitespace-nowrap flex-shrink-0 ${
                     activeSection === item.id
                       ? "bg-primary text-primary-foreground shadow-sm"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted"
                   }`}
-                  aria-current={activeSection === item.id ? "true" : undefined}
+                  aria-current={activeSection === item.id ? "page" : undefined}
                 >
                   {item.label}
                 </button>
@@ -644,7 +644,7 @@ function App() {
                         <Badge variant="secondary" className="text-xs">CI/CD</Badge>
                       </div>
                     </div>
-                    <a href="https://github.com/kiarashplusplus/" target="_blank" rel="noopener noreferrer" className="flex-shrink-0 p-3 rounded-lg bg-muted hover:bg-muted/80 transition-colors">
+                    <a href="https://github.com/kiarashplusplus/" target="_blank" rel="noopener noreferrer" className="flex-shrink-0 min-h-[44px] min-w-[44px] p-3 rounded-lg bg-muted hover:bg-muted/80 transition-colors flex items-center justify-center" aria-label="View FIML project on GitHub">
                       <GithubLogo size={24} weight="fill" className="text-foreground" />
                     </a>
                   </div>
@@ -1095,10 +1095,10 @@ function App() {
         <div className="max-w-5xl mx-auto">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
             <div className="flex items-center gap-4">
-              <a href="https://www.linkedin.com/in/kiarashadl/" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
+              <a href="https://www.linkedin.com/in/kiarashadl/" target="_blank" rel="noopener noreferrer" className="min-h-[44px] min-w-[44px] flex items-center justify-center hover:text-foreground transition-colors" aria-label="Visit Kiarash's LinkedIn profile">
                 <LinkedinLogo size={20} weight="fill" />
               </a>
-              <a href="https://github.com/kiarashplusplus/" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
+              <a href="https://github.com/kiarashplusplus/" target="_blank" rel="noopener noreferrer" className="min-h-[44px] min-w-[44px] flex items-center justify-center hover:text-foreground transition-colors" aria-label="Visit Kiarash's GitHub profile">
                 <GithubLogo size={20} weight="fill" />
               </a>
               <span className="text-border">|</span>
@@ -1120,7 +1120,7 @@ function App() {
       {showScrollTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 p-4 bg-primary text-primary-foreground rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-200 z-40 animate-in fade-in zoom-in"
+          className="fixed bottom-8 right-8 min-h-[44px] min-w-[44px] p-4 bg-primary text-primary-foreground rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-200 z-40 animate-in fade-in zoom-in"
           aria-label="Scroll to top"
         >
           <CaretUp size={24} weight="bold" />

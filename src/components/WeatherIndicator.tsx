@@ -255,25 +255,32 @@ export function WeatherIndicator() {
           e.stopPropagation()
           setIsOpen(!isOpen)
         }}
-        className="flex items-center gap-1.5 text-xs text-muted-foreground opacity-70 hover:opacity-100 transition-opacity cursor-pointer group pointer-events-auto"
+        className="min-h-[44px] flex items-center gap-1.5 px-2 text-xs text-muted-foreground opacity-70 hover:opacity-100 transition-opacity cursor-pointer group pointer-events-auto"
         title={`${currentLocationName}: ${weather.condition}, ${weather.temp}°F – Click to change location`}
+        aria-label={`Weather in ${currentLocationName}: ${weather.temp} degrees Fahrenheit, ${weather.condition}. Click to change location`}
+        aria-expanded={isOpen}
+        aria-haspopup="listbox"
       >
         {isLoading ? (
-          <div className="w-3 h-3 rounded-full bg-muted animate-pulse"></div>
+          <div className="w-3 h-3 rounded-full bg-muted animate-pulse" aria-hidden="true"></div>
         ) : (
           getWeatherIcon(weather.icon)
         )}
         <span>{weather.temp}°F</span>
         <span className="hidden sm:inline text-muted-foreground/60 flex items-center gap-0.5">
-          {isUsingUserLocation && <MapPin size={10} weight="fill" className="text-primary" />}
+          {isUsingUserLocation && <MapPin size={10} weight="fill" className="text-primary" aria-hidden="true" />}
           {currentLocationName}
         </span>
-        <CaretDown size={10} className="text-muted-foreground/40 group-hover:text-muted-foreground transition-colors" />
+        <CaretDown size={10} className="text-muted-foreground/40 group-hover:text-muted-foreground transition-colors" aria-hidden="true" />
       </button>
 
       {/* Dropdown */}
       {isOpen && (
-        <div className="absolute top-full left-0 mt-2 py-1 bg-popover border border-border rounded-lg shadow-lg z-[100] min-w-[160px] animate-in fade-in slide-in-from-top-1 duration-150 pointer-events-auto">
+        <div 
+          className="absolute top-full left-0 mt-2 py-1 bg-popover border border-border rounded-lg shadow-lg z-[100] min-w-[160px] animate-in fade-in slide-in-from-top-1 duration-150 pointer-events-auto"
+          role="listbox"
+          aria-label="Select weather location"
+        >
           {/* City options */}
           {CITIES.map((city) => (
             <button
@@ -282,19 +289,21 @@ export function WeatherIndicator() {
                 e.stopPropagation()
                 handleCitySelect(city)
               }}
-              className={`w-full px-3 py-1.5 text-left text-xs hover:bg-muted transition-colors flex items-center gap-2 cursor-pointer ${
+              className={`w-full min-h-[44px] px-3 py-2 text-left text-xs hover:bg-muted transition-colors flex items-center gap-2 cursor-pointer ${
                 !isUsingUserLocation && selectedCity.name === city.name
                   ? "text-primary font-medium"
                   : "text-foreground"
               }`}
+              role="option"
+              aria-selected={!isUsingUserLocation && selectedCity.name === city.name}
             >
-              <span className="w-4">{!isUsingUserLocation && selectedCity.name === city.name && "✓"}</span>
+              <span className="w-4" aria-hidden="true">{!isUsingUserLocation && selectedCity.name === city.name && "✓"}</span>
               {city.label}
             </button>
           ))}
           
           {/* Divider */}
-          <div className="my-1 border-t border-border"></div>
+          <div className="my-1 border-t border-border" role="separator"></div>
           
           {/* User location option */}
           <button
@@ -302,11 +311,13 @@ export function WeatherIndicator() {
               e.stopPropagation()
               handleUserLocation()
             }}
-            className={`w-full px-3 py-1.5 text-left text-xs hover:bg-muted transition-colors flex items-center gap-2 cursor-pointer ${
+            className={`w-full min-h-[44px] px-3 py-2 text-left text-xs hover:bg-muted transition-colors flex items-center gap-2 cursor-pointer ${
               isUsingUserLocation ? "text-primary font-medium" : "text-foreground"
             }`}
+            role="option"
+            aria-selected={isUsingUserLocation}
           >
-            <Crosshair size={12} weight="bold" className={isUsingUserLocation ? "text-primary" : "text-muted-foreground"} />
+            <Crosshair size={12} weight="bold" className={isUsingUserLocation ? "text-primary" : "text-muted-foreground"} aria-hidden="true" />
             <span>Use my location</span>
           </button>
         </div>

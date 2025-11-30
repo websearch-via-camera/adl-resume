@@ -84,6 +84,7 @@ export function OnboardingChoice({ onChoice }: OnboardingChoiceProps) {
                     ? "border-primary bg-primary/5 shadow-lg shadow-primary/10"
                     : "border-border bg-card hover:border-primary/50"
                 }`}
+                aria-label="Yes, I code - take me to the terminal to explore this site like a developer"
               >
                 <div className="flex items-start gap-4">
                   <div
@@ -141,6 +142,7 @@ export function OnboardingChoice({ onChoice }: OnboardingChoiceProps) {
                     ? "border-accent bg-accent/5 shadow-lg shadow-accent/10"
                     : "border-border bg-card hover:border-accent/50"
                 }`}
+                aria-label="Nope, just visiting - show me the portfolio the regular way"
               >
                 <div className="flex items-start gap-4">
                   <div

@@ -22,8 +22,7 @@ export function OnboardingChoice({ onChoice }: OnboardingChoiceProps) {
     <AnimatePresence>
       {!isExiting && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4 }}
           className="fixed inset-0 z-[100] bg-background flex items-center justify-center px-6"
@@ -49,15 +48,15 @@ export function OnboardingChoice({ onChoice }: OnboardingChoiceProps) {
           </div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ y: 20 }}
+            animate={{ y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             className="relative max-w-2xl w-full text-center"
           >
-            {/* Welcome text */}
+            {/* Welcome text - no initial opacity:0 to ensure LCP detection */}
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ y: -10 }}
+              animate={{ y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
               className="mb-8"
             >
@@ -73,8 +72,8 @@ export function OnboardingChoice({ onChoice }: OnboardingChoiceProps) {
             <div className="grid md:grid-cols-2 gap-4 md:gap-6">
               {/* Developer option */}
               <motion.button
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={{ x: -20 }}
+                animate={{ x: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
                 onClick={() => handleChoice(true)}
                 onMouseEnter={() => setHoveredOption("dev")}
@@ -131,8 +130,8 @@ export function OnboardingChoice({ onChoice }: OnboardingChoiceProps) {
 
               {/* Non-developer option */}
               <motion.button
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={{ x: 20 }}
+                animate={{ x: 0 }}
                 transition={{ duration: 0.5, delay: 0.5 }}
                 onClick={() => handleChoice(false)}
                 onMouseEnter={() => setHoveredOption("visitor")}
@@ -187,14 +186,11 @@ export function OnboardingChoice({ onChoice }: OnboardingChoiceProps) {
             </div>
 
             {/* Skip hint */}
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.7 }}
+            <p
               className="mt-8 text-xs text-muted-foreground"
             >
               Your choice is remembered for next time
-            </motion.p>
+            </p>
           </motion.div>
         </motion.div>
       )}

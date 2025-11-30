@@ -310,7 +310,6 @@ export function TerminalSection() {
             onChange={(e) => setCurrentInput(e.target.value)}
             onKeyDown={handleKeyDown}
             className="flex-1 bg-transparent outline-none text-zinc-100 caret-zinc-100"
-            autoFocus
             spellCheck={false}
             autoComplete="off"
             aria-label="Terminal command input. Type help for available commands."

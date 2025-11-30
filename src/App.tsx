@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { EnvelopeSimple, Phone, Download, GithubLogo, LinkedinLogo, ArrowUpRight, PaperPlaneTilt, CaretUp, CaretDown } from "@phosphor-icons/react"
+import { EnvelopeSimple, Phone, Download, GithubLogo, LinkedinLogo, ArrowUpRight, PaperPlaneTilt, CaretUp, CaretDown, Link  } from "@phosphor-icons/react"
 import { motion } from "framer-motion"
 import { useState, useEffect, lazy, Suspense } from "react"
 import { toast } from "sonner"
@@ -542,12 +542,14 @@ function App() {
                         <Badge variant="secondary" className="text-xs">CI/CD</Badge>
                       </div>
                     </div>
-                    <a href="https://kiarashplusplus.github.io/FIML/" target="_blank" rel="noopener noreferrer" className="flex-shrink-0 min-h-[44px] min-w-[44px] p-3 rounded-lg bg-muted hover:bg-muted/80 transition-colors flex items-center justify-center" aria-label="View FIML project website">
-                      <PaperPlaneTilt size={24} weight="fill" className="text-foreground" />
-                    </a>
-                    <a href="https://github.com/kiarashplusplus/FIML" target="_blank" rel="noopener noreferrer" className="flex-shrink-0 min-h-[44px] min-w-[44px] p-3 rounded-lg bg-muted hover:bg-muted/80 transition-colors flex items-center justify-center" aria-label="View FIML project on GitHub">
-                      <GithubLogo size={24} weight="fill" className="text-foreground" />
-                    </a>
+                    <div className="flex flex-row gap-2">
+                      <a href="https://kiarashplusplus.github.io/FIML/" target="_blank" rel="noopener noreferrer" className="flex-shrink-0 min-h-[44px] min-w-[44px] p-3 rounded-lg bg-muted hover:bg-muted/80 transition-colors flex items-center justify-center" aria-label="View FIML project website">
+                        <Link size={24} weight="fill" className="text-foreground" />
+                      </a>
+                      <a href="https://github.com/kiarashplusplus/FIML" target="_blank" rel="noopener noreferrer" className="flex-shrink-0 min-h-[44px] min-w-[44px] p-3 rounded-lg bg-muted hover:bg-muted/80 transition-colors flex items-center justify-center" aria-label="View FIML project on GitHub">
+                        <GithubLogo size={24} weight="fill" className="text-foreground" />
+                      </a>
+                    </div>
                   </div>
                 </Card>
               </motion.div>

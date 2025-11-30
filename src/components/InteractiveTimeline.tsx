@@ -256,7 +256,7 @@ export function InteractiveTimeline() {
         </div>
         
         {/* Legend */}
-        <div className="flex flex-wrap gap-3 mt-4 justify-center">
+        <div className="flex flex-wrap gap-3 mt-4 justify-start">
           {(Object.keys(typeLabels) as Array<keyof typeof typeLabels>).map((type) => (
             <div key={type} className="flex items-center gap-1.5">
               <div className={`w-3 h-3 rounded bg-gradient-to-r ${typeColors[type]}`} />

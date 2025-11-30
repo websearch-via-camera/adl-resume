@@ -427,7 +427,7 @@ function App() {
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
             {/* LCP element - NO animation delay to ensure immediate visibility for LCP detection */}
             <div className="flex-shrink-0">
-              <div className="w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden ring-4 ring-primary/10 shadow-2xl">
+              <div className="w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden ring-2 ring-primary/10 shadow-2xl">
                 <picture>
                   {/* WebP sources for modern browsers */}
                   <source

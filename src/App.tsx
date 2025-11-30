@@ -348,14 +348,15 @@ function App() {
       </nav>
 
       <main id="main-content" role="main" aria-label="Portfolio content">
-      {/* Hero Section - CSS animations for instant render, no JS needed */}
+      {/* Hero Section - LCP-optimized: profile image renders immediately without animation */}
       <header 
         id="home"
-        className="py-16 px-6 md:py-24 animate-fade-in"
+        className="py-16 px-6 md:py-24"
       >
         <div className="max-w-5xl mx-auto">
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-            <div className="flex-shrink-0 animate-fade-in" style={{ animationDelay: '0.1s' }}>
+            {/* LCP element - NO animation delay to ensure immediate visibility for LCP detection */}
+            <div className="flex-shrink-0">
               <div className="w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden ring-4 ring-primary/10 shadow-2xl">
                 <picture>
                   {/* WebP sources for modern browsers */}
@@ -379,7 +380,7 @@ function App() {
               </div>
             </div>
             
-            <div className="flex-1 text-center md:text-left animate-fade-in" style={{ animationDelay: '0.2s' }}>
+            <div className="flex-1 text-center md:text-left animate-fade-in">
               {/* Live Status & Weather */}
               <div className="flex items-center justify-center md:justify-start gap-4 mb-3">
                 <div className="flex items-center gap-2">
@@ -688,8 +689,8 @@ function App() {
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
           >
-            <motion.div variants={fadeIn} className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-10">
-              <div>
+            <motion.div variants={fadeIn} className="flex flex-col items-center gap-4 mb-10">
+              <div className="text-center">
                 <h2 className="text-3xl md:text-4xl font-bold mb-2">Experience</h2>
                 <p className="text-muted-foreground">10+ years building AI systems at scale</p>
               </div>

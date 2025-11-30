@@ -267,12 +267,22 @@
       .text-green-600 { color: #16a34a; }
       .dark .text-green-400 { color: #4ade80; }
       
-      /* Deferred animations */
+      /* Deferred animations - only for non-LCP elements */
       @keyframes fade-in {
-        from { opacity: 0; }
-        to { opacity: 1; }
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
       }
-      .animate-fade-in { animation: fade-in 0.5s ease-out; }
+      .animate-fade-in { 
+        animation: fade-in 0.5s ease-out forwards;
+        /* Start visible to ensure LCP works, animation enhances */
+        opacity: 0;
+      }
+      
+      /* LCP-safe: Hero image container should NOT have animation that hides it */
+      #home > div > div > div:first-child {
+        opacity: 1 !important;
+        animation: none !important;
+      }
     </style>
     
     <!-- Font loading detection script -->

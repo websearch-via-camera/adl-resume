@@ -22,7 +22,7 @@ const commands: Record<string, string[]> = {
     "  clear      - Clear terminal",
     "  help       - Show this help message",
     "",
-    "Try: skills --ai or projects --latest"
+    "Try: skills --ai"
   ],
   about: [
     "╔══════════════════════════════════════════╗",
@@ -83,7 +83,9 @@ const commands: Record<string, string[]> = {
     "2. HireAligna.ai",
     "   ├─ Conversational AI Recruiter",
     "   ├─ Voice interviews via LiveKit",
-    "   └─ Tech: Next.js, Azure OpenAI, Docker"
+    "   └─ Tech: Next.js, Azure OpenAI, Docker",
+    "",
+    "Try: projects --latest"
   ],
   "projects --latest": [
     "Current Focus (2024-2025):",

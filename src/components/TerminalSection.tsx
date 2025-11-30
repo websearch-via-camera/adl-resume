@@ -203,13 +203,10 @@ export function TerminalSection() {
   const inputRef = useRef<HTMLInputElement>(null)
   const terminalRef = useRef<HTMLDivElement>(null)
   
-  // Claude Desktop config for copy button
-  const claudeConfig = `{
-  "mcpServers": {
-    "kiarash-portfolio": {
-      "url": "https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json"
-    }
-  }
+  // Claude Desktop config for copy button - the server entry to add
+  const claudeConfig = `"kiarash-portfolio": {
+  "command": "node",
+  "args": ["~/mcp-proxy.mjs"]
 }`
   
   const copyToClipboard = (text: string, index: number) => {
@@ -255,22 +252,25 @@ export function TerminalSection() {
       setHistory(prev => [...prev, {
         command: input,
         output: [
-          "🤖 CONNECT AI AGENTS TO THIS PORTFOLIO",
-          "═══════════════════════════════════════",
+          "🤖 CONNECT CLAUDE DESKTOP TO THIS PORTFOLIO",
+          "════════════════════════════════════════════",
           "",
-          "FOR CLAUDE DESKTOP:",
-          "Add to ~/Library/Application Support/Claude/claude_desktop_config.json",
-          "(Windows: %APPDATA%\\Claude\\claude_desktop_config.json)",
+          "STEP 1: Download the proxy script",
+          "  curl -o ~/mcp-proxy.mjs https://kiarash-adl.pages.dev/mcp-proxy.mjs",
           "",
-          "FOR OTHER AI AGENTS:",
-          "Discovery: https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json",
-          "Endpoint:  POST https://kiarash-adl.pages.dev/mcp/invoke",
+          "STEP 2: Add to claude_desktop_config.json (see below)",
+          "  macOS: ~/Library/Application Support/Claude/claude_desktop_config.json",
+          "  Windows: %APPDATA%\\Claude\\claude_desktop_config.json",
           "",
-          "AVAILABLE TOOLS:",
-          "• get_project_details - Get project info (fiml, hirealigna, aivision)",
-          "• run_terminal_command - about, skills, projects, contact, experience",
+          "STEP 3: Restart Claude Desktop",
           "",
-          "The manifest is cryptographically signed with Ed25519.",
+          "─────────────────────────────────────────────",
+          "",
+          "FOR DIRECT API ACCESS:",
+          "  POST https://kiarash-adl.pages.dev/mcp/invoke",
+          "  Body: { \"tool\": \"run_terminal_command\", \"input\": { \"command\": \"about\" } }",
+          "",
+          "DISCOVERY: https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json",
           ""
         ],
         isMCP: true,
@@ -544,7 +544,7 @@ export function TerminalSection() {
                 <div className="mt-3 bg-zinc-900 rounded-lg p-3 border border-zinc-700">
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-cyan-400 text-xs font-semibold uppercase tracking-wide">
-                      Claude Desktop Config
+                      Add to mcpServers
                     </span>
                     <button
                       onClick={(e) => {

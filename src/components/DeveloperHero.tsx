@@ -75,21 +75,7 @@ export function DeveloperHero({ onSwitchToVisitor, prefersReducedMotion = false 
           {/* Quick stats for devs */}
           <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
             <Badge variant="secondary" className="font-mono text-xs">
-              <Code className="h-3 w-3 mr-1" />
-              TypeScript
-            </Badge>
-            <Badge variant="secondary" className="font-mono text-xs">
-              React 18
-            </Badge>
-            <Badge variant="secondary" className="font-mono text-xs">
               MIT EECS '14
-            </Badge>
-            <Badge variant="outline" className="text-xs border-green-500/30 text-green-600 bg-green-500/5">
-              <span className="relative flex h-2 w-2 mr-1.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-              </span>
-              Available
             </Badge>
           </div>
           

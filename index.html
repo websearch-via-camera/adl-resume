@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8" />
@@ -7,16 +7,29 @@
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <link rel="apple-touch-icon" href="/favicon.svg">
+    <!-- Provide PNG fallbacks (iOS & older browsers don't fully support SVG favicons) -->
+    <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="/apple-icon.png" sizes="180x180">
     
-    <!-- Prevent theme flash -->
-    <script>
+    <!-- [deprecated] Prevent theme flash -->
+    <!-- <script>
       (function() {
         const theme = localStorage.getItem('theme');
         if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
           document.documentElement.classList.add('dark');
         } else {
           document.documentElement.classList.remove('dark');
+        }
+      })();
+    </script> -->
+
+    <!-- Prevent theme flash (optimized: avoids layout thrash + double execution) -->
+    <script>
+      (() => {
+        const stored = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        if (stored === "dark" || (!stored && prefersDark)) {
+          document.documentElement.classList.add("dark");
         }
       })();
     </script>
@@ -26,7 +39,7 @@
     <meta name="description" content="MIT EECS alum building AI-native products, agentic systems, and scalable cloud architectures. 10+ years turning complex AI into production reality.">
     <meta name="keywords" content="Kiarash Adl, AI Engineer, Machine Learning, MIT, Software Engineer, Full Stack Developer, Computer Vision, NLP, Python, React">
     <meta name="author" content="Kiarash Adl">
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="index, follow, max-image-preview:large">
     <meta name="google-site-verification" content="hoyUm4lT_wcNunY4HR8_kOOdFQdB5Ye8swOkPhhvGxU" />
     <link rel="canonical" href="https://kiarash-adl.pages.dev/">
     
@@ -56,14 +69,18 @@
       "jobTitle": "AI Systems Architect",
       "worksFor": {
         "@type": "Organization",
-        "name": "AI Vision"
+        "name": "AI Vision Technologies Inc",
+        "url": "https://finderlyfix.com"
       },
       "alumniOf": {
         "@type": "CollegeOrUniversity",
         "name": "Massachusetts Institute of Technology",
         "sameAs": "https://www.mit.edu"
       },
-      "knowsAbout": ["Artificial Intelligence", "Computer Vision", "Natural Language Processing", "Full Stack Development", "Python", "React"],
+      "knowsAbout": [
+        "Artificial Intelligence", "Computer Vision",
+        "Full Stack Development", "Python", "React Native"
+      ],
       "sameAs": [
         "https://www.linkedin.com/in/kiarashadl/",
         "https://github.com/kiarashplusplus/"
@@ -84,7 +101,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    <!-- Load fonts with display=swap - non-render-blocking -->
+    <!-- Font loading: use 'swap', avoid render blocking -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"></noscript>
     

@@ -73,12 +73,15 @@ function App() {
         setVisitorType(savedType)
         setShowOnboarding(false)
         
-        // Delay to ensure scroll happens after browser's scroll restoration
-        const SCROLL_DELAY_MS = 100
+        // For visitors, disable browser's automatic scroll restoration
+        // This prevents the browser from restoring the previous scroll position
+        if (savedType === "visitor" && "scrollRestoration" in history) {
+          history.scrollRestoration = "manual"
+        }
         
         // Scroll based on visitor type
         if (savedType === "developer") {
-          // Returning developer: scroll to terminal
+          // Returning developer: scroll to terminal after a delay
           setTimeout(() => {
             const terminalElement = document.getElementById("terminal")
             if (terminalElement) {
@@ -90,12 +93,17 @@ function App() {
                 behavior: "smooth"
               })
             }
-          }, SCROLL_DELAY_MS)
+          }, 100)
         } else {
-          // Returning visitor: scroll to top (override browser scroll restoration)
-          setTimeout(() => {
-            window.scrollTo({ top: 0, behavior: "instant" })
-          }, SCROLL_DELAY_MS)
+          // Returning visitor: scroll to top immediately and repeatedly to ensure override
+          // Browser scroll restoration can happen at unpredictable times, so we
+          // scroll to top multiple times in quick succession
+          const scrollToTop = () => window.scrollTo({ top: 0, behavior: "instant" })
+          scrollToTop()
+          setTimeout(scrollToTop, 0)
+          setTimeout(scrollToTop, 50)
+          setTimeout(scrollToTop, 100)
+          setTimeout(scrollToTop, 200)
         }
       } else {
         // Clear any invalid values and show onboarding

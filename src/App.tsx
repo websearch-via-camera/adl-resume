@@ -1001,12 +1001,10 @@ function App() {
               <a href="https://github.com/kiarashplusplus/" target="_blank" rel="noopener noreferrer" className="min-h-[44px] min-w-[44px] flex items-center justify-center hover:text-foreground transition-colors" aria-label="Visit Kiarash's GitHub profile">
                 <GithubLogo size={20} weight="fill" />
               </a>
-              <span className="text-border">|</span>
               <p>© 2025 Kiarash Adl</p>
             </div>
             <div className="flex items-center gap-3">
               <span>MIT EECS '14</span>
-              <span className="text-border">|</span>
               <span className="hidden sm:inline">
                 Press <kbd className="px-1.5 py-0.5 text-xs font-mono bg-muted rounded border border-border">?</kbd> for shortcuts
               </span>

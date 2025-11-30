@@ -619,40 +619,46 @@ function App() {
               </p>
               
               {/* What I Deliver - Beautiful icon cards for non-coders */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 max-w-xl">
-                <div className="group relative p-4 rounded-2xl bg-gradient-to-br from-primary/10 via-primary/5 to-transparent border border-primary/20 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6 max-w-xl">
+                <div className="group relative p-3 rounded-xl bg-gradient-to-br from-primary/10 via-primary/5 to-transparent border border-primary/20 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
                   {/* Decorative glow */}
-                  <div className="absolute -top-4 -right-4 w-16 h-16 bg-primary/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="relative z-10">
-                    <div className="w-12 h-12 mb-3 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300 shadow-inner">
+                  <div className="absolute -top-4 -right-4 w-12 h-12 bg-primary/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="relative z-10 flex items-start gap-3">
+                    <div className="w-10 h-10 flex-shrink-0 rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-xl group-hover:scale-110 transition-transform duration-300">
                       💬
                     </div>
-                    <div className="font-bold text-foreground mb-1">AI Chatbots</div>
-                    <div className="text-xs text-muted-foreground leading-relaxed">Make your app talk back intelligently</div>
+                    <div>
+                      <div className="font-bold text-sm text-foreground">AI Chatbots</div>
+                      <div className="text-xs text-muted-foreground leading-snug">Make your app talk back intelligently</div>
+                    </div>
                   </div>
                 </div>
                 
-                <div className="group relative p-4 rounded-2xl bg-gradient-to-br from-accent/10 via-accent/5 to-transparent border border-accent/20 hover:border-accent/40 hover:shadow-lg hover:shadow-accent/10 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+                <div className="group relative p-3 rounded-xl bg-gradient-to-br from-accent/10 via-accent/5 to-transparent border border-accent/20 hover:border-accent/40 hover:shadow-lg hover:shadow-accent/10 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
                   {/* Decorative glow */}
-                  <div className="absolute -top-4 -right-4 w-16 h-16 bg-accent/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="relative z-10">
-                    <div className="w-12 h-12 mb-3 rounded-xl bg-gradient-to-br from-accent/20 to-accent/5 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300 shadow-inner">
+                  <div className="absolute -top-4 -right-4 w-12 h-12 bg-accent/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="relative z-10 flex items-start gap-3">
+                    <div className="w-10 h-10 flex-shrink-0 rounded-lg bg-gradient-to-br from-accent/20 to-accent/5 flex items-center justify-center text-xl group-hover:scale-110 transition-transform duration-300">
                       🚀
                     </div>
-                    <div className="font-bold text-foreground mb-1">End-to-End</div>
-                    <div className="text-xs text-muted-foreground leading-relaxed">From idea to launch, millions of users</div>
+                    <div>
+                      <div className="font-bold text-sm text-foreground">End-to-End</div>
+                      <div className="text-xs text-muted-foreground leading-snug">From idea to launch, millions of users</div>
+                    </div>
                   </div>
                 </div>
                 
-                <div className="group relative p-4 rounded-2xl bg-gradient-to-br from-blue-500/10 via-blue-500/5 to-transparent border border-blue-500/20 hover:border-blue-500/40 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+                <div className="group relative p-3 rounded-xl bg-gradient-to-br from-blue-500/10 via-blue-500/5 to-transparent border border-blue-500/20 hover:border-blue-500/40 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
                   {/* Decorative glow */}
-                  <div className="absolute -top-4 -right-4 w-16 h-16 bg-blue-500/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="relative z-10">
-                    <div className="w-12 h-12 mb-3 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-500/5 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300 shadow-inner">
+                  <div className="absolute -top-4 -right-4 w-12 h-12 bg-blue-500/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="relative z-10 flex items-start gap-3">
+                    <div className="w-10 h-10 flex-shrink-0 rounded-lg bg-gradient-to-br from-blue-500/20 to-blue-500/5 flex items-center justify-center text-xl group-hover:scale-110 transition-transform duration-300">
                       ☁️
                     </div>
-                    <div className="font-bold text-foreground mb-1">Cloud Magic</div>
-                    <div className="text-xs text-muted-foreground leading-relaxed">Secure, fast, scales with you</div>
+                    <div>
+                      <div className="font-bold text-sm text-foreground">Cloud Magic</div>
+                      <div className="text-xs text-muted-foreground leading-snug">Secure, fast, scales with you</div>
+                    </div>
                   </div>
                 </div>
               </div>

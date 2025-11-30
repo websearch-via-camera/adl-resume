@@ -233,8 +233,6 @@ export function initMCP(): void {
     })
   }
 
-  // Log for verification
-  if (process.env.NODE_ENV === "development") {
-    console.log("[MCP] WebMCP initialized with tools:", navigator.modelContext.tools.length)
-  }
+  // Log for verification (always log in production for AI agent debugging)
+  console.log("[MCP] WebMCP initialized with tools:", navigator.modelContext.tools.length)
 }

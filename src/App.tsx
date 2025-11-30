@@ -69,7 +69,7 @@ function App() {
         // If returning developer, scroll to terminal
         if (savedType === "developer") {
           setTimeout(() => {
-            const terminalElement = document.getElementById("showcase")
+            const terminalElement = document.getElementById("terminal")
             if (terminalElement) {
               const offset = 80
               const elementPosition = terminalElement.getBoundingClientRect().top
@@ -110,7 +110,7 @@ function App() {
     // If developer, scroll to terminal after a short delay
     if (isDeveloper) {
       setTimeout(() => {
-        const terminalElement = document.getElementById("showcase")
+        const terminalElement = document.getElementById("terminal")
         if (terminalElement) {
           const offset = 80
           const elementPosition = terminalElement.getBoundingClientRect().top
@@ -680,7 +680,7 @@ function App() {
             </motion.div>
 
             {/* Interactive Terminal */}
-            <motion.div variants={fadeIn}>
+            <motion.div variants={fadeIn} id="terminal" className="scroll-mt-20">
               <div className="mb-4">
                 <h3 className="text-xl font-bold mb-2">Interactive Terminal</h3>
                 <p className="text-sm text-muted-foreground">

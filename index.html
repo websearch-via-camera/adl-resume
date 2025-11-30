@@ -320,6 +320,10 @@
         });
       }
     </script>
+    
+    <!-- Critical JS chunk preloads - added during build, these are placeholders -->
+    <!-- modulepreload hints tell the browser to fetch, parse, and compile these modules early -->
+    <!-- These will be replaced with actual hashed paths during production build -->
 </head>
 
 <body>
@@ -394,7 +398,8 @@
         @keyframes spin { to { transform: rotate(360deg); } }
       </style>
     </div>
-    <script type="module" src="/src/main.tsx"></script>
+    <!-- Main app script - async prevents blocking the parser -->
+    <script type="module" src="/src/main.tsx" async></script>
     
     <!-- Performance metrics (only in production) -->
     <script>

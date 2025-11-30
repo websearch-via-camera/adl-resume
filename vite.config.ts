@@ -5,8 +5,8 @@ import { resolve } from 'path'
 
 const projectRoot = process.env.PROJECT_ROOT || import.meta.dirname
 
-// Custom plugin to update LCP image path and optimize CSS loading
-// Note: Modulepreload is handled automatically by Vite - do not add manual preloads
+// Custom plugin to update LCP image path, optimize CSS loading, and add modulepreload hints
+// This reduces critical path latency by preloading essential chunks early in <head>
 function criticalChunksPreload(): Plugin {
   return {
     name: 'critical-chunks-preload',
@@ -15,9 +15,11 @@ function criticalChunksPreload(): Plugin {
       // Only apply in production build
       if (!ctx.bundle) return html;
       
-      // Find LCP image and main CSS from the bundle
+      // Find LCP image, main CSS, and critical JS chunks from the bundle
       let profileImagePath = '';
       let mainCssPath = '';
+      let vendorReactPath = '';
+      let mainJsPath = '';
       
       for (const [fileName] of Object.entries(ctx.bundle)) {
         // Find the profile image (LCP element)
@@ -28,6 +30,14 @@ function criticalChunksPreload(): Plugin {
         else if (fileName.startsWith('assets/index-') && fileName.endsWith('.css')) {
           mainCssPath = fileName;
         }
+        // Find vendor-react chunk (critical for React hydration)
+        else if (fileName.includes('vendor-react') && fileName.endsWith('.js')) {
+          vendorReactPath = fileName;
+        }
+        // Find the main entry JS file
+        else if (fileName.startsWith('assets/index-') && fileName.endsWith('.js')) {
+          mainJsPath = fileName;
+        }
       }
       
       // Replace the placeholder preload with the actual hashed image path
@@ -35,6 +45,30 @@ function criticalChunksPreload(): Plugin {
         html = html.replace(
           /(<link rel="preload" as="image" type="image\/webp" href=")\/src\/assets\/images\/profile-384w\.webp(" fetchpriority="high">)/,
           `$1/${profileImagePath}$2`
+        );
+      }
+      
+      // Add early modulepreload hints in <head> for critical JS chunks
+      // These are placed early in <head> so the browser starts fetching them sooner
+      // than Vite's default modulepreload links which appear after the script tag
+      const earlyPreloads: string[] = [];
+      
+      if (vendorReactPath) {
+        // React vendor chunk is highest priority - needed for any React rendering
+        earlyPreloads.push(`<link rel="modulepreload" href="/${vendorReactPath}" crossorigin fetchpriority="high">`);
+      }
+      
+      if (mainJsPath) {
+        // Main entry chunk - preload early
+        earlyPreloads.push(`<link rel="modulepreload" href="/${mainJsPath}" crossorigin fetchpriority="high">`);
+      }
+      
+      // Insert early modulepreload hints in the placeholder location
+      if (earlyPreloads.length > 0) {
+        const preloadBlock = `    <!-- Early JS modulepreload - reduces critical path latency -->\n    ${earlyPreloads.join('\n    ')}\n`;
+        html = html.replace(
+          /<!-- Critical JS chunk preloads[^>]*-->\n\s*<!-- modulepreload hints[^>]*-->\n\s*<!-- These will be replaced[^>]*-->\n/,
+          preloadBlock
         );
       }
       

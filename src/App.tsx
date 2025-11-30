@@ -939,10 +939,7 @@ function App() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeIn} className="mb-10">
-              <h2 className="text-3xl md:text-4xl font-bold mb-2">Get In Touch</h2>
-              <p className="text-muted-foreground">
-                Let's discuss AI innovation, collaboration, or your next project.
-              </p>
+              <h2 className="text-3xl md:text-4xl font-bold mb-2">Let's discuss AI innovation, collaboration, or your next project.</h2>
             </motion.div>
 
             <div className="grid md:grid-cols-5 gap-6 md:gap-8">

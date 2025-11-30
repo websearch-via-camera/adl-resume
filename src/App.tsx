@@ -615,30 +615,44 @@ function App() {
               
               {/* What I Deliver - Outcome-focused for non-coders with icons */}
               <p className="text-lg md:text-xl text-foreground/90 mb-5 max-w-xl leading-relaxed">
-                I build <span className="font-semibold text-primary">AI tools that automate workflows</span>, chat like humans, and scale effortlessly — <span className="italic">no coding required from you</span>.
+                I build <span className="font-semibold text-primary">AI tools that automate workflows</span>, chat like humans, and scale effortlessly. <span className="font-medium italic text-primary/90">No coding required from you.</span>
               </p>
               
-              {/* What I Deliver - Icon bullets for non-coders */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6 max-w-xl">
-                <div className="flex items-start gap-2 p-3 rounded-xl bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20">
-                  <span className="text-lg">💬</span>
-                  <div>
-                    <div className="font-semibold text-sm text-foreground">AI Chatbots</div>
-                    <div className="text-xs text-muted-foreground">Make your app talk back intelligently</div>
+              {/* What I Deliver - Beautiful icon cards for non-coders */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 max-w-xl">
+                <div className="group relative p-4 rounded-2xl bg-gradient-to-br from-primary/10 via-primary/5 to-transparent border border-primary/20 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+                  {/* Decorative glow */}
+                  <div className="absolute -top-4 -right-4 w-16 h-16 bg-primary/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="relative z-10">
+                    <div className="w-12 h-12 mb-3 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300 shadow-inner">
+                      💬
+                    </div>
+                    <div className="font-bold text-foreground mb-1">AI Chatbots</div>
+                    <div className="text-xs text-muted-foreground leading-relaxed">Make your app talk back intelligently</div>
                   </div>
                 </div>
-                <div className="flex items-start gap-2 p-3 rounded-xl bg-gradient-to-br from-accent/5 to-accent/10 border border-accent/20">
-                  <span className="text-lg">🚀</span>
-                  <div>
-                    <div className="font-semibold text-sm text-foreground">End-to-End</div>
-                    <div className="text-xs text-muted-foreground">From idea to launch, millions of users</div>
+                
+                <div className="group relative p-4 rounded-2xl bg-gradient-to-br from-accent/10 via-accent/5 to-transparent border border-accent/20 hover:border-accent/40 hover:shadow-lg hover:shadow-accent/10 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+                  {/* Decorative glow */}
+                  <div className="absolute -top-4 -right-4 w-16 h-16 bg-accent/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="relative z-10">
+                    <div className="w-12 h-12 mb-3 rounded-xl bg-gradient-to-br from-accent/20 to-accent/5 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300 shadow-inner">
+                      🚀
+                    </div>
+                    <div className="font-bold text-foreground mb-1">End-to-End</div>
+                    <div className="text-xs text-muted-foreground leading-relaxed">From idea to launch, millions of users</div>
                   </div>
                 </div>
-                <div className="flex items-start gap-2 p-3 rounded-xl bg-gradient-to-br from-blue-500/5 to-blue-500/10 border border-blue-500/20">
-                  <span className="text-lg">☁️</span>
-                  <div>
-                    <div className="font-semibold text-sm text-foreground">Cloud Magic</div>
-                    <div className="text-xs text-muted-foreground">Secure, fast, scales with you</div>
+                
+                <div className="group relative p-4 rounded-2xl bg-gradient-to-br from-blue-500/10 via-blue-500/5 to-transparent border border-blue-500/20 hover:border-blue-500/40 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+                  {/* Decorative glow */}
+                  <div className="absolute -top-4 -right-4 w-16 h-16 bg-blue-500/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="relative z-10">
+                    <div className="w-12 h-12 mb-3 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-500/5 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300 shadow-inner">
+                      ☁️
+                    </div>
+                    <div className="font-bold text-foreground mb-1">Cloud Magic</div>
+                    <div className="text-xs text-muted-foreground leading-relaxed">Secure, fast, scales with you</div>
                   </div>
                 </div>
               </div>
@@ -646,7 +660,7 @@ function App() {
               {/* Fun Fact - Personal touch */}
               <div className="mb-6 p-3 rounded-xl bg-muted/50 border border-border/50 max-w-xl">
                 <p className="text-sm text-muted-foreground">
-                  <span className="font-semibold text-foreground">☕ Fun fact:</span> I've debugged code at 3 AM fueled by Persian tea, built my first app at 14, and my AI once auto-replied to 10,000 emails while I was hiking. It works so I don't have to!
+                  <span className="font-semibold text-foreground">✨ Fun fact:</span> I built my first startup at 14.
                 </p>
               </div>
               

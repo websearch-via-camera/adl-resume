@@ -81,8 +81,9 @@ function App() {
         
         // Scroll based on visitor type
         if (savedType === "developer") {
-          // Returning developer: scroll to terminal after a delay
-          setTimeout(() => {
+          // Returning developer: scroll to terminal after content loads
+          // Use multiple attempts since lazy-loaded components may take time
+          const scrollToTerminal = () => {
             const terminalElement = document.getElementById("terminal")
             if (terminalElement) {
               const offset = 80
@@ -92,6 +93,19 @@ function App() {
                 top: offsetPosition,
                 behavior: "smooth"
               })
+              return true
+            }
+            return false
+          }
+          
+          // Try multiple times with increasing delays for lazy-loaded content
+          setTimeout(() => {
+            if (!scrollToTerminal()) {
+              setTimeout(() => {
+                if (!scrollToTerminal()) {
+                  setTimeout(scrollToTerminal, 500)
+                }
+              }, 200)
             }
           }, 100)
         } else {
@@ -135,15 +149,28 @@ function App() {
     setTimeout(() => {
       if (isDeveloper) {
         // Developer: scroll to terminal section
-        const terminalElement = document.getElementById("terminal")
-        if (terminalElement) {
-          const offset = 80
-          const elementPosition = terminalElement.getBoundingClientRect().top
-          const offsetPosition = elementPosition + window.pageYOffset - offset
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: "smooth"
-          })
+        // Use multiple attempts since lazy-loaded components may take time
+        const scrollToTerminal = () => {
+          const terminalElement = document.getElementById("terminal")
+          if (terminalElement) {
+            const offset = 80
+            const elementPosition = terminalElement.getBoundingClientRect().top
+            const offsetPosition = elementPosition + window.pageYOffset - offset
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: "smooth"
+            })
+            return true
+          }
+          return false
+        }
+        
+        if (!scrollToTerminal()) {
+          setTimeout(() => {
+            if (!scrollToTerminal()) {
+              setTimeout(scrollToTerminal, 500)
+            }
+          }, 200)
         }
       } else {
         // Non-developer: scroll to top (hero header)
@@ -1016,27 +1043,27 @@ function App() {
               <motion.div variants={fadeIn} className="md:col-span-2 space-y-4">
                 <a 
                   href="mailto:kiarasha@alum.mit.edu" 
-                  className="flex items-center gap-3 p-4 bg-muted/50 hover:bg-muted rounded-lg transition-colors group"
+                  className="flex items-center gap-4 p-5 bg-gradient-to-br from-muted/60 to-muted/30 hover:from-primary/10 hover:to-accent/5 rounded-2xl transition-all duration-300 group border border-border/50 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5"
                 >
-                  <div className="p-2 bg-primary/10 rounded-lg">
+                  <div className="p-3 bg-gradient-to-br from-primary/20 to-accent/10 rounded-xl group-hover:from-primary/30 group-hover:to-accent/20 transition-colors">
                     <Mail className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <div className="text-xs text-muted-foreground">Email</div>
-                    <div className="font-medium group-hover:text-primary transition-colors">kiarasha@alum.mit.edu</div>
+                    <div className="text-xs text-muted-foreground uppercase tracking-wider mb-0.5">Email</div>
+                    <div className="font-semibold group-hover:text-primary transition-colors">kiarasha@alum.mit.edu</div>
                   </div>
                 </a>
 
                 <a 
                   href="tel:+18579281608" 
-                  className="flex items-center gap-3 p-4 bg-muted/50 hover:bg-muted rounded-lg transition-colors group"
+                  className="flex items-center gap-4 p-5 bg-gradient-to-br from-muted/60 to-muted/30 hover:from-primary/10 hover:to-accent/5 rounded-2xl transition-all duration-300 group border border-border/50 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5"
                 >
-                  <div className="p-2 bg-primary/10 rounded-lg">
+                  <div className="p-3 bg-gradient-to-br from-primary/20 to-accent/10 rounded-xl group-hover:from-primary/30 group-hover:to-accent/20 transition-colors">
                     <Phone className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <div className="text-xs text-muted-foreground">Phone</div>
-                    <div className="font-medium group-hover:text-primary transition-colors">+1-857-928-1608</div>
+                    <div className="text-xs text-muted-foreground uppercase tracking-wider mb-0.5">Phone</div>
+                    <div className="font-semibold group-hover:text-primary transition-colors">+1-857-928-1608</div>
                   </div>
                 </a>
 
@@ -1045,29 +1072,43 @@ function App() {
                     href="https://www.linkedin.com/in/kiarashadl/" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 p-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all font-medium"
+                    className="flex-1 flex items-center justify-center gap-2 p-4 bg-gradient-to-r from-primary to-primary/90 text-primary-foreground rounded-xl hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all duration-300 font-medium group"
                   >
-                    <Linkedin className="h-5 w-5" />
+                    <Linkedin className="h-5 w-5 group-hover:scale-110 transition-transform" />
                     LinkedIn
                   </a>
                   <a 
                     href="https://github.com/kiarashplusplus/" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 p-3 bg-foreground text-background rounded-lg hover:bg-foreground/90 transition-all font-medium"
+                    className="flex-1 flex items-center justify-center gap-2 p-4 bg-foreground text-background rounded-xl hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 font-medium group"
                   >
-                    <Github className="h-5 w-5" />
+                    <Github className="h-5 w-5 group-hover:scale-110 transition-transform" />
                     GitHub
                   </a>
                 </div>
               </motion.div>
 
               <motion.div variants={fadeIn} className="md:col-span-3">
-                <Card className="p-6">
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="grid sm:grid-cols-2 gap-4">
-                      <div className="space-y-1.5">
-                        <Label htmlFor="name" className="text-sm">Name *</Label>
+                <div className="relative group">
+                  {/* Gradient glow effect */}
+                  <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-3xl opacity-0 group-hover:opacity-100 blur-xl transition-all duration-500" />
+                  
+                  <Card className="relative p-8 bg-card/90 backdrop-blur-sm border-border/50">
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="p-2 bg-gradient-to-br from-primary/20 to-accent/10 rounded-xl">
+                        <Send className="h-5 w-5 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold">Send a Message</h3>
+                        <p className="text-xs text-muted-foreground">I'll get back to you within 24 hours</p>
+                      </div>
+                    </div>
+                    
+                    <form onSubmit={handleSubmit} className="space-y-5">
+                    <div className="grid sm:grid-cols-2 gap-5">
+                      <div className="space-y-2">
+                        <Label htmlFor="name" className="text-sm font-medium">Name <span className="text-primary">*</span></Label>
                         <Input
                           id="name"
                           name="name"
@@ -1079,8 +1120,8 @@ function App() {
                           required
                         />
                       </div>
-                      <div className="space-y-1.5">
-                        <Label htmlFor="email" className="text-sm">Email *</Label>
+                      <div className="space-y-2">
+                        <Label htmlFor="email" className="text-sm font-medium">Email <span className="text-primary">*</span></Label>
                         <Input
                           id="email"
                           name="email"
@@ -1094,8 +1135,8 @@ function App() {
                       </div>
                     </div>
 
-                    <div className="space-y-1.5">
-                      <Label htmlFor="subject" className="text-sm">Subject</Label>
+                    <div className="space-y-2">
+                      <Label htmlFor="subject" className="text-sm font-medium">Subject</Label>
                       <Input
                         id="subject"
                         name="subject"
@@ -1106,8 +1147,8 @@ function App() {
                       />
                     </div>
 
-                    <div className="space-y-1.5">
-                      <Label htmlFor="message" className="text-sm">Message *</Label>
+                    <div className="space-y-2">
+                      <Label htmlFor="message" className="text-sm font-medium">Message <span className="text-primary">*</span></Label>
                       <Textarea
                         id="message"
                         name="message"
@@ -1115,21 +1156,22 @@ function App() {
                         value={formData.message}
                         onChange={handleInputChange}
                         required
-                        rows={4}
-                        className="resize-none"
+                        rows={5}
+                        className="resize-none rounded-xl border-border/50 focus:border-primary focus:ring-primary/20 focus:ring-[3px] transition-all duration-300 bg-background/50 hover:border-primary/30"
                       />
                     </div>
 
                     <Button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full gap-2"
+                      className="w-full gap-2 h-12 text-base"
                     >
                       <Send className="h-[18px] w-[18px]" />
                       {isSubmitting ? "Sending..." : "Send Message"}
                     </Button>
                   </form>
                 </Card>
+                </div>
               </motion.div>
             </div>
           </motion.div>

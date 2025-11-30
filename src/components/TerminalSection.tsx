@@ -1,12 +1,14 @@
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Card } from "@/components/ui/card"
-import { Terminal } from "lucide-react"
+import { Terminal, Sparkles } from "lucide-react"
+import { isMCPMode, enableMCPMode, disableMCPMode, type UseMCPResult } from "@/mcp/useMCP"
 
 interface CommandOutput {
   command: string
   output: string[]
   isError?: boolean
+  isMCP?: boolean
 }
 
 const commands: Record<string, string[]> = {
@@ -20,6 +22,7 @@ const commands: Record<string, string[]> = {
     "  experience - View work history",
     "  guestbook  - Sign the guestbook",
     "  whoami     - Who am I?",
+    "  mcp        - Toggle MCP mode for AI agents",
     "  clear      - Clear terminal",
     "  help       - Show this help message",
     "",
@@ -193,8 +196,14 @@ export function TerminalSection() {
   const [currentInput, setCurrentInput] = useState("")
   const [commandHistory, setCommandHistory] = useState<string[]>([])
   const [historyIndex, setHistoryIndex] = useState(-1)
+  const [mcpEnabled, setMcpEnabled] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const terminalRef = useRef<HTMLDivElement>(null)
+  
+  // Check MCP mode on mount
+  useEffect(() => {
+    setMcpEnabled(isMCPMode())
+  }, [])
   
   useEffect(() => {
     if (terminalRef.current) {
@@ -202,11 +211,79 @@ export function TerminalSection() {
     }
   }, [history])
   
-  const processCommand = (input: string) => {
+  // MCP tool caller
+  const callMCPTool = useCallback(async (name: string, input: unknown): Promise<{ success: boolean; data?: unknown; error?: string }> => {
+    if (typeof navigator !== "undefined" && navigator.modelContext) {
+      try {
+        return await navigator.modelContext.callTool(name, input)
+      } catch (err) {
+        return { success: false, error: err instanceof Error ? err.message : "Unknown error" }
+      }
+    }
+    return { success: false, error: "MCP not available" }
+  }, [])
+  
+  const processCommand = async (input: string) => {
     const trimmedInput = input.trim().toLowerCase()
     
     if (trimmedInput === "clear") {
       setHistory([])
+      return
+    }
+    
+    // MCP mode toggle
+    if (trimmedInput === "mcp" || trimmedInput === "mcp on" || trimmedInput === "mcp off") {
+      const shouldEnable = trimmedInput === "mcp on" || (trimmedInput === "mcp" && !mcpEnabled)
+      if (shouldEnable) {
+        enableMCPMode()
+        setMcpEnabled(true)
+        setHistory(prev => [...prev, {
+          command: input,
+          output: [
+            "🤖 MCP Mode: ENABLED",
+            "",
+            "AI agents can now discover and call tools on this site.",
+            "Tools available: get_project_details, run_terminal_command",
+            "",
+            "Commands in MCP mode will also trigger tool calls.",
+            "Type 'mcp off' to disable.",
+            ""
+          ],
+          isMCP: true
+        }])
+      } else {
+        disableMCPMode()
+        setMcpEnabled(false)
+        setHistory(prev => [...prev, {
+          command: input,
+          output: ["🔒 MCP Mode: DISABLED", ""],
+          isMCP: true
+        }])
+      }
+      if (trimmedInput) {
+        setCommandHistory(prev => [...prev, trimmedInput])
+      }
+      setHistoryIndex(-1)
+      return
+    }
+    
+    // MCP status check
+    if (trimmedInput === "mcp status") {
+      const toolCount = navigator.modelContext?.tools?.length ?? 0
+      setHistory(prev => [...prev, {
+        command: input,
+        output: [
+          `MCP Status: ${mcpEnabled ? "ENABLED" : "DISABLED"}`,
+          `Tools registered: ${toolCount}`,
+          `Discovery: /.well-known/mcp.llmfeed.json`,
+          ""
+        ],
+        isMCP: true
+      }])
+      if (trimmedInput) {
+        setCommandHistory(prev => [...prev, trimmedInput])
+      }
+      setHistoryIndex(-1)
       return
     }
     
@@ -217,8 +294,27 @@ export function TerminalSection() {
     
     let output: string[]
     let isError = false
+    let isMCP = false
     
-    if (trimmedInput === "") {
+    // If MCP mode is enabled, try calling MCP tools for supported commands
+    const mcpCommands = ["about", "skills", "projects", "contact", "experience", "help"]
+    if (mcpEnabled && mcpCommands.includes(trimmedInput)) {
+      const result = await callMCPTool("run_terminal_command", { command: trimmedInput })
+      if (result.success && result.data) {
+        const data = result.data as { output: string }
+        // Split the output into lines and add MCP indicator
+        output = [
+          "✨ [MCP Response]",
+          "",
+          ...data.output.split("\n"),
+          ""
+        ]
+        isMCP = true
+      } else {
+        // Fallback to regular command
+        output = commands[trimmedInput] || [`zsh: command not found: ${input}`, "Type 'help' for available commands."]
+      }
+    } else if (trimmedInput === "") {
       output = [""]
     } else if (trimmedInput === "schedule" || trimmedInput === "calendly") {
       // Alias commands for book
@@ -230,7 +326,7 @@ export function TerminalSection() {
       isError = true
     }
     
-    setHistory(prev => [...prev, { command: input, output, isError }])
+    setHistory(prev => [...prev, { command: input, output, isError, isMCP }])
     
     if (trimmedInput) {
       setCommandHistory(prev => [...prev, trimmedInput])
@@ -338,7 +434,15 @@ export function TerminalSection() {
           <Terminal className="h-4 w-4 text-zinc-400 ml-2" aria-hidden="true" />
           <span className="text-xs text-zinc-400 font-mono">kiarash@portfolio — zsh</span>
         </div>
-        <span className="text-xs text-zinc-500 font-mono" aria-hidden="true">bash</span>
+        <div className="flex items-center gap-2">
+          {mcpEnabled && (
+            <span className="flex items-center gap-1 text-xs text-violet-400 font-mono" aria-label="MCP mode enabled">
+              <Sparkles className="h-3 w-3" aria-hidden="true" />
+              MCP
+            </span>
+          )}
+          <span className="text-xs text-zinc-500 font-mono" aria-hidden="true">bash</span>
+        </div>
       </div>
       
       {/* Terminal Body */}
@@ -365,12 +469,13 @@ export function TerminalSection() {
                   <span className="text-blue-400">~</span>
                   <span className="text-zinc-500">$</span>
                   <span>{item.command}</span>
+                  {item.isMCP && <Sparkles className="h-3 w-3 text-violet-400 ml-1" aria-hidden="true" />}
                 </div>
               )}
               {item.output.map((line, lineIndex) => (
                 <div 
                   key={lineIndex} 
-                  className={`whitespace-pre ${item.isError ? "text-red-400" : "text-zinc-300"}`}
+                  className={`whitespace-pre ${item.isError ? "text-red-400" : item.isMCP ? "text-violet-300" : "text-zinc-300"}`}
                 >
                   {line || "\u00A0"}
                 </div>
@@ -402,12 +507,26 @@ export function TerminalSection() {
       </div>
       
       {/* Terminal Footer */}
-      <div className="px-4 py-2 bg-zinc-900 border-t border-zinc-800 text-xs text-zinc-500 font-mono">
-        <span>↑↓ History</span>
-        <span className="mx-3">|</span>
-        <span>Mens et Manus</span>
-        <span className="mx-3">|</span>
-        <span>Try: neofetch, whoami</span>
+      <div className="px-4 py-2 bg-zinc-900 border-t border-zinc-800 text-xs text-zinc-500 font-mono flex items-center justify-between">
+        <div>
+          <span>↑↓ History</span>
+          <span className="mx-3">|</span>
+          <span>Mens et Manus</span>
+          <span className="mx-3">|</span>
+          <span>Try: neofetch, whoami</span>
+        </div>
+        <div className="flex items-center gap-2">
+          {mcpEnabled ? (
+            <span className="text-violet-400 flex items-center gap-1">
+              <Sparkles className="h-3 w-3" />
+              AI Mode
+            </span>
+          ) : (
+            <span className="text-zinc-600 hover:text-zinc-400 cursor-help" title="Type 'mcp' to enable AI agent mode">
+              mcp
+            </span>
+          )}
+        </div>
       </div>
     </Card>
     </section>

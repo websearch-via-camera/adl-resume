@@ -6,9 +6,13 @@ import { ErrorFallback } from './ErrorFallback.tsx'
 import { Toaster } from "@/components/ui/sonner"
 import { ThemeProvider } from "@/components/ThemeProvider"
 import { A11yProvider } from "@/components/A11yProvider"
+import { initMCP } from "@/mcp/useMCP"
 
 // Single consolidated CSS import (main.css imports index.css)
 import "./main.css"
+
+// Initialize MCP tools for AI agent discovery
+initMCP()
 
 // Fun console message for fellow developers 👋
 console.log(`
@@ -23,6 +27,11 @@ console.log(`
 │   📧 Reach out: kiarasha@alum.mit.edu                       │
 │                                                             │
 │   Let's create some magic! ✨                               │
+│                                                             │
+│   🤖 MCP Tools Available for AI Agents:                     │
+│      - get_project_details                                  │
+│      - run_terminal_command                                 │
+│      Test: navigator.modelContext.tools                     │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 `,

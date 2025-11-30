@@ -620,11 +620,9 @@ function App() {
               
               {/* What I Deliver - Beautiful icon cards for non-coders */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6 max-w-xl">
-                <div className="group relative p-3 rounded-xl bg-gradient-to-br from-primary/10 via-primary/5 to-transparent border border-primary/20 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
-                  {/* Decorative glow */}
-                  <div className="absolute -top-4 -right-4 w-12 h-12 bg-primary/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="relative z-10 flex items-start gap-3">
-                    <div className="w-10 h-10 flex-shrink-0 rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-xl group-hover:scale-110 transition-transform duration-300">
+                <div className="group p-3 rounded-xl bg-primary/5 border border-primary/20 hover:border-primary/40 hover:bg-primary/10 hover:-translate-y-0.5 transition-all duration-200">
+                  <div className="flex flex-col items-center text-center sm:items-start sm:text-left gap-2">
+                    <div className="w-10 h-10 flex-shrink-0 rounded-lg bg-primary/10 flex items-center justify-center text-xl group-hover:scale-105 transition-transform duration-200">
                       💬
                     </div>
                     <div>
@@ -634,11 +632,9 @@ function App() {
                   </div>
                 </div>
                 
-                <div className="group relative p-3 rounded-xl bg-gradient-to-br from-accent/10 via-accent/5 to-transparent border border-accent/20 hover:border-accent/40 hover:shadow-lg hover:shadow-accent/10 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
-                  {/* Decorative glow */}
-                  <div className="absolute -top-4 -right-4 w-12 h-12 bg-accent/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="relative z-10 flex items-start gap-3">
-                    <div className="w-10 h-10 flex-shrink-0 rounded-lg bg-gradient-to-br from-accent/20 to-accent/5 flex items-center justify-center text-xl group-hover:scale-110 transition-transform duration-300">
+                <div className="group p-3 rounded-xl bg-accent/5 border border-accent/20 hover:border-accent/40 hover:bg-accent/10 hover:-translate-y-0.5 transition-all duration-200">
+                  <div className="flex flex-col items-center text-center sm:items-start sm:text-left gap-2">
+                    <div className="w-10 h-10 flex-shrink-0 rounded-lg bg-accent/10 flex items-center justify-center text-xl group-hover:scale-105 transition-transform duration-200">
                       🚀
                     </div>
                     <div>
@@ -648,11 +644,9 @@ function App() {
                   </div>
                 </div>
                 
-                <div className="group relative p-3 rounded-xl bg-gradient-to-br from-blue-500/10 via-blue-500/5 to-transparent border border-blue-500/20 hover:border-blue-500/40 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
-                  {/* Decorative glow */}
-                  <div className="absolute -top-4 -right-4 w-12 h-12 bg-blue-500/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="relative z-10 flex items-start gap-3">
-                    <div className="w-10 h-10 flex-shrink-0 rounded-lg bg-gradient-to-br from-blue-500/20 to-blue-500/5 flex items-center justify-center text-xl group-hover:scale-110 transition-transform duration-300">
+                <div className="group p-3 rounded-xl bg-blue-500/5 border border-blue-500/20 hover:border-blue-500/40 hover:bg-blue-500/10 hover:-translate-y-0.5 transition-all duration-200">
+                  <div className="flex flex-col items-center text-center sm:items-start sm:text-left gap-2">
+                    <div className="w-10 h-10 flex-shrink-0 rounded-lg bg-blue-500/10 flex items-center justify-center text-xl group-hover:scale-105 transition-transform duration-200">
                       ☁️
                     </div>
                     <div>
@@ -700,28 +694,6 @@ function App() {
               </div>
             </div>
           </div>
-        </div>
-        {/* Scroll indicator - integrated into hero section */}
-        <div
-          className={`flex flex-col items-center mt-12 md:mt-16 transition-opacity duration-500 ${
-            showScrollIndicator ? 'opacity-100' : 'opacity-0'
-          }`}
-        >
-          <span className="text-xs uppercase tracking-widest text-muted-foreground mb-3">
-            Explore
-          </span>
-          <button
-            onClick={() => scrollToSection('projects')}
-            className="group flex flex-col items-center gap-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg p-2"
-            aria-label="Scroll down to explore content"
-          >
-            <div className="w-6 h-10 rounded-full border-2 border-muted-foreground/40 flex justify-center pt-2 group-hover:border-primary/60 transition-colors">
-              <div className="w-1.5 h-1.5 bg-muted-foreground/60 rounded-full animate-scroll-dot group-hover:bg-primary transition-colors" />
-            </div>
-            <ChevronDown 
-              className="h-5 w-5 text-muted-foreground/60 animate-scroll-arrow group-hover:text-primary transition-colors" 
-            />
-          </button>
         </div>
       </header>
 

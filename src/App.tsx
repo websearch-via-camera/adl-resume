@@ -285,22 +285,16 @@ function App() {
       {/* Skip Links for keyboard/screen reader navigation */}
       <SkipLinks />
       
-      {/* Elegant breathing dot while checking localStorage */}
+      {/* Show nothing while checking localStorage to prevent flash */}
       {showOnboarding === null ? (
-        <div className="min-h-screen bg-background flex items-center justify-center">
-          <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-        </div>
+        <div className="min-h-screen bg-background" />
       ) : (
         <>
           {/* Onboarding Choice Modal - lazy loaded */}
           {showOnboarding && (
             <Suspense fallback={
               <div className="fixed inset-0 z-[100] bg-background flex items-center justify-center">
-                <div className="flex gap-1">
-                  <div className="w-1.5 h-1.5 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                  <div className="w-1.5 h-1.5 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                  <div className="w-1.5 h-1.5 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
-                </div>
+                <div className="animate-pulse text-muted-foreground">Loading...</div>
               </div>
             }>
               <OnboardingChoice onChoice={handleOnboardingChoice} />

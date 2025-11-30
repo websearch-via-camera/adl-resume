@@ -2,24 +2,23 @@ import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { motion } from "framer-motion"
-import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Cell } from "recharts"
 
 const skillsRadarData = [
-  { category: "AI/ML", proficiency: 95, fullMark: 100 },
-  { category: "Backend", proficiency: 92, fullMark: 100 },
-  { category: "Frontend", proficiency: 90, fullMark: 100 },
-  { category: "DevOps", proficiency: 70, fullMark: 100 },
-  { category: "Leadership", proficiency: 90, fullMark: 100 },
-  { category: "Research", proficiency: 85, fullMark: 100 }
+  { category: "AI/ML", proficiency: 95 },
+  { category: "Backend", proficiency: 92 },
+  { category: "Frontend", proficiency: 90 },
+  { category: "DevOps", proficiency: 70 },
+  { category: "Leadership", proficiency: 90 },
+  { category: "Research", proficiency: 85 }
 ]
 
 const technicalSkillsData = [
-  { name: "Python", proficiency: 95, color: "oklch(0.58 0.15 65)" },
-  { name: "React/React Native", proficiency: 90, color: "oklch(0.68 0.10 85)" },
-  { name: "FastAPI", proficiency: 92, color: "oklch(0.58 0.15 65)" },
-  { name: "Docker", proficiency: 88, color: "oklch(0.78 0.12 45)" },
-  { name: "PostgreSQL", proficiency: 65, color: "oklch(0.78 0.12 45)" },
-  { name: "CI/CD", proficiency: 65, color: "oklch(0.78 0.12 45)" }
+  { name: "Python", proficiency: 95, category: "backend" },
+  { name: "React/React Native", proficiency: 90, category: "frontend" },
+  { name: "FastAPI", proficiency: 92, category: "backend" },
+  { name: "Docker", proficiency: 88, category: "devops" },
+  { name: "PostgreSQL", proficiency: 65, category: "devops" },
+  { name: "CI/CD", proficiency: 65, category: "devops" }
 ]
 
 const aiMLSkillsData = [
@@ -30,6 +29,175 @@ const aiMLSkillsData = [
   { name: "Distributed ML", proficiency: 88 },
   { name: "GPU Optimization", proficiency: 85 }
 ]
+
+// Pure SVG Radar Chart Component
+function RadarChartSVG({ data }: { data: typeof skillsRadarData }) {
+  const size = 300
+  const center = size / 2
+  const radius = 120
+  const levels = 5
+  
+  // Calculate polygon points for a given level
+  const getPolygonPoints = (level: number) => {
+    const r = (radius * level) / levels
+    return data.map((_, i) => {
+      const angle = (Math.PI * 2 * i) / data.length - Math.PI / 2
+      const x = center + r * Math.cos(angle)
+      const y = center + r * Math.sin(angle)
+      return `${x},${y}`
+    }).join(' ')
+  }
+  
+  // Calculate data polygon points
+  const getDataPoints = () => {
+    return data.map((item, i) => {
+      const angle = (Math.PI * 2 * i) / data.length - Math.PI / 2
+      const r = (radius * item.proficiency) / 100
+      const x = center + r * Math.cos(angle)
+      const y = center + r * Math.sin(angle)
+      return `${x},${y}`
+    }).join(' ')
+  }
+  
+  // Calculate label positions
+  const getLabelPosition = (index: number) => {
+    const angle = (Math.PI * 2 * index) / data.length - Math.PI / 2
+    const r = radius + 25
+    const x = center + r * Math.cos(angle)
+    const y = center + r * Math.sin(angle)
+    return { x, y }
+  }
+
+  return (
+    <svg viewBox={`0 0 ${size} ${size}`} className="w-full max-w-[400px] mx-auto">
+      {/* Grid levels */}
+      {[1, 2, 3, 4, 5].map((level) => (
+        <polygon
+          key={level}
+          points={getPolygonPoints(level)}
+          fill="none"
+          stroke="currentColor"
+          strokeOpacity={0.15}
+          strokeWidth={1}
+        />
+      ))}
+      
+      {/* Axis lines */}
+      {data.map((_, i) => {
+        const angle = (Math.PI * 2 * i) / data.length - Math.PI / 2
+        const x = center + radius * Math.cos(angle)
+        const y = center + radius * Math.sin(angle)
+        return (
+          <line
+            key={i}
+            x1={center}
+            y1={center}
+            x2={x}
+            y2={y}
+            stroke="currentColor"
+            strokeOpacity={0.15}
+            strokeWidth={1}
+          />
+        )
+      })}
+      
+      {/* Data polygon */}
+      <motion.polygon
+        points={getDataPoints()}
+        fill="var(--primary)"
+        fillOpacity={0.3}
+        stroke="var(--primary)"
+        strokeWidth={2}
+        initial={{ opacity: 0, scale: 0.8 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        style={{ transformOrigin: 'center' }}
+      />
+      
+      {/* Data points */}
+      {data.map((item, i) => {
+        const angle = (Math.PI * 2 * i) / data.length - Math.PI / 2
+        const r = (radius * item.proficiency) / 100
+        const x = center + r * Math.cos(angle)
+        const y = center + r * Math.sin(angle)
+        return (
+          <motion.circle
+            key={i}
+            cx={x}
+            cy={y}
+            r={5}
+            fill="var(--primary)"
+            stroke="var(--background)"
+            strokeWidth={2}
+            initial={{ opacity: 0, scale: 0 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}
+          />
+        )
+      })}
+      
+      {/* Labels */}
+      {data.map((item, i) => {
+        const pos = getLabelPosition(i)
+        return (
+          <text
+            key={i}
+            x={pos.x}
+            y={pos.y}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            className="fill-muted-foreground text-xs font-semibold"
+          >
+            {item.category}
+          </text>
+        )
+      })}
+    </svg>
+  )
+}
+
+// Progress bar with animation
+function SkillBar({ name, proficiency, category, delay = 0 }: { 
+  name: string
+  proficiency: number
+  category?: string
+  delay?: number 
+}) {
+  const getCategoryColor = () => {
+    switch (category) {
+      case 'backend': return 'from-primary to-primary/80'
+      case 'frontend': return 'from-accent to-accent/80'
+      case 'devops': return 'from-amber-500 to-amber-400'
+      default: return 'from-primary via-accent to-primary'
+    }
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -20 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay }}
+      className="space-y-2"
+    >
+      <div className="flex items-center justify-between">
+        <span className="font-semibold text-foreground">{name}</span>
+        <span className="text-sm font-bold text-primary">{proficiency}%</span>
+      </div>
+      <div className="h-3 bg-muted rounded-full overflow-hidden">
+        <motion.div
+          initial={{ width: 0 }}
+          whileInView={{ width: `${proficiency}%` }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: delay + 0.2, ease: "easeOut" }}
+          className={`h-full bg-gradient-to-r ${getCategoryColor()} rounded-full`}
+        />
+      </div>
+    </motion.div>
+  )
+}
 
 export default function SkillsCharts() {
   return (
@@ -43,44 +211,22 @@ export default function SkillsCharts() {
       <TabsContent value="overview" className="space-y-8">
         <Card className="p-8">
           <h3 className="text-2xl font-bold mb-6 text-center">Competency Radar</h3>
-          <div className="w-full h-[400px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <RadarChart data={skillsRadarData}>
-                <PolarGrid stroke="oklch(0.80 0.05 75)" />
-                <PolarAngleAxis 
-                  dataKey="category" 
-                  tick={{ fill: 'oklch(0.48 0.02 55)', fontSize: 14, fontWeight: 600 }}
-                />
-                <PolarRadiusAxis 
-                  angle={90} 
-                  domain={[0, 100]}
-                  tick={{ fill: 'oklch(0.48 0.02 55)', fontSize: 12 }}
-                />
-                <Radar
-                  name="Proficiency"
-                  dataKey="proficiency"
-                  stroke="oklch(0.58 0.15 65)"
-                  fill="oklch(0.58 0.15 65)"
-                  fillOpacity={0.6}
-                  strokeWidth={2}
-                />
-                <Tooltip 
-                  contentStyle={{
-                    backgroundColor: 'oklch(0.99 0.01 75)',
-                    border: '1px solid oklch(0.80 0.05 75)',
-                    borderRadius: '8px',
-                    padding: '12px'
-                  }}
-                />
-              </RadarChart>
-            </ResponsiveContainer>
+          <div className="w-full py-4">
+            <RadarChartSVG data={skillsRadarData} />
           </div>
           <div className="mt-6 grid grid-cols-2 md:grid-cols-3 gap-4">
-            {skillsRadarData.map((skill) => (
-              <div key={skill.category} className="text-center">
+            {skillsRadarData.map((skill, index) => (
+              <motion.div 
+                key={skill.category} 
+                className="text-center"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+              >
                 <div className="text-3xl font-bold text-primary">{skill.proficiency}%</div>
                 <div className="text-sm text-muted-foreground">{skill.category}</div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </Card>
@@ -89,46 +235,30 @@ export default function SkillsCharts() {
       <TabsContent value="technical" className="space-y-8">
         <Card className="p-8">
           <h3 className="text-2xl font-bold mb-6 text-center">Technical Skills Distribution</h3>
-          <div className="w-full h-[400px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={technicalSkillsData}
-                layout="vertical"
-                margin={{ top: 20, right: 30, left: 100, bottom: 20 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.80 0.05 75)" />
-                <XAxis 
-                  type="number" 
-                  domain={[0, 100]}
-                  tick={{ fill: 'oklch(0.48 0.02 55)', fontSize: 12 }}
-                />
-                <YAxis 
-                  type="category" 
-                  dataKey="name"
-                  tick={{ fill: 'oklch(0.48 0.02 55)', fontSize: 13, fontWeight: 600 }}
-                  width={90}
-                />
-                <Tooltip 
-                  contentStyle={{
-                    backgroundColor: 'oklch(0.99 0.01 75)',
-                    border: '1px solid oklch(0.80 0.05 75)',
-                    borderRadius: '8px',
-                    padding: '12px'
-                  }}
-                  formatter={(value: number) => [`${value}%`, 'Proficiency']}
-                />
-                <Bar dataKey="proficiency" radius={[0, 8, 8, 0]}>
-                  {technicalSkillsData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
+          <div className="space-y-5">
+            {technicalSkillsData.map((skill, index) => (
+              <SkillBar
+                key={skill.name}
+                name={skill.name}
+                proficiency={skill.proficiency}
+                category={skill.category}
+                delay={index * 0.1}
+              />
+            ))}
           </div>
           <div className="mt-6 flex flex-wrap gap-2 justify-center">
-            <Badge variant="secondary" className="bg-primary/10 text-primary">Backend/Infrastructure</Badge>
-            <Badge variant="secondary" className="bg-accent/10 text-accent">DevOps/Cloud</Badge>
-            <Badge variant="secondary" className="bg-secondary/30 text-secondary-foreground">Frontend</Badge>
+            <Badge variant="secondary" className="bg-primary/10 text-primary">
+              <span className="w-2 h-2 rounded-full bg-primary mr-2" />
+              Backend/Infrastructure
+            </Badge>
+            <Badge variant="secondary" className="bg-accent/10 text-accent">
+              <span className="w-2 h-2 rounded-full bg-accent mr-2" />
+              Frontend
+            </Badge>
+            <Badge variant="secondary" className="bg-amber-500/10 text-amber-600 dark:text-amber-400">
+              <span className="w-2 h-2 rounded-full bg-amber-500 mr-2" />
+              DevOps/Cloud
+            </Badge>
           </div>
         </Card>
       </TabsContent>
@@ -136,30 +266,14 @@ export default function SkillsCharts() {
       <TabsContent value="aiml" className="space-y-8">
         <Card className="p-8">
           <h3 className="text-2xl font-bold mb-6 text-center">AI & Machine Learning Expertise</h3>
-          <div className="space-y-6">
+          <div className="space-y-5">
             {aiMLSkillsData.map((skill, index) => (
-              <motion.div
+              <SkillBar
                 key={skill.name}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="space-y-2"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="font-semibold text-foreground">{skill.name}</span>
-                  <span className="text-sm font-bold text-primary">{skill.proficiency}%</span>
-                </div>
-                <div className="h-3 bg-muted rounded-full overflow-hidden">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${skill.proficiency}%` }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1, delay: index * 0.1, ease: "easeOut" }}
-                    className="h-full bg-gradient-to-r from-primary via-accent to-primary rounded-full"
-                  />
-                </div>
-              </motion.div>
+                name={skill.name}
+                proficiency={skill.proficiency}
+                delay={index * 0.1}
+              />
             ))}
           </div>
           <div className="mt-8 p-6 bg-muted/50 rounded-lg">

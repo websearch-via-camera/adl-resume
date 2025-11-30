@@ -19,6 +19,7 @@ export default defineConfig({
   // Optimize dependency pre-bundling
   optimizeDeps: {
     include: ['react', 'react-dom', 'framer-motion'],
+    exclude: ['@radix-ui/colors'], // Exclude unused package
   },
   build: {
     // Production optimizations
@@ -38,10 +39,6 @@ export default defineConfig({
           if (id.includes('react-dom') || id.includes('react/')) {
             return 'vendor-react';
           }
-          // Charting libraries - lazy loaded, large
-          if (id.includes('recharts') || id.includes('d3-')) {
-            return 'vendor-charts';
-          }
           // Animation library
           if (id.includes('framer-motion')) {
             return 'vendor-motion';
@@ -50,7 +47,7 @@ export default defineConfig({
           if (id.includes('@radix-ui')) {
             return 'vendor-radix';
           }
-          // Phosphor icons - lazy load
+          // Phosphor icons - split to separate chunk
           if (id.includes('@phosphor-icons')) {
             return 'vendor-icons';
           }

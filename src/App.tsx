@@ -24,8 +24,10 @@ import { ThemeToggle } from "@/components/ThemeToggle"
 import { TypewriterTagline } from "@/components/TypewriterTagline"
 import { CustomCursor } from "@/components/CustomCursor"
 import { OnboardingChoice } from "@/components/OnboardingChoice"
-import { WeatherIndicator } from "@/components/WeatherIndicator"
 import { useKeyboardNavigation, KeyboardHelp } from "@/hooks/useKeyboardNavigation"
+
+// Weather indicator lazy-loaded to avoid blocking critical path with API call
+const WeatherIndicator = lazy(() => import("@/components/WeatherIndicator").then(m => ({ default: m.WeatherIndicator })))
 import { A11yProvider, SkipLinks, useA11y } from "@/components/A11yProvider"
 import { 
   ScrollReveal, 
@@ -1100,7 +1102,9 @@ function App() {
               <p>© 2025 Kiarash Adl</p>
             </div>
             <div className="flex items-center gap-3">
-              <WeatherIndicator />
+              <Suspense fallback={<span className="text-xs text-muted-foreground">--°F</span>}>
+                <WeatherIndicator />
+              </Suspense>
               <span className="text-border">|</span>
               <span>MIT EECS '14</span>
               <span className="text-border">|</span>

@@ -30,7 +30,9 @@ export function WeatherIndicator() {
   const [isLoading, setIsLoading] = useState(true)
   const [isUsingUserLocation, setIsUsingUserLocation] = useState(false)
   const [userCoords, setUserCoords] = useState<{ lat: number; lon: number; name: string } | null>(null)
+  const [isVisible, setIsVisible] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   const parseWeatherCode = (weatherCode: number, isDay: boolean) => {
     let condition = "Clear"
@@ -185,8 +187,29 @@ export function WeatherIndicator() {
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
-  // Initial fetch
+  // Initial fetch - deferred until component is visible using Intersection Observer
   useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setIsVisible(true)
+          observer.disconnect()
+        }
+      },
+      { rootMargin: '200px' } // Start loading 200px before visible
+    )
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
+
+  // Fetch weather only when visible
+  useEffect(() => {
+    if (!isVisible) return
+
     const fetchInitialWeather = async () => {
       const weatherData = await fetchWeatherForCoords(selectedCity.lat, selectedCity.lon, selectedCity.name)
       setWeather(weatherData || {
@@ -210,7 +233,7 @@ export function WeatherIndicator() {
     }, 30 * 60 * 1000)
     
     return () => clearInterval(interval)
-  }, [])
+  }, [isVisible])
 
   const getWeatherIcon = (icon: string, size = 14) => {
     const iconProps = { size, weight: "fill" as const }
@@ -249,7 +272,7 @@ export function WeatherIndicator() {
   const currentLocationName = isUsingUserLocation ? userCoords?.name : selectedCity.name
 
   return (
-    <div className="relative z-50" ref={dropdownRef}>
+    <div className="relative z-50" ref={(node) => { containerRef.current = node; dropdownRef.current = node }}>
       <button
         onClick={(e) => {
           e.stopPropagation()

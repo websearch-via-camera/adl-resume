@@ -44,10 +44,17 @@ const InteractiveTimeline = lazy(() => import("@/components/InteractiveTimeline"
 // Recharts components lazy loaded (heavy charting library)
 const SkillsCharts = lazy(() => import("@/components/SkillsCharts"))
 
-// Loading fallback component
-const SectionLoader = ({ height = "h-64" }: { height?: string }) => (
-  <div className={`${height} flex items-center justify-center bg-muted/20 rounded-lg animate-pulse`}>
-    <div className="text-muted-foreground text-sm">Starting up the portfolio of Kiarash Adl..</div>
+// Loading fallback component with SEO-friendly content for AI agents
+const SectionLoader = ({ height = "h-64", section = "content" }: { height?: string; section?: string }) => (
+  <div className={`${height} flex items-center justify-center bg-muted/20 rounded-lg`}>
+    <div className="text-center p-6">
+      <div className="w-8 h-8 border-2 border-muted border-t-primary rounded-full animate-spin mx-auto mb-3" />
+      <p className="text-muted-foreground text-sm">Loading {section}...</p>
+      {/* SEO content for AI agents - hidden visually but accessible */}
+      <noscript>
+        <p>Kiarash Adl - AI Systems Architect portfolio. Contact: kiarasha@alum.mit.edu</p>
+      </noscript>
+    </div>
   </div>
 )
 
@@ -292,8 +299,60 @@ function App() {
       ) : showOnboarding ? (
         /* Onboarding Choice Modal - lazy loaded, nothing else renders until choice is made */
         <Suspense fallback={
-          <div className="fixed inset-0 z-[100] bg-background flex items-center justify-center">
-            <div className="animate-pulse text-muted-foreground">Starting up the portfolio of Kiarash Adl...</div>
+          <div className="fixed inset-0 z-[100] bg-background overflow-auto">
+            {/* SEO-friendly content for AI agents while JS loads */}
+            <article className="max-w-4xl mx-auto px-6 py-8">
+              <header className="mb-8">
+                <h1 className="text-3xl font-bold mb-2">Kiarash Adl</h1>
+                <p className="text-xl text-primary mb-4">AI Systems Architect | Full Stack Engineer | MIT EECS '14</p>
+                <p className="text-muted-foreground">
+                  Building end-to-end AI platforms, agentic systems, and scalable cloud architectures.
+                  10+ years of experience turning complex AI into production reality.
+                </p>
+              </header>
+              
+              <section className="mb-6">
+                <h2 className="text-xl font-semibold mb-3">Technical Expertise</h2>
+                <ul className="text-muted-foreground space-y-1 list-disc list-inside">
+                  <li>AI/ML: LLM Orchestration, Computer Vision, NLP, RAG Systems, Agentic Workflows</li>
+                  <li>Backend: Python, Node.js, FastAPI, PostgreSQL, Redis, Kafka</li>
+                  <li>Frontend: React, TypeScript, Next.js, Tailwind CSS</li>
+                  <li>Cloud: AWS, Azure, GCP, Kubernetes, Docker, Terraform</li>
+                </ul>
+              </section>
+              
+              <section className="mb-6">
+                <h2 className="text-xl font-semibold mb-3">Featured Projects</h2>
+                <div className="space-y-3 text-muted-foreground">
+                  <div>
+                    <h3 className="font-medium text-foreground">Financial Intelligence Meta-Layer (FIML)</h3>
+                    <p>AI-native MCP server for financial data aggregation. 32K+ lines, 1,403 tests, 100% pass rate.</p>
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-foreground">HireAligna.ai</h3>
+                    <p>Conversational AI recruiter with voice interviews and automated matching. 17+ Docker services.</p>
+                  </div>
+                </div>
+              </section>
+              
+              <section className="mb-6">
+                <h2 className="text-xl font-semibold mb-3">Contact</h2>
+                <ul className="text-muted-foreground space-y-1">
+                  <li>Email: <a href="mailto:kiarasha@alum.mit.edu" className="text-primary">kiarasha@alum.mit.edu</a></li>
+                  <li>Phone: <a href="tel:+18579281608" className="text-primary">+1-857-928-1608</a></li>
+                  <li>LinkedIn: <a href="https://www.linkedin.com/in/kiarashadl/" className="text-primary">linkedin.com/in/kiarashadl</a></li>
+                  <li>GitHub: <a href="https://github.com/kiarashplusplus/" className="text-primary">github.com/kiarashplusplus</a></li>
+                </ul>
+              </section>
+              
+              <footer className="border-t border-border pt-6 text-center">
+                <p className="text-muted-foreground text-sm mb-4">© 2025 Kiarash Adl | MIT EECS '14 | Available for work</p>
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-6 h-6 border-2 border-muted border-t-primary rounded-full animate-spin" />
+                  <span className="text-muted-foreground text-sm">Loading interactive experience...</span>
+                </div>
+              </footer>
+            </article>
           </div>
         }>
           <OnboardingChoice onChoice={handleOnboardingChoice} />

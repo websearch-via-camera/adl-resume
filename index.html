@@ -303,12 +303,71 @@
 
 <body>
     <div id="root">
-      <!-- Initial loading state - will be replaced by React -->
-      <div id="initial-loader" style="position:fixed;inset:0;background:var(--background);z-index:1000;display:flex;align-items:center;justify-content:center;">
-        <div style="text-align:center;">
-          <div style="width:48px;height:48px;border:3px solid var(--muted);border-top-color:var(--primary);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px;"></div>
-          <div style="color:var(--muted-foreground);font-size:14px;">Loading...</div>
-        </div>
+      <!-- SEO-friendly initial content for AI agents and crawlers - will be replaced by React -->
+      <div id="initial-loader" style="position:fixed;inset:0;background:var(--background);z-index:1000;overflow:auto;">
+        <article style="max-width:64rem;margin:0 auto;padding:2rem 1.5rem;">
+          <!-- AI-readable structured content -->
+          <header>
+            <h1 style="font-size:2rem;font-weight:700;margin-bottom:0.5rem;color:var(--foreground);">Kiarash Adl</h1>
+            <p style="font-size:1.25rem;color:var(--primary);margin-bottom:1rem;">AI Systems Architect | Full Stack Engineer | MIT EECS '14</p>
+          </header>
+          
+          <section>
+            <h2 style="font-size:1.25rem;font-weight:600;margin-bottom:0.75rem;color:var(--foreground);">About</h2>
+            <p style="color:var(--muted-foreground);margin-bottom:1rem;line-height:1.6;">
+              Building end-to-end AI platforms, agentic systems, and scalable cloud architectures. 
+              10+ years of experience turning complex AI into production reality.
+            </p>
+          </section>
+          
+          <section>
+            <h2 style="font-size:1.25rem;font-weight:600;margin-bottom:0.75rem;color:var(--foreground);">Expertise</h2>
+            <ul style="color:var(--muted-foreground);margin-bottom:1rem;padding-left:1.5rem;line-height:1.8;">
+              <li>AI/ML: LLM Orchestration, Computer Vision, NLP, RAG Systems, Agentic Workflows</li>
+              <li>Backend: Python, Node.js, FastAPI, PostgreSQL, Redis, Kafka</li>
+              <li>Frontend: React, TypeScript, Next.js, Tailwind CSS</li>
+              <li>Cloud: AWS, Azure, GCP, Docker</li>
+              <li>Leadership: Technical Architecture, Team Building, Agile/Scrum</li>
+            </ul>
+          </section>
+          
+          <section>
+            <h2 style="font-size:1.25rem;font-weight:600;margin-bottom:0.75rem;color:var(--foreground);">Featured Projects</h2>
+            <dl style="color:var(--muted-foreground);line-height:1.6;">
+              <dt style="font-weight:600;color:var(--foreground);">Financial Intelligence Meta-Layer (FIML)</dt>
+              <dd style="margin-bottom:0.75rem;margin-left:0;">AI-native MCP server for financial data aggregation with intelligent multi-provider orchestration. 32K+ lines of code, 1,403 automated tests, 100% pass rate.</dd>
+              <dt style="font-weight:600;color:var(--foreground);">HireAligna.ai</dt>
+              <dd style="margin-bottom:0.75rem;margin-left:0;">Conversational AI recruiter with voice interviews via LiveKit, Azure OpenAI transcription, and automated candidate-job matching. 17+ Docker services.</dd>
+            </dl>
+          </section>
+          
+          <section>
+            <h2 style="font-size:1.25rem;font-weight:600;margin-bottom:0.75rem;color:var(--foreground);">Contact</h2>
+            <ul style="color:var(--muted-foreground);list-style:none;padding:0;line-height:1.8;">
+              <li>Email: <a href="mailto:kiarasha@alum.mit.edu" style="color:var(--primary);">kiarasha@alum.mit.edu</a></li>
+              <li>Phone: <a href="tel:+18579281608" style="color:var(--primary);">+1-857-928-1608</a></li>
+              <li>LinkedIn: <a href="https://www.linkedin.com/in/kiarashadl/" style="color:var(--primary);">linkedin.com/in/kiarashadl</a></li>
+              <li>GitHub: <a href="https://github.com/kiarashplusplus/" style="color:var(--primary);">github.com/kiarashplusplus</a></li>
+            </ul>
+          </section>
+          
+          <section>
+            <h2 style="font-size:1.25rem;font-weight:600;margin-bottom:0.75rem;color:var(--foreground);">Education</h2>
+            <p style="color:var(--muted-foreground);line-height:1.6;">
+              <strong style="color:var(--foreground);">Massachusetts Institute of Technology (MIT)</strong><br>
+              B.S. Electrical Engineering & Computer Science, Class of 2014<br>
+              Research at MIT CSAIL | Published in ACM L@S and IEEE ICASSP
+            </p>
+          </section>
+          
+          <footer style="margin-top:2rem;padding-top:1rem;border-top:1px solid var(--border);text-align:center;">
+            <p style="color:var(--muted-foreground);font-size:0.875rem;">© 2025 Kiarash Adl | Available for work</p>
+            <div style="margin-top:1rem;display:flex;align-items:center;justify-content:center;gap:0.5rem;">
+              <div style="width:32px;height:32px;border:2px solid var(--muted);border-top-color:var(--primary);border-radius:50%;animation:spin 0.8s linear infinite;"></div>
+              <span style="color:var(--muted-foreground);font-size:0.875rem;">Loading interactive experience...</span>
+            </div>
+          </footer>
+        </article>
       </div>
       <style>
         @keyframes spin { to { transform: rotate(360deg); } }

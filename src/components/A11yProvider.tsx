@@ -96,7 +96,7 @@ export function SkipLinks() {
   return (
     <nav
       aria-label="Skip links"
-      className="sr-only focus-within:not-sr-only"
+      className="skip-links-container"
     >
       {skipLinks.map((link) => (
         <a

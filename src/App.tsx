@@ -150,27 +150,52 @@ function App() {
   const [showScrollTop, setShowScrollTop] = useState(false)
   const [showScrollIndicator, setShowScrollIndicator] = useState(true)
   
+  // Cache section offsets to avoid repeated DOM queries
+  const sectionOffsetsRef = useRef<{ id: string; offsetTop: number }[]>([])
+  const lastScrollUpdateRef = useRef(0)
+  
+  // Cache section offsets on mount and resize
+  useEffect(() => {
+    const updateSectionOffsets = () => {
+      const sections = ["home", "projects", "skills", "showcase", "experience", "contact"]
+      sectionOffsetsRef.current = sections.map(id => {
+        const element = document.getElementById(id)
+        return {
+          id,
+          offsetTop: element ? element.offsetTop : 0
+        }
+      })
+    }
+    
+    updateSectionOffsets()
+    window.addEventListener("resize", updateSectionOffsets, { passive: true })
+    return () => window.removeEventListener("resize", updateSectionOffsets)
+  }, [])
+  
   const { scrollY } = useScroll()
   
   useMotionValueEvent(scrollY, "change", (latest) => {
+    // Throttle updates to max 60fps
+    const now = performance.now()
+    if (now - lastScrollUpdateRef.current < 16) return
+    lastScrollUpdateRef.current = now
+    
     setIsNavVisible(latest > 200)
     setShowScrollTop(latest > 400)
     setShowScrollIndicator(latest < 100)
     
-    const sections = ["home", "projects", "skills", "showcase", "experience", "contact"]
-    const sectionElements = sections.map(id => document.getElementById(id))
+    // Use cached offsets instead of getBoundingClientRect
+    const scrollTop = latest + 150
+    const sections = sectionOffsetsRef.current
     
     for (let i = sections.length - 1; i >= 0; i--) {
-      const element = sectionElements[i]
-      if (element) {
-        const rect = element.getBoundingClientRect()
-        if (rect.top <= 150) {
-          setActiveSection(sections[i])
-          break
-        }
+      if (scrollTop >= sections[i].offsetTop) {
+        setActiveSection(sections[i].id)
+        break
       }
     }
     
+    // Cache document height to avoid reflow
     const windowHeight = window.innerHeight
     const documentHeight = document.documentElement.scrollHeight
     const scrollableHeight = documentHeight - windowHeight

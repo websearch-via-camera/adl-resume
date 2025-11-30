@@ -21,7 +21,7 @@ export function CustomCursor() {
       positionRef.current = { x: e.clientX, y: e.clientY }
       setIsHidden(false)
       
-      // Check if hovering over clickable element
+      // Check if hovering over clickable element - avoid getComputedStyle
       const target = e.target as HTMLElement
       const isClickable = !!(
         target.tagName === "A" ||
@@ -29,7 +29,8 @@ export function CustomCursor() {
         target.closest("a") ||
         target.closest("button") ||
         target.closest("[role='button']") ||
-        window.getComputedStyle(target).cursor === "pointer"
+        target.closest("[data-clickable]") ||
+        target.classList.contains("cursor-pointer")
       )
       
       setIsPointer(isClickable)

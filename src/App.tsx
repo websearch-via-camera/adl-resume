@@ -7,8 +7,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { EnvelopeSimple, Phone, Download, GithubLogo, LinkedinLogo, ArrowUpRight, PaperPlaneTilt, CaretUp, CaretDown } from "@phosphor-icons/react"
-import { motion, useScroll, useMotionValueEvent } from "framer-motion"
-import { useState, useEffect, useRef, lazy, Suspense } from "react"
+import { motion } from "framer-motion"
+import { useState, useEffect, lazy, Suspense } from "react"
 import { toast } from "sonner"
 import resumePdf from "@/assets/documents/Kiarash-Adl-Resume-20251129.pdf"
 
@@ -23,20 +23,15 @@ import profileJpg384 from "@/assets/images/profile-384w.jpg"
 import { ThemeToggle } from "@/components/ThemeToggle"
 import { TypewriterTagline } from "@/components/TypewriterTagline"
 import { CustomCursor } from "@/components/CustomCursor"
-import { OnboardingChoice } from "@/components/OnboardingChoice"
 import { useKeyboardNavigation, KeyboardHelp } from "@/hooks/useKeyboardNavigation"
+import { useNativeScroll } from "@/hooks/useNativeScroll"
+
+// Lazy load onboarding modal (not needed for initial render)
+const OnboardingChoice = lazy(() => import("@/components/OnboardingChoice").then(m => ({ default: m.OnboardingChoice })))
 
 // Weather indicator lazy-loaded to avoid blocking critical path with API call
 const WeatherIndicator = lazy(() => import("@/components/WeatherIndicator").then(m => ({ default: m.WeatherIndicator })))
 import { A11yProvider, SkipLinks, useA11y } from "@/components/A11yProvider"
-import { 
-  ScrollReveal, 
-  StaggerContainer, 
-  StaggerItem, 
-  SectionTransition,
-  HoverCard,
-  PageTransition
-} from "@/components/ScrollAnimations"
 
 // Heavy components lazy loaded for better initial performance
 const GitHubActivity = lazy(() => import("@/components/GitHubActivity").then(m => ({ default: m.GitHubActivity })))
@@ -57,14 +52,10 @@ const SectionLoader = ({ height = "h-64" }: { height?: string }) => (
 )
 
 function App() {
-  const [isMounted, setIsMounted] = useState(false)
   const [showOnboarding, setShowOnboarding] = useState(false)
   const [visitorType, setVisitorType] = useState<"developer" | "visitor" | null>(null)
-  const terminalRef = useRef<HTMLDivElement>(null)
   
   useEffect(() => {
-    setIsMounted(true)
-    
     // Check if user has already made a choice
     try {
       const savedType = localStorage.getItem("kiarash-visitor-type")
@@ -141,69 +132,30 @@ function App() {
     message: ""
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [activeSection, setActiveSection] = useState("home")
-  const [isNavVisible, setIsNavVisible] = useState(false)
-  const [scrollProgress, setScrollProgress] = useState(0)
-  const [showScrollTop, setShowScrollTop] = useState(false)
-  const [showScrollIndicator, setShowScrollIndicator] = useState(true)
   
-  // Cache section offsets to avoid repeated DOM queries
-  const sectionOffsetsRef = useRef<{ id: string; offsetTop: number }[]>([])
-  const lastScrollUpdateRef = useRef(0)
+  // Navigation sections for scroll tracking
+  const navItems = [
+    { id: "home", label: "Home" },
+    { id: "projects", label: "Projects" },
+    { id: "skills", label: "Skills" },
+    { id: "showcase", label: "Showcase" },
+    { id: "experience", label: "Experience" },
+    { id: "contact", label: "Contact" }
+  ]
   
-  // Cache section offsets on mount and resize
-  useEffect(() => {
-    const updateSectionOffsets = () => {
-      const sections = ["home", "projects", "skills", "showcase", "experience", "contact"]
-      sectionOffsetsRef.current = sections.map(id => {
-        const element = document.getElementById(id)
-        return {
-          id,
-          offsetTop: element ? element.offsetTop : 0
-        }
-      })
-    }
-    
-    updateSectionOffsets()
-    window.addEventListener("resize", updateSectionOffsets, { passive: true })
-    return () => window.removeEventListener("resize", updateSectionOffsets)
-  }, [])
-  
-  const { scrollY } = useScroll()
-  
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    // Throttle updates to max 60fps
-    const now = performance.now()
-    if (now - lastScrollUpdateRef.current < 16) return
-    lastScrollUpdateRef.current = now
-    
-    setIsNavVisible(latest > 200)
-    setShowScrollTop(latest > 400)
-    setShowScrollIndicator(latest < 100)
-    
-    // Use cached offsets instead of getBoundingClientRect
-    const scrollTop = latest + 150
-    const sections = sectionOffsetsRef.current
-    
-    for (let i = sections.length - 1; i >= 0; i--) {
-      if (scrollTop >= sections[i].offsetTop) {
-        setActiveSection(sections[i].id)
-        break
-      }
-    }
-    
-    // Cache document height to avoid reflow
-    const windowHeight = window.innerHeight
-    const documentHeight = document.documentElement.scrollHeight
-    const scrollableHeight = documentHeight - windowHeight
-    const progress = (latest / scrollableHeight) * 100
-    setScrollProgress(Math.min(Math.max(progress, 0), 100))
-  })
+  // Use native scroll tracking (saves ~120KB by not loading framer-motion for scroll)
+  const { 
+    isNavVisible, 
+    showScrollTop, 
+    showScrollIndicator, 
+    scrollProgress, 
+    activeSection 
+  } = useNativeScroll(navItems.map(item => item.id))
 
-  // Accessibility context - must be before animation variants
+  // Accessibility context
   const { announce, prefersReducedMotion } = useA11y()
 
-  // Enhanced animation variants with reduced motion support
+  // Animation variants with reduced motion support
   const fadeIn = prefersReducedMotion 
     ? { hidden: { opacity: 1 }, visible: { opacity: 1 } }
     : {
@@ -228,42 +180,6 @@ function App() {
             staggerChildren: 0.12,
             delayChildren: 0.1
           }
-        }
-      }
-  
-  // Slide in from left for alternating effects
-  const slideInLeft = prefersReducedMotion
-    ? { hidden: { opacity: 1 }, visible: { opacity: 1 } }
-    : {
-        hidden: { opacity: 0, x: -50 },
-        visible: { 
-          opacity: 1, 
-          x: 0,
-          transition: { duration: 0.6, ease: "easeOut" as const }
-        }
-      }
-  
-  // Slide in from right
-  const slideInRight = prefersReducedMotion
-    ? { hidden: { opacity: 1 }, visible: { opacity: 1 } }
-    : {
-        hidden: { opacity: 0, x: 50 },
-        visible: { 
-          opacity: 1, 
-          x: 0,
-          transition: { duration: 0.6, ease: "easeOut" as const }
-        }
-      }
-  
-  // Scale up effect for cards
-  const scaleIn = prefersReducedMotion
-    ? { hidden: { opacity: 1 }, visible: { opacity: 1 } }
-    : {
-        hidden: { opacity: 0, scale: 0.9 },
-        visible: { 
-          opacity: 1, 
-          scale: 1,
-          transition: { duration: 0.5, ease: "easeOut" as const }
         }
       }
 
@@ -329,15 +245,6 @@ function App() {
     }
   }
   
-  const navItems = [
-    { id: "home", label: "Home" },
-    { id: "projects", label: "Projects" },
-    { id: "skills", label: "Skills" },
-    { id: "showcase", label: "Showcase" },
-    { id: "experience", label: "Experience" },
-    { id: "contact", label: "Contact" }
-  ]
-  
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
     if (element) {
@@ -377,35 +284,34 @@ function App() {
       {/* Skip Links for keyboard/screen reader navigation */}
       <SkipLinks />
       
-      {/* Onboarding Choice Modal */}
+      {/* Onboarding Choice Modal - lazy loaded */}
       {showOnboarding && (
-        <OnboardingChoice onChoice={handleOnboardingChoice} />
+        <Suspense fallback={null}>
+          <OnboardingChoice onChoice={handleOnboardingChoice} />
+        </Suspense>
       )}
       
       <div className="min-h-screen bg-background cursor-none">
       <CustomCursor />
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-muted z-50"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: scrollProgress > 0 ? 1 : 0 }}
-        transition={{ duration: 0.2 }}
+      {/* Scroll Progress Bar - CSS-based for performance */}
+      <div
+        className={`fixed top-0 left-0 right-0 h-1 bg-muted z-50 transition-opacity duration-200 ${
+          scrollProgress > 0 ? 'opacity-100' : 'opacity-0'
+        }`}
       >
-        <motion.div
-          className="h-full bg-gradient-to-r from-primary via-accent to-secondary"
+        <div
+          className="h-full bg-gradient-to-r from-primary via-accent to-secondary transition-[width] duration-100 ease-out"
           style={{ width: `${scrollProgress}%` }}
-          initial={{ width: 0 }}
-          transition={{ duration: 0.1, ease: "easeOut" }}
         />
-      </motion.div>
+      </div>
 
-      <motion.nav
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ 
-          y: isNavVisible ? 0 : -100,
-          opacity: isNavVisible ? 1 : 0
-        }}
-        transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3, ease: "easeOut" }}
-        className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border shadow-sm"
+      {/* Navigation - CSS-based transforms for critical path performance */}
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border shadow-sm transition-all duration-300 ease-out ${
+          isNavVisible 
+            ? 'translate-y-0 opacity-100' 
+            : '-translate-y-full opacity-0'
+        } ${prefersReducedMotion ? '!transition-none' : ''}`}
         aria-label="Main navigation"
       >
         <div className="max-w-5xl mx-auto px-6 py-4">
@@ -439,19 +345,17 @@ function App() {
             </div>
           </div>
         </div>
-      </motion.nav>
+      </nav>
 
       <main id="main-content" role="main" aria-label="Portfolio content">
-      <motion.header 
+      {/* Hero Section - CSS animations for instant render, no JS needed */}
+      <header 
         id="home"
-        initial={prefersReducedMotion ? "visible" : { opacity: 1 }}
-        animate="visible"
-        variants={prefersReducedMotion ? undefined : staggerContainer}
-        className="py-16 px-6 md:py-24"
+        className="py-16 px-6 md:py-24 animate-fade-in"
       >
         <div className="max-w-5xl mx-auto">
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-            <motion.div variants={fadeIn} className="flex-shrink-0">
+            <div className="flex-shrink-0 animate-fade-in" style={{ animationDelay: '0.1s' }}>
               <div className="w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden ring-4 ring-primary/10 shadow-2xl">
                 <picture>
                   {/* WebP sources for modern browsers */}
@@ -473,9 +377,9 @@ function App() {
                   />
                 </picture>
               </div>
-            </motion.div>
+            </div>
             
-            <motion.div variants={fadeIn} className="flex-1 text-center md:text-left">
+            <div className="flex-1 text-center md:text-left animate-fade-in" style={{ animationDelay: '0.2s' }}>
               {/* Live Status & Weather */}
               <div className="flex items-center justify-center md:justify-start gap-4 mb-3">
                 <div className="flex items-center gap-2">
@@ -548,26 +452,21 @@ function App() {
                   <span>GitHub</span>
                 </a>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
-      </motion.header>
+      </header>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ 
-          opacity: showScrollIndicator ? 0.7 : 0
-        }}
-        transition={{ duration: 0.3 }}
-        className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 pointer-events-none"
+      {/* Scroll indicator - CSS animation */}
+      <div
+        className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-40 pointer-events-none transition-opacity duration-300 ${
+          showScrollIndicator ? 'opacity-70' : 'opacity-0'
+        }`}
       >
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        >
+        <div className="animate-bounce">
           <CaretDown size={28} weight="bold" className="text-muted-foreground" />
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
 
       <Separator className="max-w-5xl mx-auto" />
 

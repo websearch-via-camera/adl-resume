@@ -44,11 +44,10 @@ const commands: Record<string, string[]> = {
     "┌─ Languages ─────────────────────────────┐",
     "│ Python ████████████████████████████ 95% │",
     "│ TypeScript █████████████████████████ 90%│",
-    "│ C++/CUDA ████████████████████████ 88%   │",
-    "│ Go ██████████████████ 75%               │",
-    "└──────────────────────────────────────────┘",
+    "│ C++/CUDA ██████████████████ 75%         │",
+    "└─────────────────────────────────────────┘",
     "",
-    "┌─ AI/ML ──────────────────────────────────┐",
+    "┌─ AI/ML ───────────────────────────────-───┐",
     "│ Deep Learning  ⭐⭐⭐⭐⭐ Expert          │",
     "│ Computer Vision ⭐⭐⭐⭐⭐ Expert         │",
     "│ NLP/LLMs       ⭐⭐⭐⭐⭐ Expert          │",
@@ -60,7 +59,7 @@ const commands: Record<string, string[]> = {
     "",
     "🧠 Transformers & LLMs",
     "   - Custom architectures, fine-tuning, RAG",
-    "   - Production LLM orchestration (LangChain)",
+    "   - Production LLM orchestration",
     "",
     "👁️ Computer Vision",
     "   - Object detection, segmentation",
@@ -71,7 +70,6 @@ const commands: Record<string, string[]> = {
     "   - 55x speedup achievement (ICASSP 2012)",
     "",
     "🔧 Production ML",
-    "   - TensorFlow, PyTorch, ONNX",
     "   - Model serving at scale"
   ],
   projects: [
@@ -85,9 +83,7 @@ const commands: Record<string, string[]> = {
     "2. HireAligna.ai",
     "   ├─ Conversational AI Recruiter",
     "   ├─ Voice interviews via LiveKit",
-    "   └─ Tech: Next.js, Azure OpenAI, Docker",
-    "",
-    "Run: projects --latest for current work"
+    "   └─ Tech: Next.js, Azure OpenAI, Docker"
   ],
   "projects --latest": [
     "Current Focus (2024-2025):",
@@ -95,7 +91,7 @@ const commands: Record<string, string[]> = {
     "🔥 AI Vision (Founder & CEO)",
     "   Patent-pending AI and computer vision",
     "   solutions for home services",
-    "   Status: ████████░░ 80% - App Store Ready",
+    "   Status: ████████░░ 80% - App Store Live",
     "",
     "🔬 FIML Open Source",
     "   Phase 2 development in progress",
@@ -110,7 +106,7 @@ const commands: Record<string, string[]> = {
     "🔗 LinkedIn: linkedin.com/in/kiarashadl",
     "🐙 GitHub:   github.com/kiarashplusplus",
     "",
-    "Open to: AI/ML roles, consulting, collaboration"
+    "Open to: AI roles, consulting, collaboration"
   ],
   guestbook: [
     "📝 Guestbook",

@@ -270,7 +270,63 @@ export function TerminalSection() {
   }
   
   return (
-    <Card className="p-0 overflow-hidden">
+    <section aria-labelledby="terminal-section-heading" itemScope itemType="https://schema.org/WebApplication">
+      {/* SEO-friendly hidden content for crawlers and AI agents */}
+      <div className="sr-only">
+        <h2 id="terminal-section-heading">Interactive Portfolio Terminal</h2>
+        <meta itemProp="name" content="Kiarash Adl Portfolio Terminal" />
+        <meta itemProp="applicationCategory" content="Portfolio" />
+        
+        <section aria-label="About Kiarash Adl">
+          <h3>About</h3>
+          <p>Kiarash Adl - Senior Software Engineer and Full-Stack AI Systems Architect. MIT EECS 2014 graduate with 10+ years experience building end-to-end AI platforms, agentic systems, and scalable cloud architectures. Focus areas: AI/ML, Computer Vision, Full-Stack Development.</p>
+        </section>
+        
+        <section aria-label="Technical Skills">
+          <h3>Skills</h3>
+          <ul role="list">
+            <li>Python: 95% proficiency - Primary language for AI/ML and backend</li>
+            <li>TypeScript: 90% proficiency - Full-stack web development</li>
+            <li>C++/CUDA: 75% proficiency - GPU programming, 55x speedup achievement</li>
+            <li>Deep Learning: Expert level</li>
+            <li>Computer Vision: Expert level</li>
+            <li>NLP/LLMs: Expert level</li>
+            <li>MLOps: Advanced level</li>
+          </ul>
+        </section>
+        
+        <section aria-label="Featured Projects">
+          <h3>Projects</h3>
+          <ul role="list">
+            <li>Financial Intelligence Meta-Layer (FIML): AI-native MCP server, 32K+ LOC, 1,403 tests, 100% pass rate. Tech: Python, MCP, AI Orchestration.</li>
+            <li>HireAligna.ai: Conversational AI Recruiter with voice interviews via LiveKit. Tech: Next.js, Azure OpenAI, Docker.</li>
+          </ul>
+        </section>
+        
+        <section aria-label="Contact Information">
+          <h3>Contact</h3>
+          <ul role="list">
+            <li>Email: kiarasha@alum.mit.edu</li>
+            <li>Phone: +1-857-928-1608</li>
+            <li>LinkedIn: linkedin.com/in/kiarashadl</li>
+            <li>GitHub: github.com/kiarashplusplus</li>
+            <li>Schedule a call: calendly.com/kiarasha-alum/30min</li>
+          </ul>
+        </section>
+        
+        <section aria-label="Work Experience">
+          <h3>Experience</h3>
+          <ul role="list">
+            <li>2024-Present: AI Vision (Founder & CEO) - AI/CV solutions for home services</li>
+            <li>2019-2024: Technical Consulting - MVPs, architecture, AI systems</li>
+            <li>2018-2019: Monir (Founder & CEO) - Personalized shopping AI, VC funded</li>
+            <li>2014-2018: Google (Software Engineer) - Search Knowledge Panel, Knowledge Graph</li>
+            <li>2014: Twitter Ads (SWE Intern) - ML for audience expansion</li>
+          </ul>
+        </section>
+      </div>
+      
+      <Card className="p-0 overflow-hidden" role="application" aria-label="Interactive terminal emulator">
       {/* Terminal Header */}
       <div className="flex items-center justify-between px-4 py-2 bg-zinc-900 border-b border-zinc-800">
         <div className="flex items-center gap-2">
@@ -354,5 +410,6 @@ export function TerminalSection() {
         <span>Try: neofetch, whoami</span>
       </div>
     </Card>
+    </section>
   )
 }

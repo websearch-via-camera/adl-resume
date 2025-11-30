@@ -48,6 +48,18 @@ export function GitHubActivity() {
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
   
   return (
+    <section aria-labelledby="github-activity-heading">
+      {/* SEO-friendly hidden content for crawlers */}
+      <div className="sr-only">
+        <h3 id="github-activity-heading">GitHub Activity</h3>
+        <p>Kiarash Adl's GitHub contribution visualization showing consistent coding activity.</p>
+        <ul role="list">
+          <li>Active contributor with consistent commit history</li>
+          <li>Open source projects including FIML (Financial Intelligence Meta-Layer)</li>
+          <li>GitHub profile: github.com/kiarashplusplus</li>
+        </ul>
+      </div>
+      
     <Card className="p-6 md:p-8 overflow-hidden relative">
       {/* Decorative background */}
       <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-primary/5 to-transparent rounded-full blur-2xl pointer-events-none" />
@@ -138,5 +150,6 @@ export function GitHubActivity() {
       </div>
       </div>
     </Card>
+    </section>
   )
 }

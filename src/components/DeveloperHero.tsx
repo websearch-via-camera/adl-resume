@@ -23,7 +23,23 @@ export function DeveloperHero({ onSwitchToVisitor, prefersReducedMotion = false 
     <header 
       id="home"
       className="relative pt-20 pb-8 px-6 overflow-hidden"
+      itemScope
+      itemType="https://schema.org/Person"
     >
+      {/* Hidden SEO content for AI agents and crawlers */}
+      <div className="sr-only">
+        <h1 itemProp="name">Kiarash Adl</h1>
+        <p itemProp="jobTitle">Senior Software Engineer | AI Systems Architect</p>
+        <p itemProp="description">Full-Stack AI Systems Architect with MIT EECS background. Building end-to-end AI platforms and scalable cloud architectures.</p>
+        <p itemProp="alumniOf">Massachusetts Institute of Technology (MIT) EECS 2014</p>
+        <p>Available for work and technical consulting.</p>
+        <ul role="list" aria-label="Quick facts">
+          <li>TypeScript and React expertise</li>
+          <li>MIT EECS Class of 2014</li>
+          <li>Currently available for opportunities</li>
+        </ul>
+      </div>
+      
       {/* Subtle terminal-themed background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
         <div className="absolute top-10 left-[5%] w-48 h-48 bg-green-500/5 rounded-full blur-2xl" />

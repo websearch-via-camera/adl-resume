@@ -293,6 +293,38 @@ export function TechStack() {
   }, {} as Record<TechItem["category"], TechItem[]>)
   
   return (
+    <section aria-labelledby="tech-stack-heading" itemScope itemType="https://schema.org/ItemList">
+      {/* SEO-friendly hidden content for crawlers and AI agents */}
+      <div className="sr-only">
+        <h3 id="tech-stack-heading">Technology Stack</h3>
+        <meta itemProp="name" content="Kiarash Adl Technology Stack" />
+        <p>10+ years of hands-on experience across the full development spectrum</p>
+        
+        <section aria-label="Core expertise technologies">
+          <h4>Core Expertise</h4>
+          <ul role="list">
+            <li itemProp="itemListElement">Python: 95% proficiency, 10+ years - Primary language for AI/ML, backend APIs, automation, and data pipelines</li>
+            <li itemProp="itemListElement">TypeScript: 90% proficiency, 6+ years - Full-stack web development with type safety for React and Node.js</li>
+            <li itemProp="itemListElement">React/React Native: 90% proficiency, 5+ years - Production web and mobile apps with complex state management</li>
+            <li itemProp="itemListElement">FastAPI: 92% proficiency, 4+ years - High-performance async Python APIs with OpenAPI docs</li>
+            <li itemProp="itemListElement">PostgreSQL: 85% proficiency, 8+ years - Complex queries, optimization, JSON operations</li>
+            <li itemProp="itemListElement">Azure: 88% proficiency, 5+ years - Azure OpenAI, App Services, Functions, DevOps</li>
+            <li itemProp="itemListElement">Docker: 90% proficiency, 6+ years - Containerization, multi-stage builds, orchestration</li>
+          </ul>
+        </section>
+        
+        <section aria-label="All technologies">
+          <h4>All Technologies</h4>
+          <ul role="list">
+            <li>Languages: Python, TypeScript, JavaScript, C++/CUDA</li>
+            <li>Frameworks: React/React Native, FastAPI, Next.js</li>
+            <li>Databases: PostgreSQL, Redis</li>
+            <li>Cloud: Azure, Docker, AWS, GCP</li>
+            <li>Tools: Git, Linux, CI/CD</li>
+          </ul>
+        </section>
+      </div>
+      
     <Card className="p-6 md:p-8 overflow-hidden relative">
       {/* Decorative background elements - reduced blur for performance */}
       <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-primary/5 to-transparent rounded-full blur-2xl pointer-events-none" />
@@ -423,5 +455,6 @@ export function TechStack() {
         </div>
       </div>
     </Card>
+    </section>
   )
 }

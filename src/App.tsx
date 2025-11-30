@@ -696,7 +696,7 @@ function App() {
       {/* SHARED: Projects section - both modes see this */}
       <SectionDivider variant="constellation" />
 
-      <section id="projects" className="py-16 px-6 md:py-20 scroll-mt-20 relative" tabIndex={-1}>
+      <section id="projects" className="py-16 px-6 md:py-20 scroll-mt-20 relative" tabIndex={-1} aria-labelledby="projects-heading">
         {/* Background mesh pattern */}
         <div className="absolute inset-0 bg-mesh opacity-50 pointer-events-none" />
         
@@ -709,17 +709,17 @@ function App() {
           >
             <motion.div variants={fadeIn} className="mb-10">
               <div className="flex items-center gap-3 mb-2">
-                <div className="h-1 w-12 bg-gradient-to-r from-primary to-accent rounded-full" />
+                <div className="h-1 w-12 bg-gradient-to-r from-primary to-accent rounded-full" aria-hidden="true" />
                 <span className="text-sm font-medium text-primary uppercase tracking-wider">Portfolio</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold">
+              <h2 id="projects-heading" className="text-3xl md:text-4xl font-bold">
                 Featured Projects
               </h2>
             </motion.div>
             
-            <div className="space-y-6">
+            <div className="space-y-6" role="list" aria-label="Featured projects">
               <motion.div variants={fadeIn}>
-                <div className="group relative">
+                <article className="group relative project" itemScope itemType="https://schema.org/SoftwareSourceCode">
                   {/* Gradient glow on hover */}
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-primary via-accent to-primary rounded-2xl opacity-0 group-hover:opacity-30 blur-lg transition-all duration-500" />
                   
@@ -730,60 +730,60 @@ function App() {
                     <div className="flex flex-col md:flex-row md:items-start gap-6 relative z-10">
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-3">
-                          <h3 className="text-xl md:text-2xl font-bold group-hover:text-primary transition-colors">
+                          <h3 className="text-xl md:text-2xl font-bold group-hover:text-primary transition-colors" itemProp="name">
                             Financial Intelligence Meta-Layer (FIML)
                           </h3>
                           <Badge variant="outline" className="border-green-500/50 text-green-600 bg-green-500/10 text-xs">Open Source</Badge>
                         </div>
-                        <p className="text-foreground/80 mb-4 leading-relaxed">
+                        <p className="text-foreground/80 mb-4 leading-relaxed" itemProp="description">
                           AI-native MCP server for financial data aggregation with intelligent multi-provider orchestration and multilingual compliance guardrails.
                         </p>
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
-                          <div className="text-center p-3 bg-gradient-to-br from-muted/80 to-muted/40 rounded-xl border border-border/50 group-hover:border-primary/30 transition-colors">
+                        <ul className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4" role="list" aria-label="Project metrics">
+                          <li className="text-center p-3 bg-gradient-to-br from-muted/80 to-muted/40 rounded-xl border border-border/50 group-hover:border-primary/30 transition-colors">
                             <div className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">32K+</div>
                             <div className="text-xs text-muted-foreground">Lines of Code</div>
-                          </div>
-                          <div className="text-center p-3 bg-gradient-to-br from-muted/80 to-muted/40 rounded-xl border border-border/50 group-hover:border-primary/30 transition-colors">
+                          </li>
+                          <li className="text-center p-3 bg-gradient-to-br from-muted/80 to-muted/40 rounded-xl border border-border/50 group-hover:border-primary/30 transition-colors">
                             <div className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">1,403</div>
                             <div className="text-xs text-muted-foreground">Automated Tests</div>
-                          </div>
-                          <div className="text-center p-3 bg-gradient-to-br from-muted/80 to-muted/40 rounded-xl border border-border/50 group-hover:border-primary/30 transition-colors">
+                          </li>
+                          <li className="text-center p-3 bg-gradient-to-br from-muted/80 to-muted/40 rounded-xl border border-border/50 group-hover:border-primary/30 transition-colors">
                             <div className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">100%</div>
                             <div className="text-xs text-muted-foreground">Pass Rate</div>
-                          </div>
-                          <div className="text-center p-3 bg-gradient-to-br from-muted/80 to-muted/40 rounded-xl border border-border/50 group-hover:border-primary/30 transition-colors">
+                          </li>
+                          <li className="text-center p-3 bg-gradient-to-br from-muted/80 to-muted/40 rounded-xl border border-border/50 group-hover:border-primary/30 transition-colors">
                             <div className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Phase 2</div>
                             <div className="text-xs text-muted-foreground">In Progress</div>
-                          </div>
-                        </div>
-                        <div className="flex flex-wrap gap-1.5 mb-3">
-                          <Badge variant="secondary" className="text-xs bg-secondary/50">Python</Badge>
-                          <Badge variant="secondary" className="text-xs bg-secondary/50">MCP Server</Badge>
-                          <Badge variant="secondary" className="text-xs bg-secondary/50">AI Orchestration</Badge>
-                          <Badge variant="secondary" className="text-xs bg-secondary/50">Expo</Badge>
-                          <Badge variant="secondary" className="text-xs bg-secondary/50">CI/CD</Badge>
-                        </div>
+                          </li>
+                        </ul>
+                        <ul className="flex flex-wrap gap-1.5 mb-3" role="list" aria-label="Technologies used" itemProp="programmingLanguage">
+                          <li><Badge variant="secondary" className="text-xs bg-secondary/50">Python</Badge></li>
+                          <li><Badge variant="secondary" className="text-xs bg-secondary/50">MCP Server</Badge></li>
+                          <li><Badge variant="secondary" className="text-xs bg-secondary/50">AI Orchestration</Badge></li>
+                          <li><Badge variant="secondary" className="text-xs bg-secondary/50">Expo</Badge></li>
+                          <li><Badge variant="secondary" className="text-xs bg-secondary/50">CI/CD</Badge></li>
+                        </ul>
                         {/* Client Story Snippet */}
                         <div className="flex items-center gap-2 p-2 rounded-lg bg-green-500/5 border border-green-500/20 text-xs">
-                          <span className="text-green-500">✓</span>
-                          <span className="text-muted-foreground"><span className="font-medium text-foreground">Impact:</span> Reduces financial data integration time by 70%</span>
+                          <span className="text-green-500" aria-hidden="true">✓</span>
+                          <span className="text-muted-foreground"><strong className="font-medium text-foreground">Impact:</strong> Reduces financial data integration time by 70%</span>
                         </div>
                       </div>
-                      <div className="flex flex-row gap-2">
-                        <a href="https://kiarashplusplus.github.io/FIML/" target="_blank" rel="noopener noreferrer" className="flex-shrink-0 min-h-[44px] min-w-[44px] p-3 rounded-xl bg-muted/80 hover:bg-primary hover:text-primary-foreground transition-all duration-300 flex items-center justify-center group/btn hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-0.5" aria-label="View FIML project website">
+                      <nav className="flex flex-row gap-2" aria-label="Project links">
+                        <a href="https://kiarashplusplus.github.io/FIML/" target="_blank" rel="noopener noreferrer" className="flex-shrink-0 min-h-[44px] min-w-[44px] p-3 rounded-xl bg-muted/80 hover:bg-primary hover:text-primary-foreground transition-all duration-300 flex items-center justify-center group/btn hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-0.5" aria-label="View FIML project website" itemProp="url">
                           <Link className="h-5 w-5 group-hover/btn:scale-110 transition-transform" />
                         </a>
-                        <a href="https://github.com/kiarashplusplus/FIML" target="_blank" rel="noopener noreferrer" className="flex-shrink-0 min-h-[44px] min-w-[44px] p-3 rounded-xl bg-muted/80 hover:bg-foreground hover:text-background transition-all duration-300 flex items-center justify-center group/btn hover:shadow-lg hover:-translate-y-0.5" aria-label="View FIML project on GitHub">
+                        <a href="https://github.com/kiarashplusplus/FIML" target="_blank" rel="noopener noreferrer" className="flex-shrink-0 min-h-[44px] min-w-[44px] p-3 rounded-xl bg-muted/80 hover:bg-foreground hover:text-background transition-all duration-300 flex items-center justify-center group/btn hover:shadow-lg hover:-translate-y-0.5" aria-label="View FIML project on GitHub" itemProp="codeRepository">
                           <Github className="h-5 w-5 group-hover/btn:scale-110 transition-transform" />
                         </a>
-                      </div>
+                      </nav>
                     </div>
                   </Card>
-                </div>
+                </article>
               </motion.div>
 
               <motion.div variants={fadeIn}>
-                <div className="group relative">
+                <article className="group relative project" itemScope itemType="https://schema.org/SoftwareApplication">
                   {/* Gradient glow on hover */}
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-500 rounded-2xl opacity-0 group-hover:opacity-30 blur-lg transition-all duration-500" />
                   
@@ -794,48 +794,48 @@ function App() {
                     <div className="flex flex-col md:flex-row md:items-start gap-6 relative z-10">
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-3">
-                          <h3 className="text-xl md:text-2xl font-bold group-hover:text-blue-500 transition-colors">
+                          <h3 className="text-xl md:text-2xl font-bold group-hover:text-blue-500 transition-colors" itemProp="name">
                             HireAligna.ai
                           </h3>
-                          <Badge variant="outline" className="border-blue-500/50 text-blue-600 bg-blue-500/10 text-xs">SaaS Platform</Badge>
+                          <Badge variant="outline" className="border-blue-500/50 text-blue-600 bg-blue-500/10 text-xs" itemProp="applicationCategory">SaaS Platform</Badge>
                         </div>
-                        <p className="text-foreground/80 mb-4 leading-relaxed">
+                        <p className="text-foreground/80 mb-4 leading-relaxed" itemProp="description">
                           Conversational AI recruiter that schedules and conducts voice interviews via LiveKit, transcribes with Azure OpenAI, and performs automated candidate-job matching.
                         </p>
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
-                          <div className="text-center p-3 bg-gradient-to-br from-muted/80 to-muted/40 rounded-xl border border-border/50 group-hover:border-blue-500/30 transition-colors">
+                        <ul className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4" role="list" aria-label="Project features">
+                          <li className="text-center p-3 bg-gradient-to-br from-muted/80 to-muted/40 rounded-xl border border-border/50 group-hover:border-blue-500/30 transition-colors">
                             <div className="text-xl font-bold text-blue-500">AI</div>
                             <div className="text-xs text-muted-foreground">Voice Interviews</div>
-                          </div>
-                          <div className="text-center p-3 bg-gradient-to-br from-muted/80 to-muted/40 rounded-xl border border-border/50 group-hover:border-blue-500/30 transition-colors">
+                          </li>
+                          <li className="text-center p-3 bg-gradient-to-br from-muted/80 to-muted/40 rounded-xl border border-border/50 group-hover:border-blue-500/30 transition-colors">
                             <div className="text-xl font-bold text-blue-500">17+</div>
                             <div className="text-xs text-muted-foreground">Docker Services</div>
-                          </div>
-                          <div className="text-center p-3 bg-gradient-to-br from-muted/80 to-muted/40 rounded-xl border border-border/50 group-hover:border-blue-500/30 transition-colors">
+                          </li>
+                          <li className="text-center p-3 bg-gradient-to-br from-muted/80 to-muted/40 rounded-xl border border-border/50 group-hover:border-blue-500/30 transition-colors">
                             <div className="text-xl font-bold text-blue-500">2-Way</div>
                             <div className="text-xs text-muted-foreground">Smart Matching</div>
-                          </div>
-                          <div className="text-center p-3 bg-gradient-to-br from-muted/80 to-muted/40 rounded-xl border border-border/50 group-hover:border-blue-500/30 transition-colors">
+                          </li>
+                          <li className="text-center p-3 bg-gradient-to-br from-muted/80 to-muted/40 rounded-xl border border-border/50 group-hover:border-blue-500/30 transition-colors">
                             <div className="text-xl font-bold text-blue-500">Full</div>
                             <div className="text-xs text-muted-foreground">Observability</div>
-                          </div>
-                        </div>
-                        <div className="flex flex-wrap gap-1.5 mb-3">
-                          <Badge variant="secondary" className="text-xs bg-secondary/50">Next.js</Badge>
-                          <Badge variant="secondary" className="text-xs bg-secondary/50">LiveKit</Badge>
-                          <Badge variant="secondary" className="text-xs bg-secondary/50">Azure OpenAI</Badge>
-                          <Badge variant="secondary" className="text-xs bg-secondary/50">PostgreSQL</Badge>
-                          <Badge variant="secondary" className="text-xs bg-secondary/50">Docker</Badge>
-                        </div>
+                          </li>
+                        </ul>
+                        <ul className="flex flex-wrap gap-1.5 mb-3" role="list" aria-label="Technologies used">
+                          <li><Badge variant="secondary" className="text-xs bg-secondary/50">Next.js</Badge></li>
+                          <li><Badge variant="secondary" className="text-xs bg-secondary/50">LiveKit</Badge></li>
+                          <li><Badge variant="secondary" className="text-xs bg-secondary/50">Azure OpenAI</Badge></li>
+                          <li><Badge variant="secondary" className="text-xs bg-secondary/50">PostgreSQL</Badge></li>
+                          <li><Badge variant="secondary" className="text-xs bg-secondary/50">Docker</Badge></li>
+                        </ul>
                         {/* Client Story Snippet */}
                         <div className="flex items-center gap-2 p-2 rounded-lg bg-blue-500/5 border border-blue-500/20 text-xs">
-                          <span className="text-blue-500">✓</span>
-                          <span className="text-muted-foreground"><span className="font-medium text-foreground">Impact:</span> Helps startups cut hiring time by 40% with AI interviews</span>
+                          <span className="text-blue-500" aria-hidden="true">✓</span>
+                          <span className="text-muted-foreground"><strong className="font-medium text-foreground">Impact:</strong> Helps startups cut hiring time by 40% with AI interviews</span>
                         </div>
                       </div>
                     </div>
                   </Card>
-                </div>
+                </article>
               </motion.div>
             </div>
           </motion.div>
@@ -845,7 +845,7 @@ function App() {
       <SectionDivider variant="sparkle" />
       
       {/* SHARED CONTENT: Both modes see skills and below */}
-      <section id="skills" className="py-16 px-6 md:py-20 scroll-mt-20 relative" tabIndex={-1}>
+      <section id="skills" className="py-16 px-6 md:py-20 scroll-mt-20 relative" tabIndex={-1} aria-labelledby="skills-heading">
         {/* Subtle background gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-muted/20 to-transparent pointer-events-none" />
         
@@ -858,10 +858,10 @@ function App() {
           >
             <motion.div variants={fadeIn} className="mb-10">
               <div className="flex items-center gap-3 mb-2">
-                <div className="h-1 w-12 bg-gradient-to-r from-primary to-accent rounded-full" />
+                <div className="h-1 w-12 bg-gradient-to-r from-primary to-accent rounded-full" aria-hidden="true" />
                 <span className="text-sm font-medium text-primary uppercase tracking-wider">Expertise</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-3">Technical Expertise</h2>
+              <h2 id="skills-heading" className="text-3xl md:text-4xl font-bold mb-3">Technical Expertise</h2>
               <p className="text-muted-foreground">
                 From AI/ML to full-stack development and engineering leadership
               </p>
@@ -942,7 +942,7 @@ function App() {
 
       <SectionDivider variant="gradient" />
 
-      <section id="experience" className="py-16 px-6 md:py-20 scroll-mt-20 relative">
+      <section id="experience" className="py-16 px-6 md:py-20 scroll-mt-20 relative" aria-labelledby="experience-heading">
         {/* Subtle diagonal pattern */}
         <div className="absolute inset-0 opacity-30 pointer-events-none" style={{ backgroundImage: 'linear-gradient(135deg, transparent 0%, transparent 49%, oklch(from var(--primary) l c h / 0.03) 49%, oklch(from var(--primary) l c h / 0.03) 51%, transparent 51%, transparent 100%)', backgroundSize: '20px 20px' }} />
         
@@ -956,10 +956,10 @@ function App() {
             <motion.div variants={fadeIn} className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-10">
               <div>
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="h-1 w-12 bg-gradient-to-r from-primary to-accent rounded-full" />
+                  <div className="h-1 w-12 bg-gradient-to-r from-primary to-accent rounded-full" aria-hidden="true" />
                   <span className="text-sm font-medium text-primary uppercase tracking-wider">Career</span>
                 </div>
-                <h2 className="text-3xl md:text-4xl font-bold mb-2">Experience</h2>
+                <h2 id="experience-heading" className="text-3xl md:text-4xl font-bold mb-2">Experience</h2>
                 <p className="text-muted-foreground">10+ years building AI systems at scale</p>
               </div>
               <Button className="gap-2 shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all duration-300" asChild>
@@ -1098,7 +1098,7 @@ function App() {
 
       <SectionDivider variant="constellation" />
 
-      <section id="contact" className="py-16 px-6 md:py-20 scroll-mt-20 relative" tabIndex={-1}>
+      <section id="contact" className="py-16 px-6 md:py-20 scroll-mt-20 relative" tabIndex={-1} aria-labelledby="contact-heading">
         {/* Beautiful gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 pointer-events-none" />
         
@@ -1111,10 +1111,10 @@ function App() {
           >
             <motion.div variants={fadeIn} className="mb-10">
               <div className="flex items-center gap-3 mb-2">
-                <div className="h-1 w-12 bg-gradient-to-r from-primary to-accent rounded-full" />
+                <div className="h-1 w-12 bg-gradient-to-r from-primary to-accent rounded-full" aria-hidden="true" />
                 <span className="text-sm font-medium text-primary uppercase tracking-wider">Contact</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-2">Let's discuss AI innovation, collaboration, or your next project.</h2>
+              <h2 id="contact-heading" className="text-3xl md:text-4xl font-bold mb-2">Let's discuss AI innovation, collaboration, or your next project.</h2>
             </motion.div>
 
             <div className="grid md:grid-cols-5 gap-6 md:gap-8">

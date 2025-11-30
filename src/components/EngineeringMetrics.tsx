@@ -95,6 +95,24 @@ const trendColors = {
 
 export function EngineeringMetrics() {
   return (
+    <section aria-labelledby="engineering-metrics-heading" itemScope itemType="https://schema.org/ItemList">
+      {/* SEO-friendly hidden content for crawlers and AI agents */}
+      <div className="sr-only">
+        <h3 id="engineering-metrics-heading">Engineering Impact Metrics</h3>
+        <meta itemProp="name" content="Kiarash Adl Engineering Metrics" />
+        <ul role="list">
+          <li itemProp="itemListElement">Lines of Code: 500K+ production code shipped</li>
+          <li itemProp="itemListElement">Pull Requests: 2,500+ merged to main</li>
+          <li itemProp="itemListElement">Companies: 9+ including Google and startups</li>
+          <li itemProp="itemListElement">Patents: 3 (2 pending in AI)</li>
+          <li itemProp="itemListElement">Performance Gains: 55x GPU optimization record</li>
+          <li itemProp="itemListElement">Test Coverage: 95%+ on critical systems</li>
+          <li itemProp="itemListElement">Team Size Led: 12+ cross-functional engineers</li>
+          <li itemProp="itemListElement">Years Experience: 10+ in production systems</li>
+        </ul>
+        <p>Featured Achievement: Achieved 55x speedup in speech recognition through GPU optimization at MIT CSAIL, published at ICASSP 2012 demonstrating deep expertise in high-performance computing and ML systems.</p>
+      </div>
+      
     <Card className="p-6 md:p-8 overflow-hidden">
       <div className="mb-8 text-center">
         <h3 className="text-2xl font-bold mb-2">Engineering Impact</h3>
@@ -204,5 +222,6 @@ export function EngineeringMetrics() {
         </div>
       </div>
     </Card>
+    </section>
   )
 }

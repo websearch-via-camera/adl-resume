@@ -222,6 +222,52 @@ function SkillBar({ name, proficiency, category, delay = 0 }: {
 
 export default function SkillsCharts() {
   return (
+    <section aria-label="Skills visualization and charts">
+      {/* SEO-friendly hidden content for crawlers */}
+      <div className="sr-only">
+        <h3>Kiarash Adl's Technical Skills</h3>
+        <section aria-label="Competency Overview">
+          <h4>Competency Radar</h4>
+          <ul role="list">
+            <li>AI/ML: 95% proficiency</li>
+            <li>Backend: 92% proficiency</li>
+            <li>Frontend: 90% proficiency</li>
+            <li>DevOps: 70% proficiency</li>
+            <li>Leadership: 90% proficiency</li>
+            <li>Research: 85% proficiency</li>
+          </ul>
+        </section>
+        <section aria-label="Technical Stack">
+          <h4>Technical Skills Distribution</h4>
+          <ul role="list">
+            <li>Python: 95% - Backend/Infrastructure</li>
+            <li>React/React Native: 90% - Frontend</li>
+            <li>FastAPI: 92% - Backend/Infrastructure</li>
+            <li>Docker: 88% - DevOps/Cloud</li>
+            <li>PostgreSQL: 65% - DevOps/Cloud</li>
+            <li>CI/CD: 65% - DevOps/Cloud</li>
+          </ul>
+        </section>
+        <section aria-label="AI and Machine Learning">
+          <h4>AI & Machine Learning Expertise</h4>
+          <ul role="list">
+            <li>Deep Learning: 95%</li>
+            <li>Computer Vision: 93%</li>
+            <li>NLP/LLMs: 90%</li>
+            <li>Transformers: 92%</li>
+            <li>Distributed ML: 88%</li>
+            <li>GPU Optimization: 85%</li>
+          </ul>
+          <h5>Key Achievements</h5>
+          <ul role="list">
+            <li>10+ years building production ML systems at scale (Google, startups)</li>
+            <li>55x GPU acceleration breakthrough in speech recognition research</li>
+            <li>Architected 32,000+ LOC AI-native MCP server with 1,403+ tests</li>
+            <li>Patent-pending computer vision solutions in production</li>
+          </ul>
+        </section>
+      </div>
+      
     <Tabs defaultValue="technical" className="w-full">
       <TabsList className="grid w-full grid-cols-3 mb-8 p-1.5 bg-muted/50 backdrop-blur-sm rounded-xl h-auto">
         <TabsTrigger 
@@ -379,5 +425,6 @@ export default function SkillsCharts() {
         </Card>
       </TabsContent>
     </Tabs>
+    </section>
   )
 }

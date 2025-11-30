@@ -107,9 +107,10 @@ function App() {
       // localStorage not available, preference won't persist
     }
     
-    // If developer, scroll to terminal after a short delay
-    if (isDeveloper) {
-      setTimeout(() => {
+    // Scroll after a short delay to ensure content has rendered
+    setTimeout(() => {
+      if (isDeveloper) {
+        // Developer: scroll to terminal section
         const terminalElement = document.getElementById("terminal")
         if (terminalElement) {
           const offset = 80
@@ -120,11 +121,11 @@ function App() {
             behavior: "smooth"
           })
         }
-      }, 100)
-    } else {
-      // For regular visitors, ensure we're at the top
-      window.scrollTo({ top: 0, behavior: "instant" })
-    }
+      } else {
+        // Non-developer: scroll to top (hero header)
+        window.scrollTo({ top: 0, behavior: "instant" })
+      }
+    }, 100)
   }
   const [formData, setFormData] = useState({
     name: "",

@@ -49,7 +49,7 @@ export function GitHubActivity() {
   
   return (
     <Card className="p-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 text-center sm:text-left">
         <h3 className="text-xl font-bold">GitHub Activity</h3>
         <span className="text-sm text-muted-foreground italic">
           Simulated visualization — real commits live on GitHub

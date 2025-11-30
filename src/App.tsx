@@ -453,15 +453,6 @@ function App() {
                   <LinkedinLogo size={18} weight="fill" />
                   <span>LinkedIn</span>
                 </a>
-                <a 
-                  href="https://github.com/kiarashplusplus/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 bg-foreground text-background rounded-lg hover:bg-foreground/90 transition-all shadow-sm hover:shadow-md text-sm font-medium"
-                >
-                  <GithubLogo size={18} weight="fill" />
-                  <span>GitHub</span>
-                </a>
               </div>
             </div>
           </div>

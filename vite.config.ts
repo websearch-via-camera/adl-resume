@@ -1,15 +1,52 @@
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react-swc";
-import { defineConfig } from "vite";
+import { defineConfig, type Plugin } from "vite";
 import { resolve } from 'path'
 
 const projectRoot = process.env.PROJECT_ROOT || import.meta.dirname
+
+// Custom plugin to add high-priority preload hints for critical chunks
+function criticalChunksPreload(): Plugin {
+  return {
+    name: 'critical-chunks-preload',
+    transformIndexHtml(html, ctx) {
+      // Only apply in production build
+      if (!ctx.bundle) return html;
+      
+      // Find critical chunk filenames from the bundle
+      const criticalChunks: string[] = [];
+      
+      for (const [fileName] of Object.entries(ctx.bundle)) {
+        // Prioritize vendor-react (needed for everything)
+        if (fileName.includes('vendor-react')) {
+          criticalChunks.unshift(fileName);
+        }
+        // Then vendor-motion (used in hero animations)
+        else if (fileName.includes('vendor-motion')) {
+          criticalChunks.push(fileName);
+        }
+      }
+      
+      // Generate preload link tags with high priority
+      const preloadTags = criticalChunks
+        .map(chunk => `<link rel="modulepreload" href="/${chunk}" fetchpriority="high" />`)
+        .join('\n    ');
+      
+      // Insert after the opening head tag
+      return html.replace(
+        '<head>',
+        `<head>\n    <!-- Critical JS chunks preload -->\n    ${preloadTags}`
+      );
+    }
+  };
+}
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
+    criticalChunksPreload(),
   ],
   resolve: {
     alias: {

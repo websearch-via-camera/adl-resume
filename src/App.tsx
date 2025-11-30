@@ -363,7 +363,7 @@ function App() {
               </section>
               
               <footer className="border-t border-border pt-6 text-center">
-                <p className="text-muted-foreground text-sm mb-4">© 2025 Kiarash Adl | MIT EECS '14 | Available for work</p>
+                <p className="text-muted-foreground text-sm mb-4">© 2025 Kiarash Adl | MIT EECS '14 | <a href="#contact" className="text-primary hover:underline">Available for work</a></p>
                 <div className="flex items-center justify-center gap-2">
                   <div className="w-6 h-6 border-2 border-muted border-t-primary rounded-full animate-spin" />
                   <span className="text-muted-foreground text-sm">Loading interactive experience...</span>
@@ -470,15 +470,15 @@ function App() {
             <div className="flex-1 text-center md:text-left">
               {/* Live Status & Weather */}
               <div className="flex items-center justify-center md:justify-start gap-4 mb-3">
-                <div className="flex items-center gap-2">
+                <a href="#contact" className="flex items-center gap-2 hover:opacity-80 transition-opacity cursor-pointer">
                   <span className="relative flex h-2.5 w-2.5">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
                   </span>
-                  <span className="text-sm font-medium text-green-600 dark:text-green-400">
+                  <span className="text-sm font-medium text-green-600 dark:text-green-400 hover:underline">
                     Available for work
                   </span>
-                </div>
+                </a>
               </div>
               
               {/* Name & Title */}

@@ -9,6 +9,7 @@
         "build": "tsc -b --noCheck && vite build",
         "lint": "eslint .",
         "optimize": "vite optimize",
+        "optimize:images": "node scripts/optimize-images.mjs",
         "preview": "vite preview"
     },
     "dependencies": {
@@ -74,6 +75,7 @@
         "eslint-plugin-react-hooks": "^7.0.1",
         "eslint-plugin-react-refresh": "^0.4.24",
         "globals": "^16.5.0",
+        "sharp": "^0.34.5",
         "tailwindcss": "^4.1.17",
         "typescript": "~5.9.3",
         "typescript-eslint": "^8.48.0",

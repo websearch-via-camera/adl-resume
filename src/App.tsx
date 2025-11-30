@@ -10,8 +10,14 @@ import { EnvelopeSimple, Phone, Download, GithubLogo, LinkedinLogo, ArrowUpRight
 import { motion, useScroll, useMotionValueEvent } from "framer-motion"
 import { useState, useEffect, useRef, lazy, Suspense } from "react"
 import { toast } from "sonner"
-import profileImage from "@/assets/images/Kiarash_Adl_Linkedin_Image.jpg"
 import resumePdf from "@/assets/documents/Kiarash-Adl-Resume-20251129.pdf"
+
+// Responsive profile images - WebP with JPEG fallback
+import profileWebp192 from "@/assets/images/profile-192w.webp"
+import profileWebp384 from "@/assets/images/profile-384w.webp"
+import profileWebp224 from "@/assets/images/profile-224w.webp"
+import profileWebp448 from "@/assets/images/profile-448w.webp"
+import profileJpg384 from "@/assets/images/profile-384w.jpg"
 
 // Lightweight components loaded immediately
 import { ThemeToggle } from "@/components/ThemeToggle"
@@ -425,14 +431,25 @@ function App() {
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
             <motion.div variants={fadeIn} className="flex-shrink-0">
               <div className="w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden ring-4 ring-primary/10 shadow-2xl">
-                <img 
-                  src={profileImage}
-                  alt="Kiarash Adl"
-                  className="w-full h-full object-cover"
-                  fetchPriority="high"
-                  decoding="async"
-                  loading="eager"
-                />
+                <picture>
+                  {/* WebP sources for modern browsers */}
+                  <source
+                    type="image/webp"
+                    srcSet={`${profileWebp192} 192w, ${profileWebp384} 384w, ${profileWebp224} 224w, ${profileWebp448} 448w`}
+                    sizes="(max-width: 768px) 192px, 224px"
+                  />
+                  {/* JPEG fallback */}
+                  <img 
+                    src={profileJpg384}
+                    alt="Kiarash Adl - AI Systems Architect"
+                    className="w-full h-full object-cover"
+                    width={224}
+                    height={224}
+                    fetchPriority="high"
+                    decoding="async"
+                    loading="eager"
+                  />
+                </picture>
               </div>
             </motion.div>
             

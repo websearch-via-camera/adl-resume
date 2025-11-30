@@ -9,12 +9,14 @@ const projectRoot = process.env.PROJECT_ROOT || import.meta.dirname
 function criticalChunksPreload(): Plugin {
   return {
     name: 'critical-chunks-preload',
+    enforce: 'post',
     transformIndexHtml(html, ctx) {
       // Only apply in production build
       if (!ctx.bundle) return html;
       
       // Find critical chunk filenames from the bundle
       const criticalChunks: string[] = [];
+      let cssFileName = '';
       
       for (const [fileName] of Object.entries(ctx.bundle)) {
         // Prioritize vendor-react (needed for everything)
@@ -25,6 +27,10 @@ function criticalChunksPreload(): Plugin {
         else if (fileName.includes('vendor-motion')) {
           criticalChunks.push(fileName);
         }
+        // Find the main CSS file
+        else if (fileName.endsWith('.css') && fileName.includes('index')) {
+          cssFileName = fileName;
+        }
       }
       
       // Generate preload link tags with high priority
@@ -33,10 +39,22 @@ function criticalChunksPreload(): Plugin {
         .join('\n    ');
       
       // Insert after the opening head tag
-      return html.replace(
+      let result = html.replace(
         '<head>',
         `<head>\n    <!-- Critical JS chunks preload -->\n    ${preloadTags}`
       );
+      
+      // Make CSS non-blocking by using media="print" trick
+      if (cssFileName) {
+        // Replace the blocking CSS link with async loading pattern
+        result = result.replace(
+          new RegExp(`<link rel="stylesheet"[^>]*href="/${cssFileName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"[^>]*>`),
+          `<link rel="preload" href="/${cssFileName}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/${cssFileName}"></noscript>`
+        );
+      }
+      
+      return result;
     }
   };
 }

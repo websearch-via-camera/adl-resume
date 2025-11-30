@@ -31,9 +31,6 @@ const OnboardingChoice = lazy(() => import("@/components/OnboardingChoice").then
 // Decorative components lazy-loaded (not critical for initial render)
 const CustomCursor = lazy(() => import("@/components/CustomCursor").then(m => ({ default: m.CustomCursor })))
 const KeyboardHelp = lazy(() => import("@/components/KeyboardHelp").then(m => ({ default: m.KeyboardHelp })))
-
-// Weather indicator lazy-loaded to avoid blocking critical path with API call
-const WeatherIndicator = lazy(() => import("@/components/WeatherIndicator").then(m => ({ default: m.WeatherIndicator })))
 import { A11yProvider, SkipLinks, useA11y } from "@/components/A11yProvider"
 
 // Heavy components lazy loaded for better initial performance
@@ -1012,10 +1009,6 @@ function App() {
               <p>© 2025 Kiarash Adl</p>
             </div>
             <div className="flex items-center gap-3">
-              <Suspense fallback={<span className="text-xs text-muted-foreground">--°F</span>}>
-                <WeatherIndicator />
-              </Suspense>
-              <span className="text-border">|</span>
               <span>MIT EECS '14</span>
               <span className="text-border">|</span>
               <span className="hidden sm:inline">

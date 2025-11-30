@@ -300,9 +300,9 @@ export function TechStack() {
       
       <div className="relative z-10">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
+        <div className="flex flex-col items-center text-center gap-4 mb-8">
           <div>
-            <div className="flex items-center gap-2 mb-2">
+            <div className="flex items-center justify-center gap-2 mb-2">
               <div className="p-2 rounded-lg bg-primary/10">
                 <Lightning size={20} weight="fill" className="text-primary" />
               </div>

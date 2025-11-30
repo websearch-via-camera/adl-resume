@@ -678,7 +678,7 @@ function App() {
 
             {/* Interactive Terminal */}
             <motion.div variants={fadeIn} id="terminal" className="scroll-mt-20">
-              <div className="mb-4">
+              <div className="mb-4 text-center">
                 <h3 className="text-xl font-bold mb-2">Interactive Terminal</h3>
                 <p className="text-sm text-muted-foreground">
                   Explore my profile using familiar terminal commands
@@ -702,8 +702,8 @@ function App() {
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
           >
-            <motion.div variants={fadeIn} className="flex flex-col items-center gap-4 mb-10">
-              <div className="text-center">
+            <motion.div variants={fadeIn} className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
+              <div>
                 <h2 className="text-3xl md:text-4xl font-bold mb-2">Experience</h2>
                 <p className="text-muted-foreground">10+ years building AI systems at scale</p>
               </div>

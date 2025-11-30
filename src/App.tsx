@@ -64,6 +64,7 @@ function App() {
   const [visitorType, setVisitorType] = useState<"developer" | "visitor" | null>(null)
   // Track if this is a fresh onboarding choice (not a page reload)
   const [isNewVisitorChoice, setIsNewVisitorChoice] = useState(false)
+  const [isNewDeveloperChoice, setIsNewDeveloperChoice] = useState(false)
   
   useEffect(() => {
     // Check if user has already made a choice
@@ -81,35 +82,10 @@ function App() {
           history.scrollRestoration = "manual"
         }
         
-        // Scroll based on visitor type
+        // Scroll based on visitor type - use the same robust approach as new choices
         if (savedType === "developer") {
-          // Returning developer: scroll to terminal after content loads
-          // Use multiple attempts since lazy-loaded components may take time
-          const scrollToTerminal = () => {
-            const terminalElement = document.getElementById("terminal")
-            if (terminalElement) {
-              const offset = 80
-              const elementPosition = terminalElement.getBoundingClientRect().top
-              const offsetPosition = elementPosition + window.pageYOffset - offset
-              window.scrollTo({
-                top: offsetPosition,
-                behavior: "smooth"
-              })
-              return true
-            }
-            return false
-          }
-          
-          // Try multiple times with increasing delays for lazy-loaded content
-          setTimeout(() => {
-            if (!scrollToTerminal()) {
-              setTimeout(() => {
-                if (!scrollToTerminal()) {
-                  setTimeout(scrollToTerminal, 500)
-                }
-              }, 200)
-            }
-          }, 100)
+          // Returning developer: use the same scroll effect as new developers
+          setIsNewDeveloperChoice(true)
         } else {
           // Returning visitor: scroll to top immediately and repeatedly to ensure override
           // Browser scroll restoration can happen at unpredictable times, so we
@@ -140,11 +116,6 @@ function App() {
     setVisitorType(type)
     setShowOnboarding(false)
     
-    // Mark this as a fresh choice so the scroll effect can handle it
-    if (!isDeveloper) {
-      setIsNewVisitorChoice(true)
-    }
-    
     // Store preference safely (localStorage might throw in some browsers)
     try {
       localStorage.setItem("kiarash-visitor-type", type)
@@ -158,37 +129,75 @@ function App() {
       history.scrollRestoration = "manual"
     }
     
-    // Scroll after a short delay to ensure content has rendered
+    // Mark as fresh choice - scroll handling is done by dedicated useEffects
     if (isDeveloper) {
-      setTimeout(() => {
-        // Developer: scroll to terminal section
-        // Use multiple attempts since lazy-loaded components may take time
-        const scrollToTerminal = () => {
-          const terminalElement = document.getElementById("terminal")
-          if (terminalElement) {
-            const offset = 80
-            const elementPosition = terminalElement.getBoundingClientRect().top
-            const offsetPosition = elementPosition + window.pageYOffset - offset
-            window.scrollTo({
-              top: offsetPosition,
-              behavior: "smooth"
-            })
-            return true
-          }
-          return false
-        }
+      setIsNewDeveloperChoice(true)
+    } else {
+      setIsNewVisitorChoice(true)
+    }
+  }
+  
+  // Effect to force scroll to terminal for new developer choices
+  // Uses continuous scrolling until the terminal is in view, to handle lazy loading
+  useEffect(() => {
+    if (!isNewDeveloperChoice || showOnboarding !== false) return
+    
+    let attempts = 0
+    const maxAttempts = 30 // Try for up to 3 seconds
+    let intervalId: NodeJS.Timeout
+    let timeoutId: NodeJS.Timeout
+    
+    const scrollToTerminal = () => {
+      const terminalElement = document.getElementById("terminal")
+      if (!terminalElement) return false
+      
+      const rect = terminalElement.getBoundingClientRect()
+      const targetTop = 80 // We want the terminal 80px from top
+      
+      // Check if terminal is close enough to target position (within 20px)
+      if (Math.abs(rect.top - targetTop) < 20) {
+        return true // We're at the right spot
+      }
+      
+      // Scroll to terminal
+      const offset = 80
+      const elementPosition = rect.top
+      const offsetPosition = elementPosition + window.pageYOffset - offset
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "instant" // Use instant to avoid animation conflicts
+      })
+      
+      return false
+    }
+    
+    // Initial delay to let React render
+    timeoutId = setTimeout(() => {
+      // Keep trying every 100ms until terminal is in correct position
+      intervalId = setInterval(() => {
+        attempts++
+        const success = scrollToTerminal()
         
-        if (!scrollToTerminal()) {
-          setTimeout(() => {
-            if (!scrollToTerminal()) {
-              setTimeout(scrollToTerminal, 500)
+        if (success || attempts >= maxAttempts) {
+          clearInterval(intervalId)
+          setIsNewDeveloperChoice(false)
+          
+          // One final smooth scroll to make it look nice
+          if (success) {
+            const terminalElement = document.getElementById("terminal")
+            if (terminalElement) {
+              terminalElement.scrollIntoView({ behavior: "smooth", block: "start" })
             }
-          }, 200)
+          }
         }
       }, 100)
+    }, 100)
+    
+    return () => {
+      clearTimeout(timeoutId)
+      clearInterval(intervalId)
     }
-    // Non-developer scroll is handled by the useEffect below for better timing
-  }
+  }, [isNewDeveloperChoice, showOnboarding])
   
   // Effect to force scroll to top for new visitor choices
   // This runs after React has committed the DOM update

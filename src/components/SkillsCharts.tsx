@@ -14,21 +14,21 @@ const skillsRadarData = [
 ]
 
 const technicalSkillsData = [
-  { name: "Python", proficiency: 95, category: "backend", icon: "🐍" },
-  { name: "React/React Native", proficiency: 90, category: "frontend", icon: "⚛️" },
-  { name: "FastAPI", proficiency: 92, category: "backend", icon: "⚡" },
-  { name: "Docker", proficiency: 88, category: "devops", icon: "🐳" },
-  { name: "PostgreSQL", proficiency: 65, category: "devops", icon: "🐘" },
-  { name: "CI/CD", proficiency: 65, category: "devops", icon: "🔄" }
+  { name: "Python", proficiency: 95, category: "backend" },
+  { name: "React/React Native", proficiency: 90, category: "frontend" },
+  { name: "FastAPI", proficiency: 92, category: "backend" },
+  { name: "Docker", proficiency: 88, category: "devops" },
+  { name: "PostgreSQL", proficiency: 65, category: "devops" },
+  { name: "CI/CD", proficiency: 65, category: "devops" }
 ]
 
 const aiMLSkillsData = [
-  { name: "Deep Learning", proficiency: 95, icon: "🧠" },
-  { name: "Computer Vision", proficiency: 93, icon: "👁️" },
-  { name: "NLP/LLMs", proficiency: 90, icon: "💬" },
-  { name: "Transformers", proficiency: 92, icon: "🤖" },
-  { name: "Distributed ML", proficiency: 88, icon: "🌐" },
-  { name: "GPU Optimization", proficiency: 85, icon: "⚡" }
+  { name: "Deep Learning", proficiency: 95 },
+  { name: "Computer Vision", proficiency: 93 },
+  { name: "NLP/LLMs", proficiency: 90 },
+  { name: "Transformers", proficiency: 92 },
+  { name: "Distributed ML", proficiency: 88 },
+  { name: "GPU Optimization", proficiency: 85 }
 ]
 
 // Pure SVG Radar Chart Component

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useMemo, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -12,7 +12,10 @@ import {
   MapPin,
   Calendar,
   ArrowRight,
-  X
+  X,
+  ChevronDown,
+  Sparkles,
+  Target
 } from "lucide-react"
 
 interface TimelineEntry {
@@ -181,11 +184,57 @@ const typeLabels = {
 export function InteractiveTimeline() {
   const [selectedEntry, setSelectedEntry] = useState<TimelineEntry | null>(null)
   const [hoveredEntry, setHoveredEntry] = useState<string | null>(null)
+  const detailRef = useRef<HTMLDivElement>(null)
   
   // Calculate timeline span
   const minYear = Math.min(...timelineData.map(e => e.startYear))
   const maxYear = new Date().getFullYear()
   const totalYears = maxYear - minYear + 1
+  
+  // Determine the index of the selected entry to insert detail panel after its row
+  const selectedIndex = selectedEntry 
+    ? timelineData.findIndex(e => e.id === selectedEntry.id)
+    : -1
+  
+  // Calculate which row the selected entry is in (3 columns on lg, 2 on md, 1 on sm)
+  // We'll use a simple approach: insert detail after the card on mobile/tablet
+  // For desktop (3 cols), find the end of the row
+  const getRowEndIndex = (index: number, cols: number) => {
+    const row = Math.floor(index / cols)
+    return Math.min((row + 1) * cols - 1, timelineData.length - 1)
+  }
+  
+  // Scroll to detail panel when opened
+  useEffect(() => {
+    if (selectedEntry && detailRef.current) {
+      // Small delay to let animation start
+      setTimeout(() => {
+        detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      }, 100)
+    }
+  }, [selectedEntry])
+  
+  // Create a rendering array that includes detail panels at the right positions
+  const renderItems = useMemo(() => {
+    if (selectedIndex === -1) {
+      return timelineData.map((entry, index) => ({ type: 'card' as const, entry, index }))
+    }
+    
+    const items: Array<{ type: 'card' | 'detail'; entry: TimelineEntry; index: number }> = []
+    
+    // For responsive layout, we'll insert the detail right after the selected card
+    // The CSS grid will handle the full-width spanning
+    timelineData.forEach((entry, index) => {
+      items.push({ type: 'card', entry, index })
+      
+      // Insert detail panel right after the selected card
+      if (entry.id === selectedEntry?.id) {
+        items.push({ type: 'detail', entry, index })
+      }
+    })
+    
+    return items
+  }, [selectedIndex, selectedEntry])
   
   return (
     <div className="space-y-8">
@@ -215,7 +264,7 @@ export function InteractiveTimeline() {
             return (
               <motion.button
                 key={entry.id}
-                onClick={() => setSelectedEntry(entry)}
+                onClick={() => setSelectedEntry(selectedEntry?.id === entry.id ? null : entry)}
                 onMouseEnter={() => setHoveredEntry(entry.id)}
                 onMouseLeave={() => setHoveredEntry(null)}
                 className={`absolute top-2 h-12 rounded-lg cursor-pointer transition-all duration-200 ${
@@ -266,9 +315,151 @@ export function InteractiveTimeline() {
         </div>
       </div>
       
-      {/* Clickable Cards Grid */}
+      {/* Clickable Cards Grid with Inline Detail Panels */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {timelineData.map((entry, index) => {
+        {renderItems.map((item, renderIndex) => {
+          if (item.type === 'detail') {
+            // Render the detail panel spanning full width
+            return (
+              <motion.div
+                key={`detail-${item.entry.id}`}
+                ref={detailRef}
+                initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                animate={{ opacity: 1, height: "auto", marginTop: 0 }}
+                exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="col-span-full"
+              >
+                <Card className="relative p-0 overflow-hidden border-2 border-primary/30 bg-gradient-to-br from-card via-card to-muted/30 shadow-xl shadow-primary/5">
+                  {/* Decorative gradient backgrounds */}
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-primary/10 to-transparent rounded-full blur-3xl pointer-events-none" />
+                  <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-accent/10 to-transparent rounded-full blur-3xl pointer-events-none" />
+                  
+                  {/* Arrow indicator pointing to the card above */}
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                    <div className="w-6 h-6 rotate-45 bg-card border-l-2 border-t-2 border-primary/30" />
+                  </div>
+                  
+                  <div className="relative z-10 p-6 md:p-8">
+                    {/* Header */}
+                    <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6">
+                      <div className="flex items-start gap-4">
+                        {/* Icon with glow effect */}
+                        <div className="relative group/icon">
+                          <div className={`absolute inset-0 bg-gradient-to-br ${typeColors[item.entry.type]} rounded-2xl blur-lg opacity-50 group-hover/icon:opacity-80 transition-opacity`} />
+                          <div className={`relative p-4 rounded-2xl bg-gradient-to-br ${typeColors[item.entry.type]} text-white shadow-lg`}>
+                            <item.entry.icon className="h-8 w-8" />
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <div className="flex items-center gap-2 mb-1">
+                            <Badge variant="outline" className={`text-xs ${typeBadgeStyles[item.entry.type]}`}>
+                              {typeLabels[item.entry.type]}
+                            </Badge>
+                          </div>
+                          <h3 className="text-2xl font-bold text-foreground">{item.entry.role}</h3>
+                          <p className="text-xl text-primary font-semibold">{item.entry.company}</p>
+                          <div className="flex flex-wrap items-center gap-4 mt-2 text-sm text-muted-foreground">
+                            <span className="flex items-center gap-1.5">
+                              <Calendar className="h-4 w-4 text-primary/70" />
+                              {item.entry.period}
+                            </span>
+                            <span className="flex items-center gap-1.5">
+                              <MapPin className="h-4 w-4 text-primary/70" />
+                              {item.entry.location}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <button 
+                        onClick={() => setSelectedEntry(null)}
+                        className="min-h-[44px] min-w-[44px] p-2.5 bg-muted/50 hover:bg-destructive/10 hover:text-destructive rounded-xl transition-all duration-200 flex items-center justify-center group/close self-start"
+                        aria-label="Close details panel"
+                      >
+                        <X className="h-5 w-5 transition-transform duration-200 group-hover/close:rotate-90" aria-hidden="true" />
+                      </button>
+                    </div>
+                    
+                    {/* Summary */}
+                    <p className="text-foreground/90 text-lg leading-relaxed mb-6">{item.entry.summary}</p>
+                    
+                    {/* Impact badge - prominent */}
+                    {item.entry.impact && (
+                      <motion.div 
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.1 }}
+                        className="mb-6 p-4 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent rounded-xl border border-primary/20 flex items-start gap-3"
+                      >
+                        <div className="p-2 bg-primary/20 rounded-lg">
+                          <Target className="h-5 w-5 text-primary" />
+                        </div>
+                        <div>
+                          <span className="text-xs font-semibold text-primary uppercase tracking-wider">Impact</span>
+                          <p className="text-foreground font-medium mt-0.5">{item.entry.impact}</p>
+                        </div>
+                      </motion.div>
+                    )}
+                    
+                    {/* Two column layout for achievements and technologies */}
+                    <div className="grid md:grid-cols-2 gap-6">
+                      {/* Highlights */}
+                      <div className="space-y-3">
+                        <h4 className="font-bold text-sm uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+                          <Sparkles className="h-4 w-4 text-primary" />
+                          Key Achievements
+                        </h4>
+                        <ul className="space-y-2">
+                          {item.entry.highlights.map((highlight, i) => (
+                            <motion.li 
+                              key={i}
+                              initial={{ opacity: 0, x: -10 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: 0.15 + i * 0.05 }}
+                              className="flex items-start gap-3 p-2 -mx-2 rounded-lg hover:bg-muted/50 transition-colors group/item"
+                            >
+                              <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform" />
+                              <span className="text-foreground/80 group-hover/item:text-foreground transition-colors">{highlight}</span>
+                            </motion.li>
+                          ))}
+                        </ul>
+                      </div>
+                      
+                      {/* Technologies */}
+                      <div className="space-y-3">
+                        <h4 className="font-bold text-sm uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+                          <Code className="h-4 w-4 text-primary" />
+                          Technologies
+                        </h4>
+                        <div className="flex flex-wrap gap-2">
+                          {item.entry.technologies.map((tech, i) => (
+                            <motion.div
+                              key={tech}
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{ delay: 0.2 + i * 0.03 }}
+                            >
+                              <Badge 
+                                variant="secondary" 
+                                className="px-3 py-1.5 text-sm bg-muted/60 hover:bg-primary/10 hover:text-primary border border-transparent hover:border-primary/30 transition-all duration-200 cursor-default"
+                              >
+                                {tech}
+                              </Badge>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              </motion.div>
+            )
+          }
+          
+          // Render normal card
+          const entry = item.entry
           const Icon = entry.icon
           const isSelected = selectedEntry?.id === entry.id
           
@@ -277,19 +468,22 @@ export function InteractiveTimeline() {
               key={entry.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05 }}
+              transition={{ delay: item.index * 0.05 }}
             >
               <Card 
-                className={`p-4 cursor-pointer transition-all duration-200 hover:shadow-lg group ${
+                className={`relative p-4 cursor-pointer transition-all duration-300 hover:shadow-xl group overflow-hidden ${
                   isSelected 
-                    ? "ring-2 ring-primary shadow-lg" 
-                    : "hover:border-primary/50"
+                    ? "ring-2 ring-primary shadow-xl shadow-primary/10 bg-primary/5" 
+                    : "hover:border-primary/50 hover:-translate-y-1"
                 }`}
                 onClick={() => setSelectedEntry(isSelected ? null : entry)}
               >
-                <div className="flex items-start gap-3">
+                {/* Hover gradient effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                
+                <div className="relative z-10 flex items-start gap-3">
                   {/* Icon */}
-                  <div className={`p-2 rounded-lg bg-gradient-to-br ${typeColors[entry.type]} text-white shrink-0`}>
+                  <div className={`p-2.5 rounded-xl bg-gradient-to-br ${typeColors[entry.type]} text-white shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3 shadow-lg`}>
                     <Icon className="h-5 w-5" />
                   </div>
                   
@@ -307,14 +501,18 @@ export function InteractiveTimeline() {
                       </Badge>
                     </div>
                     
-                    <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+                    <p className="text-xs text-muted-foreground mt-1.5 line-clamp-2">
                       {entry.summary}
                     </p>
                     
                     {/* Expand indicator */}
-                    <div className="flex items-center gap-1 mt-2 text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                      <span>View details</span>
-                      <ArrowRight className="h-3 w-3" />
+                    <div className={`flex items-center gap-1.5 mt-3 text-xs font-medium transition-all duration-300 ${
+                      isSelected 
+                        ? "text-primary" 
+                        : "text-muted-foreground group-hover:text-primary"
+                    }`}>
+                      <span>{isSelected ? "Hide details" : "View details"}</span>
+                      <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-300 ${isSelected ? "rotate-180" : "group-hover:translate-y-0.5"}`} />
                     </div>
                   </div>
                 </div>
@@ -323,96 +521,6 @@ export function InteractiveTimeline() {
           )
         })}
       </div>
-      
-      {/* Expanded Detail Panel */}
-      <AnimatePresence>
-        {selectedEntry && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="overflow-hidden"
-          >
-            <Card className="p-6 border-2 border-primary/20 bg-gradient-to-br from-background to-muted/20">
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-4">
-                  <div className={`p-3 rounded-xl bg-gradient-to-br ${typeColors[selectedEntry.type]} text-white`}>
-                    <selectedEntry.icon className="h-7 w-7" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold">{selectedEntry.role}</h3>
-                    <p className="text-primary font-medium text-lg">{selectedEntry.company}</p>
-                    <div className="flex items-center gap-4 mt-1 text-sm text-muted-foreground">
-                      <span className="flex items-center gap-1">
-                        <Calendar className="h-3.5 w-3.5" />
-                        {selectedEntry.period}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <MapPin className="h-3.5 w-3.5" />
-                        {selectedEntry.location}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <button 
-                  onClick={() => setSelectedEntry(null)}
-                  className="min-h-[44px] min-w-[44px] p-2 hover:bg-muted rounded-lg transition-colors flex items-center justify-center"
-                  aria-label="Close details panel"
-                >
-                  <X className="h-5 w-5" aria-hidden="true" />
-                </button>
-              </div>
-              
-              <p className="text-foreground mb-4">{selectedEntry.summary}</p>
-              
-              {/* Impact badge */}
-              {selectedEntry.impact && (
-                <div className="mb-4 p-3 bg-primary/5 rounded-lg border border-primary/20">
-                  <span className="text-sm font-medium text-primary">
-                    🎯 Impact: {selectedEntry.impact}
-                  </span>
-                </div>
-              )}
-              
-              {/* Highlights */}
-              <div className="mb-4">
-                <h4 className="font-semibold mb-2 text-sm uppercase tracking-wider text-muted-foreground">
-                  Key Achievements
-                </h4>
-                <ul className="space-y-2">
-                  {selectedEntry.highlights.map((highlight, i) => (
-                    <motion.li 
-                      key={i}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.1 }}
-                      className="flex items-start gap-2 text-sm"
-                    >
-                      <span className="text-primary mt-1">●</span>
-                      <span>{highlight}</span>
-                    </motion.li>
-                  ))}
-                </ul>
-              </div>
-              
-              {/* Technologies */}
-              <div>
-                <h4 className="font-semibold mb-2 text-sm uppercase tracking-wider text-muted-foreground">
-                  Technologies
-                </h4>
-                <div className="flex flex-wrap gap-2">
-                  {selectedEntry.technologies.map((tech) => (
-                    <Badge key={tech} variant="secondary" className="text-xs">
-                      {tech}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            </Card>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   )
 }

@@ -155,19 +155,19 @@ const timelineData: TimelineEntry[] = [
 ]
 
 const typeColors = {
-  current: "from-green-500 to-emerald-600",
-  founder: "from-violet-500 to-purple-600",
-  corporate: "from-blue-500 to-indigo-600",
-  research: "from-amber-500 to-orange-600",
-  education: "from-cyan-500 to-teal-600"
+  current: "from-primary/70 to-primary/50",
+  founder: "from-muted-foreground/60 to-muted-foreground/40",
+  corporate: "from-primary/50 to-primary/30",
+  research: "from-muted-foreground/50 to-muted-foreground/30",
+  education: "from-primary/40 to-primary/20"
 }
 
 const typeBadgeStyles = {
-  current: "bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/30",
-  founder: "bg-violet-500/10 text-violet-600 dark:text-violet-400 border-violet-500/30",
-  corporate: "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/30",
-  research: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/30",
-  education: "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/30"
+  current: "bg-primary/10 text-primary border-primary/30",
+  founder: "bg-muted text-muted-foreground border-border",
+  corporate: "bg-primary/10 text-primary border-primary/30",
+  research: "bg-muted text-muted-foreground border-border",
+  education: "bg-primary/10 text-primary border-primary/30"
 }
 
 const typeLabels = {

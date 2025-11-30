@@ -71,22 +71,23 @@ function criticalChunksPreload(): Plugin {
         );
       }
       
+      // Commenting out because this increases Index Speed
       // Remove Vite's auto-generated modulepreload links for chunks we already preloaded
       // This avoids duplicate modulepreload hints in the final HTML
-      if (vendorReactPath) {
-        // Remove Vite's modulepreload for vendor-react (we added it early with fetchpriority)
-        html = html.replace(
-          new RegExp(`\\s*<link rel="modulepreload" crossorigin href="/${vendorReactPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}">`),
-          ''
-        );
-      }
-      if (mainJsPath) {
-        // Remove Vite's modulepreload for main entry (we added it early with fetchpriority)
-        html = html.replace(
-          new RegExp(`\\s*<link rel="modulepreload" crossorigin href="/${mainJsPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}">`),
-          ''
-        );
-      }
+      // if (vendorReactPath) {
+      //   // Remove Vite's modulepreload for vendor-react (we added it early with fetchpriority)
+      //   html = html.replace(
+      //     new RegExp(`\\s*<link rel="modulepreload" crossorigin href="/${vendorReactPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}">`),
+      //     ''
+      //   );
+      // }
+      // if (mainJsPath) {
+      //   // Remove Vite's modulepreload for main entry (we added it early with fetchpriority)
+      //   html = html.replace(
+      //     new RegExp(`\\s*<link rel="modulepreload" crossorigin href="/${mainJsPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}">`),
+      //     ''
+      //   );
+      // }
       
       // Make CSS non-render-blocking by using media="print" with onload swap
       // This allows the page to render with critical inline CSS first

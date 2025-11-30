@@ -293,7 +293,7 @@ function App() {
         /* Onboarding Choice Modal - lazy loaded, nothing else renders until choice is made */
         <Suspense fallback={
           <div className="fixed inset-0 z-[100] bg-background flex items-center justify-center">
-            <div className="animate-pulse text-muted-foreground">Loading...</div>
+            <div className="animate-pulse text-muted-foreground">Starting up the portfolio of Kiarash Adl...</div>
           </div>
         }>
           <OnboardingChoice onChoice={handleOnboardingChoice} />

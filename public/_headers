@@ -1,0 +1,16 @@
+# Cloudflare Pages Headers Configuration
+
+# Allow .well-known directory to be served
+/.well-known/*
+  Access-Control-Allow-Origin: *
+  Content-Type: application/json
+  Cache-Control: public, max-age=3600
+
+# MCP discovery file specifically
+/.well-known/mcp.llmfeed.json
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, OPTIONS
+  Access-Control-Allow-Headers: Content-Type
+  Content-Type: application/json
+  Cache-Control: public, max-age=3600
+  X-Content-Type-Options: nosniff

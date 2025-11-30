@@ -56,9 +56,11 @@ export function TypewriterTagline() {
   }, [displayText, isDeleting, currentIndex, hasStarted])
   
   return (
-    <p className="text-xl md:text-2xl font-semibold text-primary mb-6 h-8 md:h-10">
-      <span>{displayText}</span>
-      <span className="animate-pulse ml-0.5 text-primary/70">|</span>
+    <p className="text-xl md:text-2xl font-semibold mb-6 h-8 md:h-10">
+      <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] animate-gradient-x">
+        {displayText}
+      </span>
+      <span className="inline-block w-0.5 h-6 md:h-7 ml-1 bg-gradient-to-b from-primary to-accent animate-pulse align-middle rounded-full" />
     </p>
   )
 }

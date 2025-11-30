@@ -392,20 +392,26 @@ function App() {
         />
       </div>
 
-      {/* Navigation - CSS-based transforms for critical path performance */}
+      {/* Navigation - Beautiful glassmorphism with gradient border */}
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border shadow-sm transition-all duration-300 ease-out ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-out ${
           isNavVisible 
             ? 'translate-y-0 opacity-100' 
             : '-translate-y-full opacity-0'
         } ${prefersReducedMotion ? '!transition-none' : ''}`}
         aria-label="Main navigation"
       >
-        <div className="max-w-5xl mx-auto px-6 py-4">
+        {/* Gradient border bottom */}
+        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+        
+        {/* Glassmorphism background */}
+        <div className="absolute inset-0 bg-background/70 backdrop-blur-xl" />
+        
+        <div className="max-w-5xl mx-auto px-6 py-4 relative z-10">
           <div className="flex items-center justify-between gap-4">
             <button
               onClick={() => scrollToSection("home")}
-              className="text-lg font-bold text-foreground hover:text-primary transition-colors flex-shrink-0"
+              className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground hover:from-primary hover:to-accent transition-all duration-300 flex-shrink-0"
               aria-label="Go to home section"
             >
               Kiarash Adl
@@ -416,17 +422,17 @@ function App() {
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`min-h-[44px] min-w-[44px] px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 whitespace-nowrap flex-shrink-0 ${
+                  className={`min-h-[44px] min-w-[44px] px-4 py-2 text-sm font-medium rounded-xl transition-all duration-300 whitespace-nowrap flex-shrink-0 ${
                     activeSection === item.id
-                      ? "bg-primary text-primary-foreground shadow-sm"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                      ? "bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-md shadow-primary/20"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted/80"
                   }`}
                   aria-current={activeSection === item.id ? "page" : undefined}
                 >
                   {item.label}
                 </button>
               ))}
-              <div className="ml-2 border-l border-border pl-2">
+              <div className="ml-2 border-l border-border/50 pl-2">
                 <ThemeToggle />
               </div>
             </div>
@@ -435,16 +441,29 @@ function App() {
       </nav>
 
       <main id="main-content" role="main" aria-label="Portfolio content" tabIndex={-1}>
-      {/* Hero Section - LCP-optimized: profile image renders immediately without animation */}
+      {/* Hero Section - Beautiful glassmorphism with floating elements */}
       <header 
         id="home"
-        className="py-16 px-6 md:py-24"
+        className="relative py-16 px-6 md:py-24 overflow-hidden hero-pattern"
       >
-        <div className="max-w-5xl mx-auto">
+        {/* Decorative floating elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+          <div className="absolute top-20 left-[10%] w-72 h-72 bg-primary/5 rounded-full blur-3xl animate-float" />
+          <div className="absolute top-40 right-[15%] w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-float-delayed" />
+          <div className="absolute bottom-20 left-[20%] w-64 h-64 bg-primary/3 rounded-full blur-3xl animate-float-slow" />
+        </div>
+        
+        <div className="max-w-5xl mx-auto relative z-10">
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-            {/* LCP element - NO animation delay to ensure immediate visibility for LCP detection */}
-            <div className="flex-shrink-0">
-              <div className="w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden ring-2 ring-primary/10 shadow-2xl">
+            {/* LCP element - Enhanced with glow effect */}
+            <div className="flex-shrink-0 relative group">
+              {/* Outer glow ring */}
+              <div className="absolute -inset-2 bg-gradient-to-br from-primary/20 via-accent/10 to-primary/20 rounded-full blur-xl opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
+              
+              {/* Rotating gradient border */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-primary via-accent to-primary rounded-full opacity-30 group-hover:opacity-60 transition-opacity" style={{ background: 'conic-gradient(from 0deg, var(--primary), var(--accent), var(--primary))' }} />
+              
+              <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden ring-2 ring-background shadow-2xl">
                 <picture>
                   {/* WebP sources for modern browsers */}
                   <source
@@ -468,67 +487,70 @@ function App() {
             </div>
             
             <div className="flex-1 text-center md:text-left">
-              {/* Live Status & Weather */}
-              <div className="flex items-center justify-center md:justify-start gap-4 mb-3">
-                <a href="#contact" className="flex items-center gap-2 hover:opacity-80 transition-opacity cursor-pointer">
-                  <span className="relative flex h-2.5 w-2.5">
+              {/* Live Status with enhanced styling */}
+              <div className="flex items-center justify-center md:justify-start gap-4 mb-4">
+                <a href="#contact" className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20 hover:bg-green-500/20 transition-all duration-300 cursor-pointer group">
+                  <span className="relative flex h-2 w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
                   </span>
-                  <span className="text-sm font-medium text-green-600 dark:text-green-400 hover:underline">
+                  <span className="text-sm font-medium text-green-600 dark:text-green-400 group-hover:underline">
                     Available for work
                   </span>
                 </a>
               </div>
               
-              {/* Name & Title */}
+              {/* Name with gradient effect */}
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-2">
-                Kiarash Adl
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-foreground via-foreground to-foreground hover:from-primary hover:via-foreground hover:to-accent transition-all duration-700">
+                  Kiarash Adl
+                </span>
               </h1>
               <TypewriterTagline />
               
-              {/* Quick Stats */}
+              {/* Quick Stats with glassmorphism */}
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-6">
-                <Badge variant="secondary" className="px-3 py-1.5 text-sm font-medium">
-                  MIT EECS '14
+                <Badge variant="secondary" className="px-3 py-1.5 text-sm font-medium glass">
+                  <span className="mr-1.5">🎓</span> MIT EECS '14
                 </Badge>
-                <Badge variant="secondary" className="px-3 py-1.5 text-sm font-medium">
-                  10+ Years Experience
+                <Badge variant="secondary" className="px-3 py-1.5 text-sm font-medium glass">
+                  <span className="mr-1.5">⚡</span> 10+ Years Experience
                 </Badge>
-                <Badge variant="outline" className="px-3 py-1.5 text-sm font-medium border-primary/30 text-primary">
-                  Human + AI Projects
+                <Badge variant="outline" className="px-3 py-1.5 text-sm font-medium border-primary/30 text-primary bg-primary/5">
+                  <span className="mr-1.5">🤖</span> Human + AI Projects
                 </Badge>
               </div>
               
-              {/* What I Do - Concise */}
-              <p className="text-lg text-foreground mb-6 max-w-xl">
-                Building end-to-end AI platforms, agentic systems, and scalable cloud architectures.
+              {/* What I Do - Enhanced styling */}
+              <p className="text-lg md:text-xl text-foreground/90 mb-6 max-w-xl leading-relaxed">
+                Building <span className="font-semibold text-primary">end-to-end AI platforms</span>, agentic systems, and scalable cloud architectures.
               </p>
               
-              {/* Contact & Socials - Unified Row */}
+              {/* Contact & Socials - Enhanced with glow effects */}
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
                 <a 
                   href="mailto:kiarasha@alum.mit.edu" 
-                  className="flex items-center gap-2 px-4 py-2 bg-muted hover:bg-muted/80 rounded-lg transition-all text-sm font-medium"
+                  className="flex items-center gap-2 px-4 py-2.5 bg-muted/80 hover:bg-muted rounded-xl transition-all duration-300 text-sm font-medium group hover:shadow-lg hover:-translate-y-0.5"
                 >
-                  <Mail className="h-[18px] w-[18px] text-primary" />
+                  <Mail className="h-[18px] w-[18px] text-primary group-hover:scale-110 transition-transform" />
                   <span>kiarasha@alum.mit.edu</span>
                 </a>
                 <a 
                   href="tel:+18579281608" 
-                  className="flex items-center gap-2 px-4 py-2 bg-muted hover:bg-muted/80 rounded-lg transition-all text-sm font-medium"
+                  className="flex items-center gap-2 px-4 py-2.5 bg-muted/80 hover:bg-muted rounded-xl transition-all duration-300 text-sm font-medium group hover:shadow-lg hover:-translate-y-0.5"
                 >
-                  <Phone className="h-[18px] w-[18px] text-primary" />
+                  <Phone className="h-[18px] w-[18px] text-primary group-hover:scale-110 transition-transform" />
                   <span>857-928-1608</span>
                 </a>
                 <a 
                   href="https://www.linkedin.com/in/kiarashadl/" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all shadow-sm hover:shadow-md text-sm font-medium"
+                  className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-primary to-primary/90 text-primary-foreground rounded-xl hover:from-primary/90 hover:to-primary transition-all duration-300 shadow-md hover:shadow-xl hover:shadow-primary/20 hover:-translate-y-0.5 text-sm font-medium group"
                 >
-                  <Linkedin className="h-[18px] w-[18px]" />
+                  <Linkedin className="h-[18px] w-[18px] group-hover:scale-110 transition-transform" />
                   <span>LinkedIn</span>
+                  <ArrowUpRight className="h-3.5 w-3.5 opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
                 </a>
               </div>
             </div>
@@ -558,10 +580,12 @@ function App() {
         </div>
       </header>
 
-      <SectionDivider variant="ornate" />
+      <SectionDivider variant="sparkle" />
 
-      <section className="py-12 px-6 md:py-16">
-        <div className="max-w-3xl mx-auto">
+      <section className="py-12 px-6 md:py-16 relative">
+        {/* Background accent */}
+        <div className="absolute inset-0 bg-gradient-to-b from-muted/30 via-transparent to-muted/30 pointer-events-none" />
+        <div className="max-w-3xl mx-auto relative z-10">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -570,129 +594,21 @@ function App() {
             className="text-center"
           >
             <p className="text-xl md:text-2xl lg:text-3xl font-light text-foreground/80 italic leading-relaxed">
+              <span className="text-primary">"</span>
               Simple ideas are hard-earned, but that's where true power lives.
+              <span className="text-primary">"</span>
             </p>
           </motion.div>
         </div>
       </section>
 
-      <SectionDivider variant="gradient" />
+      <SectionDivider variant="constellation" />
 
-      <section id="projects" className="py-16 px-6 md:py-20 scroll-mt-20" tabIndex={-1}>
-        <div className="max-w-5xl mx-auto">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
-          >
-            <motion.h2 variants={fadeIn} className="text-3xl md:text-4xl font-bold mb-10">
-              Featured Projects
-            </motion.h2>
-            
-            <div className="space-y-6">
-              <motion.div variants={fadeIn}>
-                <Card className="p-6 md:p-8 hover:shadow-lg transition-all duration-300 hover:border-primary/40 group">
-                  <div className="flex flex-col md:flex-row md:items-start gap-6">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-3">
-                        <h3 className="text-xl md:text-2xl font-bold group-hover:text-primary transition-colors">
-                          Financial Intelligence Meta-Layer (FIML)
-                        </h3>
-                        <Badge variant="outline" className="border-green-500/50 text-green-600 text-xs">Open Source</Badge>
-                      </div>
-                      <p className="text-foreground mb-4">
-                        AI-native MCP server for financial data aggregation with intelligent multi-provider orchestration and multilingual compliance guardrails.
-                      </p>
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
-                        <div className="text-center p-2 bg-muted/50 rounded-lg">
-                          <div className="text-lg font-bold text-primary">32K+</div>
-                          <div className="text-xs text-muted-foreground">Lines of Code</div>
-                        </div>
-                        <div className="text-center p-2 bg-muted/50 rounded-lg">
-                          <div className="text-lg font-bold text-primary">1,403</div>
-                          <div className="text-xs text-muted-foreground">Automated Tests</div>
-                        </div>
-                        <div className="text-center p-2 bg-muted/50 rounded-lg">
-                          <div className="text-lg font-bold text-primary">100%</div>
-                          <div className="text-xs text-muted-foreground">Pass Rate</div>
-                        </div>
-                        <div className="text-center p-2 bg-muted/50 rounded-lg">
-                          <div className="text-lg font-bold text-primary">Phase 2</div>
-                          <div className="text-xs text-muted-foreground">In Progress</div>
-                        </div>
-                      </div>
-                      <div className="flex flex-wrap gap-1.5">
-                        <Badge variant="secondary" className="text-xs">Python</Badge>
-                        <Badge variant="secondary" className="text-xs">MCP Server</Badge>
-                        <Badge variant="secondary" className="text-xs">AI Orchestration</Badge>
-                        <Badge variant="secondary" className="text-xs">Expo</Badge>
-                        <Badge variant="secondary" className="text-xs">CI/CD</Badge>
-                      </div>
-                    </div>
-                    <div className="flex flex-row gap-2">
-                      <a href="https://kiarashplusplus.github.io/FIML/" target="_blank" rel="noopener noreferrer" className="flex-shrink-0 min-h-[44px] min-w-[44px] p-3 rounded-lg bg-muted hover:bg-muted/80 transition-colors flex items-center justify-center" aria-label="View FIML project website">
-                        <Link className="h-6 w-6 text-foreground" />
-                      </a>
-                      <a href="https://github.com/kiarashplusplus/FIML" target="_blank" rel="noopener noreferrer" className="flex-shrink-0 min-h-[44px] min-w-[44px] p-3 rounded-lg bg-muted hover:bg-muted/80 transition-colors flex items-center justify-center" aria-label="View FIML project on GitHub">
-                        <Github className="h-6 w-6 text-foreground" />
-                      </a>
-                    </div>
-                  </div>
-                </Card>
-              </motion.div>
-
-              <motion.div variants={fadeIn}>
-                <Card className="p-6 md:p-8 hover:shadow-lg transition-all duration-300 hover:border-primary/40 group">
-                  <div className="flex flex-col md:flex-row md:items-start gap-6">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-3">
-                        <h3 className="text-xl md:text-2xl font-bold group-hover:text-primary transition-colors">
-                          HireAligna.ai
-                        </h3>
-                        <Badge variant="outline" className="border-blue-500/50 text-blue-600 text-xs">SaaS Platform</Badge>
-                      </div>
-                      <p className="text-foreground mb-4">
-                        Conversational AI recruiter that schedules and conducts voice interviews via LiveKit, transcribes with Azure OpenAI, and performs automated candidate-job matching.
-                      </p>
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
-                        <div className="text-center p-2 bg-muted/50 rounded-lg">
-                          <div className="text-lg font-bold text-primary">AI</div>
-                          <div className="text-xs text-muted-foreground">Voice Interviews</div>
-                        </div>
-                        <div className="text-center p-2 bg-muted/50 rounded-lg">
-                          <div className="text-lg font-bold text-primary">17+</div>
-                          <div className="text-xs text-muted-foreground">Docker Services</div>
-                        </div>
-                        <div className="text-center p-2 bg-muted/50 rounded-lg">
-                          <div className="text-lg font-bold text-primary">2-Way</div>
-                          <div className="text-xs text-muted-foreground">Smart Matching</div>
-                        </div>
-                        <div className="text-center p-2 bg-muted/50 rounded-lg">
-                          <div className="text-lg font-bold text-primary">Full</div>
-                          <div className="text-xs text-muted-foreground">Observability</div>
-                        </div>
-                      </div>
-                      <div className="flex flex-wrap gap-1.5">
-                        <Badge variant="secondary" className="text-xs">Next.js</Badge>
-                        <Badge variant="secondary" className="text-xs">LiveKit</Badge>
-                        <Badge variant="secondary" className="text-xs">Azure OpenAI</Badge>
-                        <Badge variant="secondary" className="text-xs">PostgreSQL</Badge>
-                        <Badge variant="secondary" className="text-xs">Docker</Badge>
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-              </motion.div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      <SectionDivider variant="dots" />
-
-      <section id="skills" className="py-16 px-6 md:py-20 scroll-mt-20" tabIndex={-1}>
-        <div className="max-w-5xl mx-auto">
+      <section id="projects" className="py-16 px-6 md:py-20 scroll-mt-20 relative" tabIndex={-1}>
+        {/* Background mesh pattern */}
+        <div className="absolute inset-0 bg-mesh opacity-50 pointer-events-none" />
+        
+        <div className="max-w-5xl mx-auto relative z-10">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -700,6 +616,148 @@ function App() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeIn} className="mb-10">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="h-1 w-12 bg-gradient-to-r from-primary to-accent rounded-full" />
+                <span className="text-sm font-medium text-primary uppercase tracking-wider">Portfolio</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold">
+                Featured Projects
+              </h2>
+            </motion.div>
+            
+            <div className="space-y-6">
+              <motion.div variants={fadeIn}>
+                <div className="group relative">
+                  {/* Gradient glow on hover */}
+                  <div className="absolute -inset-0.5 bg-gradient-to-r from-primary via-accent to-primary rounded-2xl opacity-0 group-hover:opacity-30 blur-lg transition-all duration-500" />
+                  
+                  <Card className="relative p-6 md:p-8 hover:shadow-xl transition-all duration-500 hover:border-primary/40 bg-card/80 backdrop-blur-sm overflow-hidden">
+                    {/* Decorative corner accent */}
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-primary/10 to-transparent rounded-bl-full" />
+                    
+                    <div className="flex flex-col md:flex-row md:items-start gap-6 relative z-10">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-3">
+                          <h3 className="text-xl md:text-2xl font-bold group-hover:text-primary transition-colors">
+                            Financial Intelligence Meta-Layer (FIML)
+                          </h3>
+                          <Badge variant="outline" className="border-green-500/50 text-green-600 bg-green-500/10 text-xs">Open Source</Badge>
+                        </div>
+                        <p className="text-foreground/80 mb-4 leading-relaxed">
+                          AI-native MCP server for financial data aggregation with intelligent multi-provider orchestration and multilingual compliance guardrails.
+                        </p>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                          <div className="text-center p-3 bg-gradient-to-br from-muted/80 to-muted/40 rounded-xl border border-border/50 group-hover:border-primary/30 transition-colors">
+                            <div className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">32K+</div>
+                            <div className="text-xs text-muted-foreground">Lines of Code</div>
+                          </div>
+                          <div className="text-center p-3 bg-gradient-to-br from-muted/80 to-muted/40 rounded-xl border border-border/50 group-hover:border-primary/30 transition-colors">
+                            <div className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">1,403</div>
+                            <div className="text-xs text-muted-foreground">Automated Tests</div>
+                          </div>
+                          <div className="text-center p-3 bg-gradient-to-br from-muted/80 to-muted/40 rounded-xl border border-border/50 group-hover:border-primary/30 transition-colors">
+                            <div className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">100%</div>
+                            <div className="text-xs text-muted-foreground">Pass Rate</div>
+                          </div>
+                          <div className="text-center p-3 bg-gradient-to-br from-muted/80 to-muted/40 rounded-xl border border-border/50 group-hover:border-primary/30 transition-colors">
+                            <div className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Phase 2</div>
+                            <div className="text-xs text-muted-foreground">In Progress</div>
+                          </div>
+                        </div>
+                        <div className="flex flex-wrap gap-1.5">
+                          <Badge variant="secondary" className="text-xs bg-secondary/50">Python</Badge>
+                          <Badge variant="secondary" className="text-xs bg-secondary/50">MCP Server</Badge>
+                          <Badge variant="secondary" className="text-xs bg-secondary/50">AI Orchestration</Badge>
+                          <Badge variant="secondary" className="text-xs bg-secondary/50">Expo</Badge>
+                          <Badge variant="secondary" className="text-xs bg-secondary/50">CI/CD</Badge>
+                        </div>
+                      </div>
+                      <div className="flex flex-row gap-2">
+                        <a href="https://kiarashplusplus.github.io/FIML/" target="_blank" rel="noopener noreferrer" className="flex-shrink-0 min-h-[44px] min-w-[44px] p-3 rounded-xl bg-muted/80 hover:bg-primary hover:text-primary-foreground transition-all duration-300 flex items-center justify-center group/btn hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-0.5" aria-label="View FIML project website">
+                          <Link className="h-5 w-5 group-hover/btn:scale-110 transition-transform" />
+                        </a>
+                        <a href="https://github.com/kiarashplusplus/FIML" target="_blank" rel="noopener noreferrer" className="flex-shrink-0 min-h-[44px] min-w-[44px] p-3 rounded-xl bg-muted/80 hover:bg-foreground hover:text-background transition-all duration-300 flex items-center justify-center group/btn hover:shadow-lg hover:-translate-y-0.5" aria-label="View FIML project on GitHub">
+                          <Github className="h-5 w-5 group-hover/btn:scale-110 transition-transform" />
+                        </a>
+                      </div>
+                    </div>
+                  </Card>
+                </div>
+              </motion.div>
+
+              <motion.div variants={fadeIn}>
+                <div className="group relative">
+                  {/* Gradient glow on hover */}
+                  <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-500 rounded-2xl opacity-0 group-hover:opacity-30 blur-lg transition-all duration-500" />
+                  
+                  <Card className="relative p-6 md:p-8 hover:shadow-xl transition-all duration-500 hover:border-blue-500/40 bg-card/80 backdrop-blur-sm overflow-hidden">
+                    {/* Decorative corner accent */}
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-blue-500/10 to-transparent rounded-bl-full" />
+                    
+                    <div className="flex flex-col md:flex-row md:items-start gap-6 relative z-10">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-3">
+                          <h3 className="text-xl md:text-2xl font-bold group-hover:text-blue-500 transition-colors">
+                            HireAligna.ai
+                          </h3>
+                          <Badge variant="outline" className="border-blue-500/50 text-blue-600 bg-blue-500/10 text-xs">SaaS Platform</Badge>
+                        </div>
+                        <p className="text-foreground/80 mb-4 leading-relaxed">
+                          Conversational AI recruiter that schedules and conducts voice interviews via LiveKit, transcribes with Azure OpenAI, and performs automated candidate-job matching.
+                        </p>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                          <div className="text-center p-3 bg-gradient-to-br from-muted/80 to-muted/40 rounded-xl border border-border/50 group-hover:border-blue-500/30 transition-colors">
+                            <div className="text-xl font-bold text-blue-500">AI</div>
+                            <div className="text-xs text-muted-foreground">Voice Interviews</div>
+                          </div>
+                          <div className="text-center p-3 bg-gradient-to-br from-muted/80 to-muted/40 rounded-xl border border-border/50 group-hover:border-blue-500/30 transition-colors">
+                            <div className="text-xl font-bold text-blue-500">17+</div>
+                            <div className="text-xs text-muted-foreground">Docker Services</div>
+                          </div>
+                          <div className="text-center p-3 bg-gradient-to-br from-muted/80 to-muted/40 rounded-xl border border-border/50 group-hover:border-blue-500/30 transition-colors">
+                            <div className="text-xl font-bold text-blue-500">2-Way</div>
+                            <div className="text-xs text-muted-foreground">Smart Matching</div>
+                          </div>
+                          <div className="text-center p-3 bg-gradient-to-br from-muted/80 to-muted/40 rounded-xl border border-border/50 group-hover:border-blue-500/30 transition-colors">
+                            <div className="text-xl font-bold text-blue-500">Full</div>
+                            <div className="text-xs text-muted-foreground">Observability</div>
+                          </div>
+                        </div>
+                        <div className="flex flex-wrap gap-1.5">
+                          <Badge variant="secondary" className="text-xs bg-secondary/50">Next.js</Badge>
+                          <Badge variant="secondary" className="text-xs bg-secondary/50">LiveKit</Badge>
+                          <Badge variant="secondary" className="text-xs bg-secondary/50">Azure OpenAI</Badge>
+                          <Badge variant="secondary" className="text-xs bg-secondary/50">PostgreSQL</Badge>
+                          <Badge variant="secondary" className="text-xs bg-secondary/50">Docker</Badge>
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      <SectionDivider variant="sparkle" />
+
+      <section id="skills" className="py-16 px-6 md:py-20 scroll-mt-20 relative" tabIndex={-1}>
+        {/* Subtle background gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-muted/20 to-transparent pointer-events-none" />
+        
+        <div className="max-w-5xl mx-auto relative z-10">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+          >
+            <motion.div variants={fadeIn} className="mb-10">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="h-1 w-12 bg-gradient-to-r from-primary to-accent rounded-full" />
+                <span className="text-sm font-medium text-primary uppercase tracking-wider">Expertise</span>
+              </div>
               <h2 className="text-3xl md:text-4xl font-bold mb-3">Technical Expertise</h2>
               <p className="text-muted-foreground">
                 From AI/ML to full-stack development and engineering leadership
@@ -715,11 +773,14 @@ function App() {
         </div>
       </section>
 
-      <SectionDivider />
+      <SectionDivider variant="ornate" />
 
       {/* Enhanced Technical Showcase Section */}
-      <section id="showcase" className="py-16 px-6 md:py-20 scroll-mt-20">
-        <div className="max-w-5xl mx-auto">
+      <section id="showcase" className="py-16 px-6 md:py-20 scroll-mt-20 relative">
+        {/* Background mesh */}
+        <div className="absolute inset-0 bg-mesh opacity-30 pointer-events-none" />
+        
+        <div className="max-w-5xl mx-auto relative z-10">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -727,6 +788,10 @@ function App() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeIn} className="mb-10">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="h-1 w-12 bg-gradient-to-r from-primary to-accent rounded-full" />
+                <span className="text-sm font-medium text-primary uppercase tracking-wider">Developer</span>
+              </div>
               <h2 className="text-3xl md:text-4xl font-bold mb-3">Developer Showcase</h2>
               <p className="text-muted-foreground">
                 Interactive demonstrations of engineering capabilities and code quality
@@ -770,10 +835,13 @@ function App() {
         </div>
       </section>
 
-      <SectionDivider variant="wave" />
+      <SectionDivider variant="gradient" />
 
-      <section id="experience" className="py-16 px-6 md:py-20 scroll-mt-20">
-        <div className="max-w-5xl mx-auto">
+      <section id="experience" className="py-16 px-6 md:py-20 scroll-mt-20 relative">
+        {/* Subtle diagonal pattern */}
+        <div className="absolute inset-0 opacity-30 pointer-events-none" style={{ backgroundImage: 'linear-gradient(135deg, transparent 0%, transparent 49%, oklch(from var(--primary) l c h / 0.03) 49%, oklch(from var(--primary) l c h / 0.03) 51%, transparent 51%, transparent 100%)', backgroundSize: '20px 20px' }} />
+        
+        <div className="max-w-5xl mx-auto relative z-10">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -782,10 +850,14 @@ function App() {
           >
             <motion.div variants={fadeIn} className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-10">
               <div>
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="h-1 w-12 bg-gradient-to-r from-primary to-accent rounded-full" />
+                  <span className="text-sm font-medium text-primary uppercase tracking-wider">Career</span>
+                </div>
                 <h2 className="text-3xl md:text-4xl font-bold mb-2">Experience</h2>
                 <p className="text-muted-foreground">10+ years building AI systems at scale</p>
               </div>
-              <Button className="gap-2 shadow-md" asChild>
+              <Button className="gap-2 shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all duration-300" asChild>
                 <a href={resumePdf} download="Kiarash-Adl-Resume.pdf">
                   <Download className="h-[18px] w-[18px]" />
                   Resume (PDF)
@@ -919,10 +991,13 @@ function App() {
         </div>
       </section>
 
-      <SectionDivider variant="ornate" />
+      <SectionDivider variant="constellation" />
 
-      <section id="contact" className="py-16 px-6 md:py-20 scroll-mt-20" tabIndex={-1}>
-        <div className="max-w-5xl mx-auto">
+      <section id="contact" className="py-16 px-6 md:py-20 scroll-mt-20 relative" tabIndex={-1}>
+        {/* Beautiful gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 pointer-events-none" />
+        
+        <div className="max-w-5xl mx-auto relative z-10">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -930,6 +1005,10 @@ function App() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeIn} className="mb-10">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="h-1 w-12 bg-gradient-to-r from-primary to-accent rounded-full" />
+                <span className="text-sm font-medium text-primary uppercase tracking-wider">Contact</span>
+              </div>
               <h2 className="text-3xl md:text-4xl font-bold mb-2">Let's discuss AI innovation, collaboration, or your next project.</h2>
             </motion.div>
 
@@ -1078,21 +1157,41 @@ function App() {
       </section>
       </main>
 
-      <footer className="py-8 px-6 border-t border-border" role="contentinfo">
-        <div className="max-w-5xl mx-auto">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-            <div className="flex items-center gap-4">
-              <a href="https://www.linkedin.com/in/kiarashadl/" target="_blank" rel="noopener noreferrer" className="min-h-[44px] min-w-[44px] flex items-center justify-center hover:text-foreground transition-colors" aria-label="Visit Kiarash's LinkedIn profile">
-                <Linkedin className="h-5 w-5" />
-              </a>
-              <a href="https://github.com/kiarashplusplus/" target="_blank" rel="noopener noreferrer" className="min-h-[44px] min-w-[44px] flex items-center justify-center hover:text-foreground transition-colors" aria-label="Visit Kiarash's GitHub profile">
-                <Github className="h-5 w-5" />
-              </a>
-              <p>© 2025 Kiarash Adl</p>
+      <footer className="relative py-12 px-6 border-t border-border/50 overflow-hidden" role="contentinfo">
+        {/* Background gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-muted/50 to-transparent pointer-events-none" />
+        
+        <div className="max-w-5xl mx-auto relative z-10">
+          <div className="flex flex-col items-center gap-6">
+            {/* Logo/Name */}
+            <div className="text-center">
+              <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent mb-2">
+                Kiarash Adl
+              </h3>
+              <p className="text-sm text-muted-foreground">AI Systems Architect • MIT EECS '14</p>
             </div>
-            <div className="flex items-center gap-3">
-              <span>MIT EECS '14</span>
-              <span className="hidden sm:inline">
+            
+            {/* Social Links */}
+            <div className="flex items-center gap-4">
+              <a href="https://www.linkedin.com/in/kiarashadl/" target="_blank" rel="noopener noreferrer" className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl bg-muted/50 hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-0.5 group" aria-label="Visit Kiarash's LinkedIn profile">
+                <Linkedin className="h-5 w-5 group-hover:scale-110 transition-transform" />
+              </a>
+              <a href="https://github.com/kiarashplusplus/" target="_blank" rel="noopener noreferrer" className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl bg-muted/50 hover:bg-foreground hover:text-background transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 group" aria-label="Visit Kiarash's GitHub profile">
+                <Github className="h-5 w-5 group-hover:scale-110 transition-transform" />
+              </a>
+              <a href="mailto:kiarasha@alum.mit.edu" className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl bg-muted/50 hover:bg-accent hover:text-accent-foreground transition-all duration-300 hover:shadow-lg hover:shadow-accent/20 hover:-translate-y-0.5 group" aria-label="Email Kiarash">
+                <Mail className="h-5 w-5 group-hover:scale-110 transition-transform" />
+              </a>
+            </div>
+            
+            {/* Divider */}
+            <div className="w-24 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+            
+            {/* Bottom info */}
+            <div className="flex flex-col sm:flex-row items-center gap-3 text-sm text-muted-foreground">
+              <p>© 2025 Kiarash Adl</p>
+              <span className="hidden sm:inline">•</span>
+              <span className="flex items-center gap-1.5">
                 Press <kbd className="px-1.5 py-0.5 text-xs font-mono bg-muted rounded border border-border">?</kbd> for shortcuts
               </span>
             </div>
@@ -1103,10 +1202,10 @@ function App() {
       {showScrollTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 min-h-[44px] min-w-[44px] p-4 bg-primary text-primary-foreground rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-200 z-40 animate-in fade-in zoom-in"
+          className="fixed bottom-8 right-8 min-h-[48px] min-w-[48px] p-3 bg-gradient-to-br from-primary to-accent text-primary-foreground rounded-full shadow-lg hover:shadow-xl hover:shadow-primary/30 hover:scale-110 transition-all duration-300 z-40 animate-in fade-in zoom-in group"
           aria-label="Scroll to top"
         >
-          <ChevronUp className="h-6 w-6" />
+          <ChevronUp className="h-6 w-6 group-hover:-translate-y-0.5 transition-transform" />
         </button>
       )}
 

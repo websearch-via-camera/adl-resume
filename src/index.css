@@ -341,6 +341,231 @@ select:focus-visible {
   border-color: var(--primary);
 }
 
+/* Beautiful gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--primary), var(--accent), var(--primary));
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-shift 8s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Glassmorphism effect */
+.glass {
+  background: oklch(from var(--background) l c h / 0.7);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid oklch(from var(--border) l c h / 0.3);
+}
+
+.dark .glass {
+  background: oklch(from var(--background) l c h / 0.6);
+  border: 1px solid oklch(from var(--border) l c h / 0.2);
+}
+
+/* Floating animation for decorative elements */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+  66% {
+    transform: translateY(-5px) rotate(-1deg);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float 6s ease-in-out infinite;
+  animation-delay: -2s;
+}
+
+.animate-float-slow {
+  animation: float 8s ease-in-out infinite;
+  animation-delay: -4s;
+}
+
+/* Gradient border effect */
+.gradient-border {
+  position: relative;
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, var(--primary), var(--accent), var(--primary));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.gradient-border:hover::before {
+  opacity: 1;
+}
+
+/* Glowing accent */
+.glow {
+  box-shadow: 
+    0 0 20px -5px oklch(from var(--primary) l c h / 0.3),
+    0 0 40px -10px oklch(from var(--primary) l c h / 0.2);
+}
+
+.glow-accent {
+  box-shadow: 
+    0 0 20px -5px oklch(from var(--accent) l c h / 0.3),
+    0 0 40px -10px oklch(from var(--accent) l c h / 0.2);
+}
+
+/* Animated background mesh */
+.bg-mesh {
+  background-image: 
+    radial-gradient(at 40% 20%, oklch(from var(--primary) l c h / 0.08) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, oklch(from var(--accent) l c h / 0.06) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, oklch(from var(--primary) l c h / 0.05) 0px, transparent 50%),
+    radial-gradient(at 80% 50%, oklch(from var(--accent) l c h / 0.04) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, oklch(from var(--primary) l c h / 0.06) 0px, transparent 50%);
+}
+
+/* Shimmer effect */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    oklch(from var(--primary) l c h / 0.1),
+    transparent
+  );
+  transform: translateX(-100%);
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+/* Hero section background pattern */
+.hero-pattern {
+  background-image: 
+    radial-gradient(circle at 25% 25%, oklch(from var(--primary) l c h / 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 75% 75%, oklch(from var(--accent) l c h / 0.05) 0%, transparent 40%),
+    linear-gradient(to bottom, transparent, oklch(from var(--background) l c h / 1) 90%);
+}
+
+/* Noise texture overlay */
+.noise-overlay {
+  position: relative;
+}
+
+.noise-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.015;
+  pointer-events: none;
+}
+
+/* Animated underline effect */
+.animated-underline {
+  position: relative;
+}
+
+.animated-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  transition: width 0.3s ease;
+}
+
+.animated-underline:hover::after {
+  width: 100%;
+}
+
+/* Pulse ring animation */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+.pulse-ring {
+  position: relative;
+}
+
+.pulse-ring::before,
+.pulse-ring::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 2px solid var(--primary);
+  animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.pulse-ring::after {
+  animation-delay: 1s;
+}
+
+/* Gradient text animation */
+@keyframes gradient-x {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient-x {
+  animation: gradient-x 3s ease infinite;
+}
+
+/* Reduced motion: disable gradient animation */
+@media (prefers-reduced-motion: reduce) {
+  .animate-gradient-x {
+    animation: none;
+    background-position: 0% 50%;
+  }
+}
+
 /* Scroll indicator animations */
 @keyframes scroll-dot {
   0%, 20% {

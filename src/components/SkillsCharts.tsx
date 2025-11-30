@@ -167,12 +167,11 @@ function RadarChartSVG({ data }: { data: typeof skillsRadarData }) {
 }
 
 // Progress bar with animation and enhanced hover
-function SkillBar({ name, proficiency, category, delay = 0, icon }: { 
+function SkillBar({ name, proficiency, category, delay = 0 }: { 
   name: string
   proficiency: number
   category?: string
   delay?: number
-  icon?: string
 }) {
   const getCategoryColor = () => {
     switch (category) {
@@ -201,14 +200,7 @@ function SkillBar({ name, proficiency, category, delay = 0, icon }: {
       className={`group p-4 -mx-4 rounded-xl transition-all duration-300 hover:bg-muted/40 ${getCategoryGlow()} hover:shadow-lg`}
     >
       <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center gap-2">
-          {icon && (
-            <span className="text-lg transition-transform duration-300 group-hover:scale-125 group-hover:rotate-12">
-              {icon}
-            </span>
-          )}
-          <span className="font-semibold text-foreground transition-colors duration-300 group-hover:text-primary">{name}</span>
-        </div>
+        <span className="font-semibold text-foreground transition-colors duration-300 group-hover:text-primary">{name}</span>
         <span className="text-sm font-bold text-primary transition-all duration-300 group-hover:scale-110">{proficiency}%</span>
       </div>
       <div className="h-3 bg-muted rounded-full overflow-hidden relative">
@@ -305,7 +297,6 @@ export default function SkillsCharts() {
                   proficiency={skill.proficiency}
                   category={skill.category}
                   delay={index * 0.1}
-                  icon={skill.icon}
                 />
               ))}
             </div>
@@ -349,7 +340,6 @@ export default function SkillsCharts() {
                   name={skill.name}
                   proficiency={skill.proficiency}
                   delay={index * 0.1}
-                  icon={skill.icon}
                 />
               ))}
             </div>
@@ -360,16 +350,16 @@ export default function SkillsCharts() {
               
               <div className="relative z-10">
                 <h4 className="font-bold text-lg mb-4 text-primary flex items-center gap-2">
-                  <span className="text-xl">🏆</span>
+                  <Sparkles className="h-5 w-5" />
                   Key Achievements
                 </h4>
                 <ul className="space-y-3 text-foreground">
                   {[
-                    { icon: "🚀", text: "10+ years building production ML systems at scale (Google, startups)" },
-                    { icon: "⚡", text: "55x GPU acceleration breakthrough in speech recognition research" },
-                    { icon: "📊", text: "Architected 32,000+ LOC AI-native MCP server with 1,403+ tests" },
-                    { icon: "🔬", text: "Patent-pending computer vision solutions in production" }
-                  ].map((item, index) => (
+                    "10+ years building production ML systems at scale (Google, startups)",
+                    "55x GPU acceleration breakthrough in speech recognition research",
+                    "Architected 32,000+ LOC AI-native MCP server with 1,403+ tests",
+                    "Patent-pending computer vision solutions in production"
+                  ].map((text, index) => (
                     <motion.li 
                       key={index}
                       className="flex items-start gap-3 p-2 -mx-2 rounded-lg transition-all duration-300 hover:bg-muted/50 group/item"
@@ -378,8 +368,8 @@ export default function SkillsCharts() {
                       viewport={{ once: true }}
                       transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
                     >
-                      <span className="text-lg transition-transform duration-300 group-hover/item:scale-125">{item.icon}</span>
-                      <span className="transition-colors duration-300 group-hover/item:text-primary">{item.text}</span>
+                      <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0 transition-transform duration-300 group-hover/item:scale-150" />
+                      <span className="transition-colors duration-300 group-hover/item:text-primary">{text}</span>
                     </motion.li>
                   ))}
                 </ul>

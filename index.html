@@ -80,17 +80,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    <!-- Preload LCP image (hero profile image) -->
-    <link rel="preload" as="image" type="image/webp" href="/src/assets/images/profile-384w.webp" fetchpriority="high">
-    
-    <!-- Preload critical fonts with display=swap for faster text rendering -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <!-- Load fonts with display=swap - non-render-blocking -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"></noscript>
-    
-    <!-- Non-blocking CSS: preload and async load -->
-    <link rel="preload" href="/src/main.css" as="style">
-    <link href="/src/main.css" rel="stylesheet" media="print" onload="this.media='all'">
-    <noscript><link href="/src/main.css" rel="stylesheet"></noscript>
     
     <!-- Critical inline CSS for above-the-fold content (hero section) -->
     <style>
@@ -107,6 +99,8 @@
         --card: oklch(0.995 0.005 60);
         --border: oklch(0.88 0.02 60);
         --ring: oklch(0.55 0.18 40);
+        --accent: oklch(0.45 0.15 15);
+        --accent-foreground: oklch(0.98 0.01 60);
         --radius: 0.625rem;
       }
       .dark {
@@ -121,18 +115,25 @@
         --card: oklch(0.19 0.025 40);
         --border: oklch(0.30 0.025 42);
         --ring: oklch(0.70 0.16 55);
+        --accent: oklch(0.55 0.14 20);
+        --accent-foreground: oklch(0.95 0.01 70);
       }
       
-      /* Base styles */
+      /* Base styles - system fonts first for instant text rendering */
       *, *::before, *::after { box-sizing: border-box; border-color: var(--border); }
       html { scroll-behavior: smooth; }
       body { 
         margin: 0; 
-        font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
         background-color: var(--background); 
         color: var(--foreground);
         line-height: 1.5;
         -webkit-font-smoothing: antialiased;
+      }
+      
+      /* Apply Poppins after it loads */
+      .fonts-loaded body {
+        font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       }
       
       /* App container - visible immediately for LCP */
@@ -163,6 +164,7 @@
       .object-cover { object-fit: cover; }
       
       /* Typography */
+      .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
       .text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
       .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
       .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
@@ -175,51 +177,85 @@
       .text-muted-foreground { color: var(--muted-foreground); }
       .mb-2 { margin-bottom: 0.5rem; }
       .mb-3 { margin-bottom: 0.75rem; }
+      .mb-4 { margin-bottom: 1rem; }
       .mb-6 { margin-bottom: 1.5rem; }
+      .mb-8 { margin-bottom: 2rem; }
+      .max-w-md { max-width: 28rem; }
+      .max-w-2xl { max-width: 42rem; }
+      .w-full { width: 100%; }
       
       /* Badge styles */
       .inline-flex { display: inline-flex; }
       .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
       .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
       .rounded-md { border-radius: calc(var(--radius) - 2px); }
+      .rounded-2xl { border-radius: 1rem; }
       .bg-secondary { background-color: var(--secondary); }
+      .bg-card { background-color: var(--card); }
       .text-secondary-foreground { color: var(--secondary-foreground); }
+      
+      /* Onboarding modal - critical for first paint */
+      .fixed { position: fixed; }
+      .inset-0 { inset: 0; }
+      .z-\\[100\\] { z-index: 100; }
+      .relative { position: relative; }
+      .absolute { position: absolute; }
+      .pointer-events-none { pointer-events: none; }
+      .border-2 { border-width: 2px; }
+      .border-border { border-color: var(--border); }
+      .text-left { text-align: left; }
+      .gap-4 { gap: 1rem; }
+      .p-6 { padding: 1.5rem; }
+      .p-3 { padding: 0.75rem; }
+      .rounded-xl { border-radius: 0.75rem; }
+      .bg-muted { background-color: var(--muted); }
+      .flex-1 { flex: 1; }
+      .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+      .text-base { font-size: 1rem; line-height: 1.5rem; }
+      .transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+      .transition-colors { transition-property: color, background-color, border-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+      .duration-300 { transition-duration: 300ms; }
+      .grid { display: grid; }
       
       /* Responsive */
       @media (min-width: 768px) {
         .md\\:py-24 { padding-top: 6rem; padding-bottom: 6rem; }
         .md\\:flex-row { flex-direction: row; }
         .md\\:gap-12 { gap: 3rem; }
+        .md\\:gap-6 { gap: 1.5rem; }
         .md\\:w-56 { width: 14rem; }
         .md\\:h-56 { height: 14rem; }
+        .md\\:text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
         .md\\:text-5xl { font-size: 3rem; line-height: 1; }
         .md\\:text-left { text-align: left; }
         .md\\:justify-start { justify-content: flex-start; }
+        .md\\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .md\\:p-8 { padding: 2rem; }
+        .md\\:text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+        .md\\:text-2xl { font-size: 1.5rem; line-height: 2rem; }
       }
       @media (min-width: 1024px) {
+        .lg\\:text-5xl { font-size: 3rem; line-height: 1; }
         .lg\\:text-6xl { font-size: 3.75rem; line-height: 1; }
       }
       
       /* Status indicator animation */
       @keyframes ping { 75%, 100% { transform: scale(2); opacity: 0; } }
       .animate-ping { animation: ping 1s cubic-bezier(0,0,0.2,1) infinite; }
-      .relative { position: relative; }
-      .absolute { position: absolute; }
-      .inset-0 { inset: 0; }
       
       /* LCP optimization - ensure hero h1 renders immediately */
       h1 { 
-        font-size: 2.25rem; 
-        line-height: 2.5rem; 
-        font-weight: 800; 
+        font-size: 1.875rem; 
+        line-height: 2.25rem; 
+        font-weight: 700; 
         letter-spacing: -0.025em;
         color: var(--foreground);
       }
       @media (min-width: 768px) {
-        h1 { font-size: 3rem; line-height: 1; }
+        h1 { font-size: 2.25rem; line-height: 2.5rem; }
       }
       @media (min-width: 1024px) {
-        h1 { font-size: 3.75rem; line-height: 1; }
+        h1 { font-size: 3rem; line-height: 1; }
       }
       
       /* Green status colors */
@@ -227,7 +263,23 @@
       .bg-green-500 { background-color: #22c55e; }
       .text-green-600 { color: #16a34a; }
       .dark .text-green-400 { color: #4ade80; }
+      
+      /* Deferred animations */
+      @keyframes fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      .animate-fade-in { animation: fade-in 0.5s ease-out; }
     </style>
+    
+    <!-- Font loading detection script -->
+    <script>
+      if ('fonts' in document) {
+        document.fonts.ready.then(function() {
+          document.documentElement.classList.add('fonts-loaded');
+        });
+      }
+    </script>
 </head>
 
 <body>

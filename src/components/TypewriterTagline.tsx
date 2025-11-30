@@ -10,10 +10,26 @@ const taglines = [
 
 export function TypewriterTagline() {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [displayText, setDisplayText] = useState("")
+  // Start with full first tagline for instant LCP - no empty state
+  const [displayText, setDisplayText] = useState(taglines[0])
   const [isDeleting, setIsDeleting] = useState(false)
+  const [hasStarted, setHasStarted] = useState(false)
   
+  // Delay animation start to ensure LCP is captured with full text
   useEffect(() => {
+    const startDelay = setTimeout(() => {
+      setHasStarted(true)
+      // Start by deleting after showing first tagline
+      setIsDeleting(true)
+    }, 3000) // Wait 3 seconds before starting animation
+    
+    return () => clearTimeout(startDelay)
+  }, [])
+
+  useEffect(() => {
+    // Don't animate until we've started
+    if (!hasStarted) return
+    
     const currentTagline = taglines[currentIndex]
     
     const timeout = setTimeout(() => {
@@ -37,7 +53,7 @@ export function TypewriterTagline() {
     }, isDeleting ? 30 : 80)
     
     return () => clearTimeout(timeout)
-  }, [displayText, isDeleting, currentIndex])
+  }, [displayText, isDeleting, currentIndex, hasStarted])
   
   return (
     <p className="text-xl md:text-2xl font-semibold text-primary mb-6 h-8 md:h-10">

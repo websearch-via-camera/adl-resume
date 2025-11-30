@@ -444,7 +444,7 @@ function App() {
       <main id="main-content" role="main" aria-label="Portfolio content">
       <motion.header 
         id="home"
-        initial={prefersReducedMotion ? "visible" : "hidden"}
+        initial={prefersReducedMotion ? "visible" : { opacity: 1 }}
         animate="visible"
         variants={prefersReducedMotion ? undefined : staggerContainer}
         className="py-16 px-6 md:py-24"

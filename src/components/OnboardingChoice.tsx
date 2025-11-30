@@ -27,54 +27,39 @@ export function OnboardingChoice({ onChoice }: OnboardingChoiceProps) {
           transition={{ duration: 0.4 }}
           className="fixed inset-0 z-[100] bg-background flex items-center justify-center px-6"
         >
-          {/* Subtle animated background pattern */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <motion.div
+          {/* Subtle animated background pattern - deferred to not block LCP */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-0 animate-fade-in" style={{ animationDelay: '500ms', animationFillMode: 'forwards' }}>
+            <div
               className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-primary/5 blur-3xl"
-              animate={{
-                x: [0, 50, 0],
-                y: [0, 30, 0],
-              }}
-              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
             />
-            <motion.div
+            <div
               className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-accent/5 blur-3xl"
-              animate={{
-                x: [0, -40, 0],
-                y: [0, -20, 0],
-              }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
             />
           </div>
 
           <motion.div
-            initial={{ y: 20 }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            initial={{ y: 20, opacity: 1 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.3 }}
             className="relative max-w-2xl w-full text-center"
           >
-            {/* Welcome text - no initial opacity:0 to ensure LCP detection */}
-            <motion.div
-              initial={{ y: -10 }}
-              animate={{ y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="mb-8"
-            >
+            {/* Welcome text - render immediately for instant LCP */}
+            <div className="mb-8">
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
                 Hey there! 👋
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground max-w-md mx-auto">
                 Are you a developer like Kiarash?
               </p>
-            </motion.div>
+            </div>
 
-            {/* Choice buttons */}
+            {/* Choice buttons - render immediately, animate subtly */}
             <div className="grid md:grid-cols-2 gap-4 md:gap-6">
               {/* Developer option */}
               <motion.button
-                initial={{ x: -20 }}
-                animate={{ x: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
+                initial={{ opacity: 0.8 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.2 }}
                 onClick={() => handleChoice(true)}
                 onMouseEnter={() => setHoveredOption("dev")}
                 onMouseLeave={() => setHoveredOption(null)}
@@ -130,9 +115,9 @@ export function OnboardingChoice({ onChoice }: OnboardingChoiceProps) {
 
               {/* Non-developer option */}
               <motion.button
-                initial={{ x: 20 }}
-                animate={{ x: 0 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
+                initial={{ opacity: 0.8 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.2, delay: 0.1 }}
                 onClick={() => handleChoice(false)}
                 onMouseEnter={() => setHoveredOption("visitor")}
                 onMouseLeave={() => setHoveredOption(null)}

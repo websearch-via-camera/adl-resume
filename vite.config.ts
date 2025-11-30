@@ -16,45 +16,35 @@ function criticalChunksPreload(): Plugin {
       
       // Find critical chunk filenames from the bundle
       const criticalChunks: string[] = [];
-      let cssFileName = '';
+      let mainEntry = '';
       
-      for (const [fileName] of Object.entries(ctx.bundle)) {
+      for (const [fileName, chunk] of Object.entries(ctx.bundle)) {
         // Prioritize vendor-react (needed for everything)
         if (fileName.includes('vendor-react')) {
           criticalChunks.unshift(fileName);
         }
-        // Then vendor-motion (used in hero animations)
-        else if (fileName.includes('vendor-motion')) {
-          criticalChunks.push(fileName);
+        // Find main entry point
+        else if ('isEntry' in chunk && chunk.isEntry && fileName.endsWith('.js')) {
+          mainEntry = fileName;
         }
-        // Find the main CSS file
-        else if (fileName.endsWith('.css') && fileName.includes('index')) {
-          cssFileName = fileName;
-        }
+      }
+      
+      // Add main entry after vendor-react
+      if (mainEntry) {
+        criticalChunks.push(mainEntry);
       }
       
       // Generate preload link tags with high priority
       const preloadTags = criticalChunks
-        .map(chunk => `<link rel="modulepreload" href="/${chunk}" fetchpriority="high" />`)
+        .slice(0, 2) // Only preload the most critical chunks
+        .map(chunk => `<link rel="modulepreload" href="/${chunk}" />`)
         .join('\n    ');
       
       // Insert after the opening head tag
-      let result = html.replace(
+      return html.replace(
         '<head>',
         `<head>\n    <!-- Critical JS chunks preload -->\n    ${preloadTags}`
       );
-      
-      // Make CSS non-blocking by using media="print" trick
-      if (cssFileName) {
-        // Replace the blocking CSS link with async loading pattern
-        result = result.replace(
-          new RegExp(`<link rel="stylesheet"[^>]*href="/${cssFileName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"[^>]*>`),
-          `<link rel="preload" href="/${cssFileName}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/${cssFileName}"></noscript>`
-        );
-      }
-      
-      return result;
     }
   };
 }

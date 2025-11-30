@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
+import { SectionDivider } from "@/components/SectionDivider"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
@@ -558,7 +558,7 @@ function App() {
         </div>
       </header>
 
-      <Separator className="max-w-5xl mx-auto" />
+      <SectionDivider variant="ornate" />
 
       <section className="py-12 px-6 md:py-16">
         <div className="max-w-3xl mx-auto">
@@ -576,7 +576,7 @@ function App() {
         </div>
       </section>
 
-      <Separator className="max-w-5xl mx-auto" />
+      <SectionDivider variant="gradient" />
 
       <section id="projects" className="py-16 px-6 md:py-20 scroll-mt-20" tabIndex={-1}>
         <div className="max-w-5xl mx-auto">
@@ -689,7 +689,7 @@ function App() {
         </div>
       </section>
 
-      <Separator className="max-w-5xl mx-auto" />
+      <SectionDivider variant="dots" />
 
       <section id="skills" className="py-16 px-6 md:py-20 scroll-mt-20" tabIndex={-1}>
         <div className="max-w-5xl mx-auto">
@@ -715,7 +715,7 @@ function App() {
         </div>
       </section>
 
-      <Separator className="max-w-5xl mx-auto" />
+      <SectionDivider />
 
       {/* Enhanced Technical Showcase Section */}
       <section id="showcase" className="py-16 px-6 md:py-20 scroll-mt-20">
@@ -770,7 +770,7 @@ function App() {
         </div>
       </section>
 
-      <Separator className="max-w-5xl mx-auto" />
+      <SectionDivider variant="wave" />
 
       <section id="experience" className="py-16 px-6 md:py-20 scroll-mt-20">
         <div className="max-w-5xl mx-auto">
@@ -919,7 +919,7 @@ function App() {
         </div>
       </section>
 
-      <Separator className="max-w-5xl mx-auto" />
+      <SectionDivider variant="ornate" />
 
       <section id="contact" className="py-16 px-6 md:py-20 scroll-mt-20" tabIndex={-1}>
         <div className="max-w-5xl mx-auto">
@@ -1055,7 +1055,7 @@ function App() {
         </div>
       </section>
 
-      <Separator className="max-w-5xl mx-auto" />
+      <SectionDivider variant="dots" />
 
       {/* Guestbook Section */}
       <section id="guestbook" className="py-16 px-6 md:py-20 scroll-mt-20">

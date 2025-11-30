@@ -78,14 +78,40 @@ async function signManifest(manifest: object, privateKeyBase64: string): Promise
     // Decode the private key from base64
     const privateKeyBytes = Uint8Array.from(atob(privateKeyBase64), c => c.charCodeAt(0));
     
-    // Import the key for signing (Ed25519)
-    const cryptoKey = await crypto.subtle.importKey(
-      "raw",
-      privateKeyBytes.slice(0, 32), // Ed25519 private keys are 32 bytes
-      { name: "Ed25519" },
-      false,
-      ["sign"]
-    );
+    // Determine key format based on length
+    // PKCS#8 Ed25519 keys are 48 bytes, raw seeds are 32 bytes
+    let cryptoKey: CryptoKey;
+    
+    if (privateKeyBytes.length === 48) {
+      // PKCS#8 format - import directly
+      cryptoKey = await crypto.subtle.importKey(
+        "pkcs8",
+        privateKeyBytes,
+        { name: "Ed25519" },
+        false,
+        ["sign"]
+      );
+    } else if (privateKeyBytes.length === 32) {
+      // Raw 32-byte seed - need to wrap in PKCS#8
+      // Ed25519 PKCS#8 prefix: 302e020100300506032b657004220420
+      const pkcs8Prefix = new Uint8Array([
+        0x30, 0x2e, 0x02, 0x01, 0x00, 0x30, 0x05, 0x06,
+        0x03, 0x2b, 0x65, 0x70, 0x04, 0x22, 0x04, 0x20
+      ]);
+      const pkcs8Key = new Uint8Array(48);
+      pkcs8Key.set(pkcs8Prefix);
+      pkcs8Key.set(privateKeyBytes, 16);
+      
+      cryptoKey = await crypto.subtle.importKey(
+        "pkcs8",
+        pkcs8Key,
+        { name: "Ed25519" },
+        false,
+        ["sign"]
+      );
+    } else {
+      throw new Error(`Invalid key length: ${privateKeyBytes.length} (expected 32 or 48)`);
+    }
     
     // Create canonical JSON (sorted keys for reproducibility)
     const sortedManifest = JSON.parse(JSON.stringify(manifest, Object.keys(manifest).sort()));

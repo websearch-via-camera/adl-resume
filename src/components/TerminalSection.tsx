@@ -71,7 +71,7 @@ const commands: Record<string, string[]> = {
     "",
     "Computer Vision",
     "  • Object detection, segmentation",
-    "  • Patent-pending CV solutions",
+    "  • Patent-pending AI solutions",
     "",
     "GPU Optimization",
     "  • CUDA kernel development",
@@ -160,7 +160,7 @@ const commands: Record<string, string[]> = {
     "  MIT EECS '14 | 10+ Years Experience",
     "",
     "Highlights:",
-    "  • AI Vision (Founder & CEO) - Patent-pending CV solutions",
+    "  • AI Vision (Founder & CEO) - Patent-pending AI solutions",
     "  • Google - Search Knowledge Panel & Knowledge Graph",
     "  • 500K+ lines of production code shipped",
     "  • Published researcher (ICASSP 2012)",
@@ -172,7 +172,7 @@ const commands: Record<string, string[]> = {
     "",
     "2024-Present",
     "  AI Vision (Founder & CEO)",
-    "  AI/CV solutions for home services",
+    "  AI solutions for home services",
     "",
     "2019-2024",
     "  Technical Consulting",
@@ -497,7 +497,7 @@ export function TerminalSection() {
         <section aria-label="Work Experience">
           <h3>Experience</h3>
           <ul role="list">
-            <li>2024-Present: AI Vision (Founder & CEO) - AI/CV solutions for home services</li>
+            <li>2024-Present: AI Vision (Founder & CEO) - AI solutions for home services</li>
             <li>2019-2024: Technical Consulting - MVPs, architecture, AI systems</li>
             <li>2018-2019: Monir (Founder & CEO) - Personalized shopping AI, VC funded</li>
             <li>2014-2018: Google (Software Engineer) - Search Knowledge Panel, Knowledge Graph</li>

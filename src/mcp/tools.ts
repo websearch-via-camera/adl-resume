@@ -101,7 +101,7 @@ AI/ML:
    - Tech: Next.js, Azure OpenAI, Docker
 
 3. AI Vision
-   - Patent-pending AI/CV for home services
+   - Patent-pending AI solutions for home services
    - Status: App Store Live`,
 
   contact: `Contact Information:
@@ -119,7 +119,7 @@ Open to: AI roles, consulting, collaboration`,
   experience: `Work History:
 
 2024-Present  AI Vision (Founder & CEO)
-              - AI/CV solutions for home services
+              - AI solutions for home services
 
 2019-2024     Technical Consulting
               - MVPs, architecture, AI systems
@@ -158,7 +158,7 @@ Summary:
   MIT EECS '14 | 10+ Years Experience
 
 Highlights:
-  • AI Vision (Founder & CEO) - Patent-pending CV solutions
+  • AI Vision (Founder & CEO) - Patent-pending AI solutions
   • Google - Search Knowledge Panel & Knowledge Graph
   • 500K+ lines of production code shipped
   • Published researcher (ICASSP 2012)

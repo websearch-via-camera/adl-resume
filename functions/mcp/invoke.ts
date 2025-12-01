@@ -61,7 +61,7 @@ const projects: Record<string, {
     id: "aivision",
     title: "AI Vision",
     description: "Patent-pending AI and computer vision solutions for home services industry. Founder and CEO. Mobile app live on App Store.",
-    shortDescription: "AI/CV solutions for home services",
+    shortDescription: "AI solutions for home services",
     stack: ["Computer Vision", "iOS", "Machine Learning", "Mobile"],
     metrics: [
       { label: "Status", value: "App Store Live" },
@@ -69,7 +69,7 @@ const projects: Record<string, {
     ],
     status: "live",
     links: {},
-    impact: "Patent-pending CV technology for home services",
+    impact: "Patent-pending AI technology for home services",
     category: "startup"
   }
 };
@@ -134,7 +134,7 @@ FEATURED PROJECTS
 3. AI Vision
    Status: Live
    Stack: Computer Vision, iOS, ML
-   Patent-pending AI/CV solutions for home services
+   Patent-pending AI solutions for home services
    Mobile app live on App Store
 
 Use 'get_project_details' tool for more information.`,
@@ -255,7 +255,7 @@ Summary:
   MIT EECS '14 | 10+ Years Experience
 
 Highlights:
-  • AI Vision (Founder & CEO) - Patent-pending CV solutions
+  • AI Vision (Founder & CEO) - Patent-pending AI solutions
   • Google - Search Knowledge Panel & Knowledge Graph  
   • 500K+ lines of production code shipped
   • Published researcher (ICASSP 2012)

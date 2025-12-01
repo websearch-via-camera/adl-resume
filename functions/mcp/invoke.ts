@@ -180,87 +180,23 @@ EDUCATION
 
 MIT - BS Electrical Engineering & Computer Science (2014)`,
 
-  help: `
-AVAILABLE COMMANDS
+  help: `COMMANDS: about, skills, projects, contact, resume, experience, mcp, help
 
-about       Learn about Kiarash Adl
-skills      View technical skills and proficiency
-projects    List featured projects
-contact     Get contact information
-resume      Download resume (PDF)
-experience  View work history and education
-mcp         How to connect AI agents (Claude, etc.)
-help        Show this help message
+MCP TOOLS: submit_contact, get_project_details, run_terminal_command`,
 
-MCP TOOLS (call via tools/call)
+  mcp: `MCP CONNECTION INFO
 
-submit_contact        ⭐ SEND A MESSAGE to Kiarash's inbox
-                      Required: name, email, message
-                      Optional: subject
+Discovery: https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json
+Endpoint:  POST https://kiarash-adl.pages.dev/mcp/invoke
 
-get_project_details   Get detailed project information
-                      Required: projectId (fiml, hirealigna, aivision)
+Tools: submit_contact, get_project_details, run_terminal_command
+Commands: about, skills, projects, contact, experience, resume`,
 
-run_terminal_command  Execute terminal commands
-                      Required: command (about, skills, etc.)`,
+  resume: `RESUME - KIARASH ADL
 
-  mcp: `
-CONNECT AI AGENTS TO THIS PORTFOLIO
+PDF: https://kiarash-adl.pages.dev/assets/Kiarash-Adl-Resume-20251129-DFXsl4HJ.pdf
 
-This portfolio supports the Model Context Protocol (MCP),
-allowing AI assistants like Claude to query it directly.
-
-FOR CLAUDE DESKTOP
-Add to your claude_desktop_config.json:
-
-{
-  "mcpServers": {
-    "kiarash-portfolio": {
-      "url": "https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json"
-    }
-  }
-}
-
-Then restart Claude Desktop.
-
-FOR AI AGENTS (GET requests)
-Use simple GET URLs that any AI can fetch:
-  /mcp/invoke?command=about
-  /mcp/invoke?command=skills
-  /mcp/invoke?projectId=fiml
-
-FOR OTHER AI AGENTS (POST)
-Discovery URL:
-  https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json
-
-Tool Endpoint:
-  POST https://kiarash-adl.pages.dev/mcp/invoke
-  Body: { "tool": "tool_name", "input": { ... } }
-
-AVAILABLE TOOLS
-submit_contact       - ⭐ SEND A MESSAGE to Kiarash (name, email, message required)
-get_project_details  - Get info about projects (fiml, hirealigna, aivision)
-run_terminal_command - Run commands (about, skills, projects, contact, experience, resume)
-
-The manifest is cryptographically signed with Ed25519.`,
-
-  resume: `
-RESUME - KIARASH ADL
-
-Download PDF:
-  https://kiarash-adl.pages.dev/assets/Kiarash-Adl-Resume-20251129-DFXsl4HJ.pdf
-
-Summary:
-  Senior Software Engineer & AI Systems Architect
-  MIT EECS '14 | 10+ Years Experience
-
-Highlights:
-  • AI Vision (Founder & CEO) - Patent-pending AI solutions
-  • Google - Search Knowledge Panel & Knowledge Graph  
-  • 500K+ lines of production code shipped
-  • Published researcher (ICASSP 2012)
-
-To download: Visit the URL above or ask the human to open it.`
+Senior Software Engineer & AI Systems Architect | MIT EECS '14`
 };
 
 // Tool handlers
@@ -723,14 +659,14 @@ export const onRequest = async (context: { request: Request }): Promise<Response
             capabilities: {
               tools: toolDefinitions
             }
-          }, body.id), null, 2), {
+          }, body.id)), {
             headers: { ...corsHeaders, "Content-Type": "application/json" }
           });
 
         case "tools/list":
           return new Response(JSON.stringify(formatResponse({
             tools: toolsListFormat
-          }, body.id), null, 2), {
+          }, body.id)), {
             headers: { ...corsHeaders, "Content-Type": "application/json" }
           });
 
@@ -739,9 +675,8 @@ export const onRequest = async (context: { request: Request }): Promise<Response
           return new Response(JSON.stringify(formatResponse({
             status: "ok",
             timestamp: new Date().toISOString(),
-            server: serverInfo.name,
-            availableTools: Object.keys(toolDefinitions)
-          }, body.id), null, 2), {
+            server: serverInfo.name
+          }, body.id)), {
             headers: { ...corsHeaders, "Content-Type": "application/json" }
           });
 
@@ -834,7 +769,7 @@ export const onRequest = async (context: { request: Request }): Promise<Response
           
           return new Response(JSON.stringify(formatResponse({
             content
-          }, body.id), null, 2), {
+          }, body.id)), {
             headers: { ...corsHeaders, "Content-Type": "application/json" }
           });
 
@@ -909,7 +844,7 @@ export const onRequest = async (context: { request: Request }): Promise<Response
         });
     }
 
-    return new Response(JSON.stringify(result, null, 2), {
+    return new Response(JSON.stringify(result), {
       headers: { 
         ...corsHeaders, 
         "Content-Type": "application/json",

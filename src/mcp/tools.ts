@@ -137,33 +137,27 @@ Open to: AI roles, consulting, collaboration`,
 - about: Learn about Kiarash
 - skills: View technical skills
 - projects: List featured projects
-- contact: Get contact information
+- contact: Get contact info
 - resume: Download resume (PDF)
 - experience: View work history
-- mcp: How to connect AI agents
-- help: Show this help message
+- mcp: MCP connection info
+- help: Show this help
 
-MCP Tools (call via tools/call):
-- submit_contact: ⭐ SEND A MESSAGE to Kiarash (name, email, message required)
-- get_project_details: Get detailed project information
-- run_terminal_command: Execute terminal commands`,
+MCP Tools: submit_contact, get_project_details, run_terminal_command`,
 
-  resume: `Resume - Kiarash Adl
+  mcp: `MCP CONNECTION INFO
 
-Download PDF:
-  https://kiarash-adl.pages.dev/assets/Kiarash-Adl-Resume-20251129-DFXsl4HJ.pdf
+Discovery: https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json
+Endpoint:  POST https://kiarash-adl.pages.dev/mcp/invoke
 
-Summary:
-  Senior Software Engineer & AI Systems Architect
-  MIT EECS '14 | 10+ Years Experience
+Tools: submit_contact, get_project_details, run_terminal_command
+Commands: about, skills, projects, contact, experience, resume`,
 
-Highlights:
-  • AI Vision (Founder & CEO) - Patent-pending AI solutions
-  • Google - Search Knowledge Panel & Knowledge Graph
-  • 500K+ lines of production code shipped
-  • Published researcher (ICASSP 2012)
+  resume: `RESUME - KIARASH ADL
 
-To download: Visit the URL above or ask the human to open it.`,
+PDF: https://kiarash-adl.pages.dev/assets/Kiarash-Adl-Resume-20251129-DFXsl4HJ.pdf
+
+Senior Software Engineer & AI Systems Architect | MIT EECS '14`,
 }
 
 // ============================================================================

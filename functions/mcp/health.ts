@@ -23,8 +23,8 @@ export const onRequest = async (context: { request: Request; env: Env }): Promis
     return new Response(null, { headers: corsHeaders });
   }
   
-  // Only allow GET
-  if (request.method !== "GET") {
+  // Only allow GET and HEAD
+  if (request.method !== "GET" && request.method !== "HEAD") {
     return new Response(JSON.stringify({ error: "Method not allowed" }), {
       status: 405,
       headers: { ...corsHeaders, "Content-Type": "application/json" }
@@ -53,13 +53,23 @@ export const onRequest = async (context: { request: Request; env: Env }): Promis
     latency_ms: Date.now() - startTime
   };
   
+  const responseHeaders = {
+    ...corsHeaders,
+    "Content-Type": "application/json",
+    "Cache-Control": "no-cache, no-store, must-revalidate", // Health checks should not be cached
+    "X-MCP-Health": "ok"
+  };
+  
+  // HEAD request returns headers only, no body
+  if (request.method === "HEAD") {
+    return new Response(null, {
+      status: 200,
+      headers: responseHeaders
+    });
+  }
+  
   return new Response(JSON.stringify(health, null, 2), {
     status: 200,
-    headers: {
-      ...corsHeaders,
-      "Content-Type": "application/json",
-      "Cache-Control": "no-cache, no-store, must-revalidate", // Health checks should not be cached
-      "X-MCP-Health": "ok"
-    }
+    headers: responseHeaders
   });
 };

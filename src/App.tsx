@@ -554,35 +554,42 @@ function App() {
           <div className="flex items-center justify-between gap-2">
             <button
               onClick={() => scrollToSection("home")}
-              className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground hover:from-primary hover:to-accent transition-all duration-300 flex-shrink-0"
+              className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground hover:from-primary hover:to-accent transition-all duration-300 flex-shrink-0 z-10 relative"
               aria-label="Go to home section"
             >
               Kiarash Adl
             </button>
             
-            {/* Nav links - scrollable on mobile */}
-            <div ref={navScrollRef} className="flex-1 overflow-x-auto scrollbar-hide min-w-0 mx-2" role="navigation">
-              <div className="flex items-center gap-1 w-max">
-                {navItems.map((item) => (
-                  <button
-                    key={item.id}
-                    onClick={() => scrollToSection(item.id)}
-                    onMouseEnter={playHover}
-                    className={`min-h-[44px] px-3 py-2 text-sm font-medium rounded-xl transition-all duration-300 whitespace-nowrap ${
-                      activeSection === item.id
-                        ? "bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-md shadow-primary/20"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted/80"
-                    }`}
-                    aria-current={activeSection === item.id ? "page" : undefined}
-                  >
-                    {item.label}
-                  </button>
-                ))}
+            {/* Nav links - scrollable on mobile with fade edges */}
+            <div className="flex-1 min-w-0 mx-2 relative">
+              {/* Left fade gradient */}
+              <div className="absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-background/80 to-transparent z-10 pointer-events-none" />
+              {/* Right fade gradient */}
+              <div className="absolute right-0 top-0 bottom-0 w-4 bg-gradient-to-l from-background/80 to-transparent z-10 pointer-events-none" />
+              
+              <div ref={navScrollRef} className="overflow-x-auto scrollbar-hide" role="navigation">
+                <div className="flex items-center gap-1 w-max px-2">
+                  {navItems.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => scrollToSection(item.id)}
+                      onMouseEnter={playHover}
+                      className={`min-h-[44px] px-3 py-2 text-sm font-medium rounded-xl transition-all duration-300 whitespace-nowrap ${
+                        activeSection === item.id
+                          ? "bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-md shadow-primary/20"
+                          : "text-muted-foreground hover:text-foreground hover:bg-muted/80"
+                      }`}
+                      aria-current={activeSection === item.id ? "page" : undefined}
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
             
             {/* Toggles - always visible, never scroll */}
-            <div className="flex items-center gap-1 flex-shrink-0 border-l border-border/50 pl-2">
+            <div className="flex items-center gap-1 flex-shrink-0 border-l border-border/50 pl-2 z-10 relative">
               <SoundToggle />
               <ThemeToggle />
             </div>

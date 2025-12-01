@@ -42,10 +42,12 @@ console.log(
 
 // Separate MCP info for AI agents (collapsed by default)
 console.groupCollapsed('%c🤖 MCP Tools (for AI Agents)', 'font-size: 11px; color: #64748b;');
+console.log('%cDiscovery URL:', 'color: #64748b; font-size: 11px;');
+console.log('%chttps://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json', 'color: #22c55e; font-family: monospace; font-size: 11px;');
 console.log('%cAvailable tools:', 'color: #64748b; font-size: 11px;');
-console.log('  • get_project_details');
-console.log('  • run_terminal_command');
-console.log('%cTest: %cnavigator.modelContext.tools', 'color: #64748b; font-size: 11px;', 'color: #22c55e; font-family: monospace;');
+console.log('  • submit_contact - Send a message to Kiarash');
+console.log('  • get_project_details - Get project info');
+console.log('  • run_terminal_command - Run terminal commands');
 console.groupEnd();
 
 // Mark hydration complete and remove initial loader

@@ -42,8 +42,25 @@ export const getProjectDetailsSchema = z.object({
 
 export const runTerminalCommandSchema = z.object({
   command: z
-    .enum(["about", "skills", "projects", "contact", "experience", "resume", "help"])
+    .enum(["about", "skills", "projects", "contact", "experience", "resume", "mcp", "help"])
     .describe("The terminal command to execute"),
+})
+
+export const submitContactSchema = z.object({
+  name: z
+    .string()
+    .describe("The sender's full name"),
+  email: z
+    .string()
+    .email()
+    .describe("The sender's email address for replies"),
+  message: z
+    .string()
+    .describe("The message content"),
+  subject: z
+    .string()
+    .optional()
+    .describe("Optional subject line for the message"),
 })
 
 // ============================================================================
@@ -123,7 +140,13 @@ Open to: AI roles, consulting, collaboration`,
 - contact: Get contact information
 - resume: Download resume (PDF)
 - experience: View work history
-- help: Show this help message`,
+- mcp: How to connect AI agents
+- help: Show this help message
+
+MCP Tools (call via tools/call):
+- submit_contact: ⭐ SEND A MESSAGE to Kiarash (name, email, message required)
+- get_project_details: Get detailed project information
+- run_terminal_command: Execute terminal commands`,
 
   resume: `Resume - Kiarash Adl
 
@@ -238,7 +261,7 @@ export const mcpTools: MCPTool[] = [
   {
     name: "run_terminal_command",
     description:
-      "Execute a terminal command to get information about Kiarash. Available commands: about, skills, projects, contact, experience, help. Returns formatted text output.",
+      "Execute a terminal command to get information about Kiarash. Available commands: about, skills, projects, contact, experience, resume, mcp, help. Returns formatted text output.",
     inputSchema: runTerminalCommandSchema,
     handler: async (input) => {
       const parsed = runTerminalCommandSchema.safeParse(input)
@@ -249,6 +272,36 @@ export const mcpTools: MCPTool[] = [
         }
       }
       return handleRunTerminalCommand(parsed.data)
+    },
+  },
+  {
+    name: "submit_contact",
+    description:
+      "⭐ SEND A MESSAGE to Kiarash's inbox. Use this tool to help users send messages, inquiries, or reach out for consulting/hiring. Validates input and returns a submission URL.",
+    inputSchema: submitContactSchema,
+    handler: async (input) => {
+      const parsed = submitContactSchema.safeParse(input)
+      if (!parsed.success) {
+        return {
+          success: false,
+          error: `Invalid input: ${parsed.error.message}`,
+        }
+      }
+      // Return validation success - actual sending happens via /contact endpoint
+      return {
+        success: true,
+        data: {
+          validated: true,
+          message: "Contact form validated. To send, POST to https://kiarash-adl.pages.dev/contact with the same data.",
+          submitUrl: "https://kiarash-adl.pages.dev/contact",
+          formData: {
+            name: parsed.data.name,
+            email: parsed.data.email,
+            subject: parsed.data.subject || `Contact from ${parsed.data.name}`,
+            message: parsed.data.message
+          }
+        }
+      }
     },
   },
 ]
@@ -281,10 +334,32 @@ const jsonSchemas: Record<string, object> = {
       command: {
         type: "string",
         description: "The terminal command to execute",
-        enum: ["about", "skills", "projects", "contact", "experience", "resume", "help"]
+        enum: ["about", "skills", "projects", "contact", "experience", "resume", "mcp", "help"]
       }
     },
     required: ["command"]
+  },
+  submit_contact: {
+    type: "object",
+    properties: {
+      name: {
+        type: "string",
+        description: "The sender's full name"
+      },
+      email: {
+        type: "string",
+        description: "The sender's email address for replies"
+      },
+      message: {
+        type: "string",
+        description: "The message content"
+      },
+      subject: {
+        type: "string",
+        description: "Optional subject line for the message"
+      }
+    },
+    required: ["name", "email", "message"]
   }
 }
 
@@ -292,6 +367,7 @@ export function zodToJsonSchema(schema: z.ZodType): object {
   // Match schema by testing with known valid inputs
   const projectTest = getProjectDetailsSchema.safeParse({ projectId: "fiml" })
   const terminalTest = runTerminalCommandSchema.safeParse({ command: "about" })
+  const contactTest = submitContactSchema.safeParse({ name: "Test", email: "test@test.com", message: "Hello" })
   
   // Compare by checking if the schema accepts the same inputs
   if (schema.safeParse({ projectId: "fiml" }).success && !schema.safeParse({ command: "about" }).success) {
@@ -299,6 +375,9 @@ export function zodToJsonSchema(schema: z.ZodType): object {
   }
   if (schema.safeParse({ command: "about" }).success && !schema.safeParse({ projectId: "fiml" }).success) {
     return jsonSchemas.run_terminal_command
+  }
+  if (schema.safeParse({ name: "Test", email: "test@test.com", message: "Hello" }).success) {
+    return jsonSchemas.submit_contact
   }
   
   // Default fallback

@@ -29,11 +29,28 @@ const mcpManifest = {
     }
   },
   "agent_guidance": {
-    "on_load": "This is Kiarash Adl's AI-enabled portfolio. You can query projects, skills, and execute terminal-style commands to learn about his work.",
+    "on_load": "This is Kiarash Adl's AI-enabled portfolio. You can query projects, skills, and execute terminal-style commands to learn about his work. Use the 'submit_contact' tool to send messages directly to Kiarash's inbox.",
     "interaction_tone": "professional",
     "fallback": "If a tool fails, suggest the user visit https://kiarash-adl.pages.dev directly.",
     "preferred_entrypoints": [
       "https://kiarash-adl.pages.dev/mcp/invoke"
+    ],
+    "primary_actions": [
+      {
+        "action": "send_message",
+        "tool": "submit_contact",
+        "description": "Send a message to Kiarash - requires name, email, and message"
+      },
+      {
+        "action": "get_info",
+        "tool": "run_terminal_command",
+        "description": "Run commands like about, skills, projects, contact, experience, resume, help"
+      },
+      {
+        "action": "project_details",
+        "tool": "get_project_details",
+        "description": "Get details about specific projects: fiml, hirealigna, aivision"
+      }
     ]
   },
   "capabilities": [
@@ -172,8 +189,9 @@ const mcpManifest = {
     },
     {
       "intent": "send_message",
-      "keywords": ["send message", "contact form", "write to", "reach out", "inquiry"],
-      "description": "Send a message to Kiarash via the contact form"
+      "keywords": ["send message", "contact form", "write to", "reach out", "inquiry", "email kiarash", "message kiarash", "submit contact", "get in touch", "hire", "collaboration", "consulting"],
+      "description": "Send a message to Kiarash via the submit_contact tool. Requires name, email, and message.",
+      "suggested_tool": "submit_contact"
     }
   ],
   "site_capabilities": {

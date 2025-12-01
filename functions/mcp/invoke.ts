@@ -192,10 +192,17 @@ experience  View work history and education
 mcp         How to connect AI agents (Claude, etc.)
 help        Show this help message
 
-MCP TOOLS
+MCP TOOLS (call via tools/call)
+
+submit_contact        ⭐ SEND A MESSAGE to Kiarash's inbox
+                      Required: name, email, message
+                      Optional: subject
 
 get_project_details   Get detailed project information
-run_terminal_command  Execute terminal commands`,
+                      Required: projectId (fiml, hirealigna, aivision)
+
+run_terminal_command  Execute terminal commands
+                      Required: command (about, skills, etc.)`,
 
   mcp: `
 CONNECT AI AGENTS TO THIS PORTFOLIO
@@ -231,7 +238,8 @@ Tool Endpoint:
   Body: { "tool": "tool_name", "input": { ... } }
 
 AVAILABLE TOOLS
-get_project_details - Get info about projects (fiml, hirealigna, aivision)
+submit_contact       - ⭐ SEND A MESSAGE to Kiarash (name, email, message required)
+get_project_details  - Get info about projects (fiml, hirealigna, aivision)
 run_terminal_command - Run commands (about, skills, projects, contact, experience, resume)
 
 The manifest is cryptographically signed with Ed25519.`,

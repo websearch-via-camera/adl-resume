@@ -42,6 +42,7 @@ const MorphingBlob = lazy(() => import("@/components/MorphingBlob").then(m => ({
 import { A11yProvider, SkipLinks, useA11y } from "@/components/A11yProvider"
 import { TextScramble } from "@/components/TextScramble"
 import { MagneticButton } from "@/components/MagneticButton"
+import { AnimatedName } from "@/components/AnimatedName"
 
 // Heavy components lazy loaded for better initial performance
 const GitHubActivity = lazy(() => import("@/components/GitHubActivity").then(m => ({ default: m.GitHubActivity })))
@@ -703,17 +704,9 @@ function App() {
                 <span className="text-xs text-muted-foreground mt-1">Let's build your AI dream team, starting today</span>
               </div>
               
-              {/* Name with gradient effect + text scramble */}
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-2">
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-foreground via-foreground to-foreground hover:from-primary hover:via-foreground hover:to-accent transition-all duration-700">
-                  <TextScramble 
-                    text="Kiarash Adl" 
-                    scrambleOnMount={true}
-                    scrambleOnHover={true}
-                    delay={500}
-                    className="inline"
-                  />
-                </span>
+              {/* Primary Name - Animated letter reveal with hover effects */}
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-2 text-foreground overflow-hidden">
+                <AnimatedName name="Kiarash Adl" delay={400} />
               </h1>
               <TypewriterTagline />
               

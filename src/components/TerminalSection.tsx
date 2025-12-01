@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Card } from "@/components/ui/card"
-import { Terminal, Sparkles, Copy, Check } from "lucide-react"
+import { Terminal, Sparkles, Copy, Check, Monitor, Code2, ChevronRight } from "lucide-react"
 import { isMCPMode, enableMCPMode, disableMCPMode, type UseMCPResult } from "@/mcp/useMCP"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 interface CommandOutput {
   command: string
@@ -220,6 +221,159 @@ const commands: Record<string, string[]> = {
 }
 
 export function TerminalSection() {
+  const isMobile = useIsMobile()
+  
+  // Early return for mobile - no terminal state/logic loaded
+  if (isMobile) {
+    return <MobileTerminalPlaceholder />
+  }
+  
+  return <DesktopTerminal />
+}
+
+// Lightweight mobile placeholder component
+function MobileTerminalPlaceholder() {
+  return (
+    <section aria-labelledby="terminal-section-heading" itemScope itemType="https://schema.org/WebApplication">
+      <TerminalSEOContent />
+      <Card className="p-0 overflow-hidden bg-gradient-to-br from-zinc-900 via-zinc-900 to-zinc-800 border-zinc-700/50">
+        {/* Header */}
+        <div className="flex items-center justify-between px-4 py-3 bg-zinc-950/80 border-b border-zinc-800/50">
+          <div className="flex items-center gap-2">
+            <div className="flex gap-1.5" aria-hidden="true">
+              <div className="w-2.5 h-2.5 rounded-full bg-red-500/60"></div>
+              <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/60"></div>
+              <div className="w-2.5 h-2.5 rounded-full bg-green-500/60"></div>
+            </div>
+            <Terminal className="h-4 w-4 text-zinc-500 ml-2" aria-hidden="true" />
+            <span className="text-xs text-zinc-500 font-mono">terminal</span>
+          </div>
+        </div>
+        
+        {/* Content */}
+        <div className="p-6 space-y-6">
+          {/* Static Terminal Icon - no infinite animation */}
+          <div className="flex justify-center">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 via-cyan-500/20 to-violet-500/20 rounded-2xl blur-xl opacity-60" />
+              <div className="relative bg-zinc-800/80 p-5 rounded-2xl border border-zinc-700/50 backdrop-blur-sm">
+                <Code2 className="h-12 w-12 text-green-400" />
+              </div>
+            </div>
+          </div>
+          
+          {/* Message */}
+          <div className="text-center space-y-3">
+            <h3 className="text-lg font-semibold text-zinc-100">
+              Interactive Terminal
+            </h3>
+            <p className="text-sm text-zinc-400 leading-relaxed max-w-xs mx-auto">
+              Experience a fully interactive zsh terminal with commands like{" "}
+              <code className="text-green-400 bg-zinc-800 px-1.5 py-0.5 rounded text-xs">about</code>,{" "}
+              <code className="text-green-400 bg-zinc-800 px-1.5 py-0.5 rounded text-xs">skills</code>, and{" "}
+              <code className="text-green-400 bg-zinc-800 px-1.5 py-0.5 rounded text-xs">projects</code>
+            </p>
+          </div>
+          
+          {/* Desktop CTA */}
+          <div className="flex justify-center">
+            <div className="flex items-center gap-3 px-5 py-3 bg-gradient-to-r from-zinc-800/80 to-zinc-800/40 rounded-xl border border-zinc-700/50">
+              <Monitor className="h-5 w-5 text-cyan-400" />
+              <span className="text-sm text-zinc-300">Open on desktop for the full experience</span>
+              <ChevronRight className="h-4 w-4 text-zinc-500" />
+            </div>
+          </div>
+          
+          {/* Static Terminal Preview */}
+          <div className="bg-zinc-950 rounded-lg p-3 font-mono text-xs border border-zinc-800/50">
+            <div className="flex items-center gap-1.5 text-zinc-500 mb-2">
+              <span className="text-green-400">kiarash@portfolio</span>
+              <span>:</span>
+              <span className="text-blue-400">~</span>
+              <span>$</span>
+              <span className="text-zinc-300 ml-1">neofetch</span>
+            </div>
+            <div className="text-zinc-500 text-[10px] leading-relaxed">
+              <div>OS: SeniorEngineer v10.0</div>
+              <div>Host: MIT EECS '14</div>
+              <div>Shell: TypeScript/Python</div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Footer */}
+        <div className="px-4 py-2 bg-zinc-950/80 border-t border-zinc-800/50 text-xs text-zinc-600 font-mono text-center">
+          <span className="flex items-center justify-center gap-1.5">
+            <Sparkles className="h-3 w-3 text-violet-500/50" />
+            WebMCP enabled • AI agents welcome
+          </span>
+        </div>
+      </Card>
+    </section>
+  )
+}
+
+// SEO content shared between mobile and desktop
+function TerminalSEOContent() {
+  return (
+    <div className="sr-only">
+      <h2 id="terminal-section-heading">Interactive Portfolio Terminal</h2>
+      <meta itemProp="name" content="Kiarash Adl Portfolio Terminal" />
+      <meta itemProp="applicationCategory" content="Portfolio" />
+      
+      <section aria-label="About Kiarash Adl">
+        <h3>About</h3>
+        <p>Kiarash Adl - Senior Software Engineer and Full-Stack AI Systems Architect. MIT EECS 2014 graduate with 10+ years experience building end-to-end AI platforms, agentic systems, and scalable cloud architectures. Focus areas: AI/ML, Computer Vision, Full-Stack Development.</p>
+      </section>
+      
+      <section aria-label="Technical Skills">
+        <h3>Skills</h3>
+        <ul role="list">
+          <li>Python: 95% proficiency - Primary language for AI/ML and backend</li>
+          <li>TypeScript: 90% proficiency - Full-stack web development</li>
+          <li>C++/CUDA: 75% proficiency - GPU programming, 55x speedup achievement</li>
+          <li>Deep Learning: Expert level</li>
+          <li>Computer Vision: Expert level</li>
+          <li>NLP/LLMs: Expert level</li>
+          <li>MLOps: Advanced level</li>
+        </ul>
+      </section>
+      
+      <section aria-label="Featured Projects">
+        <h3>Projects</h3>
+        <ul role="list">
+          <li>Financial Intelligence Meta-Layer (FIML): AI-native MCP server, 32K+ LOC, 1,403 tests, 100% pass rate. Tech: Python, MCP, AI Orchestration.</li>
+          <li>HireAligna.ai: Conversational AI Recruiter with voice interviews via LiveKit. Tech: Next.js, Azure OpenAI, Docker.</li>
+        </ul>
+      </section>
+      
+      <section aria-label="Contact Information">
+        <h3>Contact</h3>
+        <ul role="list">
+          <li>Email: kiarasha@alum.mit.edu</li>
+          <li>Phone: +1-857-928-1608</li>
+          <li>LinkedIn: linkedin.com/in/kiarashadl</li>
+          <li>GitHub: github.com/kiarashplusplus</li>
+          <li>Schedule a call: calendly.com/kiarasha-alum/30min</li>
+        </ul>
+      </section>
+      
+      <section aria-label="Work Experience">
+        <h3>Experience</h3>
+        <ul role="list">
+          <li>2024-Present: AI Vision (Founder & CEO) - AI solutions for home services</li>
+          <li>2019-2024: Technical Consulting - MVPs, architecture, AI systems</li>
+          <li>2018-2019: Monir (Founder & CEO) - Personalized shopping AI, VC funded</li>
+          <li>2014-2018: Google (Software Engineer) - Search Knowledge Panel, Knowledge Graph</li>
+          <li>2014: Twitter Ads (SWE Intern) - ML for audience expansion</li>
+        </ul>
+      </section>
+    </div>
+  )
+}
+
+// Full desktop terminal with all functionality
+function DesktopTerminal() {
   const [history, setHistory] = useState<CommandOutput[]>([
     { command: "", output: ["Welcome to Kiarash's Portfolio Terminal", "Type 'resume' or 'help' for available commands.", ""] }
   ])
@@ -451,61 +605,7 @@ export function TerminalSection() {
   
   return (
     <section aria-labelledby="terminal-section-heading" itemScope itemType="https://schema.org/WebApplication">
-      {/* SEO-friendly hidden content for crawlers and AI agents */}
-      <div className="sr-only">
-        <h2 id="terminal-section-heading">Interactive Portfolio Terminal</h2>
-        <meta itemProp="name" content="Kiarash Adl Portfolio Terminal" />
-        <meta itemProp="applicationCategory" content="Portfolio" />
-        
-        <section aria-label="About Kiarash Adl">
-          <h3>About</h3>
-          <p>Kiarash Adl - Senior Software Engineer and Full-Stack AI Systems Architect. MIT EECS 2014 graduate with 10+ years experience building end-to-end AI platforms, agentic systems, and scalable cloud architectures. Focus areas: AI/ML, Computer Vision, Full-Stack Development.</p>
-        </section>
-        
-        <section aria-label="Technical Skills">
-          <h3>Skills</h3>
-          <ul role="list">
-            <li>Python: 95% proficiency - Primary language for AI/ML and backend</li>
-            <li>TypeScript: 90% proficiency - Full-stack web development</li>
-            <li>C++/CUDA: 75% proficiency - GPU programming, 55x speedup achievement</li>
-            <li>Deep Learning: Expert level</li>
-            <li>Computer Vision: Expert level</li>
-            <li>NLP/LLMs: Expert level</li>
-            <li>MLOps: Advanced level</li>
-          </ul>
-        </section>
-        
-        <section aria-label="Featured Projects">
-          <h3>Projects</h3>
-          <ul role="list">
-            <li>Financial Intelligence Meta-Layer (FIML): AI-native MCP server, 32K+ LOC, 1,403 tests, 100% pass rate. Tech: Python, MCP, AI Orchestration.</li>
-            <li>HireAligna.ai: Conversational AI Recruiter with voice interviews via LiveKit. Tech: Next.js, Azure OpenAI, Docker.</li>
-          </ul>
-        </section>
-        
-        <section aria-label="Contact Information">
-          <h3>Contact</h3>
-          <ul role="list">
-            <li>Email: kiarasha@alum.mit.edu</li>
-            <li>Phone: +1-857-928-1608</li>
-            <li>LinkedIn: linkedin.com/in/kiarashadl</li>
-            <li>GitHub: github.com/kiarashplusplus</li>
-            <li>Schedule a call: calendly.com/kiarasha-alum/30min</li>
-          </ul>
-        </section>
-        
-        <section aria-label="Work Experience">
-          <h3>Experience</h3>
-          <ul role="list">
-            <li>2024-Present: AI Vision (Founder & CEO) - AI solutions for home services</li>
-            <li>2019-2024: Technical Consulting - MVPs, architecture, AI systems</li>
-            <li>2018-2019: Monir (Founder & CEO) - Personalized shopping AI, VC funded</li>
-            <li>2014-2018: Google (Software Engineer) - Search Knowledge Panel, Knowledge Graph</li>
-            <li>2014: Twitter Ads (SWE Intern) - ML for audience expansion</li>
-          </ul>
-        </section>
-      </div>
-      
+      <TerminalSEOContent />
       <Card className="p-0 overflow-hidden" role="application" aria-label="Interactive terminal emulator">
       {/* Terminal Header */}
       <div className="flex items-center justify-between px-4 py-2 bg-zinc-900 border-b border-zinc-800">

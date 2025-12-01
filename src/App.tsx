@@ -72,10 +72,9 @@ function AIAgentButton() {
     try {
       await navigator.clipboard.writeText(mcpPrompt)
       setCopied(true)
-      toast.success("Copied! Paste this into Claude Desktop")
-      setTimeout(() => setCopied(false), 2500)
+      setTimeout(() => setCopied(false), 4000)
     } catch {
-      toast.error("Failed to copy")
+      // Silent fail - the UI will show the copied state didn't change
     }
   }
   
@@ -102,9 +101,22 @@ function AIAgentButton() {
         {/* Animated glow effect */}
         <div className="absolute -inset-0.5 bg-gradient-to-r from-violet-500/20 via-purple-500/20 to-cyan-500/20 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
       </button>
-      <span className="text-[10px] text-muted-foreground/70">
-        Tested on Claude Desktop & Grok
-      </span>
+      
+      {/* Inline feedback message - more reliable than toast on older mobile devices */}
+      {copied ? (
+        <div className="flex flex-col items-center gap-1 animate-in fade-in slide-in-from-top-2 duration-300">
+          <span className="text-xs font-medium text-emerald-500">
+            ✓ Copied to clipboard!
+          </span>
+          <span className="text-[10px] text-muted-foreground text-center max-w-[220px]">
+            Paste into Claude Desktop, ChatGPT, or Grok to chat about this portfolio
+          </span>
+        </div>
+      ) : (
+        <span className="text-[10px] text-muted-foreground/70">
+          Tested on Claude Desktop & Grok
+        </span>
+      )}
     </div>
   )
 }

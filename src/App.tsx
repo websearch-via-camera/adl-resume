@@ -362,7 +362,34 @@ function App() {
 
   // Touch gesture navigation for mobile devices
   const mainRef = useRef<HTMLDivElement>(null)
+  const navScrollRef = useRef<HTMLDivElement>(null)
   const [swipeHint, setSwipeHint] = useState(false)
+  
+  // Auto-scroll nav to keep active button in view on mobile
+  useEffect(() => {
+    if (!navScrollRef.current || !activeSection) return
+    
+    const container = navScrollRef.current
+    const activeButton = container.querySelector(`[aria-current="page"]`) as HTMLElement
+    
+    if (activeButton) {
+      const containerRect = container.getBoundingClientRect()
+      const buttonRect = activeButton.getBoundingClientRect()
+      
+      // Check if button is out of view
+      const isOutOfViewLeft = buttonRect.left < containerRect.left
+      const isOutOfViewRight = buttonRect.right > containerRect.right
+      
+      if (isOutOfViewLeft || isOutOfViewRight) {
+        // Scroll to center the active button
+        const scrollLeft = activeButton.offsetLeft - (container.clientWidth / 2) + (activeButton.clientWidth / 2)
+        container.scrollTo({
+          left: Math.max(0, scrollLeft),
+          behavior: 'smooth'
+        })
+      }
+    }
+  }, [activeSection])
   
   // Navigate to next/previous section via swipe
   const navigateToNextSection = useCallback(() => {
@@ -383,7 +410,10 @@ function App() {
   useTouchGestures(mainRef, {
     onSwipeLeft: navigateToNextSection,
     onSwipeRight: navigateToPrevSection,
-    threshold: 75, // Slightly higher threshold to avoid accidental triggers
+    threshold: 40, // Lower threshold - velocity helps detect fast swipes
+    velocityThreshold: 0.25, // Sensitive to fast flicks
+    directionRatio: 1.5, // Must be 50% more horizontal than vertical
+    maxSwipeTime: 350, // Quick swipes only
     enabled: !prefersReducedMotion
   })
 
@@ -530,7 +560,7 @@ function App() {
             </button>
             
             {/* Nav links - scrollable on mobile */}
-            <div className="flex-1 overflow-x-auto scrollbar-hide min-w-0 mx-2" role="navigation">
+            <div ref={navScrollRef} className="flex-1 overflow-x-auto scrollbar-hide min-w-0 mx-2" role="navigation">
               <div className="flex items-center gap-1 w-max">
                 {navItems.map((item) => (
                   <button

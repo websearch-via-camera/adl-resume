@@ -8,8 +8,17 @@ interface SwipeConfig {
   onTap?: () => void
   onLongPress?: () => void
   threshold?: number // minimum distance for swipe
+  velocityThreshold?: number // minimum velocity (px/ms) for swipe
+  directionRatio?: number // how much more horizontal than vertical (1.0 = equal, 1.5 = 50% more)
+  maxSwipeTime?: number // max time in ms for a swipe
   longPressDelay?: number
   enabled?: boolean // allow disabling gestures
+}
+
+interface TouchPoint {
+  x: number
+  y: number
+  time: number
 }
 
 interface TouchState {
@@ -17,12 +26,19 @@ interface TouchState {
   startY: number
   startTime: number
   isActive: boolean
+  // Track last few points for velocity calculation
+  points: TouchPoint[]
 }
 
 /**
  * Hook for touch gesture detection
  * Supports swipe (4 directions), tap, and long press
  * Performance optimized with passive listeners
+ * 
+ * Improved swipe detection:
+ * - Velocity-based detection (fast swipes need less distance)
+ * - Tracks multiple touch points for accurate velocity
+ * - More forgiving direction detection
  */
 export function useTouchGestures<T extends HTMLElement = HTMLDivElement>(
   ref: RefObject<T | null>,
@@ -33,6 +49,7 @@ export function useTouchGestures<T extends HTMLElement = HTMLDivElement>(
     startY: 0,
     startTime: 0,
     isActive: false,
+    points: [],
   })
   const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -43,7 +60,10 @@ export function useTouchGestures<T extends HTMLElement = HTMLDivElement>(
     onSwipeDown,
     onTap,
     onLongPress,
-    threshold = 50,
+    threshold = 30, // Lower default - velocity helps
+    velocityThreshold = 0.3, // px/ms - quite sensitive
+    directionRatio = 1.3, // 30% more in primary direction
+    maxSwipeTime = 400, // Faster max time
     longPressDelay = 500,
     enabled = true,
   } = config
@@ -60,11 +80,14 @@ export function useTouchGestures<T extends HTMLElement = HTMLDivElement>(
       if (!enabled) return
       
       const touch = e.touches[0]
+      const now = Date.now()
+      
       touchState.current = {
         startX: touch.clientX,
         startY: touch.clientY,
-        startTime: Date.now(),
+        startTime: now,
         isActive: true,
+        points: [{ x: touch.clientX, y: touch.clientY, time: now }],
       }
 
       // Set up long press detection
@@ -73,7 +96,6 @@ export function useTouchGestures<T extends HTMLElement = HTMLDivElement>(
         longPressTimer.current = setTimeout(() => {
           if (touchState.current.isActive) {
             onLongPress()
-            // Provide haptic feedback if available
             if (navigator.vibrate) {
               navigator.vibrate(50)
             }
@@ -90,6 +112,14 @@ export function useTouchGestures<T extends HTMLElement = HTMLDivElement>(
       if (!enabled || !touchState.current.isActive) return
 
       const touch = e.touches[0]
+      const now = Date.now()
+      
+      // Track points for velocity (keep last 5)
+      touchState.current.points.push({ x: touch.clientX, y: touch.clientY, time: now })
+      if (touchState.current.points.length > 5) {
+        touchState.current.points.shift()
+      }
+
       const deltaX = touch.clientX - touchState.current.startX
       const deltaY = touch.clientY - touchState.current.startY
       const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
@@ -110,9 +140,11 @@ export function useTouchGestures<T extends HTMLElement = HTMLDivElement>(
       touchState.current.isActive = false
 
       const touch = e.changedTouches[0]
+      const now = Date.now()
+      
       const deltaX = touch.clientX - touchState.current.startX
       const deltaY = touch.clientY - touchState.current.startY
-      const deltaTime = Date.now() - touchState.current.startTime
+      const deltaTime = now - touchState.current.startTime
       const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
 
       // Tap detection (quick touch with minimal movement)
@@ -121,39 +153,88 @@ export function useTouchGestures<T extends HTMLElement = HTMLDivElement>(
         return
       }
 
-      // Swipe detection
-      if (distance >= threshold && deltaTime < 500) {
-        const absX = Math.abs(deltaX)
-        const absY = Math.abs(deltaY)
+      // Calculate velocity from recent points for more accurate detection
+      let velocityX = 0
+      let velocityY = 0
+      const points = touchState.current.points
+      
+      if (points.length >= 2) {
+        // Use last 2-3 points for velocity (more recent = more accurate)
+        const recentPoints = points.slice(-3)
+        const first = recentPoints[0]
+        const last = recentPoints[recentPoints.length - 1]
+        const dt = last.time - first.time
+        
+        if (dt > 0) {
+          velocityX = (last.x - first.x) / dt
+          velocityY = (last.y - first.y) / dt
+        }
+      }
+      
+      // Fallback to overall velocity
+      if (velocityX === 0 && velocityY === 0 && deltaTime > 0) {
+        velocityX = deltaX / deltaTime
+        velocityY = deltaY / deltaTime
+      }
 
-        // Determine swipe direction
-        if (absX > absY) {
-          // Horizontal swipe
-          if (deltaX > 0 && onSwipeRight) {
-            onSwipeRight()
-            if (navigator.vibrate) navigator.vibrate(30)
-          } else if (deltaX < 0 && onSwipeLeft) {
+      const absVelocityX = Math.abs(velocityX)
+      const absVelocityY = Math.abs(velocityY)
+      const absX = Math.abs(deltaX)
+      const absY = Math.abs(deltaY)
+
+      // Swipe detection criteria:
+      // 1. Time must be under max
+      // 2. Either distance OR velocity must exceed threshold
+      // 3. Movement must be primarily in one direction
+      const isWithinTime = deltaTime <= maxSwipeTime
+      const hasEnoughDistance = distance >= threshold
+      const hasEnoughVelocity = Math.max(absVelocityX, absVelocityY) >= velocityThreshold
+      const isValidSwipe = isWithinTime && (hasEnoughDistance || hasEnoughVelocity)
+
+      if (isValidSwipe) {
+        // Determine if horizontal or vertical
+        // Use both distance ratio AND velocity ratio
+        const distanceRatio = absX / (absY || 0.001)
+        const velocityRatio = absVelocityX / (absVelocityY || 0.001)
+        
+        // Average the ratios for better detection
+        const avgRatio = (distanceRatio + velocityRatio) / 2
+        const isHorizontal = avgRatio >= (1 / directionRatio)
+        const isVertical = avgRatio <= directionRatio
+
+        if (isHorizontal && absX >= absY / directionRatio) {
+          // Horizontal swipe - check both delta direction and velocity direction
+          // Prefer velocity direction for fast flicks
+          const effectiveDirection = absVelocityX > 0.5 ? velocityX : deltaX
+          
+          if (effectiveDirection < 0 && onSwipeLeft) {
             onSwipeLeft()
-            if (navigator.vibrate) navigator.vibrate(30)
+            if (navigator.vibrate) navigator.vibrate(20)
+          } else if (effectiveDirection > 0 && onSwipeRight) {
+            onSwipeRight()
+            if (navigator.vibrate) navigator.vibrate(20)
           }
-        } else {
+        } else if (isVertical && absY >= absX / directionRatio) {
           // Vertical swipe
-          if (deltaY > 0 && onSwipeDown) {
-            onSwipeDown()
-            if (navigator.vibrate) navigator.vibrate(30)
-          } else if (deltaY < 0 && onSwipeUp) {
+          const effectiveDirection = absVelocityY > 0.5 ? velocityY : deltaY
+          
+          if (effectiveDirection < 0 && onSwipeUp) {
             onSwipeUp()
-            if (navigator.vibrate) navigator.vibrate(30)
+            if (navigator.vibrate) navigator.vibrate(20)
+          } else if (effectiveDirection > 0 && onSwipeDown) {
+            onSwipeDown()
+            if (navigator.vibrate) navigator.vibrate(20)
           }
         }
       }
     },
-    [enabled, onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown, onTap, threshold, clearLongPress]
+    [enabled, onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown, onTap, threshold, velocityThreshold, directionRatio, maxSwipeTime, clearLongPress]
   )
 
   const handleTouchCancel = useCallback(() => {
     clearLongPress()
     touchState.current.isActive = false
+    touchState.current.points = []
   }, [clearLongPress])
 
   useEffect(() => {

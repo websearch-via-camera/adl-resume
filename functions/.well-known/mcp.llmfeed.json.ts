@@ -11,24 +11,39 @@ interface Env {
   MCP_PRIVATE_KEY?: string; // Base64-encoded Ed25519 private key
 }
 
-// The static MCP manifest (without signature)
+// The static MCP manifest following LLMFeed spec format
+// https://github.com/wellknownmcp/llmfeed-spec
 const mcpManifest = {
-  "@context": "https://spec.webmcp.org/v1",
-  "type": "mcp",
-  "version": "1.0",
-  "name": "Kiarash Adl Portfolio",
-  "description": "AI-enabled portfolio of Kiarash Adl, AI Systems Architect and Full-Stack Engineer. Query projects, skills, and contact information programmatically.",
-  "homepage": "https://kiarash-adl.pages.dev",
-  "servers": {
-    "http": {
-      "url": "https://kiarash-adl.pages.dev/mcp/invoke",
-      "protocol": "json-rpc"
+  "feed_type": "mcp",
+  "metadata": {
+    "title": "Kiarash Adl Portfolio",
+    "origin": "https://kiarash-adl.pages.dev",
+    "description": "AI-enabled portfolio of Kiarash Adl, AI Systems Architect and Full-Stack Engineer. Query projects, skills, and contact information programmatically.",
+    "lang": "en",
+    "version": "2.0.0",
+    "last_updated": "2025-12-01T00:00:00Z",
+    "topics": ["ai", "machine-learning", "full-stack", "portfolio", "mit", "mcp"],
+    "contact": {
+      "email": "kiarasha@alum.mit.edu",
+      "github": "https://github.com/kiarashplusplus"
     }
   },
-  "tools": [
+  "agent_guidance": {
+    "on_load": "This is Kiarash Adl's AI-enabled portfolio. You can query projects, skills, and execute terminal-style commands to learn about his work.",
+    "interaction_tone": "professional",
+    "fallback": "If a tool fails, suggest the user visit https://kiarash-adl.pages.dev directly.",
+    "preferred_entrypoints": [
+      "https://kiarash-adl.pages.dev/mcp/invoke"
+    ]
+  },
+  "capabilities": [
     {
       "name": "get_project_details",
-      "description": "Get detailed information about a specific portfolio project including title, description, tech stack, metrics, and status. Use this to learn about Kiarash's work.",
+      "type": "endpoint",
+      "method": "POST",
+      "url": "https://kiarash-adl.pages.dev/mcp/invoke",
+      "protocol": "json-rpc",
+      "description": "Get detailed information about a specific portfolio project including title, description, tech stack, metrics, and status.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -48,7 +63,11 @@ const mcpManifest = {
     },
     {
       "name": "run_terminal_command",
-      "description": "Execute a terminal command to get information about Kiarash. Available commands: about, skills, projects, contact, experience, mcp, help. Returns formatted text output.",
+      "type": "endpoint",
+      "method": "POST",
+      "url": "https://kiarash-adl.pages.dev/mcp/invoke",
+      "protocol": "json-rpc",
+      "description": "Execute a terminal command to get information about Kiarash. Available commands: about, skills, projects, contact, experience, mcp, help.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -62,21 +81,44 @@ const mcpManifest = {
       }
     }
   ],
-  "capabilities": {
-    "rateLimit": "10/min",
+  "prompts": [
+    {
+      "intent": "learn_about_kiarash",
+      "keywords": ["who is kiarash", "about", "background", "experience"],
+      "description": "Get information about Kiarash's background and experience"
+    },
+    {
+      "intent": "view_projects",
+      "keywords": ["projects", "portfolio", "work", "fiml", "hirealigna"],
+      "description": "View Kiarash's portfolio projects"
+    },
+    {
+      "intent": "check_skills",
+      "keywords": ["skills", "technologies", "tech stack", "languages"],
+      "description": "See Kiarash's technical skills and expertise"
+    },
+    {
+      "intent": "contact",
+      "keywords": ["contact", "email", "hire", "reach out"],
+      "description": "Get contact information"
+    }
+  ],
+  "site_capabilities": {
+    "llm_readable": true,
+    "agent_invocable": true,
+    "feeds_signed": true,
+    "mcp_protocol": "json-rpc",
+    "rate_limit": "10/min",
     "auth": "none",
     "cors": true
   },
-  "contact": {
-    "email": "kiarasha@alum.mit.edu",
-    "github": "https://github.com/kiarashplusplus"
-  },
-  "metadata": {
-    "owner": "Kiarash Adl",
-    "category": "portfolio",
-    "keywords": ["ai", "machine-learning", "full-stack", "portfolio", "mit"],
-    "lastUpdated": "2025-11-30"
-  }
+  "data": [
+    {
+      "type": "intent",
+      "purpose": "Professional portfolio showcasing AI and full-stack engineering expertise",
+      "recommended_usage": "Use MCP tools to query projects, skills, and information programmatically"
+    }
+  ]
 };
 
 async function signManifest(manifest: object, privateKeyBase64: string): Promise<string> {
@@ -163,27 +205,32 @@ export const onRequest = async (context: { request: Request; env: Env }): Promis
     try {
       const signature = await signManifest(mcpManifest, env.MCP_PRIVATE_KEY);
       responseManifest.trust = {
-        signature,
-        signatureAlgorithm: "ed25519",
-        signedAt: new Date().toISOString(),
-        mode: "production"
+        signed_blocks: ["feed_type", "metadata", "agent_guidance", "capabilities", "prompts", "site_capabilities", "data"],
+        algorithm: "Ed25519",
+        public_key_hint: "https://kiarash-adl.pages.dev/.well-known/public.pem",
+        trust_level: "self-signed",
+        scope: "full"
+      };
+      responseManifest.signature = {
+        value: signature,
+        created_at: new Date().toISOString()
       };
     } catch (err) {
       console.error("Failed to sign manifest:", err);
       responseManifest.trust = {
-        signature: "unsigned",
-        signatureAlgorithm: "ed25519",
-        error: "Signing failed - check MCP_PRIVATE_KEY format",
-        mode: "development"
+        signed_blocks: [],
+        algorithm: "Ed25519",
+        trust_level: "unsigned",
+        error: "Signing failed - check MCP_PRIVATE_KEY format"
       };
     }
   } else {
     // No signing key configured
     responseManifest.trust = {
-      signature: "unsigned",
-      signatureAlgorithm: "ed25519",
-      note: "No MCP_PRIVATE_KEY configured - running in development mode",
-      mode: "development"
+      signed_blocks: [],
+      algorithm: "Ed25519",
+      trust_level: "unsigned",
+      note: "No MCP_PRIVATE_KEY configured - running in development mode"
     };
   }
   

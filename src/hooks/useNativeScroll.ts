@@ -58,40 +58,54 @@ export function useNativeScroll(
     const scrollableHeight = documentHeight - windowHeight
     const progress = scrollableHeight > 0 ? (scrollY / scrollableHeight) * 100 : 0
     
-    // Find active section using getBoundingClientRect for accuracy
-    // Use 40% of viewport height as the detection threshold
-    const detectionPoint = windowHeight * 0.4
+    // Find active section - use a simple approach that works on mobile
+    // The section whose top is closest to (but above) the top 1/3 of the viewport wins
+    const viewportTrigger = windowHeight * 0.33
     let activeSection = sections[0] || "home"
-    let closestDistance = Infinity
+    let bestScore = -Infinity
     
     for (const sectionId of sections) {
-      const element = document.getElementById(sectionId)
+      // Find ALL elements with this ID and pick the visible one
+      const elements = document.querySelectorAll(`#${sectionId}`)
+      let element: Element | null = null
+      
+      for (const el of elements) {
+        const rect = el.getBoundingClientRect()
+        // Pick the element that's actually in the document flow (has height and is visible)
+        if (rect.height > 0 && rect.bottom > 0) {
+          element = el
+          break
+        }
+      }
+      
       if (!element) continue
       
       const rect = element.getBoundingClientRect()
       const sectionTop = rect.top
       const sectionBottom = rect.bottom
       
-      // Check if section is visible in the viewport
-      if (sectionTop <= detectionPoint && sectionBottom > 0) {
-        // Calculate distance from detection point to section top
-        const distance = Math.abs(sectionTop - detectionPoint)
-        
-        // Prefer sections whose top is closest to (but above) the detection point
-        if (sectionTop <= detectionPoint && distance < closestDistance) {
-          closestDistance = distance
+      // Section must be at least partially visible
+      if (sectionBottom <= 0 || sectionTop >= windowHeight) continue
+      
+      // Score: how much of the section is above the trigger point
+      // Higher score = section top is closer to (but above) the trigger point
+      if (sectionTop <= viewportTrigger) {
+        // The closer to the trigger (from above), the better the score
+        const score = -sectionTop // Negative because we want sections higher up to have lower (more negative) tops
+        if (score > bestScore) {
+          bestScore = score
           activeSection = sectionId
         }
       }
     }
     
     // Special case: if we're near the bottom of the page, select the last section
-    if (scrollY + windowHeight >= documentHeight - 50) {
+    if (scrollY + windowHeight >= documentHeight - 100) {
       activeSection = sections[sections.length - 1] || activeSection
     }
     
-    // Special case: if we're at the top, select the first section
-    if (scrollY < 100) {
+    // Special case: if we're at the very top, select the first section
+    if (scrollY < 50) {
       activeSection = sections[0] || "home"
     }
     

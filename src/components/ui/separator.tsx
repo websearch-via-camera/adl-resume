@@ -1,23 +1,31 @@
 "use client"
 
-import { ComponentProps } from "react"
-import * as SeparatorPrimitive from "@radix-ui/react-separator"
+import { type ComponentProps } from "react"
 
 import { cn } from "@/lib/utils"
 
+interface SeparatorProps extends ComponentProps<"div"> {
+  orientation?: "horizontal" | "vertical"
+  decorative?: boolean
+}
+
+// Native div-based separator - lighter alternative to @radix-ui/react-separator
+// Radix Separator is just a styled <div> with accessibility attributes
 function Separator({
   className,
   orientation = "horizontal",
   decorative = true,
   ...props
-}: ComponentProps<typeof SeparatorPrimitive.Root>) {
+}: SeparatorProps) {
   return (
-    <SeparatorPrimitive.Root
+    <div
       data-slot="separator-root"
-      decorative={decorative}
-      orientation={orientation}
+      data-orientation={orientation}
+      role={decorative ? "none" : "separator"}
+      aria-orientation={decorative ? undefined : orientation}
       className={cn(
-        "bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px",
+        "bg-border shrink-0",
+        orientation === "horizontal" ? "h-px w-full" : "h-full w-px",
         className
       )}
       {...props}

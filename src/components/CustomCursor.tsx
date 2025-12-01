@@ -7,7 +7,9 @@ export function CustomCursor() {
   useEffect(() => {
     // Check for touch device after mount
     const isTouchDevice = window.matchMedia("(pointer: coarse)").matches
-    if (isTouchDevice) return
+    // Also respect reduced motion - the constant cursor following can be distracting
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    if (isTouchDevice || prefersReducedMotion) return
     
     setShouldRender(true)
   }, [])

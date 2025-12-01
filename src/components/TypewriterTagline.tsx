@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 
 const taglines = [
   "I Build AI That Works For You",
@@ -9,6 +9,11 @@ const taglines = [
 ]
 
 export function TypewriterTagline() {
+  // Respect reduced motion preference
+  const prefersReducedMotion = useMemo(() => 
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  [])
+  
   const [currentIndex, setCurrentIndex] = useState(0)
   // Start with full first tagline for instant LCP - no empty state
   const [displayText, setDisplayText] = useState(taglines[0])
@@ -16,7 +21,10 @@ export function TypewriterTagline() {
   const [hasStarted, setHasStarted] = useState(false)
   
   // Delay animation start to ensure LCP is captured with full text
+  // Skip animation entirely if reduced motion is preferred
   useEffect(() => {
+    if (prefersReducedMotion) return // Keep first tagline static
+    
     const startDelay = setTimeout(() => {
       setHasStarted(true)
       // Start by deleting after showing first tagline
@@ -24,7 +32,7 @@ export function TypewriterTagline() {
     }, 3000) // Wait 3 seconds before starting animation
     
     return () => clearTimeout(startDelay)
-  }, [])
+  }, [prefersReducedMotion])
 
   useEffect(() => {
     // Don't animate until we've started

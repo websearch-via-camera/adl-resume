@@ -10,6 +10,7 @@ interface AnimatedNameProps {
 /**
  * Award-winning animated name reveal
  * Letters slide up with stagger, then gradient shimmers on hover
+ * Respects prefers-reduced-motion
  */
 export const AnimatedName = memo(function AnimatedName({
   name,
@@ -19,11 +20,19 @@ export const AnimatedName = memo(function AnimatedName({
   const [isRevealed, setIsRevealed] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
   
-  // Trigger reveal animation after delay
+  // Respect reduced motion preference
+  const prefersReducedMotion = typeof window !== 'undefined' 
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  
+  // Trigger reveal animation after delay (instant if reduced motion)
   useEffect(() => {
+    if (prefersReducedMotion) {
+      setIsRevealed(true)
+      return
+    }
     const timer = setTimeout(() => setIsRevealed(true), delay)
     return () => clearTimeout(timer)
-  }, [delay])
+  }, [delay, prefersReducedMotion])
   
   const letters = name.split("")
   
@@ -44,24 +53,27 @@ export const AnimatedName = memo(function AnimatedName({
       {letters.map((letter, index) => {
         const isSpace = letter === " "
         // Calculate stagger delay - faster for first letters, slight pause at space
-        const staggerDelay = isSpace ? 0 : index * 50
+        // Skip stagger if reduced motion
+        const staggerDelay = (isSpace || prefersReducedMotion) ? 0 : index * 50
         
         return (
           <span
             key={`${letter}-${index}`}
             aria-hidden="true"
             className={cn(
-              "inline-block transition-all duration-500 ease-out",
+              "inline-block",
+              // Only add transitions if motion is allowed
+              !prefersReducedMotion && "transition-all duration-500 ease-out",
               isSpace ? "w-3 md:w-4" : "",
-              // Initial state: below and invisible
-              !isRevealed && "translate-y-[100%] opacity-0",
+              // Initial state: below and invisible (skip if reduced motion)
+              !isRevealed && !prefersReducedMotion && "translate-y-[100%] opacity-0",
               // Revealed state: normal position
               isRevealed && "translate-y-0 opacity-100",
-              // Hover state: gradient color
+              // Hover state: gradient color (still works with reduced motion)
               isHovered && !isSpace && "text-primary"
             )}
             style={{
-              transitionDelay: isRevealed ? `${staggerDelay}ms` : "0ms",
+              transitionDelay: (isRevealed && !prefersReducedMotion) ? `${staggerDelay}ms` : "0ms",
             }}
           >
             {isSpace ? "\u00A0" : letter}
@@ -72,24 +84,27 @@ export const AnimatedName = memo(function AnimatedName({
       {/* Animated underline on hover */}
       <span
         className={cn(
-          "absolute bottom-0 left-0 h-[3px] bg-gradient-to-r from-primary via-accent to-primary rounded-full transition-all duration-500 ease-out",
+          "absolute bottom-0 left-0 h-[3px] bg-gradient-to-r from-primary via-accent to-primary rounded-full",
+          !prefersReducedMotion && "transition-all duration-500 ease-out",
           isHovered ? "w-full opacity-100" : "w-0 opacity-0"
         )}
         aria-hidden="true"
       />
       
-      {/* Shimmer effect on hover */}
-      <span
-        className={cn(
-          "absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent -skew-x-12 transition-all duration-700",
-          isHovered ? "translate-x-full opacity-100" : "-translate-x-full opacity-0"
-        )}
-        style={{ 
-          maskImage: "linear-gradient(to right, transparent, black 20%, black 80%, transparent)",
-          WebkitMaskImage: "linear-gradient(to right, transparent, black 20%, black 80%, transparent)"
-        }}
-        aria-hidden="true"
-      />
+      {/* Shimmer effect on hover - skip if reduced motion */}
+      {!prefersReducedMotion && (
+        <span
+          className={cn(
+            "absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent -skew-x-12 transition-all duration-700",
+            isHovered ? "translate-x-full opacity-100" : "-translate-x-full opacity-0"
+          )}
+          style={{ 
+            maskImage: "linear-gradient(to right, transparent, black 20%, black 80%, transparent)",
+            WebkitMaskImage: "linear-gradient(to right, transparent, black 20%, black 80%, transparent)"
+          }}
+          aria-hidden="true"
+        />
+      )}
     </span>
   )
 })

@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback, ReactNode, ComponentProps } from "react"
+import { useRef, useState, useCallback, ReactNode, ComponentProps, useMemo } from "react"
 import { cn } from "@/lib/utils"
 
 interface MagneticButtonProps extends ComponentProps<"button"> {
@@ -15,6 +15,7 @@ interface MagneticButtonProps extends ComponentProps<"button"> {
  * Award-winning magnetic button effect
  * Cursor attracts the button on proximity using GPU-accelerated transforms
  * Performance optimized with RAF throttling and will-change hints
+ * Respects prefers-reduced-motion
  */
 export function MagneticButton({
   children,
@@ -33,20 +34,27 @@ export function MagneticButton({
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [childPosition, setChildPosition] = useState({ x: 0, y: 0 })
   const [isHovered, setIsHovered] = useState(false)
+  
+  // Respect reduced motion preference - disable magnetic effect
+  const prefersReducedMotion = useMemo(() => 
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  [])
 
   const handleMouseEnter = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
-      if (buttonRef.current) {
+      if (!prefersReducedMotion && buttonRef.current) {
         rectRef.current = buttonRef.current.getBoundingClientRect()
       }
       setIsHovered(true)
       onMouseEnter?.(e)
     },
-    [onMouseEnter]
+    [onMouseEnter, prefersReducedMotion]
   )
 
   const handleMouseMove = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
+      // Skip magnetic effect if reduced motion is preferred
+      if (prefersReducedMotion) return
       if (rafRef.current) return // Throttle with RAF
       
       rafRef.current = requestAnimationFrame(() => {
@@ -152,7 +160,7 @@ export function useMagnetic(strength = 0.4, radius = 150) {
       }
       setIsActive(true)
     },
-    onMouseMove: (e: React.MouseEvent) => {
+    onMouseMove: (e: React.MouseEvent<HTMLElement>) => {
       if (rafRef.current) return
       
       rafRef.current = requestAnimationFrame(() => {

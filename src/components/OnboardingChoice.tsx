@@ -9,19 +9,27 @@ export function OnboardingChoice({ onChoice }: OnboardingChoiceProps) {
   const [hoveredOption, setHoveredOption] = useState<"dev" | "visitor" | null>(null)
   const [isExiting, setIsExiting] = useState(false)
   const [showContent, setShowContent] = useState(false)
+  
+  // Respect reduced motion preference
+  const prefersReducedMotion = typeof window !== 'undefined' 
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-  // Staggered entrance animation
+  // Staggered entrance animation (instant if reduced motion)
   useEffect(() => {
+    if (prefersReducedMotion) {
+      setShowContent(true)
+      return
+    }
     const timer = setTimeout(() => setShowContent(true), 100)
     return () => clearTimeout(timer)
-  }, [])
+  }, [prefersReducedMotion])
 
   const handleChoice = (isDeveloper: boolean) => {
     setIsExiting(true)
-    // Small delay for exit animation
+    // Small delay for exit animation (skip if reduced motion)
     setTimeout(() => {
       onChoice(isDeveloper)
-    }, 500)
+    }, prefersReducedMotion ? 0 : 500)
   }
 
   return (
@@ -39,24 +47,26 @@ export function OnboardingChoice({ onChoice }: OnboardingChoiceProps) {
               radial-gradient(ellipse 80% 50% at 20% 40%, oklch(from var(--primary) l c h / 0.15), transparent),
               radial-gradient(ellipse 60% 40% at 80% 60%, oklch(from var(--accent) l c h / 0.1), transparent)
             `,
-            animation: showContent ? 'aurora-shift 10s ease-in-out infinite' : 'none',
+            animation: showContent && !prefersReducedMotion ? 'aurora-shift 10s ease-in-out infinite' : 'none',
           }}
         />
         
-        {/* Floating particles */}
-        <div className="absolute inset-0">
-          {[...Array(6)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-1 h-1 rounded-full bg-primary/30"
-              style={{
-                left: `${15 + i * 15}%`,
-                top: `${20 + (i % 3) * 25}%`,
-                animation: showContent ? `float ${3 + i * 0.5}s ease-in-out infinite ${i * 0.3}s` : 'none',
-              }}
-            />
-          ))}
-        </div>
+        {/* Floating particles - hidden if reduced motion */}
+        {!prefersReducedMotion && (
+          <div className="absolute inset-0">
+            {[...Array(6)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute w-1 h-1 rounded-full bg-primary/30"
+                style={{
+                  left: `${15 + i * 15}%`,
+                  top: `${20 + (i % 3) * 25}%`,
+                  animation: showContent ? `float ${3 + i * 0.5}s ease-in-out infinite ${i * 0.3}s` : 'none',
+                }}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       <div 
@@ -81,7 +91,10 @@ export function OnboardingChoice({ onChoice }: OnboardingChoiceProps) {
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-foreground via-foreground to-primary">
               Hey there!
             </span>{" "}
-            <span className="inline-block animate-wave" style={{ animationDelay: '0.5s' }}>👋</span>
+            <span 
+              className={`inline-block ${prefersReducedMotion ? '' : 'animate-wave'}`} 
+              style={{ animationDelay: prefersReducedMotion ? undefined : '0.5s' }}
+            >👋</span>
           </h1>
           <p 
             className={`text-lg md:text-xl text-muted-foreground max-w-md mx-auto transition-all duration-700 delay-200 ${

@@ -20,6 +20,8 @@ interface TextScrambleProps {
   className?: string
   /** HTML tag to render */
   as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "div"
+  /** Disable the scramble effect entirely */
+  disabled?: boolean
 }
 
 // Characters for the scramble effect - mix of symbols and letters for cyber aesthetic
@@ -40,20 +42,24 @@ export const TextScramble = memo(function TextScramble({
   delay = 0,
   className,
   as: Tag = "span",
+  disabled = false,
 }: TextScrambleProps) {
-  const [displayText, setDisplayText] = useState(scrambleOnMount ? "" : text)
+  const [displayText, setDisplayText] = useState(scrambleOnMount && !disabled ? "" : text)
   const [isDecoding, setIsDecoding] = useState(false)
+  const [isComplete, setIsComplete] = useState(!scrambleOnMount || disabled)
   const frameRef = useRef<number>(0)
   const queueRef = useRef<Array<{ from: string; to: string; start: number; end: number; char?: string }>>([])
   const frameCountRef = useRef(0)
   const elementRef = useRef<HTMLElement>(null)
-  const hasAnimatedRef = useRef(false)
+  const hasAnimatedRef = useRef(disabled)
 
   // Scramble decode algorithm
   const decode = useCallback(() => {
+    if (disabled) return
     if (hasAnimatedRef.current && !scrambleOnHover) return
     
     setIsDecoding(true)
+    setIsComplete(false)
     hasAnimatedRef.current = true
     
     const oldText = displayText || ""
@@ -101,8 +107,10 @@ export const TextScramble = memo(function TextScramble({
         frameCountRef.current++
         frameRef.current = requestAnimationFrame(update)
       } else {
+        // Animation complete - set final text and mark as complete
         setDisplayText(text)
         setIsDecoding(false)
+        setIsComplete(true)
       }
     }
     
@@ -110,7 +118,7 @@ export const TextScramble = memo(function TextScramble({
     setTimeout(() => {
       frameRef.current = requestAnimationFrame(update)
     }, delay)
-  }, [text, displayText, characters, delay, scrambleOnHover])
+  }, [text, displayText, characters, delay, scrambleOnHover, disabled])
 
   // Cleanup on unmount
   useEffect(() => {
@@ -123,14 +131,14 @@ export const TextScramble = memo(function TextScramble({
 
   // Scramble on mount
   useEffect(() => {
-    if (scrambleOnMount && !hasAnimatedRef.current) {
+    if (scrambleOnMount && !hasAnimatedRef.current && !disabled) {
       decode()
     }
-  }, [scrambleOnMount, decode])
+  }, [scrambleOnMount, decode, disabled])
 
   // Scramble on view (IntersectionObserver)
   useEffect(() => {
-    if (!scrambleOnView || hasAnimatedRef.current) return
+    if (!scrambleOnView || hasAnimatedRef.current || disabled) return
     
     const element = elementRef.current
     if (!element) return
@@ -147,16 +155,31 @@ export const TextScramble = memo(function TextScramble({
 
     observer.observe(element)
     return () => observer.disconnect()
-  }, [scrambleOnView, decode])
+  }, [scrambleOnView, decode, disabled])
 
   // Handle hover
   const handleMouseEnter = useCallback(() => {
-    if (scrambleOnHover && !isDecoding) {
+    if (scrambleOnHover && !isDecoding && !disabled) {
       hasAnimatedRef.current = false
       setDisplayText("")
       setTimeout(() => decode(), 50)
     }
-  }, [scrambleOnHover, isDecoding, decode])
+  }, [scrambleOnHover, isDecoding, decode, disabled])
+
+  // When complete or disabled, render as plain text to ensure visibility
+  // When decoding, use dangerouslySetInnerHTML for the animated characters
+  if (isComplete || disabled) {
+    return (
+      <Tag
+        ref={elementRef as React.RefObject<HTMLHeadingElement>}
+        className={cn("relative inline-block", className)}
+        onMouseEnter={handleMouseEnter}
+        style={{ fontVariantNumeric: "tabular-nums" }}
+      >
+        {text}
+      </Tag>
+    )
+  }
 
   return (
     <Tag

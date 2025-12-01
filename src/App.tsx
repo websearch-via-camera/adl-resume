@@ -365,29 +365,20 @@ function App() {
   const navScrollRef = useRef<HTMLDivElement>(null)
   const [swipeHint, setSwipeHint] = useState(false)
   
-  // Auto-scroll nav to keep active button in view on mobile
+  // Auto-scroll nav to keep active button visible and centered on mobile
   useEffect(() => {
     if (!navScrollRef.current || !activeSection) return
     
     const container = navScrollRef.current
-    const activeButton = container.querySelector(`[aria-current="page"]`) as HTMLElement
+    const activeButton = container.querySelector(`button[aria-current="page"]`) as HTMLElement
     
     if (activeButton) {
-      const containerRect = container.getBoundingClientRect()
-      const buttonRect = activeButton.getBoundingClientRect()
-      
-      // Check if button is out of view
-      const isOutOfViewLeft = buttonRect.left < containerRect.left
-      const isOutOfViewRight = buttonRect.right > containerRect.right
-      
-      if (isOutOfViewLeft || isOutOfViewRight) {
-        // Scroll to center the active button
-        const scrollLeft = activeButton.offsetLeft - (container.clientWidth / 2) + (activeButton.clientWidth / 2)
-        container.scrollTo({
-          left: Math.max(0, scrollLeft),
-          behavior: 'smooth'
-        })
-      }
+      // Always scroll to center the active button for better UX on mobile
+      const scrollLeft = activeButton.offsetLeft - (container.clientWidth / 2) + (activeButton.clientWidth / 2)
+      container.scrollTo({
+        left: Math.max(0, scrollLeft),
+        behavior: 'smooth'
+      })
     }
   }, [activeSection])
   
@@ -460,11 +451,19 @@ function App() {
         <CustomCursor />
       </Suspense>
       
-      {/* Swipe Hint Overlay - shows on first mobile visit */}
+      {/* Swipe Hint Overlay - shows on first mobile visit, tap anywhere to dismiss */}
       {swipeHint && (
         <div 
-          className="fixed inset-0 z-[100] pointer-events-none flex items-center justify-center bg-background/60 backdrop-blur-sm animate-in fade-in duration-500"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-background/60 backdrop-blur-sm animate-in fade-in duration-500 cursor-pointer"
           aria-hidden="true"
+          onClick={() => {
+            setSwipeHint(false)
+            try { localStorage.setItem('kiarash-swipe-hint', 'true') } catch {}
+          }}
+          onTouchEnd={() => {
+            setSwipeHint(false)
+            try { localStorage.setItem('kiarash-swipe-hint', 'true') } catch {}
+          }}
         >
           <div className="flex flex-col items-center gap-4 p-8 rounded-2xl bg-card/90 border border-border shadow-2xl animate-in zoom-in-95 duration-300">
             <div className="flex items-center gap-4">
@@ -477,6 +476,7 @@ function App() {
               <ChevronRight className="h-8 w-8 text-primary swipe-hint" style={{ animationDirection: 'reverse' }} />
             </div>
             <p className="text-sm font-medium text-foreground">Swipe to navigate sections</p>
+            <p className="text-xs text-muted-foreground">Tap anywhere to dismiss</p>
           </div>
         </div>
       )}
@@ -1238,12 +1238,7 @@ function App() {
                 <span className="text-sm font-medium text-primary uppercase tracking-wider">Contact</span>
               </div>
               <h2 id="contact-heading" className="text-3xl md:text-4xl font-bold mb-2">
-                <TextScramble 
-                  text="Let's discuss AI innovation, collaboration, or your next project." 
-                  scrambleOnMount={false}
-                  scrambleOnView={true}
-                  delay={200}
-                />
+                Let's Build Something Together
               </h2>
             </ScrollReveal>
 

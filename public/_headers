@@ -1,5 +1,32 @@
 # Cloudflare Pages Headers Configuration
+# Cloudflare automatically handles Brotli/Gzip compression for text-based content
 
+# ===========================================
+# Static Assets - Long TTL (1 year, immutable)
+# ===========================================
+# Vite hashes filenames, so these can be cached forever
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Images and fonts
+/*.avif
+  Cache-Control: public, max-age=31536000, immutable
+/*.webp
+  Cache-Control: public, max-age=31536000, immutable
+/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+# ===========================================
+# HTML - Short TTL (revalidate on each visit)
+# ===========================================
+/
+  Cache-Control: public, max-age=0, must-revalidate
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# ===========================================
+# MCP Endpoints
+# ===========================================
 # Allow .well-known directory to be served
 /.well-known/*
   Access-Control-Allow-Origin: *
@@ -14,3 +41,25 @@
   Content-Type: application/json
   Cache-Control: public, max-age=3600
   X-Content-Type-Options: nosniff
+
+# MCP invoke endpoint - short cache for dynamic responses
+/mcp/invoke
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, POST, OPTIONS
+  Access-Control-Allow-Headers: Content-Type
+  Cache-Control: public, max-age=300
+  X-Content-Type-Options: nosniff
+
+# MCP health endpoint - no cache
+/mcp/health
+  Access-Control-Allow-Origin: *
+  Cache-Control: no-cache, no-store, must-revalidate
+
+# ===========================================
+# Security Headers (all pages)
+# ===========================================
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+

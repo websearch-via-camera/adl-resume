@@ -78,36 +78,43 @@ const projects: Record<string, {
 const terminalCommands: Record<string, string> = {
   about: `
 KIARASH ADL
-AI Systems Architect & Full-Stack Engineer
+Senior Software Engineer & AI Systems Architect
 
-MIT Alumnus | 10+ Years Experience | Human + AI Projects
+MIT EECS '14 | 10+ Years Experience
+
+Building end-to-end AI platforms, agentic systems,
+and scalable cloud architectures.
 
 Specializing in:
-  • Large Language Models & AI Systems
-  • Distributed Systems Architecture
-  • Full-Stack Development (React, Node, Python)
-  • Cloud Infrastructure (AWS, GCP, Cloudflare)`,
+  • AI/ML Systems & Computer Vision
+  • Full-Stack Development (React, Python, Node)
+  • Cloud Infrastructure (AWS, Docker, Kubernetes)
+  • Technical Leadership & Startup Experience`,
   
   skills: `  
 TECHNICAL SKILLS
 
 Languages
-  Python          95%
-  React Natve     90%
-  TypeScript      70%
+  Python              95%
+  React/React Native  90%
+  TypeScript          90%
+  C++/CUDA            75%
 
-Frontend
-  React           95%
-  Next.js         90%
+AI & Machine Learning
+  Deep Learning       Expert
+  Computer Vision     Expert
+  NLP/LLMs            Expert
+  MLOps               Advanced
 
 Backend
-  Node.js         90%
-  FastAPI         95%
+  FastAPI             92%
+  Node.js             88%
+  PostgreSQL          65%
 
-Cloud
-  AWS             90%
-  GCP             85%
-  Cloudflare      80%`,
+Cloud & DevOps
+  AWS                 90%
+  Docker              88%
+  CI/CD               65%`,
 
   projects: `
 FEATURED PROJECTS
@@ -145,21 +152,33 @@ Open to: Consulting, Advisory, Full-time opportunities`,
   experience: `
 EXPERIENCE
 
-2020-Present  AI Systems Architect
-              Leading AI infrastructure for Fortune 500 clients
-              Built ML pipelines processing 1B+ daily events
+2024-Present  AI Vision (Founder & CEO)
+              Patent-pending AI solutions for home services
+              Led development from prototype to App Store launch
 
-2017-2020     Senior Full-Stack Engineer  
-              Led team of 8 engineers
-              Scaled platform to 10M+ users
+2019-2024     Technical Consulting
+              Built production-ready MVPs for multiple startups
+              Advised on AI/ML integration and tech roadmaps
 
-2015-2017     Software Engineer
-              MIT Media Lab research
-              Published 3 papers on computer vision
+2018-2019     Monir (Founder & CEO)
+              VC-funded AI personalization startup
+              Built serverless Python microservices platform
+
+2014-2018     Google (Software Engineer)
+              Search Knowledge Panel & Knowledge Graph
+              Features serving billions of users worldwide
+
+2014          Twitter Ads (SWE Intern)
+              ML algorithm for audience expansion
+              Production system in Hadoop/Scalding
+
+2012-2014     MIT CSAIL (Research Assistant)
+              55x GPU speedup in speech recognition (ICASSP 2012)
+              Worked under Sir Tim Berners-Lee
 
 EDUCATION
 
-MIT - BS Computer Science & Engineering`,
+MIT - BS Electrical Engineering & Computer Science (2014)`,
 
   help: `
 AVAILABLE COMMANDS

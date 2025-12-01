@@ -776,6 +776,9 @@ export const onRequest = async (context: { request: Request; env: Env }): Promis
           } else if (toolResult && typeof toolResult === 'object' && 'error' in toolResult) {
             // Error response
             content = [{ type: "text", text: `Error: ${(toolResult as { error: string }).error}` }];
+          } else if (toolResult && typeof toolResult === 'object' && 'message' in toolResult) {
+            // Contact submission or other message response
+            content = [{ type: "text", text: (toolResult as { message: string }).message }];
           } else {
             // Project details or other structured data - format nicely
             content = [{ type: "text", text: formatProjectDetails(toolResult) }];

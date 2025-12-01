@@ -1,8 +1,20 @@
-import { ComponentProps } from "react"
-import { Slot } from "@radix-ui/react-slot"
+import { ComponentProps, forwardRef, isValidElement, cloneElement, type ReactElement } from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
+
+// Native Slot implementation - removes @radix-ui/react-slot dependency
+// Merges props onto the child element when asChild is true
+function Slot({ children, ...props }: ComponentProps<"span"> & { children?: React.ReactNode }) {
+  if (isValidElement(children)) {
+    return cloneElement(children as ReactElement<Record<string, unknown>>, {
+      ...props,
+      ...children.props,
+      className: cn((props as { className?: string }).className, (children.props as { className?: string }).className),
+    })
+  }
+  return <span {...props}>{children}</span>
+}
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-medium transition-all duration-300 ease-out disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive active:scale-[0.97] cursor-pointer select-none [&_svg]:transition-transform [&_svg]:duration-200",

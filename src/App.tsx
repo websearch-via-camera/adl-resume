@@ -7,7 +7,6 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Mail, Phone, Download, Github, Linkedin, ArrowUpRight, Send, ChevronUp, ChevronDown, Link, Calendar, Bot, Copy, Check } from "lucide-react"
-import { motion } from "framer-motion"
 import { useState, useEffect, lazy, Suspense } from "react"
 import { toast } from "sonner"
 import resumePdf from "@/assets/documents/Kiarash-Adl-Resume-20251129.pdf"
@@ -27,6 +26,7 @@ import { ThemeToggle } from "@/components/ThemeToggle"
 import { TypewriterTagline } from "@/components/TypewriterTagline"
 import { useKeyboardNavigation } from "@/hooks/useKeyboardNavigation"
 import { useNativeScroll } from "@/hooks/useNativeScroll"
+import { ScrollReveal, ScrollRevealContainer } from "@/components/ScrollReveal"
 
 // Onboarding modal - loaded immediately (critical for first-time visitors)
 // This is the first thing new users see, so it must not be lazy-loaded
@@ -253,34 +253,6 @@ function App() {
   // Accessibility context
   const { announce, prefersReducedMotion } = useA11y()
 
-  // Animation variants with reduced motion support
-  const fadeIn = prefersReducedMotion 
-    ? { hidden: { opacity: 1 }, visible: { opacity: 1 } }
-    : {
-        hidden: { opacity: 0, y: 30 },
-        visible: { 
-          opacity: 1, 
-          y: 0,
-          transition: { 
-            duration: 0.6, 
-            ease: "easeOut" as const
-          }
-        }
-      }
-
-  const staggerContainer = prefersReducedMotion
-    ? { hidden: { opacity: 1 }, visible: { opacity: 1 } }
-    : {
-        hidden: { opacity: 0 },
-        visible: {
-          opacity: 1,
-          transition: {
-            staggerChildren: 0.12,
-            delayChildren: 0.1
-          }
-        }
-      }
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData(prev => ({
@@ -485,13 +457,8 @@ function App() {
           {/* Developer Showcase Section - After terminal */}
           <section id="showcase" className="py-16 px-6 md:py-20 scroll-mt-20 relative">
             <div className="max-w-5xl mx-auto relative z-10">
-              <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-                variants={staggerContainer}
-              >
-                <motion.div variants={fadeIn} className="mb-10">
+              <ScrollRevealContainer>
+                <ScrollReveal className="scroll-reveal-child mb-10">
                   <div className="flex items-center gap-3 mb-2">
                     <div className="h-1 w-12 bg-gradient-to-r from-primary to-accent rounded-full" />
                     <span className="text-sm font-medium text-primary uppercase tracking-wider">Developer</span>
@@ -500,26 +467,26 @@ function App() {
                   <p className="text-muted-foreground">
                     Interactive demonstrations of engineering capabilities and code quality
                   </p>
-                </motion.div>
+                </ScrollReveal>
 
-                <motion.div variants={fadeIn} className="mb-8">
+                <ScrollReveal className="scroll-reveal-child mb-8">
                   <Suspense fallback={<SectionLoader />}>
                     <EngineeringMetrics />
                   </Suspense>
-                </motion.div>
+                </ScrollReveal>
 
-                <motion.div variants={fadeIn} className="mb-8">
+                <ScrollReveal className="scroll-reveal-child mb-8">
                   <Suspense fallback={<SectionLoader />}>
                     <TechStack />
                   </Suspense>
-                </motion.div>
+                </ScrollReveal>
 
-                <motion.div variants={fadeIn} className="mb-8">
+                <ScrollReveal className="scroll-reveal-child mb-8">
                   <Suspense fallback={<SectionLoader />}>
                     <GitHubActivity />
                   </Suspense>
-                </motion.div>
-              </motion.div>
+                </ScrollReveal>
+              </ScrollRevealContainer>
             </div>
           </section>
           
@@ -688,19 +655,13 @@ function App() {
 
       <section className="py-12 px-6 md:py-16 relative">
         <div className="max-w-3xl mx-auto relative z-10">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeIn}
-            className="text-center"
-          >
+          <ScrollReveal className="text-center">
             <p className="text-xl md:text-2xl lg:text-3xl font-light text-foreground/80 italic leading-relaxed">
               <span className="text-primary">"</span>
               Simple ideas are hard-earned, but that's where true power lives.
               <span className="text-primary">"</span>
             </p>
-          </motion.div>
+          </ScrollReveal>
         </div>
       </section>
         </>
@@ -712,13 +673,8 @@ function App() {
       <section id="projects" className="py-16 px-6 md:py-20 scroll-mt-20 relative" tabIndex={-1} aria-labelledby="projects-heading">
         
         <div className="max-w-5xl mx-auto relative z-10">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
-          >
-            <motion.div variants={fadeIn} className="mb-10">
+          <ScrollRevealContainer>
+            <ScrollReveal className="scroll-reveal-child mb-10">
               <div className="flex items-center gap-3 mb-2">
                 <div className="h-1 w-12 bg-gradient-to-r from-primary to-accent rounded-full" aria-hidden="true" />
                 <span className="text-sm font-medium text-primary uppercase tracking-wider">Portfolio</span>
@@ -726,10 +682,10 @@ function App() {
               <h2 id="projects-heading" className="text-3xl md:text-4xl font-bold">
                 Featured Projects
               </h2>
-            </motion.div>
+            </ScrollReveal>
             
             <div className="space-y-6" role="list" aria-label="Featured projects">
-              <motion.div variants={fadeIn}>
+              <ScrollReveal className="scroll-reveal-child">
                 <article className="group relative project" itemScope itemType="https://schema.org/SoftwareSourceCode">
                   {/* Gradient glow on hover */}
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-primary via-accent to-primary rounded-2xl opacity-0 group-hover:opacity-30 blur-lg transition-all duration-500" />
@@ -791,9 +747,9 @@ function App() {
                     </div>
                   </Card>
                 </article>
-              </motion.div>
+              </ScrollReveal>
 
-              <motion.div variants={fadeIn}>
+              <ScrollReveal className="scroll-reveal-child">
                 <article className="group relative project" itemScope itemType="https://schema.org/SoftwareApplication">
                   {/* Gradient glow on hover */}
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-500 rounded-2xl opacity-0 group-hover:opacity-30 blur-lg transition-all duration-500" />
@@ -847,9 +803,9 @@ function App() {
                     </div>
                   </Card>
                 </article>
-              </motion.div>
+              </ScrollReveal>
             </div>
-          </motion.div>
+          </ScrollRevealContainer>
         </div>
       </section>
 
@@ -859,13 +815,8 @@ function App() {
       <section id="skills" className="py-16 px-6 md:py-20 scroll-mt-20 relative" tabIndex={-1} aria-labelledby="skills-heading">
         
         <div className="max-w-5xl mx-auto relative z-10">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
-          >
-            <motion.div variants={fadeIn} className="mb-10">
+          <ScrollRevealContainer>
+            <ScrollReveal className="scroll-reveal-child mb-10">
               <div className="flex items-center gap-3 mb-2">
                 <div className="h-1 w-12 bg-gradient-to-r from-primary to-accent rounded-full" aria-hidden="true" />
                 <span className="text-sm font-medium text-primary uppercase tracking-wider">Expertise</span>
@@ -874,14 +825,14 @@ function App() {
               <p className="text-muted-foreground">
                 From AI/ML to full-stack development and engineering leadership
               </p>
-            </motion.div>
+            </ScrollReveal>
 
-            <motion.div variants={fadeIn}>
+            <ScrollReveal className="scroll-reveal-child">
               <Suspense fallback={<SectionLoader height="h-[500px]" />}>
                 <SkillsCharts />
               </Suspense>
-            </motion.div>
-          </motion.div>
+            </ScrollReveal>
+          </ScrollRevealContainer>
         </div>
       </section>
 
@@ -892,13 +843,8 @@ function App() {
       <section id="showcase" className="py-16 px-6 md:py-20 scroll-mt-20 relative">
         
         <div className="max-w-5xl mx-auto relative z-10">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
-          >
-            <motion.div variants={fadeIn} className="mb-10">
+          <ScrollRevealContainer>
+            <ScrollReveal className="scroll-reveal-child mb-10">
               <div className="flex items-center gap-3 mb-2">
                 <div className="h-1 w-12 bg-gradient-to-r from-primary to-accent rounded-full" />
                 <span className="text-sm font-medium text-primary uppercase tracking-wider">Developer</span>
@@ -907,32 +853,32 @@ function App() {
               <p className="text-muted-foreground">
                 Interactive demonstrations of engineering capabilities and code quality
               </p>
-            </motion.div>
+            </ScrollReveal>
 
             {/* Engineering Metrics */}
-            <motion.div variants={fadeIn} className="mb-8">
+            <ScrollReveal className="scroll-reveal-child mb-8">
               <Suspense fallback={<SectionLoader />}>
                 <EngineeringMetrics />
               </Suspense>
-            </motion.div>
+            </ScrollReveal>
 
             {/* Tech Stack */}
-            <motion.div variants={fadeIn} className="mb-8">
+            <ScrollReveal className="scroll-reveal-child mb-8">
               <Suspense fallback={<SectionLoader />}>
                 <TechStack />
               </Suspense>
-            </motion.div>
+            </ScrollReveal>
 
             {/* GitHub Activity */}
-            <motion.div variants={fadeIn} className="mb-8">
+            <ScrollReveal className="scroll-reveal-child mb-8">
               <Suspense fallback={<SectionLoader />}>
                 <GitHubActivity />
               </Suspense>
-            </motion.div>
+            </ScrollReveal>
 
             {/* Interactive Terminal */}
-            <motion.div variants={fadeIn} id="terminal" className="scroll-mt-20">
-              <div className="mb-4 text-center">
+            <ScrollReveal className="scroll-reveal-child" id="terminal">
+              <div className="mb-4 text-center scroll-mt-20">
                 <h3 className="text-xl font-bold mb-2">Interactive Terminal</h3>
                 <p className="text-sm text-muted-foreground">
                   Explore my profile using familiar terminal commands
@@ -941,8 +887,8 @@ function App() {
               <Suspense fallback={<SectionLoader height="h-96" />}>
                 <TerminalSection />
               </Suspense>
-            </motion.div>
-          </motion.div>
+            </ScrollReveal>
+          </ScrollRevealContainer>
         </div>
       </section>
       )}
@@ -952,13 +898,8 @@ function App() {
       <section id="experience" className="py-16 px-6 md:py-20 scroll-mt-20 relative" aria-labelledby="experience-heading">
         
         <div className="max-w-5xl mx-auto relative z-10">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
-          >
-            <motion.div variants={fadeIn} className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-10">
+          <ScrollRevealContainer>
+            <ScrollReveal className="scroll-reveal-child flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-10">
               <div>
                 <div className="flex items-center gap-3 mb-2">
                   <div className="h-1 w-12 bg-gradient-to-r from-primary to-accent rounded-full" aria-hidden="true" />
@@ -973,15 +914,15 @@ function App() {
                   Resume (PDF)
                 </a>
               </Button>
-            </motion.div>
+            </ScrollReveal>
 
-            <motion.div variants={fadeIn} className="mb-10">
+            <ScrollReveal className="scroll-reveal-child mb-10">
               <Suspense fallback={<SectionLoader height="h-96" />}>
                 <InteractiveTimeline />
               </Suspense>
-            </motion.div>
+            </ScrollReveal>
 
-            <motion.div variants={fadeIn} className="grid md:grid-cols-2 gap-6">
+            <ScrollReveal className="scroll-reveal-child grid md:grid-cols-2 gap-6">
               {/* Education */}
               <Card className="p-6 relative overflow-hidden group">
                 {/* Decorative MIT-inspired gradient */}
@@ -1096,8 +1037,8 @@ function App() {
                   <span>Peer-reviewed & published in top-tier venues</span>
                 </div>
               </Card>
-            </motion.div>
-          </motion.div>
+            </ScrollReveal>
+          </ScrollRevealContainer>
         </div>
       </section>
 
@@ -1106,22 +1047,17 @@ function App() {
       <section id="contact" className="py-16 px-6 md:py-20 scroll-mt-20 relative" tabIndex={-1} aria-labelledby="contact-heading">
         
         <div className="max-w-5xl mx-auto relative z-10">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
-          >
-            <motion.div variants={fadeIn} className="mb-10">
+          <ScrollRevealContainer>
+            <ScrollReveal className="scroll-reveal-child mb-10">
               <div className="flex items-center gap-3 mb-2">
                 <div className="h-1 w-12 bg-gradient-to-r from-primary to-accent rounded-full" aria-hidden="true" />
                 <span className="text-sm font-medium text-primary uppercase tracking-wider">Contact</span>
               </div>
               <h2 id="contact-heading" className="text-3xl md:text-4xl font-bold mb-2">Let's discuss AI innovation, collaboration, or your next project.</h2>
-            </motion.div>
+            </ScrollReveal>
 
             <div className="grid md:grid-cols-5 gap-6 md:gap-8">
-              <motion.div variants={fadeIn} className="md:col-span-2 space-y-4">
+              <ScrollReveal className="scroll-reveal-child md:col-span-2 space-y-4">
                 <a 
                   href="mailto:kiarasha@alum.mit.edu" 
                   className="flex items-center gap-4 p-5 bg-gradient-to-br from-muted/60 to-muted/30 hover:from-primary/10 hover:to-accent/5 rounded-2xl transition-all duration-300 group border border-border/50 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5"
@@ -1184,9 +1120,9 @@ function App() {
                     GitHub
                   </a>
                 </div>
-              </motion.div>
+              </ScrollReveal>
 
-              <motion.div variants={fadeIn} className="md:col-span-3">
+              <ScrollReveal className="scroll-reveal-child md:col-span-3">
                 <div className="relative group">
                   {/* Gradient glow effect - reduced blur for performance */}
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-3xl opacity-0 group-hover:opacity-100 blur-md transition-all duration-500" />
@@ -1269,9 +1205,9 @@ function App() {
                   </form>
                 </Card>
                 </div>
-              </motion.div>
+              </ScrollReveal>
             </div>
-          </motion.div>
+          </ScrollRevealContainer>
         </div>
       </section>
 
@@ -1280,18 +1216,11 @@ function App() {
       {/* Guestbook Section */}
       <section id="guestbook" className="py-16 px-6 md:py-20 scroll-mt-20">
         <div className="max-w-5xl mx-auto">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
-          >
-            <motion.div variants={fadeIn}>
-              <Suspense fallback={<SectionLoader />}>
-                <Guestbook />
-              </Suspense>
-            </motion.div>
-          </motion.div>
+          <ScrollReveal>
+            <Suspense fallback={<SectionLoader />}>
+              <Guestbook />
+            </Suspense>
+          </ScrollReveal>
         </div>
       </section>
       </main>

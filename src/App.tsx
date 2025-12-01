@@ -1238,7 +1238,7 @@ function App() {
                 <span className="text-sm font-medium text-primary uppercase tracking-wider">Contact</span>
               </div>
               <h2 id="contact-heading" className="text-3xl md:text-4xl font-bold mb-2">
-                Let's Build Something Together
+                I'm ready to collaborate!
               </h2>
             </ScrollReveal>
 

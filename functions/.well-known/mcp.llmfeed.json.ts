@@ -67,14 +67,14 @@ const mcpManifest = {
       "method": "POST",
       "url": "https://kiarash-adl.pages.dev/mcp/invoke",
       "protocol": "json-rpc",
-      "description": "Execute a terminal command to get information about Kiarash. Available commands: about, skills, projects, contact, experience, mcp, help.",
+      "description": "Execute a terminal command to get information about Kiarash. Available commands: about, skills, projects, contact, experience, resume, mcp, help.",
       "inputSchema": {
         "type": "object",
         "properties": {
           "command": {
             "type": "string",
             "description": "The terminal command to execute",
-            "enum": ["about", "skills", "projects", "contact", "experience", "mcp", "help"]
+            "enum": ["about", "skills", "projects", "contact", "experience", "resume", "mcp", "help"]
           }
         },
         "required": ["command"]

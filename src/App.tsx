@@ -100,7 +100,7 @@ function AIAgentButton() {
         <div className="absolute -inset-0.5 bg-gradient-to-r from-violet-500/20 via-purple-500/20 to-cyan-500/20 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
       </button>
       <span className="text-[10px] text-muted-foreground/70">
-        Tested on Claude Desktop
+        Tested on Claude Desktop & Grok
       </span>
     </div>
   )

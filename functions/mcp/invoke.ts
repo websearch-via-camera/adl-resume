@@ -118,19 +118,19 @@ FEATURED PROJECTS
 =================
 
 1. FIML - Financial Intelligence Meta-Layer
-   Status: Development | Stack: Python, MCP Server, AI Orchestration
-   → AI-native MCP server for financial data aggregation
-   → 32K+ LOC | 1,403 tests | 100% pass rate
+    Status: Development | Stack: Python, MCP Server, AI Orchestration
+    - AI-native MCP server for financial data aggregation
+    - 32K+ LOC | 1,403 tests | 100% pass rate
 
 2. HireAligna.ai  
    Status: Live | Stack: Next.js, LiveKit, Azure OpenAI
-   → Conversational AI recruiter with voice interviews
-   → Helps startups cut hiring time by 40%
+    - Conversational AI recruiter with voice interviews
+    - Helps startups cut hiring time by 40%
 
 3. AI Vision
    Status: Live | Stack: Computer Vision, iOS, ML
-   → Patent-pending AI/CV solutions for home services
-   → Mobile app live on App Store
+    - Patent-pending AI/CV solutions for home services
+    - Mobile app live on App Store
 
 Use 'get_project_details' tool for more information.`,
 

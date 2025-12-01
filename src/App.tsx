@@ -492,7 +492,6 @@ function App() {
           
           {/* Terminal Section - Immediately visible for developers */}
           <section id="terminal" className="py-8 px-6 scroll-mt-20 relative">
-            <div className="absolute inset-0 bg-mesh opacity-30 pointer-events-none" />
             <div className="max-w-5xl mx-auto relative z-10">
               <Suspense fallback={<SectionLoader height="h-96" section="terminal" />}>
                 <TerminalSection />
@@ -504,7 +503,6 @@ function App() {
           
           {/* Developer Showcase Section - After terminal */}
           <section id="showcase" className="py-16 px-6 md:py-20 scroll-mt-20 relative">
-            <div className="absolute inset-0 bg-mesh opacity-30 pointer-events-none" />
             <div className="max-w-5xl mx-auto relative z-10">
               <motion.div
                 initial="hidden"
@@ -548,7 +546,6 @@ function App() {
 
           {/* WebMCP Section - AI Agent Integration */}
           <section id="webmcp" className="py-16 px-6 md:py-20 scroll-mt-20 relative">
-            <div className="absolute inset-0 bg-mesh opacity-30 pointer-events-none" />
             <div className="max-w-5xl mx-auto relative z-10">
               <Suspense fallback={<SectionLoader section="WebMCP" />}>
                 <WebMCPSection />
@@ -566,8 +563,8 @@ function App() {
         id="home"
         className="relative py-16 px-6 md:py-24 overflow-hidden hero-pattern"
       >
-        {/* Decorative gradient elements - static for performance (no animation on blurred elements) */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+        {/* Decorative gradient elements - very subtle in light mode */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none dark:block hidden" aria-hidden="true">
           <div className="absolute top-20 left-[10%] w-72 h-72 bg-primary/5 rounded-full blur-2xl" />
           <div className="absolute top-40 right-[15%] w-96 h-96 bg-accent/5 rounded-full blur-2xl" />
           <div className="absolute bottom-20 left-[20%] w-64 h-64 bg-primary/3 rounded-full blur-2xl" />
@@ -731,8 +728,6 @@ function App() {
       <SectionDivider variant="sparkle" />
 
       <section className="py-12 px-6 md:py-16 relative">
-        {/* Background accent */}
-        <div className="absolute inset-0 bg-gradient-to-b from-muted/30 via-transparent to-muted/30 pointer-events-none" />
         <div className="max-w-3xl mx-auto relative z-10">
           <motion.div
             initial="hidden"
@@ -756,8 +751,6 @@ function App() {
       <SectionDivider variant="constellation" />
 
       <section id="projects" className="py-16 px-6 md:py-20 scroll-mt-20 relative" tabIndex={-1} aria-labelledby="projects-heading">
-        {/* Background mesh pattern */}
-        <div className="absolute inset-0 bg-mesh opacity-50 pointer-events-none" />
         
         <div className="max-w-5xl mx-auto relative z-10">
           <motion.div
@@ -905,8 +898,6 @@ function App() {
       
       {/* SHARED CONTENT: Both modes see skills and below */}
       <section id="skills" className="py-16 px-6 md:py-20 scroll-mt-20 relative" tabIndex={-1} aria-labelledby="skills-heading">
-        {/* Subtle background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-muted/20 to-transparent pointer-events-none" />
         
         <div className="max-w-5xl mx-auto relative z-10">
           <motion.div
@@ -940,8 +931,6 @@ function App() {
       {/* Enhanced Technical Showcase Section - Only for visitors (developers see it first) */}
       {!isDeveloperMode && (
       <section id="showcase" className="py-16 px-6 md:py-20 scroll-mt-20 relative">
-        {/* Background mesh */}
-        <div className="absolute inset-0 bg-mesh opacity-30 pointer-events-none" />
         
         <div className="max-w-5xl mx-auto relative z-10">
           <motion.div
@@ -1002,8 +991,6 @@ function App() {
       <SectionDivider variant="gradient" />
 
       <section id="experience" className="py-16 px-6 md:py-20 scroll-mt-20 relative" aria-labelledby="experience-heading">
-        {/* Subtle diagonal pattern */}
-        <div className="absolute inset-0 opacity-30 pointer-events-none" style={{ backgroundImage: 'linear-gradient(135deg, transparent 0%, transparent 49%, oklch(from var(--primary) l c h / 0.03) 49%, oklch(from var(--primary) l c h / 0.03) 51%, transparent 51%, transparent 100%)', backgroundSize: '20px 20px' }} />
         
         <div className="max-w-5xl mx-auto relative z-10">
           <motion.div
@@ -1158,8 +1145,6 @@ function App() {
       <SectionDivider variant="constellation" />
 
       <section id="contact" className="py-16 px-6 md:py-20 scroll-mt-20 relative" tabIndex={-1} aria-labelledby="contact-heading">
-        {/* Beautiful gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 pointer-events-none" />
         
         <div className="max-w-5xl mx-auto relative z-10">
           <motion.div
@@ -1352,9 +1337,7 @@ function App() {
       </section>
       </main>
 
-      <footer className="relative py-12 px-6 border-t border-border/50 overflow-hidden" role="contentinfo">
-        {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-muted/50 to-transparent pointer-events-none" />
+      <footer className="relative py-12 px-6 border-t border-border/30 overflow-hidden" role="contentinfo">
         
         <div className="max-w-5xl mx-auto relative z-10">
           <div className="flex flex-col items-center gap-6">

@@ -460,8 +460,17 @@ select:focus-visible {
     0 0 40px -10px oklch(from var(--accent) l c h / 0.2);
 }
 
-/* Animated background mesh */
+/* Animated background mesh - very subtle in light mode */
 .bg-mesh {
+  background-image: 
+    radial-gradient(at 40% 20%, oklch(from var(--primary) l c h / 0.04) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, oklch(from var(--accent) l c h / 0.03) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, oklch(from var(--primary) l c h / 0.025) 0px, transparent 50%),
+    radial-gradient(at 80% 50%, oklch(from var(--accent) l c h / 0.02) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, oklch(from var(--primary) l c h / 0.03) 0px, transparent 50%);
+}
+
+.dark .bg-mesh {
   background-image: 
     radial-gradient(at 40% 20%, oklch(from var(--primary) l c h / 0.08) 0px, transparent 50%),
     radial-gradient(at 80% 0%, oklch(from var(--accent) l c h / 0.06) 0px, transparent 50%),
@@ -534,12 +543,17 @@ select:focus-visible {
   }
 }
 
-/* Hero section background pattern */
+/* Hero section background pattern - very subtle in light mode */
 .hero-pattern {
   background-image: 
-    radial-gradient(circle at 25% 25%, oklch(from var(--primary) l c h / 0.05) 0%, transparent 40%),
-    radial-gradient(circle at 75% 75%, oklch(from var(--accent) l c h / 0.05) 0%, transparent 40%),
-    linear-gradient(to bottom, transparent, oklch(from var(--background) l c h / 1) 90%);
+    radial-gradient(circle at 25% 25%, oklch(from var(--primary) l c h / 0.02) 0%, transparent 40%),
+    radial-gradient(circle at 75% 75%, oklch(from var(--accent) l c h / 0.02) 0%, transparent 40%);
+}
+
+.dark .hero-pattern {
+  background-image: 
+    radial-gradient(circle at 25% 25%, oklch(from var(--primary) l c h / 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 75% 75%, oklch(from var(--accent) l c h / 0.06) 0%, transparent 40%);
 }
 
 /* Noise texture overlay */

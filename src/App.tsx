@@ -126,6 +126,25 @@ function App() {
   // Start with null to indicate we haven't checked localStorage yet
   const [showOnboarding, setShowOnboarding] = useState<boolean | null>(null)
   const [visitorType, setVisitorType] = useState<"developer" | "visitor" | null>(null)
+  const [fontsReady, setFontsReady] = useState(false)
+  
+  // Wait for fonts to load before showing any UI
+  useEffect(() => {
+    // Check if fonts API is available
+    if ('fonts' in document) {
+      // Check if already loaded (cached)
+      if (document.documentElement.classList.contains('fonts-loaded')) {
+        setFontsReady(true)
+      } else {
+        document.fonts.ready.then(() => {
+          setFontsReady(true)
+        })
+      }
+    } else {
+      // Fonts API not available, show UI after a short delay
+      setTimeout(() => setFontsReady(true), 100)
+    }
+  }, [])
   
   useEffect(() => {
     // Disable browser scroll restoration - we control the view via state, not scroll position
@@ -358,13 +377,17 @@ function App() {
     scrollToTop
   })
 
+  // Don't render anything until fonts are loaded and localStorage is checked
+  // This prevents FOUT (Flash of Unstyled Text) during onboarding
+  const isReady = fontsReady && showOnboarding !== null
+
   return (
     <>
       {/* Skip Links for keyboard/screen reader navigation */}
       <SkipLinks />
       
-      {/* Show nothing while checking localStorage to prevent flash */}
-      {showOnboarding === null ? (
+      {/* Show nothing while loading fonts and checking localStorage */}
+      {!isReady ? (
         <div className="min-h-screen bg-background" />
       ) : showOnboarding ? (
         /* Onboarding Choice Modal - loaded with main bundle for instant display */

@@ -1,121 +1,155 @@
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
+
+// Check for touch device once at module level
+const isTouchDevice = typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches
 
 export function CustomCursor() {
-  const [isPointer, setIsPointer] = useState(false)
-  const [isHidden, setIsHidden] = useState(true)
-  const [isClicking, setIsClicking] = useState(false)
-  
-  const cursorRef = useRef<HTMLDivElement>(null)
-  const ringRef = useRef<HTMLDivElement>(null)
-  const positionRef = useRef({ x: 0, y: 0 })
-  const ringPositionRef = useRef({ x: 0, y: 0 })
-  const rafRef = useRef<number | null>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    // Don't show custom cursor on touch devices
-    if (window.matchMedia("(pointer: coarse)").matches) {
-      return
-    }
-
-    const updatePosition = (e: MouseEvent) => {
-      positionRef.current = { x: e.clientX, y: e.clientY }
-      setIsHidden(false)
-      
-      // Check if hovering over clickable element - avoid getComputedStyle
-      const target = e.target as HTMLElement
-      const isClickable = !!(
-        target.tagName === "A" ||
-        target.tagName === "BUTTON" ||
-        target.closest("a") ||
-        target.closest("button") ||
-        target.closest("[role='button']") ||
-        target.closest("[data-clickable]") ||
-        target.classList.contains("cursor-pointer")
-      )
-      
-      setIsPointer(isClickable)
-    }
-
-    const handleMouseDown = () => setIsClicking(true)
-    const handleMouseUp = () => setIsClicking(false)
-    const handleMouseLeave = () => setIsHidden(true)
-    const handleMouseEnter = () => setIsHidden(false)
-
-    // Smooth animation loop using RAF
-    const animate = () => {
-      if (cursorRef.current) {
-        cursorRef.current.style.transform = `translate(${positionRef.current.x}px, ${positionRef.current.y}px) translate(-50%, -50%)`
-      }
-      
-      // Smooth follow for ring (lerp)
-      ringPositionRef.current.x += (positionRef.current.x - ringPositionRef.current.x) * 0.15
-      ringPositionRef.current.y += (positionRef.current.y - ringPositionRef.current.y) * 0.15
-      
-      if (ringRef.current) {
-        ringRef.current.style.transform = `translate(${ringPositionRef.current.x}px, ${ringPositionRef.current.y}px) translate(-50%, -50%)`
-      }
-      
-      rafRef.current = requestAnimationFrame(animate)
-    }
-
-    document.addEventListener("mousemove", updatePosition, { passive: true })
-    document.addEventListener("mousedown", handleMouseDown)
-    document.addEventListener("mouseup", handleMouseUp)
-    document.addEventListener("mouseleave", handleMouseLeave)
-    document.addEventListener("mouseenter", handleMouseEnter)
+    // Skip on touch devices
+    if (isTouchDevice) return
     
-    rafRef.current = requestAnimationFrame(animate)
+    setMounted(true)
+    const container = containerRef.current
+    if (!container) return
+
+    const cursor = container.querySelector<HTMLDivElement>('[data-cursor]')
+    const ring = container.querySelector<HTMLDivElement>('[data-ring]')
+    if (!cursor || !ring) return
+
+    // Position state (no React re-renders)
+    let cx = 0, cy = 0  // cursor position
+    let rx = 0, ry = 0  // ring position (lerped)
+    let isRunning = false
+    let rafId: number | null = null
+
+    // Use CSS classes for states (no re-renders)
+    const addClass = (el: HTMLElement, cls: string) => el.classList.add(cls)
+    const removeClass = (el: HTMLElement, cls: string) => el.classList.remove(cls)
+
+    const animate = () => {
+      // Direct style manipulation - fastest approach
+      cursor.style.transform = `translate3d(${cx}px, ${cy}px, 0)`
+      
+      // Lerp for smooth ring follow
+      rx += (cx - rx) * 0.12
+      ry += (cy - ry) * 0.12
+      ring.style.transform = `translate3d(${rx}px, ${ry}px, 0)`
+
+      rafId = requestAnimationFrame(animate)
+    }
+
+    const startAnimation = () => {
+      if (!isRunning) {
+        isRunning = true
+        rafId = requestAnimationFrame(animate)
+      }
+    }
+
+    const onMove = (e: MouseEvent) => {
+      cx = e.clientX
+      cy = e.clientY
+      container.classList.remove('opacity-0')
+      startAnimation()
+
+      // Check clickable - use tagName first (fastest), then closest
+      const t = e.target as HTMLElement
+      const tag = t.tagName
+      const clickable = tag === 'A' || tag === 'BUTTON' || 
+        t.closest('a,button,[role="button"],[data-clickable]') !== null
+
+      if (clickable) {
+        addClass(cursor, 'cursor-pointer-state')
+        addClass(ring, 'ring-pointer-state')
+      } else {
+        removeClass(cursor, 'cursor-pointer-state')
+        removeClass(ring, 'ring-pointer-state')
+      }
+    }
+
+    const onDown = () => {
+      addClass(cursor, 'cursor-click-state')
+      addClass(ring, 'ring-click-state')
+    }
+
+    const onUp = () => {
+      removeClass(cursor, 'cursor-click-state')
+      removeClass(ring, 'ring-click-state')
+    }
+
+    const onLeave = () => {
+      container.classList.add('opacity-0')
+    }
+
+    const onEnter = () => {
+      container.classList.remove('opacity-0')
+    }
+
+    // Passive listeners for scroll performance
+    document.addEventListener('mousemove', onMove, { passive: true })
+    document.addEventListener('mousedown', onDown, { passive: true })
+    document.addEventListener('mouseup', onUp, { passive: true })
+    document.addEventListener('mouseleave', onLeave, { passive: true })
+    document.addEventListener('mouseenter', onEnter, { passive: true })
 
     return () => {
-      document.removeEventListener("mousemove", updatePosition)
-      document.removeEventListener("mousedown", handleMouseDown)
-      document.removeEventListener("mouseup", handleMouseUp)
-      document.removeEventListener("mouseleave", handleMouseLeave)
-      document.removeEventListener("mouseenter", handleMouseEnter)
-      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+      document.removeEventListener('mousemove', onMove)
+      document.removeEventListener('mousedown', onDown)
+      document.removeEventListener('mouseup', onUp)
+      document.removeEventListener('mouseleave', onLeave)
+      document.removeEventListener('mouseenter', onEnter)
+      if (rafId) cancelAnimationFrame(rafId)
     }
   }, [])
 
-  // Don't render on touch devices
-  if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) {
-    return null
-  }
-
-  if (isHidden) return null
+  // Don't render anything on touch devices
+  if (isTouchDevice || !mounted) return null
 
   return (
-    <>
-      {/* Main cursor dot */}
+    <div ref={containerRef} className="opacity-0 transition-opacity duration-150">
+      {/* Cursor dot - GPU accelerated */}
       <div
-        ref={cursorRef}
-        className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference will-change-transform"
+        data-cursor
+        className="fixed top-0 left-0 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-[9999] mix-blend-difference will-change-transform"
+        style={{ contain: 'layout style' }}
       >
-        <div
-          className={`rounded-full bg-white transition-all duration-75 ease-out ${
-            isClicking ? "scale-75" : isPointer ? "scale-150" : "scale-100"
-          }`}
-          style={{
-            width: "8px",
-            height: "8px",
-          }}
-        />
+        <div className="w-2 h-2 rounded-full bg-white cursor-dot" />
       </div>
       
-      {/* Trailing ring */}
+      {/* Ring - GPU accelerated */}
       <div
-        ref={ringRef}
-        className="fixed top-0 left-0 pointer-events-none z-[9998] mix-blend-difference will-change-transform"
+        data-ring
+        className="fixed top-0 left-0 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-[9998] mix-blend-difference will-change-transform"
+        style={{ contain: 'layout style' }}
       >
-        <div
-          className={`rounded-full border-2 border-white transition-all duration-150 ${
-            isClicking ? "scale-50 opacity-30" : isPointer ? "scale-125 opacity-100" : "opacity-40"
-          }`}
-          style={{
-            width: "36px",
-            height: "36px",
-          }}
-        />
+        <div className="w-9 h-9 rounded-full border-2 border-white opacity-40 cursor-ring" />
       </div>
-    </>
+
+      {/* CSS-based state transitions */}
+      <style>{`
+        .cursor-dot {
+          transition: transform 75ms ease-out;
+        }
+        .cursor-ring {
+          transition: transform 150ms ease-out, opacity 150ms ease-out;
+        }
+        .cursor-pointer-state .cursor-dot {
+          transform: scale(1.5);
+        }
+        .cursor-click-state .cursor-dot {
+          transform: scale(0.75);
+        }
+        .ring-pointer-state .cursor-ring {
+          transform: scale(1.25);
+          opacity: 1;
+        }
+        .ring-click-state .cursor-ring {
+          transform: scale(0.5);
+          opacity: 0.3;
+        }
+      `}</style>
+    </div>
   )
 }

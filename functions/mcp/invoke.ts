@@ -851,6 +851,18 @@ export const onRequest = async (context: { request: Request; env: Env }): Promis
         result = handleRunTerminalCommand(input as { command: string });
         break;
 
+      case "submit_contact":
+        if (!input?.name || !input?.email || !input?.message) {
+          return new Response(JSON.stringify({ 
+            error: "Missing required fields: name, email, and message are required"
+          }), {
+            status: 400,
+            headers: { ...corsHeaders, "Content-Type": "application/json" }
+          });
+        }
+        result = await handleSubmitContact(input as { name: string; email: string; message: string; subject?: string }, env);
+        break;
+
       default:
         return new Response(JSON.stringify({ 
           error: `Unknown tool: ${tool}`,

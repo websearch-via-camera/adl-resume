@@ -15,29 +15,38 @@ import "./main.css"
 initMCP()
 
 // Fun console message for fellow developers 👋
-console.log(`
-%c🚀 Hey there, curious developer! 👀
-%c┌─────────────────────────────────────────────────────────────┐
-│                                                             │
-│   You found the secret console message! 🎉                  │
-│                                                             │
-│   Since you're already poking around...                     │
-│   Why not build something awesome together?                 │
-│                                                             │
-│   📧 Reach out: kiarasha@alum.mit.edu                       │
-│                                                             │
-│   Let's create some magic! ✨                               │
-│                                                             │
-│   🤖 MCP Tools Available for AI Agents:                     │
-│      - get_project_details                                  │
-│      - run_terminal_command                                 │
-│      Test: navigator.modelContext.tools                     │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-`,
-'font-size: 16px; font-weight: bold; color: #22c55e;',
-'font-family: monospace; font-size: 12px; color: #64748b;'
+console.log(
+  '%c👋 Hey there, curious developer!',
+  'font-size: 20px; font-weight: bold; color: #22c55e; text-shadow: 0 0 10px rgba(34, 197, 94, 0.3);'
 );
+
+console.log(
+  '%cYou found the secret console message! 🎉',
+  'font-size: 14px; color: #a78bfa; margin: 4px 0;'
+);
+
+console.log(
+  '%cSince you\'re already poking around...\nWhy not build something awesome together?',
+  'font-size: 12px; color: #94a3b8; line-height: 1.6;'
+);
+
+console.log(
+  '%c📧 kiarasha@alum.mit.edu',
+  'font-size: 13px; color: #38bdf8; font-weight: 500;'
+);
+
+console.log(
+  '%c✨ Let\'s create some magic!',
+  'font-size: 12px; color: #fbbf24;'
+);
+
+// Separate MCP info for AI agents (collapsed by default)
+console.groupCollapsed('%c🤖 MCP Tools (for AI Agents)', 'font-size: 11px; color: #64748b;');
+console.log('%cAvailable tools:', 'color: #64748b; font-size: 11px;');
+console.log('  • get_project_details');
+console.log('  • run_terminal_command');
+console.log('%cTest: %cnavigator.modelContext.tools', 'color: #64748b; font-size: 11px;', 'color: #22c55e; font-family: monospace;');
+console.groupEnd();
 
 // Mark hydration complete and remove initial loader
 const root = document.getElementById('root')

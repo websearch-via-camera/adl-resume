@@ -136,7 +136,7 @@ const mcpManifest = {
     {
       "type": "intent",
       "purpose": "Professional portfolio showcasing AI and full-stack engineering expertise",
-      "recommended_usage": "Use MCP tools to query projects, skills, and information programmatically"
+      "recommended_usage": "Use MCP tools to query projects, skills, resume and information about Kiarash Adl programmatically"
     }
   ]
 };

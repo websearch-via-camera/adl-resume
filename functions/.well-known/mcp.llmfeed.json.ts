@@ -99,6 +99,54 @@ const mcpManifest = {
           }
         }
       }
+    },
+    {
+      "name": "submit_contact",
+      "type": "endpoint",
+      "method": "POST",
+      "url": "https://kiarash-adl.pages.dev/mcp/invoke",
+      "protocol": "json-rpc",
+      "description": "Submit a contact form message to Kiarash. Validates input and returns a submission URL. Use this to help users send messages or inquiries.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The sender's full name"
+          },
+          "email": {
+            "type": "string",
+            "description": "The sender's email address for replies"
+          },
+          "message": {
+            "type": "string",
+            "description": "The message content"
+          },
+          "subject": {
+            "type": "string",
+            "description": "Optional subject line for the message"
+          }
+        },
+        "required": ["name", "email", "message"]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "validated": { "type": "boolean" },
+          "message": { "type": "string" },
+          "submitUrl": { "type": "string", "format": "uri" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "email": { "type": "string" },
+              "subject": { "type": "string" },
+              "message": { "type": "string" }
+            }
+          }
+        }
+      }
     }
   ],
   "prompts": [
@@ -121,6 +169,11 @@ const mcpManifest = {
       "intent": "contact",
       "keywords": ["contact", "email", "hire", "reach out"],
       "description": "Get contact information"
+    },
+    {
+      "intent": "send_message",
+      "keywords": ["send message", "contact form", "write to", "reach out", "inquiry"],
+      "description": "Send a message to Kiarash via the contact form"
     }
   ],
   "site_capabilities": {

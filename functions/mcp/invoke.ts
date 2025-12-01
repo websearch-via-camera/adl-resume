@@ -377,6 +377,41 @@ function handleRunTerminalCommand(input: { command: string }) {
   return response;
 }
 
+// Handle contact form submission
+function handleSubmitContact(input: { name: string; email: string; message: string; subject?: string }) {
+  // Validate required fields
+  if (!input.name || !input.email || !input.message) {
+    return {
+      success: false,
+      error: "Missing required fields: name, email, and message are required"
+    };
+  }
+  
+  // Validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(input.email)) {
+    return {
+      success: false,
+      error: "Invalid email address format"
+    };
+  }
+  
+  // Return validation success - actual sending happens via /contact endpoint
+  // This allows AI agents to validate before sending
+  return {
+    success: true,
+    validated: true,
+    message: "Contact form validated. To send, POST to https://kiarash-adl.pages.dev/contact with the same data.",
+    submitUrl: "https://kiarash-adl.pages.dev/contact",
+    data: {
+      name: input.name,
+      email: input.email,
+      subject: input.subject || `Contact from ${input.name}`,
+      message: input.message
+    }
+  };
+}
+
 // Tool definitions for MCP protocol (keyed by tool name for capabilities.tools)
 const toolDefinitions: Record<string, { description: string; inputSchema: object }> = {
   get_project_details: {
@@ -410,6 +445,31 @@ const toolDefinitions: Record<string, { description: string; inputSchema: object
         }
       },
       required: ["command"]
+    }
+  },
+  submit_contact: {
+    description: "Submit a contact form message to Kiarash. Validates the input and returns a URL to complete the submission. AI agents should use this to help users send messages.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        name: {
+          type: "string",
+          description: "The sender's full name"
+        },
+        email: {
+          type: "string",
+          description: "The sender's email address for replies"
+        },
+        message: {
+          type: "string",
+          description: "The message content"
+        },
+        subject: {
+          type: "string",
+          description: "Optional subject line for the message"
+        }
+      },
+      required: ["name", "email", "message"]
     }
   }
 };
@@ -698,6 +758,19 @@ export const onRequest = async (context: { request: Request }): Promise<Response
                 });
               }
               toolResult = handleRunTerminalCommand(toolArgs as { command: string });
+              break;
+            case "submit_contact":
+              if (!toolArgs.name || !toolArgs.email || !toolArgs.message) {
+                return new Response(JSON.stringify(formatError(
+                  "Missing required fields: name, email, and message are required",
+                  body.id,
+                  -32602
+                )), {
+                  status: 400,
+                  headers: { ...corsHeaders, "Content-Type": "application/json" }
+                });
+              }
+              toolResult = handleSubmitContact(toolArgs as { name: string; email: string; message: string; subject?: string });
               break;
             default:
               return new Response(JSON.stringify(formatError(

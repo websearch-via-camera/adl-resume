@@ -1,23 +1,60 @@
-# ✨ Welcome to Your Spark Template!
-You've just launched your brand-new Spark Template Codespace — everything’s fired up and ready for you to explore, build, and create with Spark!
+# Kiarash Adl Portfolio
 
-This template is your blank canvas. It comes with a minimal setup to help you get started quickly with Spark development.
+AI-enabled portfolio with MCP (Model Context Protocol) integration, allowing AI agents to query projects, skills, and experience programmatically.
 
-🚀 What's Inside?
-- A clean, minimal Spark environment
-- Pre-configured for local development
-- Ready to scale with your ideas
-  
-🧠 What Can You Do?
+## 🚀 Tech Stack
 
-Right now, this is just a starting point — the perfect place to begin building and testing your Spark applications.
+- **Frontend:** React, TypeScript, Vite, Tailwind CSS, Framer Motion
+- **Backend:** Cloudflare Pages Functions
+- **MCP:** JSON-RPC protocol with Ed25519 signed manifests
 
-🧹 Just Exploring?
-No problem! If you were just checking things out and don’t need to keep this code:
+## 🛠️ Development
 
-- Simply delete your Spark.
-- Everything will be cleaned up — no traces left behind.
+```bash
+npm install
+npm run dev
+```
 
-📄 License For Spark Template Resources 
+## 📄 Updating the Resume PDF
 
-The Spark Template files and resources from GitHub are licensed under the terms of the MIT license, Copyright GitHub, Inc.
+When you update the resume PDF, the Vite build will generate a new content-based hash in the filename. You'll need to update the URL in these files:
+
+1. **Replace the PDF file:**
+   ```
+   src/assets/documents/Kiarash-Adl-Resume-YYYYMMDD.pdf
+   ```
+
+2. **Build to get the new hash:**
+   ```bash
+   npm run build
+   ```
+   Check `dist/assets/` for the new filename (e.g., `Kiarash-Adl-Resume-20251201-NEWHASH.pdf`)
+
+3. **Update these files with the new URL:**
+   - `functions/mcp/invoke.ts` (2 locations - terminal output and resources field)
+   - `src/components/TerminalSection.tsx` (2 locations - display text and window.open)
+   - `src/mcp/tools.ts` (1 location)
+
+4. **Search for the old hash to find all occurrences:**
+   ```bash
+   grep -r "DFXsl4HJ" src/ functions/
+   ```
+
+## 🤖 MCP Endpoints
+
+- **Discovery:** `/.well-known/mcp.llmfeed.json`
+- **Invoke:** `/mcp/invoke`
+
+### Available Commands
+- `about` - Background info
+- `skills` - Technical skills
+- `projects` - Portfolio projects
+- `contact` - Contact information
+- `experience` - Work history
+- `resume` - Resume download link (includes PDF resource)
+- `mcp` - MCP integration details
+- `help` - List all commands
+
+## 📄 License
+
+MIT

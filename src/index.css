@@ -30,7 +30,7 @@
 
   /* Muted - SAME as background for seamless sections */
   --muted: oklch(0.96 0.014 72);
-  --muted-foreground: oklch(0.42 0.035 42);
+  --muted-foreground: oklch(0.40 0.035 42);
 
   /* Accent - Deep wine / burgundy */
   --accent: oklch(0.42 0.14 12);

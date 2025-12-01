@@ -328,10 +328,9 @@ function handleRunTerminalCommand(input: { command: string }) {
   };
 }
 
-// Available tools definition for MCP protocol
-const availableTools = [
-  {
-    name: "get_project_details",
+// Tool definitions for MCP protocol (keyed by tool name for capabilities.tools)
+const toolDefinitions: Record<string, { description: string; inputSchema: object }> = {
+  get_project_details: {
     description: "Get detailed information about a specific portfolio project including title, description, tech stack, metrics, and status.",
     inputSchema: {
       type: "object",
@@ -350,8 +349,7 @@ const availableTools = [
       required: ["projectId"]
     }
   },
-  {
-    name: "run_terminal_command",
+  run_terminal_command: {
     description: "Execute a terminal command to get information about Kiarash. Returns formatted text output.",
     inputSchema: {
       type: "object",
@@ -365,7 +363,15 @@ const availableTools = [
       required: ["command"]
     }
   }
-];
+};
+
+// Tools as array format (for tools/list response)
+const toolsListFormat = Object.entries(toolDefinitions).map(([name, def]) => ({
+  name,
+  ...def
+}));
+
+const toolNames = Object.keys(toolDefinitions);
 
 // Server info for MCP protocol
 const serverInfo = {
@@ -373,6 +379,10 @@ const serverInfo = {
   version: "1.0.0",
   description: "AI-enabled portfolio of Kiarash Adl. Query projects, skills, and contact information.",
   protocolVersion: "2024-11-05"
+};
+
+const serverCapabilities = {
+  tools: toolDefinitions
 };
 
 // Cloudflare Pages Function handler
@@ -413,12 +423,30 @@ export const onRequest = async (context: { request: Request }): Promise<Response
     const method = body.method;
     const isJsonRpc = body.jsonrpc === "2.0";
     
-    // Helper to format response
+    // Helpers to format response/error following JSON-RPC 2.0 when applicable
     const formatResponse = (result: unknown, id?: string | number) => {
       if (isJsonRpc && id !== undefined) {
         return { jsonrpc: "2.0", id, result };
       }
       return result;
+    };
+
+    const formatError = (message: string, id?: string | number, code = -32602, data?: Record<string, unknown>) => {
+      if (isJsonRpc && id !== undefined) {
+        return {
+          jsonrpc: "2.0",
+          id,
+          error: {
+            code,
+            message,
+            ...(data ? { data } : {})
+          }
+        };
+      }
+      return {
+        error: message,
+        ...(data ? data : {})
+      };
     };
 
     // Handle MCP protocol methods
@@ -428,16 +456,15 @@ export const onRequest = async (context: { request: Request }): Promise<Response
           return new Response(JSON.stringify(formatResponse({
             ...serverInfo,
             capabilities: {
-              tools: {}
-            },
-            availableTools
+              tools: toolDefinitions
+            }
           }, body.id), null, 2), {
             headers: { ...corsHeaders, "Content-Type": "application/json" }
           });
 
         case "tools/list":
           return new Response(JSON.stringify(formatResponse({
-            tools: availableTools
+            tools: toolsListFormat
           }, body.id), null, 2), {
             headers: { ...corsHeaders, "Content-Type": "application/json" }
           });
@@ -448,7 +475,7 @@ export const onRequest = async (context: { request: Request }): Promise<Response
             status: "ok",
             timestamp: new Date().toISOString(),
             server: serverInfo.name,
-            availableTools: availableTools.map(t => t.name)
+            availableTools: Object.keys(toolDefinitions)
           }, body.id), null, 2), {
             headers: { ...corsHeaders, "Content-Type": "application/json" }
           });
@@ -460,10 +487,12 @@ export const onRequest = async (context: { request: Request }): Promise<Response
           const toolArgs = body.params?.arguments as Record<string, unknown> || {};
           
           if (!toolName) {
-            return new Response(JSON.stringify(formatResponse({
-              error: "Missing tool name in params",
-              availableTools: availableTools.map(t => t.name)
-            }, body.id)), {
+            return new Response(JSON.stringify(formatError(
+              "Missing tool name in params",
+              body.id,
+              -32602,
+              { availableTools: toolNames }
+            )), {
               status: 400,
               headers: { ...corsHeaders, "Content-Type": "application/json" }
             });
@@ -474,10 +503,12 @@ export const onRequest = async (context: { request: Request }): Promise<Response
           switch (toolName) {
             case "get_project_details":
               if (!toolArgs.projectId) {
-                return new Response(JSON.stringify(formatResponse({
-                  error: "Missing required field: projectId",
-                  availableProjects: Object.keys(projects)
-                }, body.id)), {
+                return new Response(JSON.stringify(formatError(
+                  "Missing required field: projectId",
+                  body.id,
+                  -32602,
+                  { availableProjects: Object.keys(projects) }
+                )), {
                   status: 400,
                   headers: { ...corsHeaders, "Content-Type": "application/json" }
                 });
@@ -486,10 +517,12 @@ export const onRequest = async (context: { request: Request }): Promise<Response
               break;
             case "run_terminal_command":
               if (!toolArgs.command) {
-                return new Response(JSON.stringify(formatResponse({
-                  error: "Missing required field: command",
-                  availableCommands: Object.keys(terminalCommands)
-                }, body.id)), {
+                return new Response(JSON.stringify(formatError(
+                  "Missing required field: command",
+                  body.id,
+                  -32602,
+                  { availableCommands: Object.keys(terminalCommands) }
+                )), {
                   status: 400,
                   headers: { ...corsHeaders, "Content-Type": "application/json" }
                 });
@@ -497,10 +530,12 @@ export const onRequest = async (context: { request: Request }): Promise<Response
               toolResult = handleRunTerminalCommand(toolArgs as { command: string });
               break;
             default:
-              return new Response(JSON.stringify(formatResponse({
-                error: `Unknown tool: ${toolName}`,
-                availableTools: availableTools.map(t => t.name)
-              }, body.id)), {
+              return new Response(JSON.stringify(formatError(
+                `Unknown tool: ${toolName}`,
+                body.id,
+                -32601,
+                { availableTools: toolNames }
+              )), {
                 status: 400,
                 headers: { ...corsHeaders, "Content-Type": "application/json" }
               });
@@ -526,10 +561,12 @@ export const onRequest = async (context: { request: Request }): Promise<Response
           });
 
         default:
-          return new Response(JSON.stringify(formatResponse({
-            error: `Unknown method: ${method}`,
-            availableMethods: ["initialize", "tools/list", "tools/call", "ping"]
-          }, body.id)), {
+          return new Response(JSON.stringify(formatError(
+            `Unknown method: ${method}`,
+            body.id,
+            -32601,
+            { availableMethods: ["initialize", "tools/list", "tools/call", "ping", "echo"] }
+          )), {
             status: 400,
             headers: { ...corsHeaders, "Content-Type": "application/json" }
           });
@@ -540,10 +577,11 @@ export const onRequest = async (context: { request: Request }): Promise<Response
     const { tool, input } = body;
 
     if (!tool) {
-      // No tool and no method - return server info with available tools
+      // No tool and no method - return server info with capabilities overview
       return new Response(JSON.stringify({ 
         ...serverInfo,
-        availableTools,
+        capabilities: serverCapabilities,
+        tools: toolsListFormat,
         usage: {
           simple: { tool: "tool_name", input: { "...": "..." } },
           jsonrpc: { jsonrpc: "2.0", method: "tools/call", params: { name: "tool_name", arguments: {} }, id: 1 }
@@ -586,7 +624,7 @@ export const onRequest = async (context: { request: Request }): Promise<Response
       default:
         return new Response(JSON.stringify({ 
           error: `Unknown tool: ${tool}`,
-          availableTools: availableTools.map(t => t.name)
+          availableTools: toolNames
         }), {
           status: 400,
           headers: { ...corsHeaders, "Content-Type": "application/json" }
@@ -605,7 +643,8 @@ export const onRequest = async (context: { request: Request }): Promise<Response
     return new Response(JSON.stringify({ 
       error: "Invalid JSON body",
       ...serverInfo,
-      availableTools,
+      capabilities: serverCapabilities,
+      tools: toolsListFormat,
       usage: {
         simple: { tool: "tool_name", input: { "...": "..." } },
         jsonrpc: { jsonrpc: "2.0", method: "initialize", id: 1 }

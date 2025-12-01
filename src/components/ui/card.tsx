@@ -1,6 +1,7 @@
 import { ComponentProps, useRef, useState, useEffect, useCallback } from "react"
 
 import { cn } from "@/lib/utils"
+import { useSound } from "@/hooks/useSoundEffects"
 
 function Card({ className, ...props }: ComponentProps<"div">) {
   const cardRef = useRef<HTMLDivElement>(null)
@@ -8,6 +9,7 @@ function Card({ className, ...props }: ComponentProps<"div">) {
   const rafRef = useRef<number>(0)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isHovered, setIsHovered] = useState(false)
+  const { playHover } = useSound()
 
   // Throttled mouse move using RAF to prevent forced reflows
   const handleMouseMove = useCallback((e: MouseEvent) => {
@@ -32,6 +34,7 @@ function Card({ className, ...props }: ComponentProps<"div">) {
     const handleMouseEnter = () => {
       rectRef.current = card.getBoundingClientRect()
       setIsHovered(true)
+      playHover()
     }
     
     const handleMouseLeave = () => {
@@ -53,7 +56,7 @@ function Card({ className, ...props }: ComponentProps<"div">) {
       card.removeEventListener('mouseleave', handleMouseLeave)
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
     }
-  }, [handleMouseMove])
+  }, [handleMouseMove, playHover])
 
   return (
     <div

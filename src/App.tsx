@@ -252,6 +252,9 @@ function App() {
     activeSection 
   } = useNativeScroll(navItems.map(item => item.id))
 
+  // Sound effects for interactions
+  const { playWhoosh, playSuccess, playHover } = useSound()
+
   // Accessibility context
   const { announce, prefersReducedMotion } = useA11y()
 
@@ -298,6 +301,7 @@ function App() {
         throw new Error(result.error || 'Failed to send message')
       }
 
+      playSuccess()
       toast.success("Message sent successfully! I'll get back to you soon.")
       announce("Message sent successfully", "assertive")
       
@@ -318,6 +322,7 @@ function App() {
   }
   
   const scrollToSection = (sectionId: string) => {
+    playWhoosh()
     const element = document.getElementById(sectionId)
     if (element) {
       const offset = 80
@@ -372,16 +377,58 @@ function App() {
       <Suspense fallback={null}>
         <CustomCursor />
       </Suspense>
-      {/* Scroll Progress Bar - CSS-based for performance */}
+      {/* Scroll Progress Bar - GPU-accelerated with glow effect */}
       <div
-        className={`fixed top-0 left-0 right-0 h-1 bg-muted z-50 transition-opacity duration-200 ${
+        className={`fixed top-0 left-0 right-0 h-1 z-[60] transition-opacity duration-300 ${
           scrollProgress > 0 ? 'opacity-100' : 'opacity-0'
         }`}
+        role="progressbar"
+        aria-valuenow={Math.round(scrollProgress)}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label="Page scroll progress"
       >
+        {/* Track background */}
+        <div className="absolute inset-0 bg-muted/30" />
+        
+        {/* Progress fill - uses scaleX for GPU acceleration */}
         <div
-          className="h-full bg-gradient-to-r from-primary via-accent to-secondary transition-[width] duration-100 ease-out"
-          style={{ width: `${scrollProgress}%` }}
-        />
+          className="absolute inset-y-0 left-0 right-0 origin-left will-change-transform"
+          style={{ 
+            transform: `scaleX(${scrollProgress / 100})`,
+            contain: 'layout style paint',
+          }}
+        >
+          {/* Gradient fill */}
+          <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] animate-gradient-x" />
+          
+          {/* Glow effect at the leading edge */}
+          <div 
+            className="absolute right-0 top-1/2 -translate-y-1/2 w-24 h-4 -mr-2"
+            style={{
+              background: 'radial-gradient(ellipse at right, oklch(from var(--primary) l c h / 0.6) 0%, transparent 70%)',
+              filter: 'blur(4px)',
+            }}
+          />
+        </div>
+        
+        {/* Section markers */}
+        <div className="absolute inset-0 flex items-center pointer-events-none">
+          {navItems.map((item, index) => {
+            const position = ((index + 1) / navItems.length) * 100
+            const isPast = scrollProgress >= position - 5
+            return (
+              <div
+                key={item.id}
+                className={`absolute w-1 h-1 rounded-full transition-all duration-300 ${
+                  isPast ? 'bg-primary-foreground scale-150' : 'bg-muted-foreground/50 scale-100'
+                }`}
+                style={{ left: `${position}%`, transform: 'translateX(-50%)' }}
+                title={item.label}
+              />
+            )
+          })}
+        </div>
       </div>
 
       {/* Navigation - Beautiful glassmorphism with gradient border */}
@@ -414,6 +461,7 @@ function App() {
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
+                  onMouseEnter={playHover}
                   className={`min-h-[44px] min-w-[44px] px-4 py-2 text-sm font-medium rounded-xl transition-all duration-300 whitespace-nowrap flex-shrink-0 ${
                     activeSection === item.id
                       ? "bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-md shadow-primary/20"

@@ -14,10 +14,7 @@ interface ScrollRevealProps {
 /**
  * CSS-based scroll reveal animation component.
  * Uses Intersection Observer for performance - no JS animation library needed.
- * 
- * When used inside ScrollRevealContainer with className="scroll-reveal-child",
- * the visibility is controlled by the parent container's CSS.
- * When used standalone, it handles its own visibility via IntersectionObserver.
+ * Each element handles its own visibility via IntersectionObserver.
  */
 export function ScrollReveal({ 
   children, 
@@ -28,20 +25,12 @@ export function ScrollReveal({
 }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(false)
-  
-  // Check if this is a child element (controlled by parent container's CSS)
-  const isChildElement = className.includes('scroll-reveal-child')
 
   useEffect(() => {
-    // If it's a child element, the parent container handles visibility via CSS
-    if (isChildElement) {
-      return
-    }
-    
     const element = ref.current
     if (!element) return
 
-    // Check for reduced motion preference
+    // Check for reduced motion preference - show immediately
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReducedMotion) {
       setIsVisible(true)
@@ -69,7 +58,7 @@ export function ScrollReveal({
 
     observer.observe(element)
     
-    // Fallback: if element is already in view on mount, show it
+    // Fallback: if element is already in view on mount, show it immediately
     const rect = element.getBoundingClientRect()
     if (rect.top < window.innerHeight && rect.bottom > 0) {
       if (delay > 0) {
@@ -80,19 +69,16 @@ export function ScrollReveal({
     }
     
     return () => observer.disconnect()
-  }, [delay, isChildElement])
+  }, [delay])
 
-  // For child elements, don't add scroll-reveal class (parent CSS handles animation)
-  // For standalone elements, add scroll-reveal and visibility class
-  const computedClassName = isChildElement
-    ? `scroll-reveal-child ${className.replace('scroll-reveal-child', '').trim()}`
-    : `scroll-reveal ${isVisible ? 'scroll-reveal-visible' : ''} ${stagger ? 'scroll-reveal-stagger' : ''} ${className}`
-
+  // Filter out scroll-reveal-child from className (legacy usage)
+  const filteredClassName = className.replace(/scroll-reveal-child/g, '').trim()
+  
   return (
     <div
       ref={ref}
       id={id}
-      className={computedClassName}
+      className={`scroll-reveal ${isVisible ? 'scroll-reveal-visible' : ''} ${stagger ? 'scroll-reveal-stagger' : ''} ${filteredClassName}`}
     >
       {children}
     </div>
@@ -100,7 +86,9 @@ export function ScrollReveal({
 }
 
 /**
- * Container that staggers its children's animations
+ * Container for grouping ScrollReveal elements.
+ * Each child ScrollReveal handles its own visibility.
+ * This container is kept for backwards compatibility and semantic grouping.
  */
 export function ScrollRevealContainer({ 
   children, 
@@ -109,48 +97,8 @@ export function ScrollRevealContainer({
   children: ReactNode
   className?: string 
 }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    const element = ref.current
-    if (!element) return
-
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) {
-      setIsVisible(true)
-      return
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-          observer.unobserve(element)
-        }
-      },
-      {
-        threshold: 0.05,
-        rootMargin: "50px"
-      }
-    )
-
-    observer.observe(element)
-    
-    // Fallback: if element is already in view on mount, show it
-    const rect = element.getBoundingClientRect()
-    if (rect.top < window.innerHeight && rect.bottom > 0) {
-      setIsVisible(true)
-    }
-    
-    return () => observer.disconnect()
-  }, [])
-
   return (
-    <div
-      ref={ref}
-      className={`scroll-reveal-container ${isVisible ? 'scroll-reveal-container-visible' : ''} ${className}`}
-    >
+    <div className={className}>
       {children}
     </div>
   )

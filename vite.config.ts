@@ -138,6 +138,12 @@ export default defineConfig({
     include: ['preact', 'preact/compat', 'preact/hooks'],
     exclude: ['@radix-ui/colors'], // Exclude unused package
   },
+  // Global esbuild options - applies to all esbuild transformations
+  esbuild: {
+    // Remove legal comments (licenses) from production bundle
+    // Saves ~2KB by stripping lucide-react license comments
+    legalComments: 'none',
+  },
   build: {
     // Production optimizations
     minify: 'esbuild',

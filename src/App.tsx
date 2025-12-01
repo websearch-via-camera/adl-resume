@@ -19,6 +19,9 @@ import profileWebp224 from "@/assets/images/profile-224w.webp"
 import profileWebp448 from "@/assets/images/profile-448w.webp"
 import profileJpg384 from "@/assets/images/profile-384w.jpg"
 
+// Animated hero visual component
+const AnimatedHeroVisual = lazy(() => import("@/components/AnimatedHeroVisual").then(m => ({ default: m.AnimatedHeroVisual })))
+
 // Lightweight components loaded immediately
 import { ThemeToggle } from "@/components/ThemeToggle"
 import { TypewriterTagline } from "@/components/TypewriterTagline"
@@ -572,36 +575,14 @@ function App() {
         
         <div className="max-w-5xl mx-auto relative z-10">
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-            {/* LCP element - Enhanced with glow effect */}
-            <div className="flex-shrink-0 relative group">
-              {/* Outer glow ring - reduced blur for performance */}
-              <div className="absolute -inset-2 bg-gradient-to-br from-primary/20 via-accent/10 to-primary/20 rounded-full blur-lg opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
-              
-              {/* Rotating gradient border */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-primary via-accent to-primary rounded-full opacity-30 group-hover:opacity-60 transition-opacity" style={{ background: 'conic-gradient(from 0deg, var(--primary), var(--accent), var(--primary))' }} />
-              
-              <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden ring-2 ring-background shadow-2xl">
-                <picture>
-                  {/* WebP sources for modern browsers */}
-                  <source
-                    type="image/webp"
-                    srcSet={`${profileWebp192} 192w, ${profileWebp384} 384w, ${profileWebp224} 224w, ${profileWebp448} 448w`}
-                    sizes="(max-width: 768px) 192px, 224px"
-                  />
-                  {/* JPEG fallback */}
-                  <img 
-                    src={profileJpg384}
-                    alt="Kiarash Adl, AI Systems Architect - professional headshot"
-                    className="w-full h-full object-cover"
-                    width={224}
-                    height={224}
-                    fetchPriority="high"
-                    decoding="async"
-                    loading="eager"
-                  />
-                </picture>
+            {/* Animated Hero Visual - Modern alternative to portrait */}
+            <Suspense fallback={
+              <div className="w-56 h-56 md:w-64 md:h-64 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 animate-pulse flex items-center justify-center">
+                <span className="text-4xl font-bold text-muted-foreground">KA</span>
               </div>
-            </div>
+            }>
+              <AnimatedHeroVisual prefersReducedMotion={prefersReducedMotion} />
+            </Suspense>
             
             <div className="flex-1 text-center md:text-left">
               {/* Live Status - Enhanced pulsing button with sub-line */}

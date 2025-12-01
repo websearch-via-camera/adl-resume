@@ -1640,3 +1640,217 @@ h1, h2 {
   font-weight: 700;
   letter-spacing: -0.02em;
 }
+
+/* ==========================================================================
+   TOUCH-OPTIMIZED STYLES - Mobile gesture support
+   ========================================================================== */
+
+/* Remove tap highlight on touch devices */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Ensure smooth touch scrolling */
+html {
+  scroll-behavior: smooth;
+  overscroll-behavior-y: contain;
+}
+
+/* Touch-friendly interactive elements */
+@media (pointer: coarse) {
+  /* Larger touch targets - minimum 44px recommended by Apple/Google */
+  button,
+  [role="button"],
+  a,
+  input,
+  select,
+  textarea {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Cards need larger touch area */
+  .group:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease-out;
+  }
+  
+  /* Progress bar section markers need larger targets */
+  .progress-marker {
+    min-width: 24px;
+    min-height: 24px;
+    padding: 8px;
+  }
+  
+  /* Hide hover-only effects on touch devices */
+  .hover-only {
+    display: none;
+  }
+}
+
+/* Touch feedback animations */
+.touch-feedback {
+  position: relative;
+  overflow: hidden;
+}
+
+.touch-feedback::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--touch-x, 50%) var(--touch-y, 50%), 
+    rgba(255, 255, 255, 0.3) 0%, 
+    transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+  pointer-events: none;
+}
+
+.touch-feedback:active::after {
+  opacity: 1;
+}
+
+/* Swipe indicator animation */
+@keyframes swipe-hint {
+  0%, 100% {
+    transform: translateX(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateX(-10px);
+    opacity: 1;
+  }
+}
+
+.swipe-hint {
+  animation: swipe-hint 2s ease-in-out infinite;
+}
+
+/* Pull to refresh indicator */
+@keyframes pull-refresh-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.pull-refresh-indicator {
+  position: fixed;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: top 0.3s ease-out, transform 0.3s ease-out;
+  z-index: 9999;
+}
+
+.pull-refresh-indicator.visible {
+  top: 20px;
+}
+
+.pull-refresh-indicator.refreshing svg {
+  animation: pull-refresh-spin 1s linear infinite;
+}
+
+/* Section transition for swipe navigation */
+.section-swipe-container {
+  touch-action: pan-y pinch-zoom;
+}
+
+/* Haptic feedback visual cue */
+@keyframes haptic-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--primary), 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(var(--primary), 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--primary), 0);
+  }
+}
+
+.haptic-feedback:active {
+  animation: haptic-pulse 0.3s ease-out;
+}
+
+/* Smooth momentum scrolling for iOS */
+.momentum-scroll {
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+}
+
+/* Prevent accidental gestures during scroll */
+.scrolling * {
+  pointer-events: none;
+}
+
+/* Touch-optimized card hover states */
+@media (hover: none) {
+  /* Replace hover with active states */
+  .card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  
+  .card:active {
+    transform: scale(0.98);
+    transition: transform 0.15s ease-out;
+  }
+  
+  /* Remove spotlight effect on touch */
+  .spotlight-effect {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   RIPPLE ANIMATION - Touch feedback effect
+   ========================================================================== */
+
+@keyframes ripple {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0.5;
+  }
+  100% {
+    width: 500px;
+    height: 500px;
+    opacity: 0;
+  }
+}
+
+.animate-ripple {
+  animation: ripple 0.6s ease-out forwards;
+}
+
+/* Touch interaction states */
+.touch-active {
+  transform: scale(0.97);
+  transition: transform 0.1s ease-out;
+}
+
+/* Disable hover effects on touch - use active instead */
+@media (hover: none) and (pointer: coarse) {
+  .hover\:-translate-y-1:hover {
+    transform: none;
+  }
+  
+  .hover\:-translate-y-0\.5:hover {
+    transform: none;
+  }
+  
+  .active\:scale-\[0\.98\]:active,
+  .active\:scale-\[0\.97\]:active {
+    transform: scale(0.97);
+  }
+}

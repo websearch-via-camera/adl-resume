@@ -73,6 +73,8 @@ function Card({ className, ...props }: ComponentProps<"div">) {
         "hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1",
         "hover:border-primary/20",
         "dark:hover:shadow-primary/10",
+        // Touch feedback - scale down on press
+        "active:scale-[0.98] active:shadow-sm active:translate-y-0",
         // Gradient border on hover
         "before:absolute before:inset-0 before:rounded-2xl before:p-[1px]",
         "before:bg-gradient-to-br before:from-primary/40 before:via-accent/20 before:to-primary/40",

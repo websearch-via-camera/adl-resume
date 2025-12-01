@@ -6,8 +6,8 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Mail, Phone, Download, Github, Linkedin, ArrowUpRight, Send, ChevronUp, ChevronDown, Link, Calendar, Bot, Copy, Check } from "lucide-react"
-import { useState, useEffect, lazy, Suspense } from "react"
+import { Mail, Phone, Download, Github, Linkedin, ArrowUpRight, Send, ChevronUp, ChevronDown, Link, Calendar, Bot, Copy, Check, ChevronLeft, ChevronRight } from "lucide-react"
+import { useState, useEffect, lazy, Suspense, useRef, useCallback } from "react"
 import { toast } from "sonner"
 import resumePdf from "@/assets/documents/Kiarash-Adl-Resume-20251129.pdf"
 
@@ -28,6 +28,7 @@ import { useSound } from "@/hooks/useSoundEffects"
 import { TypewriterTagline } from "@/components/TypewriterTagline"
 import { useKeyboardNavigation } from "@/hooks/useKeyboardNavigation"
 import { useNativeScroll } from "@/hooks/useNativeScroll"
+import { useTouchGestures } from "@/hooks/useTouchGestures"
 import { ScrollReveal, ScrollRevealContainer } from "@/components/ScrollReveal"
 
 // Onboarding modal - loaded immediately (critical for first-time visitors)
@@ -356,6 +357,49 @@ function App() {
     scrollToTop
   })
 
+  // Touch gesture navigation for mobile devices
+  const mainRef = useRef<HTMLDivElement>(null)
+  const [swipeHint, setSwipeHint] = useState(false)
+  
+  // Navigate to next/previous section via swipe
+  const navigateToNextSection = useCallback(() => {
+    const currentIndex = sections.indexOf(activeSection)
+    if (currentIndex < sections.length - 1) {
+      scrollToSection(sections[currentIndex + 1])
+    }
+  }, [activeSection, sections, scrollToSection])
+  
+  const navigateToPrevSection = useCallback(() => {
+    const currentIndex = sections.indexOf(activeSection)
+    if (currentIndex > 0) {
+      scrollToSection(sections[currentIndex - 1])
+    }
+  }, [activeSection, sections, scrollToSection])
+
+  // Touch gestures for swipe navigation (horizontal swipes between sections)
+  useTouchGestures(mainRef, {
+    onSwipeLeft: navigateToNextSection,
+    onSwipeRight: navigateToPrevSection,
+    threshold: 75, // Slightly higher threshold to avoid accidental triggers
+    enabled: !prefersReducedMotion
+  })
+
+  // Show swipe hint on first visit (mobile only)
+  useEffect(() => {
+    if ('ontouchstart' in window) {
+      const hasSeenHint = localStorage.getItem('kiarash-swipe-hint')
+      if (!hasSeenHint && !showOnboarding) {
+        setTimeout(() => {
+          setSwipeHint(true)
+          setTimeout(() => {
+            setSwipeHint(false)
+            localStorage.setItem('kiarash-swipe-hint', 'true')
+          }, 4000)
+        }, 2000)
+      }
+    }
+  }, [showOnboarding])
+
   // Don't render anything until fonts are loaded and localStorage is checked
   // This prevents FOUT (Flash of Unstyled Text) during onboarding
   const isReady = fontsReady && showOnboarding !== null
@@ -373,10 +417,32 @@ function App() {
         <OnboardingChoice onChoice={handleOnboardingChoice} />
       ) : (
         /* Main content - only renders after onboarding is complete */
-        <div className="min-h-screen bg-background cursor-none">
+        <div ref={mainRef} className="min-h-screen bg-background cursor-none section-swipe-container">
       <Suspense fallback={null}>
         <CustomCursor />
       </Suspense>
+      
+      {/* Swipe Hint Overlay - shows on first mobile visit */}
+      {swipeHint && (
+        <div 
+          className="fixed inset-0 z-[100] pointer-events-none flex items-center justify-center bg-background/60 backdrop-blur-sm animate-in fade-in duration-500"
+          aria-hidden="true"
+        >
+          <div className="flex flex-col items-center gap-4 p-8 rounded-2xl bg-card/90 border border-border shadow-2xl animate-in zoom-in-95 duration-300">
+            <div className="flex items-center gap-4">
+              <ChevronLeft className="h-8 w-8 text-primary swipe-hint" />
+              <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-full bg-primary/30 flex items-center justify-center">
+                  <div className="w-3 h-3 rounded-full bg-primary" />
+                </div>
+              </div>
+              <ChevronRight className="h-8 w-8 text-primary swipe-hint" style={{ animationDirection: 'reverse' }} />
+            </div>
+            <p className="text-sm font-medium text-foreground">Swipe to navigate sections</p>
+          </div>
+        </div>
+      )}
+      
       {/* Scroll Progress Bar - GPU-accelerated with glow effect */}
       <div
         className={`fixed top-0 left-0 right-0 h-1 z-[60] transition-opacity duration-300 overflow-hidden ${
@@ -578,7 +644,7 @@ function App() {
             {/* Animated Hero Visual - Modern alternative to portrait */}
             <Suspense fallback={
               <div className="w-56 h-56 md:w-64 md:h-64 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 animate-pulse flex items-center justify-center">
-                <span className="text-4xl font-bold text-muted-foreground">KA</span>
+                <span className="text-4xl font-bold text-muted-foreground">Adl</span>
               </div>
             }>
               <AnimatedHeroVisual prefersReducedMotion={prefersReducedMotion} />

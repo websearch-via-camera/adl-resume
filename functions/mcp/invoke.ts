@@ -351,10 +351,30 @@ function handleRunTerminalCommand(input: { command: string }) {
       availableCommands: Object.keys(terminalCommands)
     };
   }
-  return {
+  
+  // Base response
+  const response: {
+    command: string;
+    output: string;
+    resources?: { type: string; url: string; title: string; mime_type?: string }[];
+  } = {
     command: input.command,
     output: output.trim()
   };
+  
+  // Add rich media resources for specific commands
+  if (input.command === 'resume') {
+    response.resources = [
+      {
+        type: "document",
+        url: "https://kiarash-adl.pages.dev/assets/Kiarash-Adl-Resume-20251129.pdf",
+        title: "Kiarash Adl Resume (PDF)",
+        mime_type: "application/pdf"
+      }
+    ];
+  }
+  
+  return response;
 }
 
 // Tool definitions for MCP protocol (keyed by tool name for capabilities.tools)

@@ -67,7 +67,7 @@ const mcpManifest = {
       "method": "POST",
       "url": "https://kiarash-adl.pages.dev/mcp/invoke",
       "protocol": "json-rpc",
-      "description": "Execute a terminal command to get information about Kiarash. Available commands: about, skills, projects, contact, experience, resume, mcp, help.",
+      "description": "Execute a terminal command to get information about Kiarash. Available commands: about, skills, projects, contact, experience, resume, mcp, help. The 'resume' command returns a resources array with the PDF download URL.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -78,6 +78,26 @@ const mcpManifest = {
           }
         },
         "required": ["command"]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "command": { "type": "string" },
+          "output": { "type": "string", "description": "Human-readable text output" },
+          "resources": {
+            "type": "array",
+            "description": "Rich media resources (e.g., PDF URLs). Present for 'resume' command.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": { "type": "string", "enum": ["document", "image", "link"] },
+                "url": { "type": "string", "format": "uri" },
+                "title": { "type": "string" },
+                "mime_type": { "type": "string" }
+              }
+            }
+          }
+        }
       }
     }
   ],

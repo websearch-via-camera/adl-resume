@@ -72,7 +72,7 @@ function AIAgentButton() {
     try {
       await navigator.clipboard.writeText(mcpPrompt)
       setCopied(true)
-      setTimeout(() => setCopied(false), 4000)
+      setTimeout(() => setCopied(false), 10000)
     } catch {
       // Silent fail - the UI will show the copied state didn't change
     }

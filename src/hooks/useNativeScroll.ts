@@ -13,15 +13,21 @@ interface ScrollState {
   activeSection: string
 }
 
+interface SectionPosition {
+  id: string
+  top: number
+  bottom: number
+}
+
 /**
- * Native scroll tracking hook - simple and reliable approach
- * Calculates which section is active based on scroll position
+ * Native scroll tracking hook - optimized to avoid forced reflows
+ * Caches section positions and only recalculates on resize
  */
 export function useNativeScroll(
   sections: string[],
   options: UseNativeScrollOptions = {}
 ): ScrollState {
-  const { throttleMs = 50 } = options // Slightly slower for reliability
+  const { throttleMs = 50 } = options
   
   const [state, setState] = useState<ScrollState>({
     scrollY: 0,
@@ -34,46 +40,50 @@ export function useNativeScroll(
   
   const rafRef = useRef<number | null>(null)
   const lastUpdateRef = useRef(0)
+  // Cache section positions to avoid forced reflows on every scroll
+  const sectionPositionsRef = useRef<SectionPosition[]>([])
+  const documentHeightRef = useRef(0)
   
-  const updateState = useCallback(() => {
+  // Calculate section positions - only called on mount and resize
+  const calculateSectionPositions = useCallback(() => {
     const scrollY = window.scrollY
-    const windowHeight = window.innerHeight
-    const documentHeight = document.documentElement.scrollHeight
-    const scrollableHeight = documentHeight - windowHeight
-    const progress = scrollableHeight > 0 ? (scrollY / scrollableHeight) * 100 : 0
-    
-    // Calculate active section by finding section positions
-    // Store absolute positions (relative to document top)
-    const sectionPositions: { id: string; top: number; bottom: number }[] = []
+    const positions: SectionPosition[] = []
     
     for (const sectionId of sections) {
       const element = document.getElementById(sectionId)
       if (!element) continue
       
       const rect = element.getBoundingClientRect()
-      const absoluteTop = rect.top + scrollY
-      const absoluteBottom = rect.bottom + scrollY
-      
-      sectionPositions.push({
+      positions.push({
         id: sectionId,
-        top: absoluteTop,
-        bottom: absoluteBottom
+        top: rect.top + scrollY,
+        bottom: rect.bottom + scrollY
       })
     }
     
-    // Sort by position (should already be in order, but just to be safe)
-    sectionPositions.sort((a, b) => a.top - b.top)
+    // Sort by position
+    positions.sort((a, b) => a.top - b.top)
+    sectionPositionsRef.current = positions
+    documentHeightRef.current = document.documentElement.scrollHeight
+  }, [sections])
+  
+  // Fast scroll handler - uses cached positions, no getBoundingClientRect
+  const updateState = useCallback(() => {
+    const scrollY = window.scrollY
+    const windowHeight = window.innerHeight
+    const documentHeight = documentHeightRef.current || document.documentElement.scrollHeight
+    const scrollableHeight = documentHeight - windowHeight
+    const progress = scrollableHeight > 0 ? (scrollY / scrollableHeight) * 100 : 0
     
-    // Find active section: the one whose top we've scrolled past
-    // Use an offset of 150px (about nav height + some buffer)
+    // Find active section using cached positions
     const scrollPosition = scrollY + 150
     let activeSection = sections[0] || "home"
     
-    for (const section of sectionPositions) {
+    for (const section of sectionPositionsRef.current) {
       if (scrollPosition >= section.top) {
         activeSection = section.id
       } else {
-        break // Sections are sorted, so we can stop here
+        break
       }
     }
     
@@ -112,22 +122,36 @@ export function useNativeScroll(
     updateState()
   }, [throttleMs, updateState])
   
+  // Recalculate positions on resize (debounced)
+  const handleResize = useCallback(() => {
+    calculateSectionPositions()
+    updateState()
+  }, [calculateSectionPositions, updateState])
+  
   useEffect(() => {
-    // Initial update after a short delay to ensure DOM is ready
-    const initTimer = setTimeout(updateState, 100)
+    // Initial calculation after DOM is ready
+    const initTimer = setTimeout(() => {
+      calculateSectionPositions()
+      updateState()
+    }, 100)
+    
+    // Recalculate positions periodically for dynamic content
+    // This handles cases where content height changes (e.g., lazy loading)
+    const recalcTimer = setInterval(calculateSectionPositions, 2000)
     
     window.addEventListener("scroll", handleScroll, { passive: true })
-    window.addEventListener("resize", updateState, { passive: true })
+    window.addEventListener("resize", handleResize, { passive: true })
     
     return () => {
       clearTimeout(initTimer)
+      clearInterval(recalcTimer)
       window.removeEventListener("scroll", handleScroll)
-      window.removeEventListener("resize", updateState)
+      window.removeEventListener("resize", handleResize)
       if (rafRef.current) {
         cancelAnimationFrame(rafRef.current)
       }
     }
-  }, [handleScroll, updateState])
+  }, [handleScroll, handleResize, calculateSectionPositions, updateState])
   
   return state
 }

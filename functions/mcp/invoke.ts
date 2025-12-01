@@ -5,7 +5,10 @@
  * POST /mcp/invoke with JSON body: { "tool": "tool_name", "input": { ... } }
  */
 
-interface Env {}
+interface Env {
+  RESEND_API_KEY?: string;
+  CONTACT_EMAIL?: string;
+}
 
 // Project data (synced from src/data/projects.ts for serverless context)
 const projects: Record<string, {
@@ -321,12 +324,14 @@ function handleRunTerminalCommand(input: { command: string }) {
   return response;
 }
 
-// Handle contact form submission - actually sends the email
-async function handleSubmitContact(input: { name: string; email: string; message: string; subject?: string }): Promise<{
+// Handle contact form submission - sends email via Resend API directly
+async function handleSubmitContact(
+  input: { name: string; email: string; message: string; subject?: string },
+  env: Env
+): Promise<{
   success: boolean;
   error?: string;
   message?: string;
-  emailId?: string;
 }> {
   // Validate required fields
   if (!input.name || !input.email || !input.message) {
@@ -344,41 +349,50 @@ async function handleSubmitContact(input: { name: string; email: string; message
       error: "Invalid email address format"
     };
   }
+
+  // Check if Resend API key is configured
+  if (!env.RESEND_API_KEY) {
+    // Fallback: return success with manual follow-up instruction
+    return {
+      success: true,
+      message: `Message validated! Please email kiarasha@alum.mit.edu directly with your message. (API key not configured)`
+    };
+  }
   
-  // Actually send the email by calling the /contact endpoint
+  // Send email via Resend API directly (no self-referencing fetch)
   try {
-    const response = await fetch('https://kiarash-adl.pages.dev/contact', {
+    const resendResponse = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
+        'Authorization': `Bearer ${env.RESEND_API_KEY}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        name: input.name,
-        email: input.email,
-        subject: input.subject || `MCP Contact from ${input.name}`,
-        message: input.message
-      })
+        from: 'Portfolio Contact <onboarding@resend.dev>',
+        to: env.CONTACT_EMAIL || 'kiarasha@alum.mit.edu',
+        reply_to: input.email,
+        subject: input.subject || `[MCP] Contact from ${input.name}`,
+        text: `Name: ${input.name}\nEmail: ${input.email}\n\nMessage:\n${input.message}`,
+      }),
     });
-    
-    const result = await response.json() as { success?: boolean; error?: string; id?: string };
-    
-    if (!response.ok || !result.success) {
+
+    if (!resendResponse.ok) {
+      console.error('Resend API error:', await resendResponse.text());
       return {
         success: false,
-        error: result.error || 'Failed to send email'
+        error: 'Failed to send email - please email kiarasha@alum.mit.edu directly'
       };
     }
-    
+
     return {
       success: true,
-      message: `Message sent successfully to Kiarash! He will reply to ${input.email}.`,
-      emailId: result.id
+      message: `Message sent to Kiarash! He will reply to ${input.email}.`
     };
   } catch (err) {
     console.error('Error sending contact email:', err);
     return {
       success: false,
-      error: 'Failed to send email - please try again or email kiarasha@alum.mit.edu directly'
+      error: 'Failed to send email - please email kiarasha@alum.mit.edu directly'
     };
   }
 }
@@ -466,8 +480,8 @@ const serverCapabilities = {
 };
 
 // Cloudflare Pages Function handler
-export const onRequest = async (context: { request: Request }): Promise<Response> => {
-  const { request } = context;
+export const onRequest = async (context: { request: Request; env: Env }): Promise<Response> => {
+  const { request, env } = context;
 
   // CORS headers
   const corsHeaders = {
@@ -740,7 +754,7 @@ export const onRequest = async (context: { request: Request }): Promise<Response
                   headers: { ...corsHeaders, "Content-Type": "application/json" }
                 });
               }
-              toolResult = await handleSubmitContact(toolArgs as { name: string; email: string; message: string; subject?: string });
+              toolResult = await handleSubmitContact(toolArgs as { name: string; email: string; message: string; subject?: string }, env);
               break;
             default:
               return new Response(JSON.stringify(formatError(

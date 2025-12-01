@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils"
-import { memo } from "react"
+import { memo, useRef, useEffect, useState } from "react"
 
 interface SectionDividerProps {
-  variant?: "default" | "ornate" | "gradient" | "dots" | "wave" | "sparkle" | "constellation"
+  variant?: "default" | "ornate" | "gradient" | "dots" | "wave" | "sparkle" | "constellation" | "draw"
   className?: string
 }
 
@@ -27,7 +27,141 @@ const SPARKLES = [
   { left: "90%", size: "w-1 h-1", opacity: "opacity-30" },
 ] as const
 
+// Hook for scroll-triggered animation
+function useScrollTrigger(threshold = 0.3) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const element = ref.current
+    if (!element) return
+
+    // Check reduced motion preference
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setIsVisible(true)
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+          observer.disconnect()
+        }
+      },
+      { threshold, rootMargin: '0px 0px -50px 0px' }
+    )
+
+    observer.observe(element)
+    return () => observer.disconnect()
+  }, [threshold])
+
+  return { ref, isVisible }
+}
+
 export const SectionDivider = memo(function SectionDivider({ variant = "default", className }: SectionDividerProps) {
+  
+  // Draw variant - animated lines that draw on scroll
+  if (variant === "draw") {
+    const { ref, isVisible } = useScrollTrigger(0.5)
+    
+    return (
+      <div 
+        ref={ref}
+        className={cn("py-10 md:py-14 contain-layout contain-style", className)} 
+        aria-hidden="true"
+      >
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="relative flex items-center justify-center h-8">
+            {/* Left line - draws from center */}
+            <div className="absolute right-1/2 mr-6 w-[calc(50%-3rem)] h-px overflow-hidden">
+              <div 
+                className={cn(
+                  "h-full bg-gradient-to-l from-primary/60 via-primary/40 to-transparent",
+                  "origin-right transition-transform duration-1000 ease-out",
+                  isVisible ? "scale-x-100" : "scale-x-0"
+                )}
+                style={{ transitionDelay: '0.2s' }}
+              />
+            </div>
+            
+            {/* Right line - draws from center */}
+            <div className="absolute left-1/2 ml-6 w-[calc(50%-3rem)] h-px overflow-hidden">
+              <div 
+                className={cn(
+                  "h-full bg-gradient-to-r from-primary/60 via-primary/40 to-transparent",
+                  "origin-left transition-transform duration-1000 ease-out",
+                  isVisible ? "scale-x-100" : "scale-x-0"
+                )}
+                style={{ transitionDelay: '0.2s' }}
+              />
+            </div>
+            
+            {/* Center ornament - scales in */}
+            <div className="relative z-10">
+              {/* Glow */}
+              <div 
+                className={cn(
+                  "absolute inset-0 w-16 h-16 -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2",
+                  "rounded-full bg-primary/10 blur-xl",
+                  "transition-all duration-700",
+                  isVisible ? "opacity-100 scale-100" : "opacity-0 scale-50"
+                )}
+              />
+              
+              {/* Diamond */}
+              <div 
+                className={cn(
+                  "relative w-6 h-6 transition-all duration-500",
+                  isVisible ? "opacity-100 scale-100 rotate-[225deg]" : "opacity-0 scale-0 rotate-45"
+                )}
+              >
+                <div className="w-full h-full rotate-45 rounded-sm bg-gradient-to-br from-primary via-accent to-primary shadow-lg shadow-primary/30">
+                  <div className="absolute inset-0.5 rounded-sm bg-gradient-to-br from-white/20 to-transparent" />
+                </div>
+              </div>
+              
+              {/* Outer dots - fade in with stagger */}
+              <div 
+                className={cn(
+                  "absolute -left-8 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-primary/50",
+                  "transition-all duration-500",
+                  isVisible ? "opacity-100 scale-100" : "opacity-0 scale-0"
+                )}
+                style={{ transitionDelay: '0.4s' }}
+              />
+              <div 
+                className={cn(
+                  "absolute -right-8 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-primary/50",
+                  "transition-all duration-500",
+                  isVisible ? "opacity-100 scale-100" : "opacity-0 scale-0"
+                )}
+                style={{ transitionDelay: '0.4s' }}
+              />
+              
+              {/* Far dots */}
+              <div 
+                className={cn(
+                  "absolute -left-14 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-primary/30",
+                  "transition-all duration-500",
+                  isVisible ? "opacity-100 scale-100" : "opacity-0 scale-0"
+                )}
+                style={{ transitionDelay: '0.6s' }}
+              />
+              <div 
+                className={cn(
+                  "absolute -right-14 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-primary/30",
+                  "transition-all duration-500",
+                  isVisible ? "opacity-100 scale-100" : "opacity-0 scale-0"
+                )}
+                style={{ transitionDelay: '0.6s' }}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
   if (variant === "ornate") {
     return (
       <div className={cn("py-8 md:py-12 contain-layout contain-style", className)} aria-hidden="true">

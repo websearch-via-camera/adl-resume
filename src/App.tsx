@@ -38,7 +38,10 @@ import { OnboardingChoice } from "@/components/OnboardingChoice"
 // Decorative components lazy-loaded (not critical for initial render)
 const CustomCursor = lazy(() => import("@/components/CustomCursor").then(m => ({ default: m.CustomCursor })))
 const KeyboardHelp = lazy(() => import("@/components/KeyboardHelp").then(m => ({ default: m.KeyboardHelp })))
+const MorphingBlob = lazy(() => import("@/components/MorphingBlob").then(m => ({ default: m.BlobBackground })))
 import { A11yProvider, SkipLinks, useA11y } from "@/components/A11yProvider"
+import { TextScramble } from "@/components/TextScramble"
+import { MagneticButton } from "@/components/MagneticButton"
 
 // Heavy components lazy loaded for better initial performance
 const GitHubActivity = lazy(() => import("@/components/GitHubActivity").then(m => ({ default: m.GitHubActivity })))
@@ -418,6 +421,11 @@ function App() {
       ) : (
         /* Main content - only renders after onboarding is complete */
         <div ref={mainRef} className="min-h-screen bg-background cursor-none section-swipe-container">
+      {/* Morphing blob background - subtle ambient effect */}
+      <Suspense fallback={null}>
+        <MorphingBlob variant="subtle" />
+      </Suspense>
+      
       <Suspense fallback={null}>
         <CustomCursor />
       </Suspense>
@@ -665,10 +673,16 @@ function App() {
                 <span className="text-xs text-muted-foreground mt-1">Let's build your AI dream team, starting today</span>
               </div>
               
-              {/* Name with gradient effect */}
+              {/* Name with gradient effect + text scramble */}
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-2">
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-foreground via-foreground to-foreground hover:from-primary hover:via-foreground hover:to-accent transition-all duration-700">
-                  Kiarash Adl
+                  <TextScramble 
+                    text="Kiarash Adl" 
+                    scrambleOnMount={true}
+                    scrambleOnHover={true}
+                    delay={500}
+                    className="inline"
+                  />
                 </span>
               </h1>
               <TypewriterTagline />
@@ -739,33 +753,34 @@ function App() {
               
               {/* Contact & Socials - Personalized CTAs with glow effects */}
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
-                <a 
-                  href="https://calendly.com/kiarasha-alum/30min" 
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <MagneticButton
+                  strength={0.3}
+                  radius={120}
                   className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-xl hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all duration-300 text-sm font-semibold group"
+                  onClick={() => window.open("https://calendly.com/kiarasha-alum/30min", "_blank")}
                 >
                   <Mail className="h-[18px] w-[18px] group-hover:scale-110 transition-transform" />
                   <span>Book a Free AI Chat</span>
                   <ArrowUpRight className="h-3.5 w-3.5 opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
-                </a>
-                <a 
-                  href="#projects" 
-                  onClick={(e) => { e.preventDefault(); scrollToSection('projects'); }}
+                </MagneticButton>
+                <MagneticButton 
+                  strength={0.25}
+                  radius={100}
                   className="flex items-center gap-2 px-4 py-2.5 bg-muted/80 hover:bg-muted rounded-xl transition-all duration-300 text-sm font-medium group hover:shadow-lg hover:-translate-y-0.5 border border-border/50"
+                  onClick={(e) => { e.preventDefault(); scrollToSection('projects'); }}
                 >
                   <span>🎯</span>
                   <span>See My Work</span>
-                </a>
-                <a 
-                  href="https://www.linkedin.com/in/kiarashadl/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
+                </MagneticButton>
+                <MagneticButton 
+                  strength={0.25}
+                  radius={100}
                   className="flex items-center gap-2 px-4 py-2.5 bg-muted/80 hover:bg-muted rounded-xl transition-all duration-300 text-sm font-medium group hover:shadow-lg hover:-translate-y-0.5 border border-border/50"
+                  onClick={() => window.open("https://www.linkedin.com/in/kiarashadl/", "_blank")}
                 >
                   <Linkedin className="h-[18px] w-[18px] text-primary group-hover:scale-110 transition-transform" />
                   <span>Connect</span>
-                </a>
+                </MagneticButton>
               </div>
             </div>
           </div>
@@ -799,7 +814,12 @@ function App() {
                 <span className="text-sm font-medium text-primary uppercase tracking-wider">Portfolio</span>
               </div>
               <h2 id="projects-heading" className="text-3xl md:text-4xl font-bold">
-                Featured Projects
+                <TextScramble 
+                  text="Featured Projects" 
+                  scrambleOnMount={false}
+                  scrambleOnView={true}
+                  delay={200}
+                />
               </h2>
             </ScrollReveal>
             

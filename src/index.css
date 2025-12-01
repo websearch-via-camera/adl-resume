@@ -1854,3 +1854,83 @@ html {
     transform: scale(0.97);
   }
 }
+
+/* ==========================================================================
+   MORPHING BLOB ANIMATION - Award-winning organic shapes
+   ========================================================================== */
+
+@keyframes blob-morph {
+  0%, 100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+    transform: rotate(90deg) scale(1.05);
+  }
+  50% {
+    border-radius: 50% 60% 30% 60% / 30% 60% 70% 40%;
+    transform: rotate(180deg) scale(1);
+  }
+  75% {
+    border-radius: 60% 40% 60% 30% / 70% 30% 50% 60%;
+    transform: rotate(270deg) scale(0.95);
+  }
+}
+
+.animate-blob-morph {
+  animation: blob-morph var(--blob-duration, 20s) ease-in-out infinite;
+}
+
+/* Staggered blob animations for variety */
+.animate-blob-morph:nth-child(2) {
+  animation-delay: -5s;
+  animation-direction: reverse;
+}
+
+.animate-blob-morph:nth-child(3) {
+  animation-delay: -10s;
+}
+
+/* Reduced motion: static blob */
+@media (prefers-reduced-motion: reduce) {
+  .animate-blob-morph {
+    animation: none;
+    border-radius: 50%;
+  }
+}
+
+/* ==========================================================================
+   MAGNETIC BUTTON STYLES
+   ========================================================================== */
+
+.magnetic-button {
+  transition: transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.magnetic-button:hover {
+  transition-duration: 75ms;
+}
+
+/* ==========================================================================
+   TEXT SCRAMBLE STYLES
+   ========================================================================== */
+
+.text-scramble-char {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Glitch effect for scrambling characters */
+@keyframes text-glitch {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.text-scramble-active .text-scramble-char {
+  animation: text-glitch 100ms steps(2) infinite;
+}

@@ -19,6 +19,8 @@ function criticalChunksPreload(): Plugin {
       let profileImagePath = '';
       let mainCssPath = '';
       let vendorPreactPath = '';
+      let vendorIconsPath = '';
+      let vendorRadixPath = '';
       let mainJsPath = '';
       
       for (const [fileName] of Object.entries(ctx.bundle)) {
@@ -33,6 +35,14 @@ function criticalChunksPreload(): Plugin {
         // Find vendor-preact chunk (critical for Preact hydration)
         else if (fileName.includes('vendor-preact') && fileName.endsWith('.js')) {
           vendorPreactPath = fileName;
+        }
+        // Find vendor-icons chunk (lucide icons - used in hero)
+        else if (fileName.includes('vendor-icons') && fileName.endsWith('.js')) {
+          vendorIconsPath = fileName;
+        }
+        // Find vendor-radix chunk (UI components)
+        else if (fileName.includes('vendor-radix') && fileName.endsWith('.js')) {
+          vendorRadixPath = fileName;
         }
         // Find the main entry JS file
         else if (fileName.startsWith('assets/index-') && fileName.endsWith('.js')) {
@@ -50,6 +60,7 @@ function criticalChunksPreload(): Plugin {
       
       // Add early modulepreload hints in <head> for critical JS chunks
       // These are placed early in <head> so the browser starts fetching them sooner
+      // Load ALL critical chunks in parallel to reduce chain latency
       const earlyPreloads: string[] = [];
       
       if (vendorPreactPath) {
@@ -60,6 +71,16 @@ function criticalChunksPreload(): Plugin {
       if (mainJsPath) {
         // Main entry chunk - preload early
         earlyPreloads.push(`<link rel="modulepreload" href="/${mainJsPath}" crossorigin fetchpriority="high">`);
+      }
+      
+      if (vendorIconsPath) {
+        // Icons chunk - needed for hero section icons
+        earlyPreloads.push(`<link rel="modulepreload" href="/${vendorIconsPath}" crossorigin>`);
+      }
+      
+      if (vendorRadixPath) {
+        // Radix UI chunk - needed for UI components
+        earlyPreloads.push(`<link rel="modulepreload" href="/${vendorRadixPath}" crossorigin>`);
       }
       
       // Insert early modulepreload hints in the placeholder location
@@ -73,17 +94,10 @@ function criticalChunksPreload(): Plugin {
       
       // Remove Vite's auto-generated modulepreload links for chunks we already preloaded
       // This avoids duplicate modulepreload hints in the final HTML
-      if (vendorPreactPath) {
-        // Remove Vite's modulepreload for vendor-preact (we added it early with fetchpriority)
+      const chunksToRemove = [vendorPreactPath, mainJsPath, vendorIconsPath, vendorRadixPath].filter(Boolean);
+      for (const chunkPath of chunksToRemove) {
         html = html.replace(
-          new RegExp(`\\s*<link rel="modulepreload" crossorigin href="/${vendorPreactPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}">`),
-          ''
-        );
-      }
-      if (mainJsPath) {
-        // Remove Vite's modulepreload for main entry (we added it early with fetchpriority)
-        html = html.replace(
-          new RegExp(`\\s*<link rel="modulepreload" crossorigin href="/${mainJsPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}">`),
+          new RegExp(`\\s*<link rel="modulepreload" crossorigin href="/${chunkPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}">`),
           ''
         );
       }

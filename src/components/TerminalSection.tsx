@@ -20,6 +20,7 @@ const commands: Record<string, string[]> = {
     "  skills      View technical skills",
     "  projects    List featured projects",
     "  contact     Get contact information",
+    "  resume      Download resume (PDF)",
     "  book        Schedule a call",
     "  experience  View work history",
     "  guestbook   Sign the guestbook",
@@ -148,6 +149,24 @@ const commands: Record<string, string[]> = {
     "",
     "Be the first to sign!"
   ],
+  resume: [
+    "Resume - Kiarash Adl",
+    "",
+    "Download PDF:",
+    "  https://kiarash-adl.pages.dev/assets/Kiarash-Adl-Resume-20251129.pdf",
+    "",
+    "Summary:",
+    "  Senior Software Engineer & AI Systems Architect",
+    "  MIT EECS '14 | 10+ Years Experience",
+    "",
+    "Highlights:",
+    "  • AI Vision (Founder & CEO) - Patent-pending CV solutions",
+    "  • Google - Search Knowledge Panel & Knowledge Graph",
+    "  • 500K+ lines of production code shipped",
+    "  • Published researcher (ICASSP 2012)",
+    "",
+    "Opening resume in new tab..."
+  ],
   experience: [
     "Work History",
     "",
@@ -202,7 +221,7 @@ const commands: Record<string, string[]> = {
 
 export function TerminalSection() {
   const [history, setHistory] = useState<CommandOutput[]>([
-    { command: "", output: ["Welcome to Kiarash's Portfolio Terminal", "Type 'help' for available commands.", ""] }
+    { command: "", output: ["Welcome to Kiarash's Portfolio Terminal", "Type 'resume' or 'help' for available commands.", ""] }
   ])
   const [currentInput, setCurrentInput] = useState("")
   const [commandHistory, setCommandHistory] = useState<string[]>([])
@@ -350,6 +369,11 @@ export function TerminalSection() {
     // Special handling for 'book' command - open Calendly
     if (trimmedInput === "book" || trimmedInput === "schedule" || trimmedInput === "calendly") {
       window.open("https://calendly.com/kiarasha-alum/30min", "_blank", "noopener,noreferrer")
+    }
+    
+    // Special handling for 'resume' command - open resume PDF
+    if (trimmedInput === "resume" || trimmedInput === "cv") {
+      window.open("/assets/Kiarash-Adl-Resume-20251129.pdf", "_blank", "noopener,noreferrer")
     }
     
     let output: string[]

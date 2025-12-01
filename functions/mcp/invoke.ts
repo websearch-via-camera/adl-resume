@@ -174,6 +174,7 @@ about       Learn about Kiarash Adl
 skills      View technical skills and proficiency
 projects    List featured projects
 contact     Get contact information
+resume      Download resume (PDF)
 experience  View work history and education
 mcp         How to connect AI agents (Claude, etc.)
 help        Show this help message
@@ -218,9 +219,27 @@ Tool Endpoint:
 
 AVAILABLE TOOLS
 get_project_details - Get info about projects (fiml, hirealigna, aivision)
-run_terminal_command - Run commands (about, skills, projects, contact, experience)
+run_terminal_command - Run commands (about, skills, projects, contact, experience, resume)
 
-The manifest is cryptographically signed with Ed25519.`
+The manifest is cryptographically signed with Ed25519.`,
+
+  resume: `
+RESUME - KIARASH ADL
+
+Download PDF:
+  https://kiarash-adl.pages.dev/assets/Kiarash-Adl-Resume-20251129.pdf
+
+Summary:
+  Senior Software Engineer & AI Systems Architect
+  MIT EECS '14 | 10+ Years Experience
+
+Highlights:
+  • AI Vision (Founder & CEO) - Patent-pending CV solutions
+  • Google - Search Knowledge Panel & Knowledge Graph  
+  • 500K+ lines of production code shipped
+  • Published researcher (ICASSP 2012)
+
+To download: Visit the URL above or ask the human to open it.`
 };
 
 // Tool handlers
@@ -354,7 +373,7 @@ const toolDefinitions: Record<string, { description: string; inputSchema: object
         command: {
           type: "string",
           description: "The terminal command to execute",
-          enum: ["about", "skills", "projects", "contact", "experience", "mcp", "help"]
+          enum: ["about", "skills", "projects", "contact", "experience", "resume", "mcp", "help"]
         }
       },
       required: ["command"]
@@ -415,6 +434,7 @@ export const onRequest = async (context: { request: Request }): Promise<Response
           get_skills: "/mcp/invoke?command=skills", 
           get_projects: "/mcp/invoke?command=projects",
           get_contact: "/mcp/invoke?command=contact",
+          get_resume: "/mcp/invoke?command=resume",
           get_experience: "/mcp/invoke?command=experience",
           get_project_fiml: "/mcp/invoke?projectId=fiml",
           get_project_hirealigna: "/mcp/invoke?projectId=hirealigna",

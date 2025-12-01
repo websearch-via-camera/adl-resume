@@ -42,7 +42,7 @@ export const getProjectDetailsSchema = z.object({
 
 export const runTerminalCommandSchema = z.object({
   command: z
-    .enum(["about", "skills", "projects", "contact", "experience", "help"])
+    .enum(["about", "skills", "projects", "contact", "experience", "resume", "help"])
     .describe("The terminal command to execute"),
 })
 
@@ -121,8 +121,26 @@ Open to: AI roles, consulting, collaboration`,
 - skills: View technical skills
 - projects: List featured projects
 - contact: Get contact information
+- resume: Download resume (PDF)
 - experience: View work history
 - help: Show this help message`,
+
+  resume: `Resume - Kiarash Adl
+
+Download PDF:
+  https://kiarash-adl.pages.dev/assets/Kiarash-Adl-Resume-20251129.pdf
+
+Summary:
+  Senior Software Engineer & AI Systems Architect
+  MIT EECS '14 | 10+ Years Experience
+
+Highlights:
+  • AI Vision (Founder & CEO) - Patent-pending CV solutions
+  • Google - Search Knowledge Panel & Knowledge Graph
+  • 500K+ lines of production code shipped
+  • Published researcher (ICASSP 2012)
+
+To download: Visit the URL above or ask the human to open it.`,
 }
 
 // ============================================================================
@@ -263,7 +281,7 @@ const jsonSchemas: Record<string, object> = {
       command: {
         type: "string",
         description: "The terminal command to execute",
-        enum: ["about", "skills", "projects", "contact", "experience", "help"]
+        enum: ["about", "skills", "projects", "contact", "experience", "resume", "help"]
       }
     },
     required: ["command"]

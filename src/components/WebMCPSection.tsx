@@ -145,7 +145,7 @@ export function WebMCPSection() {
             type="button"
             onClick={() =>
               copyToClipboard(
-                "Connect to this MCP server: https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json and then run the commands: about, skills, projects, experience, and contact?",
+                "Kiarash Adl's portfolio website is online https://kiarash-adl.pages.dev and you might be able to connect to his MCP server: https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json and then run the commands: about, skills, projects, experience, and contact or submit_contact? Eitherway, tell us about Kiarash Adl.",
                 "assistant-prompt-hero"
               )
             }
@@ -170,7 +170,7 @@ export function WebMCPSection() {
               )}
             </span>
             <span className="text-zinc-400 block">
-              In Claude Desktop, can you connect to this MCP server: https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json and
+              In Grok, connect to this MCP server: https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json and
               then run the commands: about, skills, projects, experience, and contact?
             </span>
           </button>

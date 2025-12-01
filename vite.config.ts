@@ -1,5 +1,5 @@
 import tailwindcss from "@tailwindcss/vite";
-import react from "@vitejs/plugin-react-swc";
+import preact from "@preact/preset-vite";
 import { defineConfig, type Plugin } from "vite";
 import { resolve } from 'path'
 
@@ -18,7 +18,7 @@ function criticalChunksPreload(): Plugin {
       // Find LCP image, main CSS, and critical JS chunks from the bundle
       let profileImagePath = '';
       let mainCssPath = '';
-      let vendorReactPath = '';
+      let vendorPreactPath = '';
       let mainJsPath = '';
       
       for (const [fileName] of Object.entries(ctx.bundle)) {
@@ -30,9 +30,9 @@ function criticalChunksPreload(): Plugin {
         else if (fileName.startsWith('assets/index-') && fileName.endsWith('.css')) {
           mainCssPath = fileName;
         }
-        // Find vendor-react chunk (critical for React hydration)
-        else if (fileName.includes('vendor-react') && fileName.endsWith('.js')) {
-          vendorReactPath = fileName;
+        // Find vendor-preact chunk (critical for Preact hydration)
+        else if (fileName.includes('vendor-preact') && fileName.endsWith('.js')) {
+          vendorPreactPath = fileName;
         }
         // Find the main entry JS file
         else if (fileName.startsWith('assets/index-') && fileName.endsWith('.js')) {
@@ -52,9 +52,9 @@ function criticalChunksPreload(): Plugin {
       // These are placed early in <head> so the browser starts fetching them sooner
       const earlyPreloads: string[] = [];
       
-      if (vendorReactPath) {
-        // React vendor chunk is highest priority - needed for any React rendering
-        earlyPreloads.push(`<link rel="modulepreload" href="/${vendorReactPath}" crossorigin fetchpriority="high">`);
+      if (vendorPreactPath) {
+        // Preact vendor chunk is highest priority - needed for any Preact rendering
+        earlyPreloads.push(`<link rel="modulepreload" href="/${vendorPreactPath}" crossorigin fetchpriority="high">`);
       }
       
       if (mainJsPath) {
@@ -73,10 +73,10 @@ function criticalChunksPreload(): Plugin {
       
       // Remove Vite's auto-generated modulepreload links for chunks we already preloaded
       // This avoids duplicate modulepreload hints in the final HTML
-      if (vendorReactPath) {
-        // Remove Vite's modulepreload for vendor-react (we added it early with fetchpriority)
+      if (vendorPreactPath) {
+        // Remove Vite's modulepreload for vendor-preact (we added it early with fetchpriority)
         html = html.replace(
-          new RegExp(`\\s*<link rel="modulepreload" crossorigin href="/${vendorReactPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}">`),
+          new RegExp(`\\s*<link rel="modulepreload" crossorigin href="/${vendorPreactPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}">`),
           ''
         );
       }
@@ -105,18 +105,23 @@ function criticalChunksPreload(): Plugin {
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    react(),
+    preact(),
     tailwindcss(),
     criticalChunksPreload(),
   ],
   resolve: {
     alias: {
-      '@': resolve(projectRoot, 'src')
+      '@': resolve(projectRoot, 'src'),
+      // Preact compat aliases for React compatibility
+      'react': 'preact/compat',
+      'react-dom': 'preact/compat',
+      'react-dom/test-utils': 'preact/test-utils',
+      'react/jsx-runtime': 'preact/jsx-runtime',
     }
   },
   // Optimize dependency pre-bundling
   optimizeDeps: {
-    include: ['react', 'react-dom', 'framer-motion'],
+    include: ['preact', 'preact/compat', 'preact/hooks'],
     exclude: ['@radix-ui/colors'], // Exclude unused package
   },
   build: {
@@ -133,12 +138,12 @@ export default defineConfig({
         entryFileNames: 'assets/[name]-[hash].js',
         assetFileNames: 'assets/[name]-[hash].[ext]',
         manualChunks: (id) => {
-          // Core React - smallest possible chunk loaded first
-          if (id.includes('react-dom') || id.includes('react/')) {
-            return 'vendor-react';
+          // Core Preact - smallest possible chunk loaded first (~4KB vs React's ~40KB)
+          if (id.includes('preact')) {
+            return 'vendor-preact';
           }
-          // Animation library
-          if (id.includes('framer-motion')) {
+          // Motion library (motion-one is ~3KB vs framer-motion's ~60KB)
+          if (id.includes('motion') || id.includes('framer-motion')) {
             return 'vendor-motion';
           }
           // Radix UI components - used throughout

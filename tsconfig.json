@@ -17,14 +17,18 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
+    /* Preact JSX configuration */
     "jsx": "react-jsx",
+    "jsxImportSource": "preact",
     /* Linting */
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
     "paths": {
       "@/*": [
         "./src/*"
-      ]
+      ],
+      "react": ["./node_modules/preact/compat/"],
+      "react-dom": ["./node_modules/preact/compat/"]
     },
   },
   "include": [

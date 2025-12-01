@@ -14,6 +14,10 @@ interface ScrollRevealProps {
 /**
  * CSS-based scroll reveal animation component.
  * Uses Intersection Observer for performance - no JS animation library needed.
+ * 
+ * When used inside ScrollRevealContainer with className="scroll-reveal-child",
+ * the visibility is controlled by the parent container's CSS.
+ * When used standalone, it handles its own visibility via IntersectionObserver.
  */
 export function ScrollReveal({ 
   children, 
@@ -24,8 +28,16 @@ export function ScrollReveal({
 }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(false)
+  
+  // Check if this is a child element (controlled by parent container's CSS)
+  const isChildElement = className.includes('scroll-reveal-child')
 
   useEffect(() => {
+    // If it's a child element, the parent container handles visibility via CSS
+    if (isChildElement) {
+      return
+    }
+    
     const element = ref.current
     if (!element) return
 
@@ -57,13 +69,19 @@ export function ScrollReveal({
 
     observer.observe(element)
     return () => observer.disconnect()
-  }, [delay])
+  }, [delay, isChildElement])
+
+  // For child elements, don't add scroll-reveal class (parent CSS handles animation)
+  // For standalone elements, add scroll-reveal and visibility class
+  const computedClassName = isChildElement
+    ? `scroll-reveal-child ${className.replace('scroll-reveal-child', '').trim()}`
+    : `scroll-reveal ${isVisible ? 'scroll-reveal-visible' : ''} ${stagger ? 'scroll-reveal-stagger' : ''} ${className}`
 
   return (
     <div
       ref={ref}
       id={id}
-      className={`scroll-reveal ${isVisible ? 'scroll-reveal-visible' : ''} ${stagger ? 'scroll-reveal-stagger' : ''} ${className}`}
+      className={computedClassName}
     >
       {children}
     </div>

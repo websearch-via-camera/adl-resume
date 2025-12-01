@@ -410,20 +410,39 @@ function App() {
   })
 
   // Show swipe hint on first visit (mobile only)
+  const swipeHintDismissedRef = useRef(false)
+  
   useEffect(() => {
     if ('ontouchstart' in window) {
       const hasSeenHint = localStorage.getItem('kiarash-swipe-hint')
       if (!hasSeenHint && !showOnboarding) {
-        setTimeout(() => {
-          setSwipeHint(true)
-          setTimeout(() => {
+        const showTimer = setTimeout(() => {
+          if (!swipeHintDismissedRef.current) {
+            setSwipeHint(true)
+          }
+        }, 2000)
+        
+        const hideTimer = setTimeout(() => {
+          if (!swipeHintDismissedRef.current) {
             setSwipeHint(false)
             localStorage.setItem('kiarash-swipe-hint', 'true')
-          }, 4000)
-        }, 2000)
+          }
+        }, 6000) // 2000 + 4000
+        
+        return () => {
+          clearTimeout(showTimer)
+          clearTimeout(hideTimer)
+        }
       }
     }
   }, [showOnboarding])
+  
+  // Handler to dismiss swipe hint
+  const dismissSwipeHint = useCallback(() => {
+    swipeHintDismissedRef.current = true
+    setSwipeHint(false)
+    try { localStorage.setItem('kiarash-swipe-hint', 'true') } catch {}
+  }, [])
 
   // Don't render anything until fonts are loaded and localStorage is checked
   // This prevents FOUT (Flash of Unstyled Text) during onboarding
@@ -457,14 +476,8 @@ function App() {
         <div 
           className="fixed inset-0 z-[100] flex items-center justify-center bg-background/60 backdrop-blur-sm animate-in fade-in duration-500 cursor-pointer"
           aria-hidden="true"
-          onClick={() => {
-            setSwipeHint(false)
-            try { localStorage.setItem('kiarash-swipe-hint', 'true') } catch {}
-          }}
-          onTouchEnd={() => {
-            setSwipeHint(false)
-            try { localStorage.setItem('kiarash-swipe-hint', 'true') } catch {}
-          }}
+          onClick={dismissSwipeHint}
+          onTouchEnd={dismissSwipeHint}
         >
           <div className="flex flex-col items-center gap-4 p-8 rounded-2xl bg-card/90 border border-border shadow-2xl animate-in zoom-in-95 duration-300">
             <div className="flex items-center gap-4">

@@ -145,7 +145,7 @@ export function WebMCPSection() {
             type="button"
             onClick={() =>
               copyToClipboard(
-                "In Claude Desktop, can you connect to this MCP server: https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json and then run the commands: about, skills, projects, experience, and contact?",
+                "Connect to this MCP server: https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json and then run the commands: about, skills, projects, experience, and contact?",
                 "assistant-prompt-hero"
               )
             }
@@ -195,8 +195,8 @@ export function WebMCPSection() {
                     <Globe className="h-5 w-5 text-violet-400" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-lg">Discovery Endpoint</h3>
-                    <p className="text-sm text-muted-foreground">Where AI agents find your tools</p>
+                    <h3 className="font-semibold text-lg text-zinc-100">Discovery Endpoint</h3>
+                    <p className="text-sm text-zinc-400">Where AI agents find your tools</p>
                   </div>
                 </div>
                 
@@ -234,8 +234,8 @@ export function WebMCPSection() {
                     <Terminal className="h-5 w-5 text-cyan-400" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-lg">Invoke Endpoint</h3>
-                    <p className="text-sm text-muted-foreground">Call tools programmatically</p>
+                    <h3 className="font-semibold text-lg text-zinc-100">Invoke Endpoint</h3>
+                    <p className="text-sm text-zinc-400">Call tools programmatically</p>
                   </div>
                 </div>
 
@@ -268,8 +268,8 @@ export function WebMCPSection() {
                       <Play className="h-5 w-5 text-emerald-400" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-lg">Live Demo</h3>
-                      <p className="text-sm text-muted-foreground">Try the API right now</p>
+                      <h3 className="font-semibold text-lg text-zinc-100">Live Demo</h3>
+                      <p className="text-sm text-zinc-400">Try the API right now</p>
                     </div>
                   </div>
                   <motion.button

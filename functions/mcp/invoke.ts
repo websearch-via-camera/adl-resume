@@ -77,66 +77,69 @@ const projects: Record<string, {
 // Terminal command outputs
 const terminalCommands: Record<string, string> = {
   about: `
-┌─────────────────────────────────────────────────────────────┐
-│                    KIARASH ADL                               │
-│           AI Systems Architect & Full-Stack Engineer         │
-├─────────────────────────────────────────────────────────────┤
-│  MIT Alumnus | 10+ Years Experience | Human + AI Projects   │
-│                                                              │
-│  Specializing in:                                            │
-│  • Large Language Models & AI Systems                        │
-│  • Distributed Systems Architecture                          │
-│  • Full-Stack Development (React, Node, Python)              │
-│  • Cloud Infrastructure (AWS, GCP, Cloudflare)               │
-└─────────────────────────────────────────────────────────────┘`,
+KIARASH ADL
+AI Systems Architect & Full-Stack Engineer
+
+MIT Alumnus | 10+ Years Experience | Human + AI Projects
+
+Specializing in:
+  • Large Language Models & AI Systems
+  • Distributed Systems Architecture
+  • Full-Stack Development (React, Node, Python)
+  • Cloud Infrastructure (AWS, GCP, Cloudflare)`,
   
   skills: `
 TECHNICAL SKILLS
-================
 
-Languages:     Python ████████████ 95%
-               TypeScript ██████████ 90%
-               Go ████████ 80%
-               Rust ██████ 70%
+Languages
+  Python          95%
+  TypeScript      90%
+  Go              80%
+  Rust            70%
 
-AI/ML:         PyTorch ████████████ 95%
-               TensorFlow ██████████ 85%
-               LangChain ████████ 80%
+AI/ML
+  PyTorch         95%
+  TensorFlow      85%
+  LangChain       80%
 
-Frontend:      React ████████████ 95%
-               Next.js ██████████ 90%
+Frontend
+  React           95%
+  Next.js         90%
 
-Backend:       Node.js ██████████ 90%
-               FastAPI ████████████ 95%
+Backend
+  Node.js         90%
+  FastAPI         95%
 
-Cloud:         AWS ██████████ 90%
-               GCP ████████ 85%
-               Cloudflare ████████ 80%`,
+Cloud
+  AWS             90%
+  GCP             85%
+  Cloudflare      80%`,
 
   projects: `
 FEATURED PROJECTS
-=================
 
 1. FIML - Financial Intelligence Meta-Layer
-    Status: Development | Stack: Python, MCP Server, AI Orchestration
-    - AI-native MCP server for financial data aggregation
-    - 32K+ LOC | 1,403 tests | 100% pass rate
+   Status: Development
+   Stack: Python, MCP Server, AI Orchestration
+   AI-native MCP server for financial data aggregation
+   32K+ LOC | 1,403 tests | 100% pass rate
 
 2. HireAligna.ai  
-   Status: Live | Stack: Next.js, LiveKit, Azure OpenAI
-    - Conversational AI recruiter with voice interviews
-    - Helps startups cut hiring time by 40%
+   Status: Live
+   Stack: Next.js, LiveKit, Azure OpenAI
+   Conversational AI recruiter with voice interviews
+   Helps startups cut hiring time by 40%
 
 3. AI Vision
-   Status: Live | Stack: Computer Vision, iOS, ML
-    - Patent-pending AI/CV solutions for home services
-    - Mobile app live on App Store
+   Status: Live
+   Stack: Computer Vision, iOS, ML
+   Patent-pending AI/CV solutions for home services
+   Mobile app live on App Store
 
 Use 'get_project_details' tool for more information.`,
 
   contact: `
 CONTACT INFORMATION
-===================
 
 Email:    kiarasha@alum.mit.edu
 GitHub:   github.com/kiarashplusplus
@@ -147,50 +150,46 @@ Open to: Consulting, Advisory, Full-time opportunities`,
 
   experience: `
 EXPERIENCE
-==========
 
 2020-Present  AI Systems Architect
-              → Leading AI infrastructure for Fortune 500 clients
-              → Built ML pipelines processing 1B+ daily events
+              Leading AI infrastructure for Fortune 500 clients
+              Built ML pipelines processing 1B+ daily events
 
 2017-2020     Senior Full-Stack Engineer  
-              → Led team of 8 engineers
-              → Scaled platform to 10M+ users
+              Led team of 8 engineers
+              Scaled platform to 10M+ users
 
 2015-2017     Software Engineer
-              → MIT Media Lab research
-              → Published 3 papers on computer vision
+              MIT Media Lab research
+              Published 3 papers on computer vision
 
 EDUCATION
-=========
+
 MIT - BS Computer Science & Engineering`,
 
   help: `
 AVAILABLE COMMANDS
-==================
 
-about       - Learn about Kiarash Adl
-skills      - View technical skills and proficiency
-projects    - List featured projects
-contact     - Get contact information
-experience  - View work history and education
-mcp         - How to connect AI agents (Claude, etc.)
-help        - Show this help message
+about       Learn about Kiarash Adl
+skills      View technical skills and proficiency
+projects    List featured projects
+contact     Get contact information
+experience  View work history and education
+mcp         How to connect AI agents (Claude, etc.)
+help        Show this help message
 
 MCP TOOLS
-=========
-get_project_details  - Get detailed project information
-run_terminal_command - Execute terminal commands`,
+
+get_project_details   Get detailed project information
+run_terminal_command  Execute terminal commands`,
 
   mcp: `
-🤖 CONNECT AI AGENTS TO THIS PORTFOLIO
-======================================
+CONNECT AI AGENTS TO THIS PORTFOLIO
 
 This portfolio supports the Model Context Protocol (MCP),
 allowing AI assistants like Claude to query it directly.
 
 FOR CLAUDE DESKTOP
-------------------
 Add to your claude_desktop_config.json:
 
 {
@@ -203,8 +202,13 @@ Add to your claude_desktop_config.json:
 
 Then restart Claude Desktop.
 
-FOR OTHER AI AGENTS
--------------------
+FOR AI AGENTS (GET requests)
+Use simple GET URLs that any AI can fetch:
+  /mcp/invoke?command=about
+  /mcp/invoke?command=skills
+  /mcp/invoke?projectId=fiml
+
+FOR OTHER AI AGENTS (POST)
 Discovery URL:
   https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json
 
@@ -213,15 +217,8 @@ Tool Endpoint:
   Body: { "tool": "tool_name", "input": { ... } }
 
 AVAILABLE TOOLS
----------------
-• get_project_details - Get info about projects (fiml, hirealigna, aivision)
-• run_terminal_command - Run commands (about, skills, projects, contact, experience)
-
-EXAMPLE CURL
-------------
-curl -X POST https://kiarash-adl.pages.dev/mcp/invoke \\
-  -H "Content-Type: application/json" \\
-  -d '{"tool":"get_project_details","input":{"projectId":"fiml"}}'
+get_project_details - Get info about projects (fiml, hirealigna, aivision)
+run_terminal_command - Run commands (about, skills, projects, contact, experience)
 
 The manifest is cryptographically signed with Ed25519.`
 };
@@ -392,7 +389,7 @@ export const onRequest = async (context: { request: Request }): Promise<Response
   // CORS headers
   const corsHeaders = {
     "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
   };
 
@@ -401,9 +398,129 @@ export const onRequest = async (context: { request: Request }): Promise<Response
     return new Response(null, { headers: corsHeaders });
   }
 
-  // Only allow POST
+  // Handle GET requests (for AI agents that can only make GET requests, like Claude's fetch tool)
+  if (request.method === "GET") {
+    const url = new URL(request.url);
+    const tool = url.searchParams.get("tool");
+    const command = url.searchParams.get("command");
+    const projectId = url.searchParams.get("projectId") || url.searchParams.get("project");
+    
+    // If no parameters, return API documentation
+    if (!tool && !command && !projectId) {
+      return new Response(JSON.stringify({
+        ...serverInfo,
+        message: "Welcome to Kiarash Adl's Portfolio API",
+        usage: {
+          get_about: "/mcp/invoke?command=about",
+          get_skills: "/mcp/invoke?command=skills", 
+          get_projects: "/mcp/invoke?command=projects",
+          get_contact: "/mcp/invoke?command=contact",
+          get_experience: "/mcp/invoke?command=experience",
+          get_project_fiml: "/mcp/invoke?projectId=fiml",
+          get_project_hirealigna: "/mcp/invoke?projectId=hirealigna",
+          get_project_aivision: "/mcp/invoke?projectId=aivision"
+        },
+        availableCommands: Object.keys(terminalCommands),
+        availableProjects: Object.keys(projects)
+      }, null, 2), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" }
+      });
+    }
+    
+    let result: unknown;
+    
+    // Handle command parameter (shorthand for run_terminal_command)
+    if (command) {
+      const output = terminalCommands[command];
+      if (!output) {
+        return new Response(JSON.stringify({
+          error: `Unknown command: ${command}`,
+          availableCommands: Object.keys(terminalCommands)
+        }), {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" }
+        });
+      }
+      result = { command, output: output.trim() };
+    }
+    // Handle projectId parameter (shorthand for get_project_details)
+    else if (projectId) {
+      const project = projects[projectId.toLowerCase()];
+      if (!project) {
+        return new Response(JSON.stringify({
+          error: `Project not found: ${projectId}`,
+          availableProjects: Object.keys(projects)
+        }), {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" }
+        });
+      }
+      result = handleGetProjectDetails({ projectId: projectId.toLowerCase(), includeStack: true });
+    }
+    // Handle tool parameter with input as JSON
+    else if (tool) {
+      const inputParam = url.searchParams.get("input");
+      let input: Record<string, unknown> = {};
+      
+      if (inputParam) {
+        try {
+          input = JSON.parse(inputParam);
+        } catch {
+          return new Response(JSON.stringify({
+            error: "Invalid JSON in 'input' parameter"
+          }), {
+            status: 400,
+            headers: { ...corsHeaders, "Content-Type": "application/json" }
+          });
+        }
+      }
+      
+      switch (tool) {
+        case "get_project_details":
+          const pid = input.projectId as string || url.searchParams.get("projectId");
+          if (!pid) {
+            return new Response(JSON.stringify({
+              error: "Missing projectId parameter",
+              availableProjects: Object.keys(projects)
+            }), {
+              status: 400,
+              headers: { ...corsHeaders, "Content-Type": "application/json" }
+            });
+          }
+          result = handleGetProjectDetails({ projectId: pid, includeStack: true });
+          break;
+        case "run_terminal_command":
+          const cmd = input.command as string || url.searchParams.get("command");
+          if (!cmd) {
+            return new Response(JSON.stringify({
+              error: "Missing command parameter",
+              availableCommands: Object.keys(terminalCommands)
+            }), {
+              status: 400,
+              headers: { ...corsHeaders, "Content-Type": "application/json" }
+            });
+          }
+          result = handleRunTerminalCommand({ command: cmd });
+          break;
+        default:
+          return new Response(JSON.stringify({
+            error: `Unknown tool: ${tool}`,
+            availableTools: toolNames
+          }), {
+            status: 400,
+            headers: { ...corsHeaders, "Content-Type": "application/json" }
+          });
+      }
+    }
+    
+    return new Response(JSON.stringify(result, null, 2), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" }
+    });
+  }
+
+  // Only allow POST for the rest
   if (request.method !== "POST") {
-    return new Response(JSON.stringify({ error: "Method not allowed" }), {
+    return new Response(JSON.stringify({ error: "Method not allowed. Use GET or POST." }), {
       status: 405,
       headers: { ...corsHeaders, "Content-Type": "application/json" }
     });

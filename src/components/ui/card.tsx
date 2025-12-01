@@ -1,26 +1,47 @@
-import { ComponentProps, useRef, useState, useEffect } from "react"
+import { ComponentProps, useRef, useState, useEffect, useCallback } from "react"
 
 import { cn } from "@/lib/utils"
 
 function Card({ className, ...props }: ComponentProps<"div">) {
   const cardRef = useRef<HTMLDivElement>(null)
+  const rectRef = useRef<DOMRect | null>(null)
+  const rafRef = useRef<number>(0)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isHovered, setIsHovered] = useState(false)
+
+  // Throttled mouse move using RAF to prevent forced reflows
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (rafRef.current) return // Skip if already scheduled
+    
+    rafRef.current = requestAnimationFrame(() => {
+      if (rectRef.current) {
+        setMousePosition({
+          x: e.clientX - rectRef.current.left,
+          y: e.clientY - rectRef.current.top,
+        })
+      }
+      rafRef.current = 0
+    })
+  }, [])
 
   useEffect(() => {
     const card = cardRef.current
     if (!card) return
 
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = card.getBoundingClientRect()
-      setMousePosition({
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
-      })
+    // Cache rect on enter to avoid repeated getBoundingClientRect calls
+    const handleMouseEnter = () => {
+      rectRef.current = card.getBoundingClientRect()
+      setIsHovered(true)
     }
-
-    const handleMouseEnter = () => setIsHovered(true)
-    const handleMouseLeave = () => setIsHovered(false)
+    
+    const handleMouseLeave = () => {
+      setIsHovered(false)
+      rectRef.current = null
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current)
+        rafRef.current = 0
+      }
+    }
 
     card.addEventListener('mousemove', handleMouseMove)
     card.addEventListener('mouseenter', handleMouseEnter)
@@ -30,8 +51,9 @@ function Card({ className, ...props }: ComponentProps<"div">) {
       card.removeEventListener('mousemove', handleMouseMove)
       card.removeEventListener('mouseenter', handleMouseEnter)
       card.removeEventListener('mouseleave', handleMouseLeave)
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
     }
-  }, [])
+  }, [handleMouseMove])
 
   return (
     <div

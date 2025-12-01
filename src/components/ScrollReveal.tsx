@@ -59,14 +59,18 @@ export function ScrollReveal({
     observer.observe(element)
     
     // Fallback: if element is already in view on mount, show it immediately
-    const rect = element.getBoundingClientRect()
-    if (rect.top < window.innerHeight && rect.bottom > 0) {
-      if (delay > 0) {
-        setTimeout(() => setIsVisible(true), delay)
-      } else {
-        setIsVisible(true)
+    // Use RAF to batch the read and avoid forced reflow during render
+    requestAnimationFrame(() => {
+      if (!element) return
+      const rect = element.getBoundingClientRect()
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        if (delay > 0) {
+          setTimeout(() => setIsVisible(true), delay)
+        } else {
+          setIsVisible(true)
+        }
       }
-    }
+    })
     
     return () => observer.disconnect()
   }, [delay])

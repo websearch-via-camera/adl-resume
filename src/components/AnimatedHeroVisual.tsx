@@ -1,4 +1,4 @@
-import { memo, useRef, useEffect, useState } from "react"
+import { memo, useRef, useEffect, useState, useCallback } from "react"
 import profileImage from "@/assets/images/profile-384w.avif"
 
 interface AnimatedHeroVisualProps {
@@ -10,8 +10,24 @@ export const AnimatedHeroVisual = memo(function AnimatedHeroVisual({
 }: AnimatedHeroVisualProps) {
   const animate = !prefersReducedMotion
   const containerRef = useRef<HTMLDivElement>(null)
+  const rectRef = useRef<DOMRect | null>(null)
+  const rafRef = useRef<number>(0)
   const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 })
   const [isHovered, setIsHovered] = useState(false)
+
+  // Throttled mouse move using RAF to prevent forced reflows
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (rafRef.current || !rectRef.current) return
+    
+    rafRef.current = requestAnimationFrame(() => {
+      if (rectRef.current) {
+        const x = (e.clientX - rectRef.current.left) / rectRef.current.width
+        const y = (e.clientY - rectRef.current.top) / rectRef.current.height
+        setMousePosition({ x, y })
+      }
+      rafRef.current = 0
+    })
+  }, [])
 
   // Magnetic tilt effect on hover
   useEffect(() => {
@@ -19,17 +35,20 @@ export const AnimatedHeroVisual = memo(function AnimatedHeroVisual({
 
     const container = containerRef.current
     
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = container.getBoundingClientRect()
-      const x = (e.clientX - rect.left) / rect.width
-      const y = (e.clientY - rect.top) / rect.height
-      setMousePosition({ x, y })
+    // Cache rect on enter to avoid repeated getBoundingClientRect calls
+    const handleMouseEnter = () => {
+      rectRef.current = container.getBoundingClientRect()
+      setIsHovered(true)
     }
-
-    const handleMouseEnter = () => setIsHovered(true)
+    
     const handleMouseLeave = () => {
       setIsHovered(false)
       setMousePosition({ x: 0.5, y: 0.5 })
+      rectRef.current = null
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current)
+        rafRef.current = 0
+      }
     }
 
     container.addEventListener('mousemove', handleMouseMove)
@@ -40,8 +59,9 @@ export const AnimatedHeroVisual = memo(function AnimatedHeroVisual({
       container.removeEventListener('mousemove', handleMouseMove)
       container.removeEventListener('mouseenter', handleMouseEnter)
       container.removeEventListener('mouseleave', handleMouseLeave)
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
     }
-  }, [prefersReducedMotion])
+  }, [prefersReducedMotion, handleMouseMove])
 
   // Calculate 3D transform based on mouse position
   const rotateX = isHovered ? (mousePosition.y - 0.5) * -20 : 0

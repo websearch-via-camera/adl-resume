@@ -227,6 +227,61 @@ The manifest is cryptographically signed with Ed25519.`
 };
 
 // Tool handlers
+// Format project details as readable text
+function formatProjectDetails(data: unknown): string {
+  if (!data || typeof data !== 'object') {
+    return String(data);
+  }
+  
+  const project = data as Record<string, unknown>;
+  const lines: string[] = [];
+  
+  if (project.title) {
+    lines.push(`# ${project.title}`);
+    lines.push('');
+  }
+  
+  if (project.description) {
+    lines.push(String(project.description));
+    lines.push('');
+  }
+  
+  if (project.status) {
+    lines.push(`**Status:** ${project.status}`);
+  }
+  
+  if (project.impact) {
+    lines.push(`**Impact:** ${project.impact}`);
+  }
+  
+  if (project.category) {
+    lines.push(`**Category:** ${project.category}`);
+  }
+  
+  if (project.stack && Array.isArray(project.stack)) {
+    lines.push('');
+    lines.push(`**Tech Stack:** ${(project.stack as string[]).join(', ')}`);
+  }
+  
+  if (project.metrics && Array.isArray(project.metrics)) {
+    lines.push('');
+    lines.push('**Metrics:**');
+    for (const m of project.metrics as Array<{ label: string; value: string }>) {
+      lines.push(`  • ${m.label}: ${m.value}`);
+    }
+  }
+  
+  if (project.website || project.github) {
+    lines.push('');
+    lines.push('**Links:**');
+    if (project.website) lines.push(`  • Website: ${project.website}`);
+    if (project.github) lines.push(`  • GitHub: ${project.github}`);
+    if (project.demo) lines.push(`  • Demo: ${project.demo}`);
+  }
+  
+  return lines.join('\n');
+}
+
 function handleGetProjectDetails(input: { projectId: string; includeStack?: boolean }) {
   const project = projects[input.projectId];
   if (!project) {
@@ -451,8 +506,21 @@ export const onRequest = async (context: { request: Request }): Promise<Response
               });
           }
           
+          // Format content based on tool result type
+          let content: Array<{ type: string; text: string }>;
+          if (toolResult && typeof toolResult === 'object' && 'output' in toolResult) {
+            // Terminal command - return the output text directly
+            content = [{ type: "text", text: (toolResult as { output: string }).output }];
+          } else if (toolResult && typeof toolResult === 'object' && 'error' in toolResult) {
+            // Error response
+            content = [{ type: "text", text: `Error: ${(toolResult as { error: string }).error}` }];
+          } else {
+            // Project details or other structured data - format nicely
+            content = [{ type: "text", text: formatProjectDetails(toolResult) }];
+          }
+          
           return new Response(JSON.stringify(formatResponse({
-            content: [{ type: "text", text: JSON.stringify(toolResult, null, 2) }]
+            content
           }, body.id), null, 2), {
             headers: { ...corsHeaders, "Content-Type": "application/json" }
           });

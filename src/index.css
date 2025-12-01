@@ -986,6 +986,268 @@ select:focus-visible {
   pointer-events: none;
 }
 
+/* ==========================================================================
+   CUSTOM SCROLLBAR - Branded, beautiful scrollbar
+   ========================================================================== */
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: oklch(from var(--primary) l c h / 0.3) transparent;
+}
+
+/* Chrome, Safari, Edge */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    oklch(from var(--primary) l c h / 0.3),
+    oklch(from var(--accent) l c h / 0.3)
+  );
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    oklch(from var(--primary) l c h / 0.5),
+    oklch(from var(--accent) l c h / 0.5)
+  );
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* ==========================================================================
+   MAGNETIC BUTTON EFFECT - Premium feel for CTAs
+   ========================================================================== */
+
+.magnetic-button {
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.magnetic-button::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  opacity: 0;
+  filter: blur(12px);
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.magnetic-button:hover::before {
+  opacity: 0.4;
+}
+
+/* ==========================================================================
+   TEXT REVEAL ANIMATIONS - Sophisticated text entrance
+   ========================================================================== */
+
+.text-reveal {
+  overflow: hidden;
+}
+
+.text-reveal-inner {
+  display: inline-block;
+  transform: translateY(100%);
+  animation: text-reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes text-reveal {
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Staggered text reveal for multiple lines */
+.text-reveal-stagger > * {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: text-reveal-fade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.text-reveal-stagger > *:nth-child(1) { animation-delay: 0.1s; }
+.text-reveal-stagger > *:nth-child(2) { animation-delay: 0.2s; }
+.text-reveal-stagger > *:nth-child(3) { animation-delay: 0.3s; }
+.text-reveal-stagger > *:nth-child(4) { animation-delay: 0.4s; }
+.text-reveal-stagger > *:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes text-reveal-fade {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   MARQUEE ANIMATION - For tech stack or testimonials
+   ========================================================================== */
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* ==========================================================================
+   SPOTLIGHT EFFECT - Mouse-following highlight
+   ========================================================================== */
+
+.spotlight-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.spotlight {
+  position: absolute;
+  pointer-events: none;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(
+    circle,
+    oklch(from var(--primary) l c h / 0.08) 0%,
+    transparent 70%
+  );
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
+
+.spotlight-container:hover .spotlight {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   SECTION ENTRANCE ANIMATIONS - Premium page feel
+   ========================================================================== */
+
+.section-enter {
+  opacity: 0;
+  transform: translateY(60px);
+}
+
+.section-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Clip-path reveal */
+.clip-reveal {
+  clip-path: inset(0 0 100% 0);
+}
+
+.clip-reveal-active {
+  clip-path: inset(0 0 0% 0);
+  transition: clip-path 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   IMAGE EFFECTS - Premium image treatments
+   ========================================================================== */
+
+/* Ken Burns effect for images */
+.ken-burns {
+  animation: ken-burns 20s ease-in-out infinite;
+}
+
+@keyframes ken-burns {
+  0%, 100% {
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.1) translate(-2%, -2%);
+  }
+}
+
+/* Tilt effect on hover */
+.tilt-3d {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transition: transform 0.3s ease;
+}
+
+.tilt-3d:hover {
+  transform: perspective(1000px) rotateX(5deg) rotateY(-5deg);
+}
+
+/* ==========================================================================
+   AURORA BACKGROUND - Animated gradient background
+   ========================================================================== */
+
+.aurora-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+.aurora-bg::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    oklch(from var(--primary) l c h / 0.1) 0deg,
+    oklch(from var(--accent) l c h / 0.1) 120deg,
+    oklch(from var(--primary) l c h / 0.05) 240deg,
+    oklch(from var(--primary) l c h / 0.1) 360deg
+  );
+  animation: aurora-rotate 20s linear infinite;
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+@keyframes aurora-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.dark .aurora-bg::before {
+  opacity: 0.6;
+}
+
+:root .aurora-bg::before {
+  opacity: 0.3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora-bg::before {
+    animation: none;
+  }
+  .ken-burns {
+    animation: none;
+  }
+  .animate-marquee {
+    animation: none;
+  }
+}
+
 /* Animated underline effect */
 .animated-underline {
   position: relative;

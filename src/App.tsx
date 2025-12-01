@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Mail, Phone, Download, Github, Linkedin, ArrowUpRight, Send, ChevronUp, ChevronDown, Link, Calendar } from "lucide-react"
+import { Mail, Phone, Download, Github, Linkedin, ArrowUpRight, Send, ChevronUp, ChevronDown, Link, Calendar, Bot, Copy, Check } from "lucide-react"
 import { motion } from "framer-motion"
 import { useState, useEffect, lazy, Suspense } from "react"
 import { toast } from "sonner"
@@ -59,6 +59,52 @@ const SectionLoader = ({ height = "h-64", section = "content" }: { height?: stri
     </div>
   </div>
 )
+
+// AI Agent Chat Button Component
+function AIAgentButton() {
+  const [copied, setCopied] = useState(false)
+  const mcpPrompt = "Connect to this MCP server: https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json and then run the commands: about, skills, projects, experience, and contact?"
+  
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(mcpPrompt)
+      setCopied(true)
+      toast.success("Copied! Paste this into Claude Desktop")
+      setTimeout(() => setCopied(false), 2500)
+    } catch {
+      toast.error("Failed to copy")
+    }
+  }
+  
+  return (
+    <div className="flex flex-col items-center gap-2">
+      <button
+        onClick={handleCopy}
+        className="group relative flex items-center gap-2.5 px-5 py-3 bg-gradient-to-r from-violet-500/10 via-purple-500/10 to-cyan-500/10 hover:from-violet-500/20 hover:via-purple-500/20 hover:to-cyan-500/20 border border-violet-500/30 hover:border-violet-500/50 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-violet-500/10 hover:-translate-y-0.5"
+      >
+        <div className="p-1.5 rounded-lg bg-gradient-to-br from-violet-500/20 to-cyan-500/20 group-hover:from-violet-500/30 group-hover:to-cyan-500/30 transition-colors">
+          <Bot className="h-4 w-4 text-violet-500" />
+        </div>
+        <span className="text-sm font-medium bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-cyan-400">
+          Talk to AI About This Portfolio
+        </span>
+        <div className="p-1.5 rounded-lg bg-muted/50 group-hover:bg-muted transition-colors">
+          {copied ? (
+            <Check className="h-3.5 w-3.5 text-emerald-500" />
+          ) : (
+            <Copy className="h-3.5 w-3.5 text-muted-foreground group-hover:text-violet-400 transition-colors" />
+          )}
+        </div>
+        
+        {/* Animated glow effect */}
+        <div className="absolute -inset-0.5 bg-gradient-to-r from-violet-500/20 via-purple-500/20 to-cyan-500/20 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
+      </button>
+      <span className="text-[10px] text-muted-foreground/70">
+        Tested on Claude Desktop
+      </span>
+    </div>
+  )
+}
 
 function App() {
   // Start with null to indicate we haven't checked localStorage yet
@@ -1335,6 +1381,9 @@ function App() {
             
             {/* Divider */}
             <div className="w-24 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+            
+            {/* AI Agent Chat Button */}
+            <AIAgentButton />
             
             {/* View Mode Switcher */}
             <button

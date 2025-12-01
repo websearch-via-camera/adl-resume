@@ -88,19 +88,13 @@ Specializing in:
   • Full-Stack Development (React, Node, Python)
   • Cloud Infrastructure (AWS, GCP, Cloudflare)`,
   
-  skills: `
+  skills: `  
 TECHNICAL SKILLS
 
 Languages
   Python          95%
-  TypeScript      90%
-  Go              80%
-  Rust            70%
-
-AI/ML
-  PyTorch         95%
-  TensorFlow      85%
-  LangChain       80%
+  React Natve     90%
+  TypeScript      70%
 
 Frontend
   React           95%

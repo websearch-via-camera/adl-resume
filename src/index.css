@@ -7,59 +7,63 @@
   }
 }
 
-/* Light theme - Autumn warmth with golden hues */
+/* Light theme - Unified warm cream with subtle depth */
 :root {
-  --background: oklch(0.98 0.008 65);
-  --foreground: oklch(0.20 0.03 40);
+  /* Unified warm cream background - no jarring white sections */
+  --background: oklch(0.965 0.012 70);
+  --foreground: oklch(0.18 0.04 35);
 
-  --card: oklch(0.995 0.005 60);
-  --card-foreground: oklch(0.20 0.03 40);
+  /* Cards blend seamlessly with slight warmth */
+  --card: oklch(0.975 0.015 68);
+  --card-foreground: oklch(0.18 0.04 35);
   
-  --popover: oklch(0.995 0.005 60);
-  --popover-foreground: oklch(0.20 0.03 40);
+  --popover: oklch(0.98 0.012 68);
+  --popover-foreground: oklch(0.18 0.04 35);
 
-  /* Primary - Burnt orange / rust */
-  --primary: oklch(0.55 0.18 40);
-  --primary-foreground: oklch(0.98 0.01 60);
+  /* Primary - Rich terracotta / warm rust */
+  --primary: oklch(0.52 0.17 38);
+  --primary-foreground: oklch(0.98 0.01 65);
 
-  /* Secondary - Warm cream */
-  --secondary: oklch(0.94 0.02 70);
-  --secondary-foreground: oklch(0.30 0.04 40);
+  /* Secondary - Soft warm sand */
+  --secondary: oklch(0.93 0.02 72);
+  --secondary-foreground: oklch(0.28 0.04 38);
 
-  --muted: oklch(0.95 0.015 65);
-  --muted-foreground: oklch(0.45 0.03 45);
+  /* Muted - Consistent warm tones */
+  --muted: oklch(0.94 0.018 70);
+  --muted-foreground: oklch(0.42 0.035 42);
 
-  /* Accent - Deep burgundy / wine */
-  --accent: oklch(0.45 0.15 15);
-  --accent-foreground: oklch(0.98 0.01 60);
+  /* Accent - Deep wine / burgundy */
+  --accent: oklch(0.42 0.14 12);
+  --accent-foreground: oklch(0.98 0.01 65);
 
   --destructive: oklch(0.50 0.20 25);
   --destructive-foreground: oklch(0.98 0.005 80);
 
-  --border: oklch(0.88 0.02 60);
-  --input: oklch(0.88 0.02 60);
-  --ring: oklch(0.55 0.18 40);
+  /* Softer, warmer borders */
+  --border: oklch(0.90 0.025 65);
+  --input: oklch(0.92 0.02 68);
+  --ring: oklch(0.52 0.17 38);
 
   --radius: 0.625rem;
 
-  /* Chart colors - autumn palette */
-  --chart-1: oklch(0.55 0.18 40);   /* Burnt orange */
-  --chart-2: oklch(0.45 0.15 15);   /* Burgundy */
-  --chart-3: oklch(0.60 0.15 85);   /* Golden yellow */
-  --chart-4: oklch(0.45 0.10 145);  /* Forest green */
-  --chart-5: oklch(0.50 0.12 55);   /* Copper */
+  /* Chart colors - harmonious autumn palette */
+  --chart-1: oklch(0.52 0.17 38);   /* Terracotta */
+  --chart-2: oklch(0.42 0.14 12);   /* Wine */
+  --chart-3: oklch(0.62 0.14 80);   /* Golden amber */
+  --chart-4: oklch(0.48 0.12 150);  /* Sage green */
+  --chart-5: oklch(0.52 0.11 50);   /* Copper */
 
-  --sidebar: oklch(0.96 0.01 65);
-  --sidebar-foreground: oklch(0.20 0.03 40);
-  --sidebar-primary: oklch(0.55 0.18 40);
-  --sidebar-primary-foreground: oklch(0.98 0.01 60);
-  --sidebar-accent: oklch(0.92 0.02 65);
-  --sidebar-accent-foreground: oklch(0.30 0.04 40);
-  --sidebar-border: oklch(0.88 0.02 60);
-  --sidebar-ring: oklch(0.55 0.18 40);
+  --sidebar: oklch(0.96 0.015 68);
+  --sidebar-foreground: oklch(0.18 0.04 35);
+  --sidebar-primary: oklch(0.52 0.17 38);
+  --sidebar-primary-foreground: oklch(0.98 0.01 65);
+  --sidebar-accent: oklch(0.93 0.022 68);
+  --sidebar-accent-foreground: oklch(0.28 0.04 38);
+  --sidebar-border: oklch(0.90 0.025 65);
+  --sidebar-ring: oklch(0.52 0.17 38);
 
-  --shadow-color: oklch(0.35 0.05 40);
-  --shadow-opacity: 0.10;
+  --shadow-color: oklch(0.30 0.06 35);
+  --shadow-opacity: 0.08;
   --shadow-blur: 24px;
   --shadow-spread: 0px;
   --shadow-offset-x: 0px;
@@ -464,6 +468,30 @@ select:focus-visible {
     radial-gradient(at 0% 50%, oklch(from var(--primary) l c h / 0.05) 0px, transparent 50%),
     radial-gradient(at 80% 50%, oklch(from var(--accent) l c h / 0.04) 0px, transparent 50%),
     radial-gradient(at 0% 100%, oklch(from var(--primary) l c h / 0.06) 0px, transparent 50%);
+}
+
+/* Unified section backgrounds for light mode - subtle depth without jarring whites */
+.section-warm {
+  background: linear-gradient(
+    180deg,
+    oklch(0.97 0.012 70) 0%,
+    oklch(0.965 0.014 68) 50%,
+    oklch(0.97 0.012 70) 100%
+  );
+}
+
+.section-warm-alt {
+  background: linear-gradient(
+    180deg,
+    oklch(0.96 0.016 68) 0%,
+    oklch(0.955 0.018 66) 50%,
+    oklch(0.96 0.016 68) 100%
+  );
+}
+
+.dark .section-warm,
+.dark .section-warm-alt {
+  background: transparent;
 }
 
 /* Shimmer effect */

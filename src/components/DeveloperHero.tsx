@@ -9,15 +9,15 @@ interface DeveloperHeroProps {
 
 export function DeveloperHero({ onSwitchToVisitor, prefersReducedMotion = false }: DeveloperHeroProps) {
   const fadeIn = prefersReducedMotion 
-    ? { hidden: { opacity: 1 }, visible: { opacity: 1 } }
+    ? { hidden: { opacity: 1 }, visible: { opacity: 1 } } as const
     : {
         hidden: { opacity: 0, y: 20 },
         visible: { 
           opacity: 1, 
           y: 0,
-          transition: { duration: 0.4, ease: "easeOut" }
+          transition: { duration: 0.4, ease: "easeOut" as const }
         }
-      }
+      } as const
 
   return (
     <header 

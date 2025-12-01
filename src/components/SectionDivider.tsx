@@ -4,7 +4,6 @@ import { memo } from "react"
 interface SectionDividerProps {
   variant?: "default" | "ornate" | "gradient" | "dots" | "wave" | "sparkle" | "constellation"
   className?: string
-  withBackground?: boolean
 }
 
 // Pre-computed dots to avoid array creation on each render
@@ -28,12 +27,10 @@ const SPARKLES = [
   { left: "90%", size: "w-1 h-1", opacity: "opacity-30" },
 ] as const
 
-export const SectionDivider = memo(function SectionDivider({ variant = "default", className, withBackground = false }: SectionDividerProps) {
-  const bgClass = withBackground ? "section-warm-alt" : ""
-  
+export const SectionDivider = memo(function SectionDivider({ variant = "default", className }: SectionDividerProps) {
   if (variant === "ornate") {
     return (
-      <div className={cn("py-8 md:py-12 contain-layout contain-style", bgClass, className)} aria-hidden="true">
+      <div className={cn("py-8 md:py-12 contain-layout contain-style", className)} aria-hidden="true">
         <div className="max-w-5xl mx-auto px-6">
           <div className="flex items-center justify-center gap-4">
             {/* Left decorative line */}
@@ -58,7 +55,7 @@ export const SectionDivider = memo(function SectionDivider({ variant = "default"
 
   if (variant === "gradient") {
     return (
-      <div className={cn("py-8 md:py-12 contain-layout contain-style", bgClass, className)} aria-hidden="true">
+      <div className={cn("py-8 md:py-12 contain-layout contain-style", className)} aria-hidden="true">
         <div className="max-w-5xl mx-auto px-6">
           <div className="relative h-px w-full overflow-hidden">
             {/* Static gradient line - removed animation for better Speed Index */}
@@ -73,7 +70,7 @@ export const SectionDivider = memo(function SectionDivider({ variant = "default"
 
   if (variant === "dots") {
     return (
-      <div className={cn("py-8 md:py-12 contain-layout contain-style", bgClass, className)} aria-hidden="true">
+      <div className={cn("py-8 md:py-12 contain-layout contain-style", className)} aria-hidden="true">
         <div className="max-w-5xl mx-auto px-6">
           <div className="flex items-center justify-center gap-3">
             {DOTS_CONFIG.map((dot, i) => (
@@ -87,7 +84,7 @@ export const SectionDivider = memo(function SectionDivider({ variant = "default"
 
   if (variant === "wave") {
     return (
-      <div className={cn("py-6 md:py-10 contain-layout contain-style", bgClass, className)} aria-hidden="true">
+      <div className={cn("py-6 md:py-10 contain-layout contain-style", className)} aria-hidden="true">
         <div className="max-w-5xl mx-auto px-6">
           <svg
             className="w-full h-8 text-border/70"
@@ -131,7 +128,7 @@ export const SectionDivider = memo(function SectionDivider({ variant = "default"
 
   if (variant === "sparkle") {
     return (
-      <div className={cn("py-10 md:py-14 contain-layout contain-style", bgClass, className)} aria-hidden="true">
+      <div className={cn("py-10 md:py-14 contain-layout contain-style", className)} aria-hidden="true">
         <div className="max-w-5xl mx-auto px-6">
           <div className="relative flex items-center justify-center">
             {/* Left gradient line */}
@@ -174,7 +171,7 @@ export const SectionDivider = memo(function SectionDivider({ variant = "default"
 
   if (variant === "constellation") {
     return (
-      <div className={cn("py-8 md:py-12 contain-layout contain-style", bgClass, className)} aria-hidden="true">
+      <div className={cn("py-8 md:py-12 contain-layout contain-style", className)} aria-hidden="true">
         <div className="max-w-5xl mx-auto px-6">
           <svg className="w-full h-16" viewBox="0 0 800 64" preserveAspectRatio="xMidYMid meet">
             {/* Connecting lines */}
@@ -205,7 +202,7 @@ export const SectionDivider = memo(function SectionDivider({ variant = "default"
 
   // Default: elegant diamond divider with enhanced styling
   return (
-    <div className={cn("py-10 md:py-14 contain-layout contain-style", bgClass, className)} aria-hidden="true">
+    <div className={cn("py-10 md:py-14 contain-layout contain-style", className)} aria-hidden="true">
       <div className="max-w-5xl mx-auto px-6">
         <div className="flex items-center justify-center gap-4">
           {/* Left gradient line with glow */}

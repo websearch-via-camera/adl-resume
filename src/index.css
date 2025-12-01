@@ -7,29 +7,29 @@
   }
 }
 
-/* Light theme - Unified warm cream with subtle depth */
+/* Light theme - Completely unified warm cream */
 :root {
-  /* Unified warm cream background - no jarring white sections */
-  --background: oklch(0.965 0.012 70);
+  /* Single unified background color - everything matches */
+  --background: oklch(0.96 0.014 72);
   --foreground: oklch(0.18 0.04 35);
 
-  /* Cards blend seamlessly with slight warmth */
-  --card: oklch(0.975 0.015 68);
+  /* Cards use SAME background - differentiate with subtle border/shadow only */
+  --card: oklch(0.96 0.014 72);
   --card-foreground: oklch(0.18 0.04 35);
   
-  --popover: oklch(0.98 0.012 68);
+  --popover: oklch(0.97 0.012 70);
   --popover-foreground: oklch(0.18 0.04 35);
 
   /* Primary - Rich terracotta / warm rust */
   --primary: oklch(0.52 0.17 38);
   --primary-foreground: oklch(0.98 0.01 65);
 
-  /* Secondary - Soft warm sand */
-  --secondary: oklch(0.93 0.02 72);
+  /* Secondary - matches background exactly */
+  --secondary: oklch(0.96 0.014 72);
   --secondary-foreground: oklch(0.28 0.04 38);
 
-  /* Muted - Consistent warm tones */
-  --muted: oklch(0.94 0.018 70);
+  /* Muted - SAME as background for seamless sections */
+  --muted: oklch(0.96 0.014 72);
   --muted-foreground: oklch(0.42 0.035 42);
 
   /* Accent - Deep wine / burgundy */
@@ -39,9 +39,9 @@
   --destructive: oklch(0.50 0.20 25);
   --destructive-foreground: oklch(0.98 0.005 80);
 
-  /* Softer, warmer borders */
-  --border: oklch(0.90 0.025 65);
-  --input: oklch(0.92 0.02 68);
+  /* Softer, warmer borders - more visible for card differentiation */
+  --border: oklch(0.88 0.028 68);
+  --input: oklch(0.94 0.016 72);
   --ring: oklch(0.52 0.17 38);
 
   --radius: 0.625rem;
@@ -53,21 +53,22 @@
   --chart-4: oklch(0.48 0.12 150);  /* Sage green */
   --chart-5: oklch(0.52 0.11 50);   /* Copper */
 
-  --sidebar: oklch(0.96 0.015 68);
+  /* Sidebar matches background */
+  --sidebar: oklch(0.96 0.014 72);
   --sidebar-foreground: oklch(0.18 0.04 35);
   --sidebar-primary: oklch(0.52 0.17 38);
   --sidebar-primary-foreground: oklch(0.98 0.01 65);
-  --sidebar-accent: oklch(0.93 0.022 68);
+  --sidebar-accent: oklch(0.96 0.014 72);
   --sidebar-accent-foreground: oklch(0.28 0.04 38);
-  --sidebar-border: oklch(0.90 0.025 65);
+  --sidebar-border: oklch(0.88 0.028 68);
   --sidebar-ring: oklch(0.52 0.17 38);
 
-  --shadow-color: oklch(0.30 0.06 35);
-  --shadow-opacity: 0.08;
-  --shadow-blur: 24px;
+  --shadow-color: oklch(0.35 0.05 40);
+  --shadow-opacity: 0.06;
+  --shadow-blur: 20px;
   --shadow-spread: 0px;
   --shadow-offset-x: 0px;
-  --shadow-offset-y: 8px;
+  --shadow-offset-y: 6px;
 }
 
 /* Dark theme - Autumn night with rich warm tones */
@@ -368,16 +369,16 @@ select:focus-visible {
   }
 }
 
-/* Glassmorphism effect */
+/* Glassmorphism effect - solid in light mode, translucent in dark */
 .glass {
-  background: oklch(from var(--background) l c h / 0.7);
-  backdrop-filter: blur(12px) saturate(180%);
-  -webkit-backdrop-filter: blur(12px) saturate(180%);
-  border: 1px solid oklch(from var(--border) l c h / 0.3);
+  background: var(--background);
+  border: 1px solid var(--border);
 }
 
 .dark .glass {
   background: oklch(from var(--background) l c h / 0.6);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
   border: 1px solid oklch(from var(--border) l c h / 0.2);
 }
 
@@ -479,28 +480,9 @@ select:focus-visible {
     radial-gradient(at 0% 100%, oklch(from var(--primary) l c h / 0.06) 0px, transparent 50%);
 }
 
-/* Unified section backgrounds for light mode - subtle depth without jarring whites */
-.section-warm {
-  background: linear-gradient(
-    180deg,
-    oklch(0.97 0.012 70) 0%,
-    oklch(0.965 0.014 68) 50%,
-    oklch(0.97 0.012 70) 100%
-  );
-}
-
-.section-warm-alt {
-  background: linear-gradient(
-    180deg,
-    oklch(0.96 0.016 68) 0%,
-    oklch(0.955 0.018 66) 50%,
-    oklch(0.96 0.016 68) 100%
-  );
-}
-
-.dark .section-warm,
-.dark .section-warm-alt {
-  background: transparent;
+/* Light mode: completely invisible bg-mesh for unified look */
+:root .bg-mesh {
+  background-image: none;
 }
 
 /* Shimmer effect */
@@ -543,11 +525,10 @@ select:focus-visible {
   }
 }
 
-/* Hero section background pattern - very subtle in light mode */
+/* Hero section background pattern - invisible in light mode, subtle in dark */
 .hero-pattern {
-  background-image: 
-    radial-gradient(circle at 25% 25%, oklch(from var(--primary) l c h / 0.02) 0%, transparent 40%),
-    radial-gradient(circle at 75% 75%, oklch(from var(--accent) l c h / 0.02) 0%, transparent 40%);
+  /* No pattern in light mode - completely clean */
+  background-image: none;
 }
 
 .dark .hero-pattern {

@@ -385,8 +385,13 @@ function handleRunTerminalCommand(input: { command: string }) {
   return response;
 }
 
-// Handle contact form submission
-function handleSubmitContact(input: { name: string; email: string; message: string; subject?: string }) {
+// Handle contact form submission - actually sends the email
+async function handleSubmitContact(input: { name: string; email: string; message: string; subject?: string }): Promise<{
+  success: boolean;
+  error?: string;
+  message?: string;
+  emailId?: string;
+}> {
   // Validate required fields
   if (!input.name || !input.email || !input.message) {
     return {
@@ -404,20 +409,42 @@ function handleSubmitContact(input: { name: string; email: string; message: stri
     };
   }
   
-  // Return validation success - actual sending happens via /contact endpoint
-  // This allows AI agents to validate before sending
-  return {
-    success: true,
-    validated: true,
-    message: "Contact form validated. To send, POST to https://kiarash-adl.pages.dev/contact with the same data.",
-    submitUrl: "https://kiarash-adl.pages.dev/contact",
-    data: {
-      name: input.name,
-      email: input.email,
-      subject: input.subject || `Contact from ${input.name}`,
-      message: input.message
+  // Actually send the email by calling the /contact endpoint
+  try {
+    const response = await fetch('https://kiarash-adl.pages.dev/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: input.name,
+        email: input.email,
+        subject: input.subject || `MCP Contact from ${input.name}`,
+        message: input.message
+      })
+    });
+    
+    const result = await response.json() as { success?: boolean; error?: string; id?: string };
+    
+    if (!response.ok || !result.success) {
+      return {
+        success: false,
+        error: result.error || 'Failed to send email'
+      };
     }
-  };
+    
+    return {
+      success: true,
+      message: `Message sent successfully to Kiarash! He will reply to ${input.email}.`,
+      emailId: result.id
+    };
+  } catch (err) {
+    console.error('Error sending contact email:', err);
+    return {
+      success: false,
+      error: 'Failed to send email - please try again or email kiarasha@alum.mit.edu directly'
+    };
+  }
 }
 
 // Tool definitions for MCP protocol (keyed by tool name for capabilities.tools)
@@ -778,7 +805,7 @@ export const onRequest = async (context: { request: Request }): Promise<Response
                   headers: { ...corsHeaders, "Content-Type": "application/json" }
                 });
               }
-              toolResult = handleSubmitContact(toolArgs as { name: string; email: string; message: string; subject?: string });
+              toolResult = await handleSubmitContact(toolArgs as { name: string; email: string; message: string; subject?: string });
               break;
             default:
               return new Response(JSON.stringify(formatError(

@@ -35,6 +35,23 @@ const mcpManifest = {
     "preferred_entrypoints": [
       "https://kiarash-adl.pages.dev/mcp/invoke"
     ],
+    "invocation_pattern": {
+      "note": "Use JSON-RPC 2.0 with method 'tools/call'. Tool name goes in params.name, arguments in params.arguments.",
+      "example": {
+        "jsonrpc": "2.0",
+        "method": "tools/call",
+        "params": {
+          "name": "submit_contact",
+          "arguments": {
+            "name": "Your Name",
+            "email": "your@email.com",
+            "message": "Hello!"
+          }
+        },
+        "id": 1
+      },
+      "available_methods": ["initialize", "tools/list", "tools/call", "ping"]
+    },
     "primary_actions": [
       {
         "action": "send_message",

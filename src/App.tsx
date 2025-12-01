@@ -1044,15 +1044,30 @@ function App() {
                   <div className="h-1 w-12 bg-gradient-to-r from-primary to-accent rounded-full" aria-hidden="true" />
                   <span className="text-sm font-medium text-primary uppercase tracking-wider">Career</span>
                 </div>
-                <h2 id="experience-heading" className="text-3xl md:text-4xl font-bold mb-2">Experience</h2>
+                <h2 id="experience-heading" className="text-3xl md:text-4xl font-bold mb-2">
+                  <TextScramble 
+                    text="Experience" 
+                    scrambleOnMount={false}
+                    scrambleOnView={true}
+                    delay={200}
+                  />
+                </h2>
                 <p className="text-muted-foreground">10+ years building AI systems at scale</p>
               </div>
-              <Button className="gap-2 shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all duration-300" asChild>
-                <a href={resumePdf} download="Kiarash-Adl-Resume.pdf">
-                  <Download className="h-[18px] w-[18px]" />
-                  Resume (PDF)
-                </a>
-              </Button>
+              <MagneticButton 
+                strength={0.35}
+                radius={120}
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-medium px-4 py-2 bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all duration-300"
+                onClick={() => {
+                  const link = document.createElement('a')
+                  link.href = resumePdf
+                  link.download = 'Kiarash-Adl-Resume.pdf'
+                  link.click()
+                }}
+              >
+                <Download className="h-[18px] w-[18px]" />
+                Resume (PDF)
+              </MagneticButton>
             </ScrollReveal>
 
             <ScrollReveal className="scroll-reveal-child mb-10">
@@ -1192,7 +1207,14 @@ function App() {
                 <div className="h-1 w-12 bg-gradient-to-r from-primary to-accent rounded-full" aria-hidden="true" />
                 <span className="text-sm font-medium text-primary uppercase tracking-wider">Contact</span>
               </div>
-              <h2 id="contact-heading" className="text-3xl md:text-4xl font-bold mb-2">Let's discuss AI innovation, collaboration, or your next project.</h2>
+              <h2 id="contact-heading" className="text-3xl md:text-4xl font-bold mb-2">
+                <TextScramble 
+                  text="Let's discuss AI innovation, collaboration, or your next project." 
+                  scrambleOnMount={false}
+                  scrambleOnView={true}
+                  delay={200}
+                />
+              </h2>
             </ScrollReveal>
 
             <div className="grid md:grid-cols-5 gap-6 md:gap-8">

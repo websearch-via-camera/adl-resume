@@ -34,59 +34,59 @@ function createSound(type: SoundType): () => void {
       
       switch (type) {
         case "click":
-          // Short, subtle click
+          // Short, satisfying click - more audible
           oscillator.type = "sine"
-          oscillator.frequency.setValueAtTime(800, now)
-          oscillator.frequency.exponentialRampToValueAtTime(400, now + 0.05)
-          gainNode.gain.setValueAtTime(0.08, now)
-          gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.05)
+          oscillator.frequency.setValueAtTime(1200, now)
+          oscillator.frequency.exponentialRampToValueAtTime(600, now + 0.06)
+          gainNode.gain.setValueAtTime(0.2, now)
+          gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.06)
           oscillator.start(now)
-          oscillator.stop(now + 0.05)
+          oscillator.stop(now + 0.06)
           break
           
         case "hover":
-          // Very subtle, soft hover
+          // Soft, gentle hover tick
           oscillator.type = "sine"
-          oscillator.frequency.setValueAtTime(600, now)
-          oscillator.frequency.exponentialRampToValueAtTime(700, now + 0.03)
-          gainNode.gain.setValueAtTime(0.03, now)
-          gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.03)
+          oscillator.frequency.setValueAtTime(800, now)
+          oscillator.frequency.exponentialRampToValueAtTime(900, now + 0.04)
+          gainNode.gain.setValueAtTime(0.08, now)
+          gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.04)
           oscillator.start(now)
-          oscillator.stop(now + 0.03)
+          oscillator.stop(now + 0.04)
           break
           
         case "success":
-          // Pleasant confirmation sound
+          // Pleasant confirmation chime
           oscillator.type = "sine"
           oscillator.frequency.setValueAtTime(523.25, now) // C5
           oscillator.frequency.setValueAtTime(659.25, now + 0.1) // E5
           oscillator.frequency.setValueAtTime(783.99, now + 0.2) // G5
-          gainNode.gain.setValueAtTime(0.1, now)
-          gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.3)
+          gainNode.gain.setValueAtTime(0.2, now)
+          gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.35)
           oscillator.start(now)
-          oscillator.stop(now + 0.3)
+          oscillator.stop(now + 0.35)
           break
           
         case "whoosh":
-          // Transition whoosh sound
+          // Transition whoosh - fuller sound
           oscillator.type = "sine"
-          oscillator.frequency.setValueAtTime(150, now)
-          oscillator.frequency.exponentialRampToValueAtTime(50, now + 0.15)
-          gainNode.gain.setValueAtTime(0.06, now)
-          gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.15)
+          oscillator.frequency.setValueAtTime(200, now)
+          oscillator.frequency.exponentialRampToValueAtTime(80, now + 0.18)
+          gainNode.gain.setValueAtTime(0.15, now)
+          gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.18)
           oscillator.start(now)
-          oscillator.stop(now + 0.15)
+          oscillator.stop(now + 0.18)
           break
           
         case "pop":
-          // Bubble pop for toggles
+          // Bubble pop for toggles - more satisfying
           oscillator.type = "sine"
-          oscillator.frequency.setValueAtTime(400, now)
-          oscillator.frequency.exponentialRampToValueAtTime(150, now + 0.08)
-          gainNode.gain.setValueAtTime(0.1, now)
-          gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.08)
+          oscillator.frequency.setValueAtTime(600, now)
+          oscillator.frequency.exponentialRampToValueAtTime(200, now + 0.1)
+          gainNode.gain.setValueAtTime(0.25, now)
+          gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.1)
           oscillator.start(now)
-          oscillator.stop(now + 0.08)
+          oscillator.stop(now + 0.1)
           break
       }
     } catch (e) {
@@ -129,9 +129,11 @@ export function useSoundEffects() {
       } catch {
         // localStorage not available
       }
-      // Play a confirmation sound when enabling
+      // Play a confirmation sound when enabling (after a tiny delay to ensure context is ready)
       if (newValue) {
-        sounds.current.pop()
+        setTimeout(() => {
+          sounds.current.pop()
+        }, 50)
       }
       return newValue
     })

@@ -2,6 +2,7 @@ import { ComponentProps, forwardRef, isValidElement, cloneElement, type ReactEle
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
+import { useSound } from "@/hooks/useSoundEffects"
 
 // Native Slot implementation - removes @radix-ui/react-slot dependency
 // Merges props onto the child element when asChild is true
@@ -52,17 +53,25 @@ function Button({
   variant,
   size,
   asChild = false,
+  onClick,
   ...props
 }: ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean
   }) {
   const Comp = asChild ? Slot : "button"
+  const { playClick } = useSound()
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    playClick()
+    onClick?.(e)
+  }
 
   return (
     <Comp
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
+      onClick={asChild ? onClick : handleClick}
       {...props}
     />
   )

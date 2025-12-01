@@ -2,7 +2,7 @@ import { useSound } from "@/hooks/useSoundEffects"
 import { Volume2, VolumeX } from "lucide-react"
 
 export function SoundToggle() {
-  const { soundEnabled, toggleSound, playPop } = useSound()
+  const { soundEnabled, toggleSound } = useSound()
   
   const handleToggle = () => {
     toggleSound()

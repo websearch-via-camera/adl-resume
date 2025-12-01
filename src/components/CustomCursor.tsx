@@ -1,17 +1,20 @@
 import { useEffect, useRef, useState } from "react"
 
-// Check for touch device once at module level
-const isTouchDevice = typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches
-
 export function CustomCursor() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const [mounted, setMounted] = useState(false)
+  const [shouldRender, setShouldRender] = useState(false)
 
   useEffect(() => {
-    // Skip on touch devices
+    // Check for touch device after mount
+    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches
     if (isTouchDevice) return
     
-    setMounted(true)
+    setShouldRender(true)
+  }, [])
+
+  useEffect(() => {
+    if (!shouldRender) return
+    
     const container = containerRef.current
     if (!container) return
 
@@ -22,7 +25,6 @@ export function CustomCursor() {
     // Position state (no React re-renders)
     let cx = 0, cy = 0  // cursor position
     let rx = 0, ry = 0  // ring position (lerped)
-    let isRunning = false
     let rafId: number | null = null
 
     // Use CSS classes for states (no re-renders)
@@ -41,18 +43,13 @@ export function CustomCursor() {
       rafId = requestAnimationFrame(animate)
     }
 
-    const startAnimation = () => {
-      if (!isRunning) {
-        isRunning = true
-        rafId = requestAnimationFrame(animate)
-      }
-    }
+    // Start animation loop
+    rafId = requestAnimationFrame(animate)
 
     const onMove = (e: MouseEvent) => {
       cx = e.clientX
       cy = e.clientY
       container.classList.remove('opacity-0')
-      startAnimation()
 
       // Check clickable - use tagName first (fastest), then closest
       const t = e.target as HTMLElement
@@ -102,10 +99,10 @@ export function CustomCursor() {
       document.removeEventListener('mouseenter', onEnter)
       if (rafId) cancelAnimationFrame(rafId)
     }
-  }, [])
+  }, [shouldRender])
 
-  // Don't render anything on touch devices
-  if (isTouchDevice || !mounted) return null
+  // Don't render anything until we've confirmed it's not a touch device
+  if (!shouldRender) return null
 
   return (
     <div ref={containerRef} className="opacity-0 transition-opacity duration-150">

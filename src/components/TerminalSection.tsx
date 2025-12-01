@@ -153,7 +153,7 @@ const commands: Record<string, string[]> = {
     "Resume - Kiarash Adl",
     "",
     "Download PDF:",
-    "  https://kiarash-adl.pages.dev/assets/Kiarash-Adl-Resume-20251129.pdf",
+    "  https://kiarash-adl.pages.dev/assets/Kiarash-Adl-Resume-20251129-DFXsl4HJ.pdf",
     "",
     "Summary:",
     "  Senior Software Engineer & AI Systems Architect",
@@ -373,7 +373,7 @@ export function TerminalSection() {
     
     // Special handling for 'resume' command - open resume PDF
     if (trimmedInput === "resume" || trimmedInput === "cv") {
-      window.open("/assets/Kiarash-Adl-Resume-20251129.pdf", "_blank", "noopener,noreferrer")
+      window.open("/assets/Kiarash-Adl-Resume-20251129-DFXsl4HJ.pdf", "_blank", "noopener,noreferrer")
     }
     
     let output: string[]

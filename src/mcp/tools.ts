@@ -128,7 +128,7 @@ Open to: AI roles, consulting, collaboration`,
   resume: `Resume - Kiarash Adl
 
 Download PDF:
-  https://kiarash-adl.pages.dev/assets/Kiarash-Adl-Resume-20251129.pdf
+  https://kiarash-adl.pages.dev/assets/Kiarash-Adl-Resume-20251129-DFXsl4HJ.pdf
 
 Summary:
   Senior Software Engineer & AI Systems Architect

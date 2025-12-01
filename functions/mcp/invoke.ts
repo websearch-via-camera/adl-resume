@@ -240,7 +240,7 @@ The manifest is cryptographically signed with Ed25519.`,
 RESUME - KIARASH ADL
 
 Download PDF:
-  https://kiarash-adl.pages.dev/assets/Kiarash-Adl-Resume-20251129.pdf
+  https://kiarash-adl.pages.dev/assets/Kiarash-Adl-Resume-20251129-DFXsl4HJ.pdf
 
 Summary:
   Senior Software Engineer & AI Systems Architect
@@ -367,7 +367,7 @@ function handleRunTerminalCommand(input: { command: string }) {
     response.resources = [
       {
         type: "document",
-        url: "https://kiarash-adl.pages.dev/assets/Kiarash-Adl-Resume-20251129.pdf",
+        url: "https://kiarash-adl.pages.dev/assets/Kiarash-Adl-Resume-20251129-DFXsl4HJ.pdf",
         title: "Kiarash Adl Resume (PDF)",
         mime_type: "application/pdf"
       }

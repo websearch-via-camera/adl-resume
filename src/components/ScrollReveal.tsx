@@ -62,12 +62,23 @@ export function ScrollReveal({
         }
       },
       {
-        threshold: 0.1,
-        rootMargin: "-50px"
+        threshold: 0.05,
+        rootMargin: "50px"
       }
     )
 
     observer.observe(element)
+    
+    // Fallback: if element is already in view on mount, show it
+    const rect = element.getBoundingClientRect()
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      if (delay > 0) {
+        setTimeout(() => setIsVisible(true), delay)
+      } else {
+        setIsVisible(true)
+      }
+    }
+    
     return () => observer.disconnect()
   }, [delay, isChildElement])
 
@@ -119,12 +130,19 @@ export function ScrollRevealContainer({
         }
       },
       {
-        threshold: 0.1,
-        rootMargin: "-100px"
+        threshold: 0.05,
+        rootMargin: "50px"
       }
     )
 
     observer.observe(element)
+    
+    // Fallback: if element is already in view on mount, show it
+    const rect = element.getBoundingClientRect()
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      setIsVisible(true)
+    }
+    
     return () => observer.disconnect()
   }, [])
 

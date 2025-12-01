@@ -183,34 +183,7 @@ const mcpManifest = {
       }
     }
   ],
-  "prompts": [
-    {
-      "intent": "learn_about_kiarash",
-      "keywords": ["who is kiarash", "about", "background", "experience"],
-      "description": "Get information about Kiarash's background and experience"
-    },
-    {
-      "intent": "view_projects",
-      "keywords": ["projects", "portfolio", "work", "fiml", "hirealigna"],
-      "description": "View Kiarash's portfolio projects"
-    },
-    {
-      "intent": "check_skills",
-      "keywords": ["skills", "technologies", "tech stack", "languages"],
-      "description": "See Kiarash's technical skills and expertise"
-    },
-    {
-      "intent": "contact",
-      "keywords": ["contact", "email", "hire", "reach out"],
-      "description": "Get contact information"
-    },
-    {
-      "intent": "send_message",
-      "keywords": ["send message", "contact form", "write to", "reach out", "inquiry", "email kiarash", "message kiarash", "submit contact", "get in touch", "hire", "collaboration", "consulting"],
-      "description": "Send a message to Kiarash via the submit_contact tool. Requires name, email, and message.",
-      "suggested_tool": "submit_contact"
-    }
-  ],
+
   "site_capabilities": {
     "llm_readable": true,
     "agent_invocable": true,
@@ -313,7 +286,7 @@ export const onRequest = async (context: { request: Request; env: Env }): Promis
     try {
       const signature = await signManifest(mcpManifest, env.MCP_PRIVATE_KEY);
       responseManifest.trust = {
-        signed_blocks: ["feed_type", "metadata", "agent_guidance", "capabilities", "prompts", "site_capabilities", "data"],
+        signed_blocks: ["feed_type", "metadata", "agent_guidance", "capabilities", "site_capabilities", "data"],
         algorithm: "Ed25519",
         public_key_hint: "https://kiarash-adl.pages.dev/.well-known/public.pem",
         trust_level: "self-signed",

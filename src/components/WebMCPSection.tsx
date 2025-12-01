@@ -132,11 +132,49 @@ export function WebMCPSection() {
           </span>
         </h2>
         
-        <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+        <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-6">
           This portfolio speaks fluent AI. Query projects, skills, and experience 
           through a <span className="text-violet-400">cryptographically signed</span> API 
           that any AI agent can discover and use.
         </p>
+
+        {/* Try with Claude - Moved here */}
+        <div className="max-w-2xl mx-auto text-sm text-muted-foreground bg-zinc-900/60 border border-zinc-800 rounded-xl p-4">
+          <p className="mb-2 font-medium text-zinc-200">Try it with Claude (or any AI assistant)</p>
+          <button
+            type="button"
+            onClick={() =>
+              copyToClipboard(
+                "In Claude Desktop, can you connect to this MCP server: https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json and then run the commands: about, skills, projects, experience, and contact?",
+                "assistant-prompt-hero"
+              )
+            }
+            className="w-full text-left font-mono text-xs bg-black/60 border border-zinc-800 rounded-lg px-3 py-2 hover:border-violet-500/40 hover:bg-zinc-900/80 transition-all group relative overflow-hidden"
+          >
+            <span className="inline-flex items-center gap-2 mb-1">
+              <span className="inline-flex items-center justify-center rounded border border-zinc-700 bg-zinc-900/80 px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-zinc-300 group-hover:border-violet-500/50 group-hover:text-violet-300 transition-colors">
+                {copiedItem === "assistant-prompt-hero" ? (
+                  <><Check className="h-3 w-3 mr-1 text-emerald-400" />Copied!</>
+                ) : (
+                  <><Copy className="h-3 w-3 mr-1" />Copy prompt</>
+                )}
+              </span>
+              {copiedItem === "assistant-prompt-hero" && (
+                <motion.span
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  className="text-emerald-400 text-[10px]"
+                >
+                  Ready to paste!
+                </motion.span>
+              )}
+            </span>
+            <span className="text-zinc-400 block">
+              In Claude Desktop, can you connect to this MCP server: https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json and
+              then run the commands: about, skills, projects, experience, and contact?
+            </span>
+          </button>
+        </div>
       </motion.div>
 
       {/* Main Interactive Card */}
@@ -224,28 +262,6 @@ export function WebMCPSection() {
 
               {/* Right: Live Demo */}
               <div className="flex-1">
-                <div className="mb-4 text-sm text-muted-foreground bg-zinc-900/60 border border-zinc-800 rounded-xl p-3">
-                  <p className="mb-1 font-medium text-zinc-200">Try it with Claude (or any AI assistant)</p>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      copyToClipboard(
-                        "In Claude Desktop, can you connect to this MCP server: https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json and then run the commands: about, skills, projects, experience, and contact?",
-                        "assistant-prompt"
-                      )
-                    }
-                    className="w-full text-left font-mono text-xs bg-black/60 border border-zinc-800 rounded-lg px-3 py-2 hover:border-violet-500/40 hover:bg-zinc-900/80 transition-colors flex items-start gap-2"
-                 >
-                    <span className="mt-0.5 inline-flex items-center justify-center rounded border border-zinc-700 bg-zinc-900/80 px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-zinc-300">
-                      Copy prompt
-                    </span>
-                    <span className="text-zinc-300">
-                      In Claude Desktop, can you connect to this MCP server: https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json and
-                      then run the commands: about, skills, projects, experience, and contact?
-                    </span>
-                  </button>
-                </div>
-
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
                     <div className="p-2 rounded-lg bg-gradient-to-br from-emerald-500/20 to-green-500/20 border border-emerald-500/30">

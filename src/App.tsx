@@ -109,7 +109,7 @@ function AIAgentButton() {
             ✓ Copied to clipboard!
           </span>
           <span className="text-[10px] text-muted-foreground text-center max-w-[220px]">
-            Paste into Claude Desktop, ChatGPT, or Grok to chat about this portfolio
+            Paste into Claude Desktop or Grok to chat about this portfolio
           </span>
         </div>
       ) : (

@@ -16,3 +16,126 @@
     display: none;
   }
 }
+
+/* ==========================================================================
+   VARIABLE FONT TYPOGRAPHY - Enhanced with optical sizing
+   ========================================================================== */
+
+/* Display text - larger optical size, tighter tracking */
+.text-display {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-feature-settings: 'cv01' 1, 'cv02' 1, 'ss01' 1;
+}
+
+.text-display-xl {
+  font-size: clamp(2.5rem, 5vw + 1rem, 4.5rem);
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.text-display-lg {
+  font-size: clamp(2rem, 4vw + 0.5rem, 3.5rem);
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+/* Heading styles with variable weight */
+.text-heading {
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  font-feature-settings: 'cv01' 1;
+}
+
+/* Body text - optimized for readability */
+.text-body {
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.6;
+  font-feature-settings: 'cv01' 1, 'cv02' 1;
+}
+
+.text-body-lg {
+  font-size: 1.125rem;
+  line-height: 1.7;
+}
+
+/* Small text - slightly heavier for legibility */
+.text-small {
+  font-size: 0.875rem;
+  font-weight: 450;
+  letter-spacing: 0.01em;
+}
+
+.text-caption {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* Monospace for code */
+.text-mono {
+  font-family: 'SF Mono', 'Fira Code', 'Fira Mono', Menlo, Monaco, monospace;
+  font-feature-settings: 'liga' 1, 'calt' 1;
+}
+
+/* Tabular numbers for data */
+.text-tabular {
+  font-feature-settings: 'tnum' 1, 'cv01' 1;
+}
+
+/* Gradient text with animation */
+.text-gradient {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-animated {
+  background: linear-gradient(
+    135deg,
+    var(--primary),
+    var(--accent),
+    var(--primary)
+  );
+  background-size: 200% 200%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-shift 6s ease infinite;
+}
+
+/* Text shadow for depth */
+.text-shadow-sm {
+  text-shadow: 0 1px 2px oklch(0 0 0 / 0.1);
+}
+
+.text-shadow-md {
+  text-shadow: 
+    0 2px 4px oklch(0 0 0 / 0.1),
+    0 4px 8px oklch(0 0 0 / 0.05);
+}
+
+.dark .text-shadow-sm {
+  text-shadow: 0 1px 3px oklch(0 0 0 / 0.3);
+}
+
+.dark .text-shadow-md {
+  text-shadow: 
+    0 2px 6px oklch(0 0 0 / 0.3),
+    0 4px 12px oklch(0 0 0 / 0.2);
+}
+
+/* Text balance for headings */
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Text pretty for paragraphs */
+.text-pretty {
+  text-wrap: pretty;
+}

@@ -7,10 +7,26 @@ function Card({ className, ...props }: ComponentProps<"div">) {
     <div
       data-slot="card"
       className={cn(
-        "bg-card/95 text-card-foreground flex flex-col gap-6 rounded-2xl border py-6 shadow-sm backdrop-blur-sm",
-        "transition-all duration-300 ease-out",
-        "hover:shadow-xl hover:shadow-primary/5 hover:border-primary/20",
-        "dark:bg-card/80 dark:hover:shadow-primary/10",
+        // Base styles
+        "bg-card/95 text-card-foreground flex flex-col gap-6 rounded-2xl border py-6",
+        // Glassmorphism
+        "backdrop-blur-sm shadow-sm",
+        "dark:bg-card/80",
+        // Sophisticated hover with gradient border
+        "relative transition-all duration-300 ease-out",
+        "hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1",
+        "hover:border-primary/20",
+        "dark:hover:shadow-primary/10",
+        // Gradient border on hover
+        "before:absolute before:inset-0 before:rounded-2xl before:p-[1px]",
+        "before:bg-gradient-to-br before:from-primary/40 before:via-accent/20 before:to-primary/40",
+        "before:-z-10 before:opacity-0 before:transition-opacity before:duration-300",
+        "hover:before:opacity-100",
+        // Inner glow
+        "after:absolute after:inset-0 after:rounded-2xl after:-z-20",
+        "after:bg-gradient-to-br after:from-primary/5 after:to-accent/5",
+        "after:opacity-0 after:transition-opacity after:duration-300",
+        "hover:after:opacity-100",
         className
       )}
       {...props}

@@ -657,9 +657,7 @@ function App() {
         <div className="max-w-3xl mx-auto relative z-10">
           <ScrollReveal className="text-center">
             <p className="text-xl md:text-2xl lg:text-3xl font-light text-foreground/80 italic leading-relaxed">
-              <span className="text-primary">"</span>
               Simple ideas are hard-earned, but that's where true power lives.
-              <span className="text-primary">"</span>
             </p>
           </ScrollReveal>
         </div>

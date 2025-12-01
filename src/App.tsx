@@ -23,6 +23,8 @@ const AnimatedHeroVisual = lazy(() => import("@/components/AnimatedHeroVisual").
 
 // Lightweight components loaded immediately
 import { ThemeToggle } from "@/components/ThemeToggle"
+import { SoundToggle } from "@/components/SoundToggle"
+import { useSound } from "@/hooks/useSoundEffects"
 import { TypewriterTagline } from "@/components/TypewriterTagline"
 import { useKeyboardNavigation } from "@/hooks/useKeyboardNavigation"
 import { useNativeScroll } from "@/hooks/useNativeScroll"
@@ -422,7 +424,8 @@ function App() {
                   {item.label}
                 </button>
               ))}
-              <div className="ml-2 border-l border-border/50 pl-2">
+              <div className="ml-2 border-l border-border/50 pl-2 flex items-center gap-1">
+                <SoundToggle />
                 <ThemeToggle />
               </div>
             </div>

@@ -6,6 +6,7 @@ import { ErrorFallback } from './ErrorFallback.tsx'
 import { Toaster } from "@/components/ui/sonner"
 import { ThemeProvider } from "@/components/ThemeProvider"
 import { A11yProvider } from "@/components/A11yProvider"
+import { SoundProvider } from "@/hooks/useSoundEffects"
 import { initMCP } from "@/mcp/useMCP"
 
 // Single consolidated CSS import (main.css imports index.css)
@@ -62,8 +63,10 @@ createRoot(root!).render(
   <ErrorBoundary FallbackComponent={ErrorFallback}>
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <A11yProvider>
-        <App />
-        <Toaster />
+        <SoundProvider>
+          <App />
+          <Toaster />
+        </SoundProvider>
       </A11yProvider>
     </ThemeProvider>
    </ErrorBoundary>

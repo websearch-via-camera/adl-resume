@@ -1398,3 +1398,245 @@ select:focus-visible {
     animation: none !important;
   }
 }
+
+/* ==========================================================================
+   PAGE TRANSITION ANIMATIONS - Smooth section transitions
+   ========================================================================== */
+
+/* View Transition API support */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.4s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+::view-transition-old(root) {
+  animation-name: page-fade-out;
+}
+
+::view-transition-new(root) {
+  animation-name: page-fade-in;
+}
+
+@keyframes page-fade-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes page-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Section scroll transitions - triggered by IntersectionObserver */
+.section-transition {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: 
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.section-transition.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered children animation */
+.section-transition.in-view > *:nth-child(1) { transition-delay: 0.1s; }
+.section-transition.in-view > *:nth-child(2) { transition-delay: 0.15s; }
+.section-transition.in-view > *:nth-child(3) { transition-delay: 0.2s; }
+.section-transition.in-view > *:nth-child(4) { transition-delay: 0.25s; }
+.section-transition.in-view > *:nth-child(5) { transition-delay: 0.3s; }
+
+/* Slide from left */
+.slide-in-left {
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: 
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.slide-in-left.in-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Slide from right */
+.slide-in-right {
+  opacity: 0;
+  transform: translateX(60px);
+  transition: 
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.slide-in-right.in-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Scale up entrance */
+.scale-in {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: 
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scale-in.in-view {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Blur in effect */
+.blur-in {
+  opacity: 0;
+  filter: blur(10px);
+  transition: 
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.blur-in.in-view {
+  opacity: 1;
+  filter: blur(0);
+}
+
+/* Flip in effect */
+.flip-in {
+  opacity: 0;
+  transform: perspective(1000px) rotateX(-10deg);
+  transform-origin: top center;
+  transition: 
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.flip-in.in-view {
+  opacity: 1;
+  transform: perspective(1000px) rotateX(0);
+}
+
+/* Mask reveal - horizontal wipe */
+.mask-reveal-horizontal {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mask-reveal-horizontal.in-view {
+  clip-path: inset(0 0 0 0);
+}
+
+/* Mask reveal - vertical wipe */
+.mask-reveal-vertical {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mask-reveal-vertical.in-view {
+  clip-path: inset(0 0 0 0);
+}
+
+/* Draw border animation */
+.draw-border {
+  position: relative;
+}
+
+.draw-border::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--primary);
+  border-radius: inherit;
+  clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+  transition: clip-path 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.draw-border.in-view::after {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+/* Smooth scroll snap for section navigation */
+.scroll-snap-container {
+  scroll-snap-type: y proximity;
+  scroll-behavior: smooth;
+}
+
+.scroll-snap-section {
+  scroll-snap-align: start;
+  scroll-margin-top: 80px;
+}
+
+/* Section divider animation */
+.section-divider-animate {
+  width: 0;
+  transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.section-divider-animate.in-view {
+  width: 100%;
+}
+
+/* Reduced motion: simplify all transitions */
+@media (prefers-reduced-motion: reduce) {
+  .section-transition,
+  .slide-in-left,
+  .slide-in-right,
+  .scale-in,
+  .blur-in,
+  .flip-in,
+  .mask-reveal-horizontal,
+  .mask-reveal-vertical {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    clip-path: none;
+    transition: none;
+  }
+  
+  .draw-border::after {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    transition: none;
+  }
+  
+  .section-divider-animate {
+    width: 100%;
+    transition: none;
+  }
+  
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
+
+/* ==========================================================================
+   DISPLAY FONT STYLES - Space Grotesk for headings
+   ========================================================================== */
+
+.font-display {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+h1, h2 {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}

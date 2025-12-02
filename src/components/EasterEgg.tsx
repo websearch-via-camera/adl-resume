@@ -1,11 +1,10 @@
 import { useEffect, useState, useCallback, memo } from "react"
 import { cn } from "@/lib/utils"
 
-// Konami Code: ↑↑↓↓←→←→BA
+// Konami Code (simplified): ↑↑↓↓←→←→
 const KONAMI_CODE = [
   "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown",
-  "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight",
-  "KeyB", "KeyA"
+  "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight"
 ]
 
 // Matrix rain characters
@@ -183,17 +182,19 @@ export const EasterEgg = memo(function EasterEgg() {
   if (!isActive && !showHint && progress > 0) {
     return (
       <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[200] animate-in fade-in duration-200">
-        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-card/90 backdrop-blur-md border border-border/50 shadow-lg">
-          {KONAMI_CODE.slice(0, 6).map((_, i) => (
+        <div className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-card/90 backdrop-blur-md border border-border/50 shadow-lg">
+          {KONAMI_CODE.map((_, i) => (
             <div
               key={i}
               className={cn(
-                "w-1.5 h-1.5 rounded-full transition-all duration-200",
-                i < progress ? "bg-green-500 scale-125" : "bg-muted-foreground/30"
+                "w-2 h-2 rounded-full transition-all duration-200",
+                i < progress ? "bg-green-500 scale-110" : "bg-muted-foreground/30"
               )}
             />
           ))}
-          <span className="text-xs text-muted-foreground ml-1">...</span>
+          {progress >= KONAMI_CODE.length - 2 && (
+            <span className="text-xs text-green-400 ml-2 animate-pulse">Almost there!</span>
+          )}
         </div>
       </div>
     )
@@ -206,7 +207,7 @@ export const EasterEgg = memo(function EasterEgg() {
         <div className="px-5 py-3 rounded-2xl bg-card/95 backdrop-blur-xl border border-primary/30 shadow-2xl shadow-primary/10">
           <p className="text-sm text-foreground flex items-center gap-2">
             <span className="text-lg">🎮</span>
-            <span className="text-primary font-mono font-bold">↑↑↓↓←→←→BA</span>
+            <span className="text-primary font-mono font-bold">↑↑↓↓←→←→</span>
             <span className="text-muted-foreground">for a surprise...</span>
           </p>
         </div>

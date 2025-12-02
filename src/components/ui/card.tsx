@@ -3,7 +3,7 @@ import { ComponentProps, useRef, useState, useEffect, useCallback } from "react"
 import { cn } from "@/lib/utils"
 import { useSound } from "@/hooks/useSoundEffects"
 
-function Card({ className, ...props }: ComponentProps<"div">) {
+function Card({ className, flat = false, ...props }: ComponentProps<"div"> & { flat?: boolean }) {
   const cardRef = useRef<HTMLDivElement>(null)
   const rectRef = useRef<DOMRect | null>(null)
   const rafRef = useRef<number>(0)
@@ -14,7 +14,7 @@ function Card({ className, ...props }: ComponentProps<"div">) {
 
   // Throttled mouse move using RAF to prevent forced reflows
   const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (rafRef.current) return // Skip if already scheduled
+    if (flat || rafRef.current) return // Skip if flat or already scheduled
     
     rafRef.current = requestAnimationFrame(() => {
       if (rectRef.current) {
@@ -31,7 +31,7 @@ function Card({ className, ...props }: ComponentProps<"div">) {
       }
       rafRef.current = 0
     })
-  }, [])
+  }, [flat])
 
   useEffect(() => {
     const card = cardRef.current
@@ -102,7 +102,7 @@ function Card({ className, ...props }: ComponentProps<"div">) {
         "hover:after:opacity-100",
         className
       )}
-      style={{
+      style={flat ? undefined : {
         transform: isHovered 
           ? `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateZ(10px) translateY(-4px)`
           : 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0) translateY(0)',
@@ -111,7 +111,7 @@ function Card({ className, ...props }: ComponentProps<"div">) {
       {...props}
     >
       {/* Mouse-following spotlight effect with enhanced glow */}
-      {isHovered && (
+      {isHovered && !flat && (
         <>
           <div
             className="pointer-events-none absolute -inset-px rounded-2xl transition-opacity duration-300"

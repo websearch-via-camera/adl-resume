@@ -606,7 +606,7 @@ function DesktopTerminal() {
   return (
     <section aria-labelledby="terminal-section-heading" itemScope itemType="https://schema.org/WebApplication">
       <TerminalSEOContent />
-      <Card className="p-0 overflow-hidden" role="application" aria-label="Interactive terminal emulator">
+      <Card flat className="p-0 overflow-hidden" role="application" aria-label="Interactive terminal emulator">
       {/* Terminal Header */}
       <div className="flex items-center justify-between px-4 py-2 bg-zinc-900 border-b border-zinc-800">
         <div className="flex items-center gap-2">

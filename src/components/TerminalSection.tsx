@@ -154,7 +154,7 @@ const commands: Record<string, string[]> = {
     "Resume - Kiarash Adl",
     "",
     "Download PDF:",
-    "  https://kiarash-adl.pages.dev/assets/Kiarash-Adl-Resume-20251129-DFXsl4HJ.pdf",
+    "  https://25x.codes/assets/Kiarash-Adl-Resume-20251129-DFXsl4HJ.pdf",
     "",
     "Summary:",
     "  Senior Software Engineer & AI Systems Architect",
@@ -434,7 +434,7 @@ const commands: Record<string, string[]> = {
     "Time spent on easter eggs: Too much 🐰"
   ],
   ping: [
-    "PING portfolio.kiarash-adl.pages.dev",
+    "PING portfolio.25x.codes",
     "",
     "  64 bytes: seq=1 ttl=64 time=0.042ms",
     "  64 bytes: seq=2 ttl=64 time=0.038ms",
@@ -668,7 +668,7 @@ function DesktopTerminal() {
   const terminalRef = useRef<HTMLDivElement>(null)
   
   // Example curl command for copy button
-  const curlExample = `curl -X POST https://kiarash-adl.pages.dev/mcp/invoke \\
+  const curlExample = `curl -X POST https://25x.codes/mcp/invoke \\
   -H "Content-Type: application/json" \\
   -d '{"tool":"run_terminal_command","input":{"command":"about"}}'`
   
@@ -721,17 +721,17 @@ function DesktopTerminal() {
           "to discover and call tools programmatically.",
           "",
           "Discovery (signed manifest):",
-          "  https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json",
+          "  https://25x.codes/.well-known/mcp.llmfeed.json",
           "",
           "API Endpoint:",
-          "  POST https://kiarash-adl.pages.dev/mcp/invoke",
+          "  POST https://25x.codes/mcp/invoke",
           "",
           "Available Tools:",
           "  • get_project_details  Get project info (fiml, hirealigna, aivision)",
           "  • run_terminal_command Run: about, skills, projects, contact, experience",
           "",
           "Example:",
-          '  curl -X POST https://kiarash-adl.pages.dev/mcp/invoke \\',
+          '  curl -X POST https://25x.codes/mcp/invoke \\',
           '    -H "Content-Type: application/json" \\',
           '    -d \'{"tool":"run_terminal_command","input":{"command":"about"}}\'',
           ""

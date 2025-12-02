@@ -63,10 +63,10 @@ AI agents can discover capabilities and invoke tools using JSON-RPC 2.0:
 
 ```bash
 # Discover MCP capabilities
-curl -s "https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json"
+curl -s "https://25x.codes/.well-known/mcp.llmfeed.json"
 
 # Send a message to Kiarash
-curl -s -X POST "https://kiarash-adl.pages.dev/mcp/invoke" \
+curl -s -X POST "https://25x.codes/mcp/invoke" \
   -H "Content-Type: application/json" \
   -d '{
     "jsonrpc": "2.0",
@@ -83,7 +83,7 @@ curl -s -X POST "https://kiarash-adl.pages.dev/mcp/invoke" \
   }'
 
 # Run a terminal command
-curl -s -X POST "https://kiarash-adl.pages.dev/mcp/invoke" \
+curl -s -X POST "https://25x.codes/mcp/invoke" \
   -H "Content-Type: application/json" \
   -d '{
     "jsonrpc": "2.0",
@@ -102,7 +102,7 @@ curl -s -X POST "https://kiarash-adl.pages.dev/mcp/invoke" \
 
 Point your AI agent to the MCP manifest at:
 ```
-https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json
+https://25x.codes/.well-known/mcp.llmfeed.json
 ```
 
 The manifest includes:

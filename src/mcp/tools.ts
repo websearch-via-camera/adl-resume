@@ -147,13 +147,13 @@ MCP Tools: submit_contact, get_project_details, run_terminal_command`,
 
   mcp: `MCP CONNECTION INFO
 
-Discovery: https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json
-Endpoint:  POST https://kiarash-adl.pages.dev/mcp/invoke
+Discovery: https://25x.codes/.well-known/mcp.llmfeed.json
+Endpoint:  POST https://25x.codes/mcp/invoke
 
 Tools: submit_contact, get_project_details, run_terminal_command
 Commands: about, skills, projects, contact, experience, resume`,
 
-  resume: `RESUME - KIARASH ADL - PDF: https://kiarash-adl.pages.dev/assets/Kiarash-Adl-Resume-20251129-DFXsl4HJ.pdf - Senior Software Engineer & AI Systems Architect | MIT EECS '14`,
+  resume: `RESUME - KIARASH ADL - PDF: https://25x.codes/assets/Kiarash-Adl-Resume-20251129-DFXsl4HJ.pdf - Senior Software Engineer & AI Systems Architect | MIT EECS '14`,
 }
 
 // ============================================================================
@@ -282,8 +282,8 @@ export const mcpTools: MCPTool[] = [
         success: true,
         data: {
           validated: true,
-          message: "Contact form validated. To send, POST to https://kiarash-adl.pages.dev/contact with the same data.",
-          submitUrl: "https://kiarash-adl.pages.dev/contact",
+          message: "Contact form validated. To send, POST to https://25x.codes/contact with the same data.",
+          submitUrl: "https://25x.codes/contact",
           formData: {
             name: parsed.data.name,
             email: parsed.data.email,

@@ -36,7 +36,7 @@ I built my portfolio to be **AI-native from the ground up**.
 Any AI agent can find my portfolio's capabilities at a well-known URL:
 
 ```bash
-curl https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json
+curl https://25x.codes/.well-known/mcp.llmfeed.json
 ```
 
 This returns a signed manifest describing:
@@ -58,7 +58,7 @@ Here's an actual working example:
 
 ```bash
 # Get my skills
-curl -X POST "https://kiarash-adl.pages.dev/mcp/invoke" \
+curl -X POST "https://25x.codes/mcp/invoke" \
   -H "Content-Type: application/json" \
   -d '{
     "jsonrpc": "2.0",
@@ -93,7 +93,7 @@ AI & Machine Learning
 The killer feature? AI agents can **send me emails**:
 
 ```bash
-curl -X POST "https://kiarash-adl.pages.dev/mcp/invoke" \
+curl -X POST "https://25x.codes/mcp/invoke" \
   -H "Content-Type: application/json" \
   -d '{
     "jsonrpc": "2.0",
@@ -209,7 +209,7 @@ Whether you're a human reading source or an AI parsing HTML, you'll know how to 
 {
   "mcpServers": {
     "kiarash-portfolio": {
-      "url": "https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json"
+      "url": "https://25x.codes/.well-known/mcp.llmfeed.json"
     }
   }
 }
@@ -218,13 +218,13 @@ Whether you're a human reading source or an AI parsing HTML, you'll know how to 
 **Developers:**
 ```bash
 # Discover capabilities
-curl https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json
+curl https://25x.codes/.well-known/mcp.llmfeed.json
 
 # Query the portfolio
-curl "https://kiarash-adl.pages.dev/mcp/invoke?command=about"
+curl "https://25x.codes/mcp/invoke?command=about"
 
 # Or use JSON-RPC
-curl -X POST https://kiarash-adl.pages.dev/mcp/invoke \
+curl -X POST https://25x.codes/mcp/invoke \
   -H "Content-Type: application/json" \
   -d '{"jsonrpc":"2.0","method":"tools/call","params":{"name":"run_terminal_command","arguments":{"command":"experience"}},"id":1}'
 ```
@@ -242,7 +242,7 @@ Senior Software Engineer & AI Systems Architect
 MIT EECS '14
 
 📧 kiarasha@alum.mit.edu  
-🔗 [kiarash-adl.pages.dev](https://kiarash-adl.pages.dev)  
+🔗 [25x.codes](https://25x.codes)  
 💻 [github.com/kiarashplusplus](https://github.com/kiarashplusplus)
 
 ---

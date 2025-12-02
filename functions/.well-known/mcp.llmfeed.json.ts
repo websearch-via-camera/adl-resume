@@ -17,7 +17,7 @@ const mcpManifest = {
   "feed_type": "mcp",
   "metadata": {
     "title": "Kiarash Adl Portfolio",
-    "origin": "https://kiarash-adl.pages.dev",
+    "origin": "https://25x.codes",
     "description": "AI-enabled portfolio of Kiarash Adl, AI Systems Architect and Full-Stack Engineer. Query projects, skills, and contact information programmatically.",
     "lang": "en",
     "version": "2.0.0",
@@ -31,9 +31,9 @@ const mcpManifest = {
   "agent_guidance": {
     "on_load": "This is Kiarash Adl's AI-enabled portfolio. You can query projects, skills, and execute terminal-style commands to learn about his work. Use the 'submit_contact' tool to send messages directly to Kiarash's inbox.",
     "interaction_tone": "professional",
-    "fallback": "If a tool fails, suggest the user visit https://kiarash-adl.pages.dev directly.",
+    "fallback": "If a tool fails, suggest the user visit https://25x.codes directly.",
     "preferred_entrypoints": [
-      "https://kiarash-adl.pages.dev/mcp/invoke"
+      "https://25x.codes/mcp/invoke"
     ],
     "invocation_pattern": {
       "note": "Use JSON-RPC 2.0 with method 'tools/call'. Tool name goes in params.name, arguments in params.arguments.",
@@ -75,7 +75,7 @@ const mcpManifest = {
       "name": "get_project_details",
       "type": "endpoint",
       "method": "POST",
-      "url": "https://kiarash-adl.pages.dev/mcp/invoke",
+      "url": "https://25x.codes/mcp/invoke",
       "protocol": "json-rpc",
       "description": "Get detailed information about a specific portfolio project including title, description, tech stack, metrics, and status.",
       "inputSchema": {
@@ -99,7 +99,7 @@ const mcpManifest = {
       "name": "run_terminal_command",
       "type": "endpoint",
       "method": "POST",
-      "url": "https://kiarash-adl.pages.dev/mcp/invoke",
+      "url": "https://25x.codes/mcp/invoke",
       "protocol": "json-rpc",
       "description": "Execute a terminal command to get information about Kiarash. Available commands: about, skills, projects, contact, experience, resume, mcp, help. The 'resume' command returns a resources array with the PDF download URL.",
       "inputSchema": {
@@ -138,7 +138,7 @@ const mcpManifest = {
       "name": "submit_contact",
       "type": "endpoint",
       "method": "POST",
-      "url": "https://kiarash-adl.pages.dev/mcp/invoke",
+      "url": "https://25x.codes/mcp/invoke",
       "protocol": "json-rpc",
       "description": "Submit a contact form message to Kiarash. Validates input and returns a submission URL. Use this to help users send messages or inquiries.",
       "inputSchema": {
@@ -288,7 +288,7 @@ export const onRequest = async (context: { request: Request; env: Env }): Promis
       responseManifest.trust = {
         signed_blocks: ["feed_type", "metadata", "agent_guidance", "capabilities", "site_capabilities", "data"],
         algorithm: "Ed25519",
-        public_key_hint: "https://kiarash-adl.pages.dev/.well-known/public.pem",
+        public_key_hint: "https://25x.codes/.well-known/public.pem",
         trust_level: "self-signed",
         scope: "full"
       };

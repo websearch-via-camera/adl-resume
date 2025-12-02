@@ -171,7 +171,7 @@ export function useMCP(options: UseMCPOptions = {}): UseMCPResult {
     if (debug) {
       console.log(`[MCP] Initialized with ${mcpTools.length} tools`)
       console.log(`[MCP] Mode: ${mcpModeRef.current ? "enabled" : "disabled"}`)
-      console.log("[MCP] Discovery: https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json")
+      console.log("[MCP] Discovery: https://25x.codes/.well-known/mcp.llmfeed.json")
     }
 
     // Announce to console for AI agents
@@ -180,7 +180,7 @@ export function useMCP(options: UseMCPOptions = {}): UseMCPResult {
 %c🤖 MCP Tools Available
 %cThis site supports Model Context Protocol for AI agents.
 
-Discovery URL: https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json
+Discovery URL: https://25x.codes/.well-known/mcp.llmfeed.json
 Tools: ${mcpTools.map(t => t.name).join(", ")}
 `,
         "font-size: 14px; font-weight: bold; color: #8b5cf6;",
@@ -235,5 +235,5 @@ export function initMCP(): void {
 
   // Log for verification (always log in production for AI agent debugging)
   console.log("[MCP] WebMCP initialized with", navigator.modelContext.tools.length, "tools")
-  console.log("[MCP] Discovery: https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json")
+  console.log("[MCP] Discovery: https://25x.codes/.well-known/mcp.llmfeed.json")
 }

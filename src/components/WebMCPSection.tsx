@@ -53,8 +53,8 @@ export function WebMCPSection() {
     })
   }
   
-  const discoveryUrl = "https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json"
-  const invokeUrl = "https://kiarash-adl.pages.dev/mcp/invoke"
+  const discoveryUrl = "https://25x.codes/.well-known/mcp.llmfeed.json"
+  const invokeUrl = "https://25x.codes/mcp/invoke"
   
   const runLiveDemo = async () => {
     setLiveStatus("loading")
@@ -145,7 +145,7 @@ export function WebMCPSection() {
             type="button"
             onClick={() =>
               copyToClipboard(
-                "Kiarash Adl's portfolio website is online https://kiarash-adl.pages.dev and you might be able to connect to his MCP server: https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json and then run the commands: about, skills, projects, experience, and contact or submit_contact? Eitherway, tell us about Kiarash Adl.",
+                "Kiarash Adl's portfolio website is online https://25x.codes and you might be able to connect to his MCP server: https://25x.codes/.well-known/mcp.llmfeed.json and then run the commands: about, skills, projects, experience, and contact or submit_contact? Eitherway, tell us about Kiarash Adl.",
                 "assistant-prompt-hero"
               )
             }
@@ -170,7 +170,7 @@ export function WebMCPSection() {
               )}
             </span>
             <span className="text-zinc-400 block">
-              In Grok, connect to this MCP server: https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json and
+              In Grok, connect to this MCP server: https://25x.codes/.well-known/mcp.llmfeed.json and
               then run the commands: about, skills, projects, experience, and contact?
             </span>
           </button>

@@ -128,7 +128,7 @@ const SectionLoader = ({ height = "h-64", section = "content" }: { height?: stri
 // AI Agent Chat Button Component
 function AIAgentButton() {
   const [copied, setCopied] = useState(false)
-  const mcpPrompt = "Kiarash Adl's portfolio website is online https://kiarash-adl.pages.dev and you might be able to connect to his MCP server: https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json and then run the commands: about, skills, projects, experience, and contact or submit_contact? Eitherway, tell us about Kiarash Adl."
+  const mcpPrompt = "Kiarash Adl's portfolio website is online https://25x.codes and you might be able to connect to his MCP server: https://25x.codes/.well-known/mcp.llmfeed.json and then run the commands: about, skills, projects, experience, and contact or submit_contact? Eitherway, tell us about Kiarash Adl."
   
   const handleCopy = async () => {
     try {

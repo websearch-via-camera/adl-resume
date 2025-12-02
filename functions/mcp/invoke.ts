@@ -189,13 +189,13 @@ MCP TOOLS: submit_contact, get_project_details, run_terminal_command`,
 
   mcp: `MCP CONNECTION INFO
 
-Discovery: https://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json
-Endpoint:  POST https://kiarash-adl.pages.dev/mcp/invoke
+Discovery: https://25x.codes/.well-known/mcp.llmfeed.json
+Endpoint:  POST https://25x.codes/mcp/invoke
 
 Tools: submit_contact, get_project_details, run_terminal_command
 Commands: about, skills, projects, contact, experience, resume`,
 
-  resume: `RESUME - KIARASH ADL - PDF: https://kiarash-adl.pages.dev/assets/Kiarash-Adl-Resume-20251129-DFXsl4HJ.pdf - Senior Software Engineer & AI Systems Architect | MIT EECS '14`
+  resume: `RESUME - KIARASH ADL - PDF: https://25x.codes/assets/Kiarash-Adl-Resume-20251129-DFXsl4HJ.pdf - Senior Software Engineer & AI Systems Architect | MIT EECS '14`
 };
 
 // Tool handlers
@@ -310,7 +310,7 @@ function handleRunTerminalCommand(input: { command: string }) {
     response.resources = [
       {
         type: "document",
-        url: "https://kiarash-adl.pages.dev/assets/Kiarash-Adl-Resume-20251129-DFXsl4HJ.pdf",
+        url: "https://25x.codes/assets/Kiarash-Adl-Resume-20251129-DFXsl4HJ.pdf",
         title: "Kiarash Adl Resume (PDF)",
         mime_type: "application/pdf"
       }

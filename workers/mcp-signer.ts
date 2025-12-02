@@ -26,7 +26,7 @@ const mcpManifest = {
   "version": "1.0",
   "name": "Kiarash Adl Portfolio",
   "description": "AI-enabled portfolio of Kiarash Adl, AI Systems Architect and Full-Stack Engineer.",
-  "homepage": "https://kiarash-adl.pages.dev",
+  "homepage": "https://25x.codes",
   "tools": [
     {
       "name": "get_project_details",

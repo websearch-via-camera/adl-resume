@@ -37,8 +37,18 @@ import { MagneticButton } from "@/components/MagneticButton"
 import { AnimatedName } from "@/components/AnimatedName"
 import { GradientFlowText, ElasticText } from "@/components/KineticTypography"
 
-// Easter egg for Awwwards
-const EasterEgg = lazy(() => import("@/components/EasterEgg").then(m => ({ default: m.EasterEgg })))
+// Easter egg - deferred load (not needed for initial interaction)
+const EasterEgg = lazy(() => 
+  new Promise<{ default: typeof import("@/components/EasterEgg").EasterEgg }>(resolve => {
+    // Delay loading until after LCP (requestIdleCallback or 2s timeout)
+    const load = () => import("@/components/EasterEgg").then(m => resolve({ default: m.EasterEgg }))
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(load, { timeout: 3000 })
+    } else {
+      setTimeout(load, 2000)
+    }
+  })
+)
 
 // Heavy components lazy loaded for better initial performance
 const GitHubActivity = lazy(() => import("@/components/GitHubActivity").then(m => ({ default: m.GitHubActivity })))
@@ -452,10 +462,12 @@ function App() {
       {/* Skip Links for keyboard/screen reader navigation */}
       <SkipLinks />
       
-      {/* Easter Egg - Konami Code (↑↑↓↓←→←→BA) */}
-      <Suspense fallback={null}>
-        <EasterEgg />
-      </Suspense>
+      {/* Easter Egg - Konami Code - deferred load after page is interactive */}
+      {isReady && !showOnboarding && (
+        <Suspense fallback={null}>
+          <EasterEgg />
+        </Suspense>
+      )}
       
       {/* Show nothing while loading fonts and checking localStorage */}
       {!isReady ? (

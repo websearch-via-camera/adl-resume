@@ -60,7 +60,7 @@ function criticalChunksPreload(): Plugin {
       
       // Add early modulepreload hints in <head> for critical JS chunks
       // These are placed early in <head> so the browser starts fetching them sooner
-      // Load ALL critical chunks in parallel to reduce chain latency
+      // Only preload truly critical chunks - vendor-icons is NOT critical for LCP
       const earlyPreloads: string[] = [];
       
       if (vendorPreactPath) {
@@ -73,15 +73,8 @@ function criticalChunksPreload(): Plugin {
         earlyPreloads.push(`<link rel="modulepreload" href="/${mainJsPath}" crossorigin fetchpriority="high">`);
       }
       
-      if (vendorIconsPath) {
-        // Icons chunk - needed for hero section icons
-        earlyPreloads.push(`<link rel="modulepreload" href="/${vendorIconsPath}" crossorigin>`);
-      }
-      
-      if (vendorRadixPath) {
-        // Radix UI chunk - needed for UI components
-        earlyPreloads.push(`<link rel="modulepreload" href="/${vendorRadixPath}" crossorigin>`);
-      }
+      // Note: vendor-icons and vendor-radix are NOT preloaded - they are not LCP-critical
+      // Let the browser discover and load them naturally to avoid blocking LCP
       
       // Insert early modulepreload hints in the placeholder location
       if (earlyPreloads.length > 0) {
@@ -94,7 +87,7 @@ function criticalChunksPreload(): Plugin {
       
       // Remove Vite's auto-generated modulepreload links for chunks we already preloaded
       // This avoids duplicate modulepreload hints in the final HTML
-      const chunksToRemove = [vendorPreactPath, mainJsPath, vendorIconsPath, vendorRadixPath].filter(Boolean);
+      const chunksToRemove = [vendorPreactPath, mainJsPath].filter(Boolean);
       for (const chunkPath of chunksToRemove) {
         html = html.replace(
           new RegExp(`\\s*<link rel="modulepreload" crossorigin href="/${chunkPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}">`),
@@ -181,9 +174,19 @@ export default defineConfig({
     sourcemap: false,
     // Target modern browsers for smaller bundle
     target: 'esnext',
-    // Enable module preload polyfill for older browsers
+    // Control modulepreload behavior - only preload truly critical chunks
     modulePreload: {
       polyfill: true,
+      // Filter out non-critical chunks from modulepreload
+      resolveDependencies: (filename, deps) => {
+        // Only preload vendor-preact and main entry - other chunks load on demand
+        return deps.filter(dep => 
+          dep.includes('vendor-preact') || 
+          dep.includes('index-') ||
+          // Keep CSS preloads
+          dep.endsWith('.css')
+        );
+      }
     },
   },
 });

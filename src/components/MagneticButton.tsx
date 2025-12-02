@@ -93,7 +93,7 @@ export function MagneticButton({
       
       onMouseMove?.(e)
     },
-    [strength, radius, magneticChildren, onMouseMove]
+    [strength, radius, magneticChildren, onMouseMove, prefersReducedMotion]
   )
 
   const handleMouseLeave = useCallback(

@@ -322,7 +322,7 @@ function App() {
     }
   }
   
-  const scrollToSection = (sectionId: string) => {
+  const scrollToSection = useCallback((sectionId: string) => {
     playWhoosh()
     const element = document.getElementById(sectionId)
     if (element) {
@@ -339,7 +339,9 @@ function App() {
       const sectionLabel = navItems.find(item => item.id === sectionId)?.label || sectionId
       announce(`Navigated to ${sectionLabel} section`)
     }
-  }
+  // navItems is a module-level constant, doesn't need to be in deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [playWhoosh, prefersReducedMotion, announce])
   
   const scrollToTop = () => {
     window.scrollTo({

@@ -8,7 +8,7 @@ const KONAMI_CODE = [
 ]
 
 // Matrix rain characters
-const MATRIX_CHARS = "アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン0123456789"
+const MATRIX_CHARS = "اآبپتثجچحخدذرزسشصضطظعغفقکگلمنوهی۱۲۳۴۵۶۷۸۹۰";
 
 interface MatrixDrop {
   id: number
@@ -149,7 +149,7 @@ export const EasterEgg = memo(function EasterEgg() {
     
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [inputSequence, createDrop])
+  }, [inputSequence, createDrop, playActivationSound])
   
   // Animate matrix drops
   useEffect(() => {

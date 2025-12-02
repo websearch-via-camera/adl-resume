@@ -199,7 +199,7 @@ export function InteractiveTimeline() {
   // Calculate which row the selected entry is in (3 columns on lg, 2 on md, 1 on sm)
   // We'll use a simple approach: insert detail after the card on mobile/tablet
   // For desktop (3 cols), find the end of the row
-  const getRowEndIndex = (index: number, cols: number) => {
+  const _getRowEndIndex = (index: number, cols: number) => {
     const row = Math.floor(index / cols)
     return Math.min((row + 1) * cols - 1, timelineData.length - 1)
   }
@@ -319,7 +319,7 @@ export function InteractiveTimeline() {
       
       {/* Clickable Cards Grid with Inline Detail Panels */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {renderItems.map((item, renderIndex) => {
+        {renderItems.map((item, _renderIndex) => {
           if (item.type === 'detail') {
             // Render the detail panel spanning full width
             return (
@@ -425,7 +425,7 @@ export function InteractiveTimeline() {
                           Technologies
                         </h4>
                         <div className="flex flex-wrap gap-2">
-                          {item.entry.technologies.map((tech, i) => (
+                          {item.entry.technologies.map((tech, _i) => (
                             <Badge 
                               key={tech}
                               variant="secondary" 

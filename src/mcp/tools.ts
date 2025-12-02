@@ -355,9 +355,9 @@ const jsonSchemas: Record<string, object> = {
 
 export function zodToJsonSchema(schema: z.ZodType): object {
   // Match schema by testing with known valid inputs
-  const projectTest = getProjectDetailsSchema.safeParse({ projectId: "fiml" })
-  const terminalTest = runTerminalCommandSchema.safeParse({ command: "about" })
-  const contactTest = submitContactSchema.safeParse({ name: "Test", email: "test@test.com", message: "Hello" })
+  const _projectTest = getProjectDetailsSchema.safeParse({ projectId: "fiml" })
+  const _terminalTest = runTerminalCommandSchema.safeParse({ command: "about" })
+  const _contactTest = submitContactSchema.safeParse({ name: "Test", email: "test@test.com", message: "Hello" })
   
   // Compare by checking if the schema accepts the same inputs
   if (schema.safeParse({ projectId: "fiml" }).success && !schema.safeParse({ command: "about" }).success) {

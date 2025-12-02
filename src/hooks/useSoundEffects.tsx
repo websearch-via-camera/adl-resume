@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useRef, useState } from "react"
 
 // Sound effect types - expanded for richer UX
 type SoundType = "click" | "hover" | "success" | "whoosh" | "pop" | "chime" | "ambient" | "typing" | "scroll" | "error"

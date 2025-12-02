@@ -96,18 +96,20 @@ export function useKeyboardNavigation({
         // Clear after 1 second if no follow-up
         setTimeout(() => setLastKey(null), 1000)
         break
-      case "j":
+      case "j": {
         e.preventDefault()
         const nextIndex = Math.min(currentSectionIndex + 1, sections.length - 1)
         setCurrentSectionIndex(nextIndex)
         scrollToSection(sections[nextIndex])
         break
-      case "k":
+      }
+      case "k": {
         e.preventDefault()
         const prevIndex = Math.max(currentSectionIndex - 1, 0)
         setCurrentSectionIndex(prevIndex)
         scrollToSection(sections[prevIndex])
         break
+      }
       case "t":
         e.preventDefault()
         scrollToTop()

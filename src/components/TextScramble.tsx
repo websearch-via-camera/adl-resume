@@ -39,7 +39,7 @@ export const TextScramble = memo(function TextScramble({
   scrambleOnHover = false,
   scrambleOnView = false,
   characters = DEFAULT_CHARS,
-  speed = 50,
+  speed: _speed = 50,
   delay = 0,
   className,
   as: Tag = "span",

@@ -60,10 +60,12 @@ function useScrollTrigger(threshold = 0.3) {
 }
 
 export const SectionDivider = memo(function SectionDivider({ variant = "default", className }: SectionDividerProps) {
+  // Always call hook unconditionally to follow Rules of Hooks
+  const scrollTrigger = useScrollTrigger(0.5)
   
   // Draw variant - animated lines that draw on scroll
   if (variant === "draw") {
-    const { ref, isVisible } = useScrollTrigger(0.5)
+    const { ref, isVisible } = scrollTrigger
     
     return (
       <div 

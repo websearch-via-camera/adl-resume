@@ -27,7 +27,7 @@ console.log(
 );
 
 console.log(
-  '%c💡 Try the Konami code on the page: ↑↑↓↓←→←→BA',
+  '%c💡 Try the Konami code on the page: ↑ ↑ ↓ ↓ ← → ← →',
   'font-size: 12px; color: #fbbf24; font-family: monospace;'
 );
 

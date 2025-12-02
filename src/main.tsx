@@ -15,12 +15,12 @@ import "./main.css"
 // Initialize MCP tools for AI agent discovery
 initMCP()
 
-// Console Easter Egg
-console.log('%c\n💡 Konami: Try this arrow keys on the screen  → ↑ ↑ ↓ ↓ ← → ← →', 'font-size: 12px; color: #fbbf24; font-family: monospace; background: #fbbf2415; padding: 2px 6px; border-radius: 4px;');
 console.log(
   '%c👋 Hey there, curious dev!',
   'font-size: 16px; font-weight: bold; color: #22c55e;'
 );
+// Console Easter Egg
+console.log('%c\n💡 Konami: Try this arrow keys on the screen  → ↑ ↑ ↓ ↓ ← → ← →', 'font-size: 12px; color: #fbbf24; font-family: monospace; background: #fbbf2415; padding: 2px 6px; border-radius: 4px;');
 console.log(
   '%cWelcome to the console of Kiarash Adl\'s portfolio site.',
   'font-size: 12px; color: #94a3b8;'

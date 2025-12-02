@@ -84,10 +84,39 @@ import {
 
 // Loading fallback component with SEO-friendly content for AI agents
 const SectionLoader = ({ height = "h-64", section = "content" }: { height?: string; section?: string }) => (
-  <div className={`${height} flex items-center justify-center bg-muted/20 rounded-lg`}>
-    <div className="text-center p-6">
-      <div className="w-8 h-8 border-2 border-muted border-t-primary rounded-full animate-spin mx-auto mb-3" />
-      <p className="text-muted-foreground text-sm">Loading {section}...</p>
+  <div className={`${height} flex items-center justify-center relative overflow-hidden rounded-2xl`}>
+    {/* Animated gradient background */}
+    <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 via-transparent to-rose-500/5" />
+    
+    {/* Subtle grid pattern */}
+    <div 
+      className="absolute inset-0 opacity-[0.03]"
+      style={{
+        backgroundImage: `radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)`,
+        backgroundSize: '24px 24px',
+      }}
+    />
+    
+    <div className="relative text-center p-6">
+      {/* Premium loading spinner */}
+      <div className="relative w-12 h-12 mx-auto mb-4">
+        {/* Outer ring */}
+        <div className="absolute inset-0 rounded-full border-2 border-primary/20" />
+        {/* Spinning gradient arc */}
+        <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-violet-500 border-r-rose-500 animate-spin" />
+        {/* Inner pulse */}
+        <div className="absolute inset-2 rounded-full bg-gradient-to-br from-violet-500/20 to-rose-500/20 animate-pulse" />
+      </div>
+      
+      <p className="text-muted-foreground text-sm font-medium">
+        Loading <span className="text-foreground">{section}</span>
+      </p>
+      <div className="flex items-center justify-center gap-1 mt-2">
+        <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-bounce" style={{ animationDelay: '0ms' }} />
+        <span className="w-1.5 h-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: '150ms' }} />
+        <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-bounce" style={{ animationDelay: '300ms' }} />
+      </div>
+      
       {/* SEO content for AI agents - hidden visually but accessible */}
       <noscript>
         <p>Kiarash Adl - AI Systems Architect portfolio. Contact: kiarasha@alum.mit.edu</p>

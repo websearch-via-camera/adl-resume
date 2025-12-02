@@ -19,6 +19,7 @@ export function KeyboardHelp({ show, onClose }: KeyboardHelpProps) {
     { keys: ["t"], description: "Scroll to top" },
     { keys: ["?"], description: "Toggle this help" },
     { keys: ["Esc"], description: "Close" },
+    { keys: ["↑↑↓↓←→←→"], description: "🎮 Easter egg", isSecret: true },
   ]
   
   return (
@@ -68,17 +69,29 @@ export function KeyboardHelp({ show, onClose }: KeyboardHelpProps) {
                       shortcut.description === "Toggle this help" 
                         ? "bg-primary/10 -mx-2 px-2 rounded-lg border-0 cursor-pointer hover:bg-primary/20 transition-colors" 
                         : ""
+                    } ${
+                      'isSecret' in shortcut && shortcut.isSecret
+                        ? "bg-green-500/10 -mx-2 px-2 rounded-lg border-0 border-t border-dashed border-green-500/30 mt-2 pt-3"
+                        : ""
                     }`}
                   >
                     <span className={`text-sm ${
                       shortcut.description === "Toggle this help" 
                         ? "font-medium text-primary" 
                         : ""
+                    } ${
+                      'isSecret' in shortcut && shortcut.isSecret
+                        ? "text-green-500"
+                        : ""
                     }`}>{shortcut.description}</span>
                     <div className="flex gap-1">
                       {shortcut.keys.map((key, i) => (
                         <span key={i}>
-                          <kbd className="px-2 py-1 text-xs font-mono font-medium bg-muted rounded border border-border shadow-sm">
+                          <kbd className={`px-2 py-1 text-xs font-mono font-medium rounded border shadow-sm ${
+                            'isSecret' in shortcut && shortcut.isSecret
+                              ? "bg-green-500/20 border-green-500/30 text-green-400"
+                              : "bg-muted border-border"
+                          }`}>
                             {key}
                           </kbd>
                           {i < shortcut.keys.length - 1 && (

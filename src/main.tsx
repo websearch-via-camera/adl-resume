@@ -16,6 +16,7 @@ import "./main.css"
 initMCP()
 
 // Console Easter Egg
+console.log('%c\n💡 Konami: Try this arrow keys on the screen  → ↑ ↑ ↓ ↓ ← → ← →', 'font-size: 12px; color: #fbbf24; font-family: monospace; background: #fbbf2415; padding: 2px 6px; border-radius: 4px;');
 console.log(
   '%c👋 Hey there, curious dev!',
   'font-size: 16px; font-weight: bold; color: #22c55e;'
@@ -28,14 +29,14 @@ console.log(
   '%c⚡ Built with Preact • TypeScript • Tailwind • Vite',
   'font-size: 11px; color: #64748b;'
 );
-console.log('%c\n💡 Konami: Try this arrow keys on the screen  → ↑ ↑ ↓ ↓ ← → ← →', 'font-size: 12px; color: #fbbf24; font-family: monospace; background: #fbbf2415; padding: 2px 6px; border-radius: 4px;');
-console.log(
-  '%c✨ Let\'s create some magic!',
-  'font-size: 12px; color: #fbbf24; font-family: monospace; background: #fbbf2415; padding: 2px 6px; border-radius: 4px;');
 console.log(
   '%cSince you\'re poking around, let\'s connect: kiarasha@alum.mit.edu',
   'font-size: 12px; color: #94a3b8;'
 );
+console.log(
+  '%c✨ Let\'s create some magic!',
+  'font-size: 12px; color: #fbbf24; font-family: monospace; background: #fbbf2415; padding: 2px 6px; border-radius: 4px;');
+
 // Mark hydration complete and remove initial loader
 const root = document.getElementById('root')
 if (root) {

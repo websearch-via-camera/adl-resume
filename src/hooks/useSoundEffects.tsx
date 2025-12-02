@@ -9,7 +9,8 @@ let masterGain: GainNode | null = null
 
 function getAudioContext(): AudioContext {
   if (!audioContext) {
-    audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
+    const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext
+    audioContext = new AudioContextClass()
     masterGain = audioContext.createGain()
     masterGain.gain.setValueAtTime(0.7, audioContext.currentTime) // Master volume
     masterGain.connect(audioContext.destination)

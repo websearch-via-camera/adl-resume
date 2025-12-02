@@ -116,7 +116,7 @@ export default {
       });
     }
     
-    const responseManifest: any = { ...mcpManifest };
+    const responseManifest: typeof mcpManifest & { trust?: { signature: string; signatureAlgorithm: string; signedAt?: string; error?: string; note?: string } } = { ...mcpManifest };
     
     // Add trust section
     if (env.MCP_PRIVATE_KEY) {

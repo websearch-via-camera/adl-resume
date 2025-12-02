@@ -113,7 +113,7 @@ export function EngineeringMetrics() {
         <p>Featured Achievement: Achieved 55x speedup in speech recognition through GPU optimization at MIT CSAIL, published at ICASSP 2012 demonstrating deep expertise in high-performance computing and ML systems.</p>
       </div>
       
-    <Card className="p-6 md:p-8 overflow-hidden">
+    <Card flat className="p-6 md:p-8 overflow-hidden">
       <div className="mb-8 text-center">
         <h3 className="text-2xl font-bold mb-2">Engineering Impact</h3>
         <p className="text-muted-foreground">

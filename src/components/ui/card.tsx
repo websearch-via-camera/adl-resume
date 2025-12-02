@@ -88,8 +88,8 @@ function Card({ className, flat = false, ...props }: ComponentProps<"div"> & { f
         "hover:shadow-2xl hover:shadow-primary/10",
         "hover:border-primary/30",
         "dark:hover:shadow-primary/20",
-        // Touch feedback - scale down on press
-        "active:scale-[0.98] active:shadow-lg active:translate-y-0",
+        // Touch feedback - scale down on press (disabled for flat cards to allow scrolling)
+        !flat && "active:scale-[0.98] active:shadow-lg active:translate-y-0",
         // Gradient border on hover - animated
         "before:absolute before:inset-0 before:rounded-2xl before:p-[1.5px]",
         "before:bg-gradient-to-br before:from-primary/50 before:via-accent/30 before:to-primary/50",

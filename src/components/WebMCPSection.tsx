@@ -426,7 +426,7 @@ export function WebMCPSection() {
 
       {/* Architecture Flow */}
       <motion.div variants={fadeIn}>
-        <Card className="p-8 bg-zinc-900/30 border-zinc-800 overflow-hidden relative">
+        <Card flat className="p-8 bg-zinc-900/30 border-zinc-800 overflow-hidden relative">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-violet-500/5 via-transparent to-transparent" />
           
           <h3 className="text-lg font-semibold mb-8 text-center relative">How It Works</h3>

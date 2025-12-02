@@ -60,7 +60,7 @@ export function GitHubActivity() {
         </ul>
       </div>
       
-    <Card className="p-6 md:p-8 overflow-hidden relative">
+    <Card flat className="p-6 md:p-8 overflow-hidden relative">
       {/* Decorative background */}
       <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-primary/5 to-transparent rounded-full blur-2xl pointer-events-none" />
       

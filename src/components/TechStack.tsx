@@ -325,7 +325,7 @@ export function TechStack() {
         </section>
       </div>
       
-    <Card className="p-6 md:p-8 overflow-hidden relative">
+    <Card flat className="p-6 md:p-8 overflow-hidden relative">
       {/* Decorative background elements - reduced blur for performance */}
       <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-primary/5 to-transparent rounded-full blur-2xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-violet-500/5 to-transparent rounded-full blur-2xl pointer-events-none" />

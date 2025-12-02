@@ -518,7 +518,7 @@ function MobileTerminalPlaceholder() {
   return (
     <section aria-labelledby="terminal-section-heading" itemScope itemType="https://schema.org/WebApplication">
       <TerminalSEOContent />
-      <Card className="p-0 overflow-hidden bg-gradient-to-br from-zinc-900 via-zinc-900 to-zinc-800 border-zinc-700/50">
+      <Card flat className="p-0 overflow-hidden bg-gradient-to-br from-zinc-900 via-zinc-900 to-zinc-800 border-zinc-700/50">
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 bg-zinc-950/80 border-b border-zinc-800/50">
           <div className="flex items-center gap-2">

@@ -15,49 +15,49 @@ import "./main.css"
 // Initialize MCP tools for AI agent discovery
 initMCP()
 
-// Check if console.clear() works (disabled when "Preserve log" is enabled)
-const canClearConsole = (() => {
-  const marker = '__console_clear_test__';
-  (console as any)[marker] = true;
-  console.clear();
-  const cleared = !(console as any)[marker];
-  delete (console as any)[marker];
-  return cleared;
-})();
+// Console greeting with animated waving hand
+const wave = ['👋', '🖐️', '👋', '✋', '👋'];
+let waveIndex = 0;
 
-// Console greeting - animated if console.clear works, static otherwise
-if (canClearConsole) {
-  // Animated waving hand in console
-  const wave = ['👋', '🖐️', '👋', '✋', '👋'];
-  let waveIndex = 0;
-  const waveInterval = setInterval(() => {
-    console.clear();
-    console.log(
-      `%c${wave[waveIndex]} Hey there!`,
-      'font-size: 16px; font-weight: bold; color: #22c55e;'
-    );
-    console.log('%c💡 Konami: Try arrow keys → ↑ ↑ ↓ ↓ ← → ← →', 'font-size: 12px; color: #fbbf24; font-family: monospace; background: #fbbf2415; padding: 2px 6px; border-radius: 4px;');
-    console.log('%cWelcome to Kiarash Adl\'s portfolio console.', 'font-size: 12px; color: #94a3b8;');
-    console.log('%c⚡ Built with Preact • TypeScript • Tailwind • Vite • ♥', 'color: white;');
-    console.log('%cLet\'s connect: kiarasha@alum.mit.edu', 'font-size: 12px; color: #94a3b8;');
-    waveIndex++;
-    if (waveIndex >= wave.length) {
-      clearInterval(waveInterval);
-      // Final static message
-      console.log('%c✨ Let\'s create some magic together!', 'font-size: 12px; color: #fbbf24; font-family: monospace; background: #fbbf2415; padding: 2px 6px; border-radius: 4px;');
-      console.log('%cType "matrix" in the terminal section for a surprise!', 'font-size: 12px; color: #22c55e; font-family: monospace; background: #fbbf2415; padding: 2px 6px; border-radius: 4px;');
-    }
-  }, 400);
-} else {
-  // Static message when Preserve log is enabled
-  console.log('%c👋 Hey there!', 'font-size: 16px; font-weight: bold; color: #22c55e;');
-  console.log('%c💡 Konami: Try arrow keys → ↑ ↑ ↓ ↓ ← → ← →', 'font-size: 12px; color: #fbbf24; font-family: monospace; background: #fbbf2415; padding: 2px 6px; border-radius: 4px;');
-  console.log('%cWelcome to Kiarash Adl\'s portfolio console.', 'font-size: 12px; color: #94a3b8;');
+const printConsoleGreeting = (emoji: string, isFinal = false) => {
+  console.log(
+    `%c${emoji} Hey there, curious dev!`,
+    'font-size: 16px; font-weight: bold; color: #22c55e;'
+  );
+  console.log('%c\n💡 Konami: Try this arrow keys on the screen  → ↑ ↑ ↓ ↓ ← → ← →', 'font-size: 12px; color: #fbbf24; font-family: monospace; background: #fbbf2415; padding: 2px 6px; border-radius: 4px;');
+  console.log(
+    '%cWelcome to the console of Kiarash Adl\'s portfolio site.',
+    'font-size: 12px; color: #94a3b8;'
+  );
   console.log('%c⚡ Built with Preact • TypeScript • Tailwind • Vite • ♥', 'color: white;');
-  console.log('%cLet\'s connect: kiarasha@alum.mit.edu', 'font-size: 12px; color: #94a3b8;');
-  console.log('%c✨ Let\'s create some magic together!', 'font-size: 16px; font-weight: bold; color: #fbbf24;');
-    console.log('%cType "matrix" in the terminal section for a surprise!', 'font-size: 12px; color: #22c55e; font-family: monospace; background: #fbbf2415; padding: 2px 6px; border-radius: 4px;');
+  console.log(
+    '%cSince you\'re poking around, let\'s connect: kiarasha@alum.mit.edu',
+    'font-size: 12px; color: #94a3b8;'
+  );
+  if (isFinal) {
+    console.log(
+      '%c✨ Let\'s create some magic!',
+      'font-size: 12px; color: #fbbf24; font-family: monospace; background: #fbbf2415; padding: 2px 6px; border-radius: 4px;'
+    );
   }
+};
+
+// Print first frame immediately
+printConsoleGreeting(wave[0]);
+waveIndex = 1;
+
+const waveInterval = setInterval(() => {
+  console.clear();
+  
+  if (waveIndex >= wave.length) {
+    clearInterval(waveInterval);
+    printConsoleGreeting('👋', true);
+    return;
+  }
+  
+  printConsoleGreeting(wave[waveIndex]);
+  waveIndex++;
+}, 400);
 
 // Mark hydration complete and remove initial loader
 const root = document.getElementById('root')

@@ -44,8 +44,8 @@ if (canClearConsole) {
     if (waveIndex >= wave.length) {
       clearInterval(waveInterval);
       // Final static message
-      console.log('%c✨ Let\'s create some magic together!', 'font-size: 16px; font-weight: bold; color: #fbbf24;');
-      console.log('%c✨ Type "matrix" in the terminal section for a surprise!', 'font-size: 12px; color: #22c55e; font-family: monospace; background: #fbbf2415; padding: 2px 6px; border-radius: 4px;');
+      console.log('%c✨ Let\'s create some magic together!', 'font-size: 12px; color: #fbbf24; font-family: monospace; background: #fbbf2415; padding: 2px 6px; border-radius: 4px;');
+      console.log('%cType "matrix" in the terminal section for a surprise!', 'font-size: 12px; color: #22c55e; font-family: monospace; background: #fbbf2415; padding: 2px 6px; border-radius: 4px;');
     }
   }, 400);
 } else {
@@ -56,8 +56,8 @@ if (canClearConsole) {
   console.log('%c⚡ Built with Preact • TypeScript • Tailwind • Vite • ♥', 'color: white;');
   console.log('%cLet\'s connect: kiarasha@alum.mit.edu', 'font-size: 12px; color: #94a3b8;');
   console.log('%c✨ Let\'s create some magic together!', 'font-size: 16px; font-weight: bold; color: #fbbf24;');
-  console.log('%c✨ Type "matrix" in the terminal section for a surprise!', 'font-size: 12px; color: #22c55e; font-family: monospace; background: #fbbf2415; padding: 2px 6px; border-radius: 4px;');
-}
+    console.log('%cType "matrix" in the terminal section for a surprise!', 'font-size: 12px; color: #22c55e; font-family: monospace; background: #fbbf2415; padding: 2px 6px; border-radius: 4px;');
+  }
 
 // Mark hydration complete and remove initial loader
 const root = document.getElementById('root')

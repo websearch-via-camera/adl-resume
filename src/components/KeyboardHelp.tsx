@@ -104,9 +104,12 @@ export function KeyboardHelp({ show, onClose }: KeyboardHelpProps) {
                 ))}
               </div>
               
-              <div className="mt-6 pt-4 border-t border-border text-center">
+              <div className="mt-6 pt-4 border-t border-border text-center space-y-2">
                 <p className="text-xs text-muted-foreground">
                   Press <kbd className="px-1.5 py-0.5 text-xs font-mono bg-muted rounded border">Esc</kbd> or click outside to close
+                </p>
+                <p className="text-xs text-green-500/70 italic">
+                  💡 Psst... try "matrix" in the terminal
                 </p>
               </div>
             </Card>

@@ -217,7 +217,289 @@ const commands: Record<string, string[]> = {
     "                    CPU: Problem-solving @ 100%",
     "                    GPU: CUDA-enabled (55x speedup)",
     "                    Memory: 500K+ LOC shipped"
+  ],
+  // ═══════════════════════════════════════════════════════════════════
+  // SECRET COMMANDS - The rabbit hole goes deeper...
+  // ═══════════════════════════════════════════════════════════════════
+  matrix: [
+    "⠀⠀⠀⢀⣤⣶⣿⣿⣿⣿⣿⣿⣿⣶⣤⡀⠀⠀⠀",
+    "⠀⢀⣾⣿⡿⠛⠉⠉⠉⠉⠉⠉⠛⢿⣿⣷⡀⠀",
+    "⠀⣾⣿⠋⠀⠀⠀ WAKE UP ⠀⠀⠀⠋⣿⣷⠀",
+    "⢸⣿⡇⠀⠀⠀⠀ NEO... ⠀⠀⠀⠀⢸⣿⡇",
+    "⢸⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⡇",
+    "⠀⣿⣷⠀⠀ The Matrix has you. ⠀⣾⣿⠀",
+    "⠀⠸⣿⣧⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⣿⠇⠀",
+    "⠀⠀⠙⢿⣿⣶⣤⣤⣤⣤⣤⣤⣶⣿⡿⠋⠀⠀",
+    "",
+    "Follow the white rabbit. 🐰",
+    "",
+    "Hint: Try 'rabbit' or press ↑↑↓↓←→←→ anywhere"
+  ],
+  rabbit: [
+    "     /)  /)",
+    "   =(• •)=   You found me!",
+    "    (  \" )   ",
+    "",
+    "🐰 The White Rabbit says:",
+    "",
+    "\"Curious visitors deserve curious rewards.\"",
+    "",
+    "Hidden commands unlocked:",
+    "  • sudo      - Try it...",
+    "  • hack      - 1337 mode",
+    "  • coffee    - Essential fuel",
+    "  • 42        - The answer",
+    "  • fortune   - Words of wisdom",
+    "  • secrets   - What else is hidden?",
+    "",
+    "The deeper you go, the more you find..."
+  ],
+  sudo: [
+    "Password: ********",
+    "",
+    "Verifying... ✓",
+    "",
+    "⚠️  ROOT ACCESS GRANTED ⚠️",
+    "",
+    "Just kidding. Nice try though! 😄",
+    "",
+    "But since you tried...",
+    "Here's a real secret: Type 'hack' for 1337 mode"
+  ],
+  "sudo rm -rf /": [
+    "☠️  DELETING EVERYTHING...",
+    "",
+    "   [████████████████████] 100%",
+    "",
+    "Just kidding! This isn't a real terminal 😅",
+    "",
+    "But I appreciate your sense of humor.",
+    "Type 'fortune' for some wisdom."
+  ],
+  hack: [
+    "┌──────────────────────────────────────────┐",
+    "│  ENTERING 1337 H4CK3R M0D3...           │",
+    "│                                          │",
+    "│  > Bypassing mainframe... ✓              │",
+    "│  > Decrypting Gibson... ✓                │",
+    "│  > Hacking the planet... ✓               │",
+    "│                                          │",
+    "│  ACCESS GRANTED                          │",
+    "│                                          │",
+    "│  \"Mess with the best,                    │",
+    "│   die like the rest.\"                    │",
+    "│                         - Hackers (1995) │",
+    "└──────────────────────────────────────────┘",
+    "",
+    "Achievement Unlocked: 🏆 ZERO COOL",
+    "",
+    "More to find: Try 'coffee', '42', or 'xyzzy'"
+  ],
+  coffee: [
+    "              ))))",
+    "             ((((  ",
+    "           +======+",
+    "           |      |]",
+    "           \\      / ",
+    "            `----'  ",
+    "",
+    "☕ BREWING PERFECT CODE...",
+    "",
+    "Coffee Stats:",
+    "  Daily intake:     ████████░░  ~4 cups",
+    "  Code quality:     ████████████  Excellent",
+    "  Debug efficiency: ████████████  Maximum",
+    "",
+    "\"A programmer is a machine that turns",
+    " coffee into code.\"",
+    "",
+    "Fun fact: This portfolio was built with",
+    "approximately 47 cups of coffee."
+  ],
+  "42": [
+    "🌌 DEEP THOUGHT COMPUTING...",
+    "",
+    "   Processing for 7.5 million years...",
+    "",
+    "The Answer to the Ultimate Question",
+    "of Life, the Universe, and Everything:",
+    "",
+    "              ╔═══════════╗",
+    "              ║    42     ║",
+    "              ╚═══════════╝",
+    "",
+    "\"I think the problem, to be quite honest",
+    " with you, is that you've never actually",
+    " known what the question is.\"",
+    "",
+    "             - Deep Thought",
+    "",
+    "🚀 Don't Panic. And always carry a towel."
+  ],
+  fortune: [
+    "🔮 CONSULTING THE ORACLE...",
+    "",
+    getRandomFortune(),
+    "",
+    "Type 'fortune' again for another wisdom."
+  ],
+  secrets: [
+    "🔐 SECRET REGISTRY",
+    "",
+    "Found so far:",
+    "  [?] matrix     - Wake up...",
+    "  [?] rabbit     - Follow the white rabbit",
+    "  [?] sudo       - Nice try",
+    "  [?] hack       - 1337 mode",
+    "  [?] coffee     - Essential fuel",
+    "  [?] 42         - The answer",
+    "  [?] fortune    - Random wisdom",
+    "  [?] xyzzy      - Magic word",
+    "  [?] love       - What drives us",
+    "  [?] time       - When was this built?",
+    "  [?] ping       - Are you there?",
+    "  [?] cowsay     - Moo",
+    "",
+    "Still hidden:",
+    "  [█] ????       - Find the Konami code",
+    "  [█] ????       - What's in a name?",
+    "  [█] ????       - The ultimate command",
+    "",
+    "\"Not all those who wander are lost.\"",
+    "              - J.R.R. Tolkien"
+  ],
+  xyzzy: [
+    "✨ A hollow voice says \"PLUGH\".",
+    "",
+    "You are in a twisty maze of little",
+    "passages, all alike.",
+    "",
+    "   > GO NORTH",
+    "   You are in a twisty maze of little",
+    "   passages, all alike.",
+    "",
+    "   > XYZZY",
+    "   Nothing happens.",
+    "",
+    "Wait... something IS happening!",
+    "",
+    "🏆 Achievement Unlocked: COLOSSAL CAVE",
+    "",
+    "(A nod to the original 1977 text adventure)",
+    "Type 'plugh' for the response..."
+  ],
+  plugh: [
+    "A hollow voice says \"XYZZY\".",
+    "",
+    "You've found the secret passage!",
+    "The ancient magic of Adventure lives on.",
+    "",
+    "\"It is pitch black. You are likely",
+    " to be eaten by a grue.\"",
+    "",
+    "🕯️ But you have the light of curiosity."
+  ],
+  love: [
+    "💖 LOVE.exe",
+    "",
+    "What I love about engineering:",
+    "",
+    "  • Solving impossible problems",
+    "  • Building things from nothing",
+    "  • That moment when tests pass",
+    "  • Clean, elegant code",
+    "  • Teaching and mentoring",
+    "  • Late night breakthroughs",
+    "  • The developer community",
+    "",
+    "\"The best engineers aren't just good",
+    " at coding. They're good at caring.\"",
+    "",
+    "Thanks for caring enough to explore. ❤️"
+  ],
+  time: [
+    "⏰ TEMPORAL COORDINATES",
+    "",
+    `  Build Date:  December 2025`,
+    `  Framework:   Preact + TypeScript`,
+    `  Build Time:  ~4.8 seconds`,
+    `  LOC:         ~15,000`,
+    "",
+    "Development Timeline:",
+    "  Day 1:   \"This will be quick\"",
+    "  Day 3:   \"Just one more feature\"",
+    "  Day 7:   \"Perfect is the enemy of good\"",
+    "  Day 14:  \"Ship it!\"",
+    "",
+    "Time spent on easter eggs: Too much 🐰"
+  ],
+  ping: [
+    "PING portfolio.kiarash-adl.pages.dev",
+    "",
+    "  64 bytes: seq=1 ttl=64 time=0.042ms",
+    "  64 bytes: seq=2 ttl=64 time=0.038ms",
+    "  64 bytes: seq=3 ttl=64 time=0.041ms",
+    "  64 bytes: seq=4 ttl=64 time=0.039ms",
+    "",
+    "--- ping statistics ---",
+    "4 packets transmitted, 4 received, 0% loss",
+    "",
+    "✅ I'm here! Thanks for checking.",
+    "",
+    "PONG! 🏓"
+  ],
+  cowsay: [
+    " _______________________________________",
+    "< Moo! You found me! I'm a hidden cow. >",
+    " ---------------------------------------",
+    "        \\   ^__^",
+    "         \\  (oo)\\_______",
+    "            (__)\\       )\\/\\",
+    "                ||----w |",
+    "                ||     ||",
+    "",
+    "🐄 Achievement Unlocked: BOVINE DISCOVERY",
+    "",
+    "Try: cowsay hello world"
+  ],
+  kiarash: [
+    "کیارش",
+    "",
+    "Name Meaning:",
+    "  From Persian: کیارش (Kiārash)",
+    "  \"King\" + \"Arrow\" = \"King's Arrow\"",
+    "",
+    "  Also: Heroic prince in Shahnameh,",
+    "  Ferdowsi's epic Persian poem.",
+    "",
+    "  In the legend, Arash the Archer shot",
+    "  an arrow to mark Iran's borders.",
+    "  It flew from dawn to dusk.",
+    "",
+    "Fun fact: Those Persian characters in",
+    "the Matrix rain? That's the Persian",
+    "alphabet - my heritage in code. 🇮🇷",
+    "",
+    "🏆 Achievement: ETYMOLOGY EXPLORER"
+  ],
+  "": [] // Empty command
+}
+
+// Fortune messages for the fortune command
+function getRandomFortune(): string {
+  const fortunes = [
+    "\"Any sufficiently advanced technology is\n indistinguishable from magic.\"\n              - Arthur C. Clarke",
+    "\"Talk is cheap. Show me the code.\"\n              - Linus Torvalds",
+    "\"First, solve the problem. Then,\n write the code.\"\n              - John Johnson",
+    "\"Code is like humor. When you have\n to explain it, it's bad.\"\n              - Cory House",
+    "\"Simplicity is the soul of efficiency.\"\n              - Austin Freeman",
+    "\"Before software can be reusable it\n first has to be usable.\"\n              - Ralph Johnson",
+    "\"Make it work, make it right,\n make it fast.\"\n              - Kent Beck",
+    "\"The best error message is the one\n that never shows up.\"\n              - Thomas Fuchs",
+    "\"Programs must be written for people\n to read, and only incidentally for\n machines to execute.\"\n              - Abelson & Sussman",
+    "\"Debugging is twice as hard as writing\n the code. So if you write code as\n cleverly as possible, you're not smart\n enough to debug it.\"\n              - Brian Kernighan"
   ]
+  return fortunes[Math.floor(Math.random() * fortunes.length)]
 }
 
 export function TerminalSection() {
@@ -533,6 +815,44 @@ function DesktopTerminal() {
     let output: string[]
     let isError = false
     let isMCP = false
+    
+    // Dynamic cowsay command
+    if (trimmedInput.startsWith("cowsay ")) {
+      const message = input.trim().substring(7) || "Moo!"
+      const maxLen = Math.min(message.length, 40)
+      const border = "_".repeat(maxLen + 2)
+      const borderBottom = "-".repeat(maxLen + 2)
+      output = [
+        ` ${border}`,
+        `< ${message.padEnd(maxLen)} >`,
+        ` ${borderBottom}`,
+        "        \\   ^__^",
+        "         \\  (oo)\\_______",
+        "            (__)\\       )\\/\\",
+        "                ||----w |",
+        "                ||     ||",
+        ""
+      ]
+      setHistory(prev => [...prev, { command: input, output, isError, isMCP }])
+      if (trimmedInput) setCommandHistory(prev => [...prev, trimmedInput])
+      setHistoryIndex(-1)
+      return
+    }
+    
+    // Dynamic fortune - always regenerate
+    if (trimmedInput === "fortune") {
+      output = [
+        "🔮 CONSULTING THE ORACLE...",
+        "",
+        getRandomFortune(),
+        "",
+        "Type 'fortune' again for another wisdom."
+      ]
+      setHistory(prev => [...prev, { command: input, output, isError, isMCP }])
+      if (trimmedInput) setCommandHistory(prev => [...prev, trimmedInput])
+      setHistoryIndex(-1)
+      return
+    }
     
     // If MCP mode is enabled, try calling MCP tools for supported commands
     const mcpCommands = ["about", "skills", "projects", "contact", "experience", "help"]

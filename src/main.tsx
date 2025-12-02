@@ -25,10 +25,7 @@ console.log(
   '%cWelcome to the console of Kiarash Adl\'s portfolio site.',
   'font-size: 12px; color: #94a3b8;'
 );
-console.log(
-  '%c⚡ Built with Preact • TypeScript • Tailwind • Vite',
-  'font-size: 11px; color: #64748b;'
-);
+console.log('%c⚡ Built with Preact • TypeScript • Tailwind • Vite • ♥', 'color: white;');
 console.log(
   '%cSince you\'re poking around, let\'s connect: kiarasha@alum.mit.edu',
   'font-size: 12px; color: #94a3b8;'

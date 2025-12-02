@@ -1934,3 +1934,398 @@ html {
 .text-scramble-active .text-scramble-char {
   animation: text-glitch 100ms steps(2) infinite;
 }
+
+/* ==========================================================================
+   BUTTON RIPPLE MICRO-INTERACTION
+   ========================================================================== */
+
+@keyframes button-ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* Button shine sweep effect on hover */
+@keyframes button-shine {
+  0% {
+    transform: translateX(-200%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+/* ==========================================================================
+   AWWWARDS-LEVEL GLASSMORPHISM - Enhanced depth and blur
+   ========================================================================== */
+
+/* Ultra glass - maximum blur with noise texture */
+.glass-ultra {
+  background: oklch(from var(--background) l c h / 0.65);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid oklch(from var(--border) l c h / 0.3);
+  box-shadow: 
+    0 8px 32px oklch(from var(--shadow-color) l c h / 0.08),
+    0 2px 8px oklch(from var(--shadow-color) l c h / 0.04),
+    inset 0 1px 0 oklch(1 0 0 / 0.15),
+    inset 0 -1px 0 oklch(0 0 0 / 0.05);
+}
+
+.dark .glass-ultra {
+  background: oklch(from var(--background) l c h / 0.5);
+  backdrop-filter: blur(48px) saturate(200%);
+  -webkit-backdrop-filter: blur(48px) saturate(200%);
+  border: 1px solid oklch(from var(--border) l c h / 0.2);
+  box-shadow: 
+    0 8px 32px oklch(0 0 0 / 0.3),
+    0 2px 8px oklch(0 0 0 / 0.2),
+    inset 0 1px 0 oklch(1 0 0 / 0.08),
+    inset 0 -1px 0 oklch(0 0 0 / 0.1);
+}
+
+/* Morphing glass - animated gradient border */
+.glass-morphing {
+  position: relative;
+  background: oklch(from var(--background) l c h / 0.7);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: none;
+}
+
+.glass-morphing::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    var(--gradient-angle, 135deg),
+    oklch(from var(--primary) l c h / 0.5),
+    oklch(from var(--accent) l c h / 0.3),
+    oklch(from var(--primary) l c h / 0.5)
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: glass-morph-rotate 8s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes glass-morph-rotate {
+  to {
+    --gradient-angle: 495deg;
+  }
+}
+
+/* Frosted glass with depth */
+.glass-frosted {
+  background: 
+    linear-gradient(135deg, oklch(from var(--background) l c h / 0.9), oklch(from var(--background) l c h / 0.7)),
+    oklch(from var(--background) l c h / 0.8);
+  backdrop-filter: blur(20px) saturate(120%);
+  -webkit-backdrop-filter: blur(20px) saturate(120%);
+  border: 1px solid oklch(from var(--border) l c h / 0.5);
+  box-shadow: 
+    0 4px 24px oklch(from var(--shadow-color) l c h / 0.06),
+    0 1px 2px oklch(from var(--shadow-color) l c h / 0.03),
+    inset 0 0 80px oklch(1 0 0 / 0.03);
+}
+
+.dark .glass-frosted {
+  background: 
+    linear-gradient(135deg, oklch(from var(--background) l c h / 0.7), oklch(from var(--background) l c h / 0.5)),
+    oklch(from var(--background) l c h / 0.6);
+  box-shadow: 
+    0 4px 24px oklch(0 0 0 / 0.2),
+    0 1px 2px oklch(0 0 0 / 0.1),
+    inset 0 0 80px oklch(1 0 0 / 0.02);
+}
+
+/* ==========================================================================
+   PAGE SECTION TRANSITIONS - Smooth scroll reveal
+   ========================================================================== */
+
+/* Base scroll reveal - optimized for performance */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: 
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.scroll-reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered reveal for children */
+.scroll-reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: 
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-reveal-stagger.scroll-reveal-visible > *:nth-child(1) { transition-delay: 0.1s; }
+.scroll-reveal-stagger.scroll-reveal-visible > *:nth-child(2) { transition-delay: 0.15s; }
+.scroll-reveal-stagger.scroll-reveal-visible > *:nth-child(3) { transition-delay: 0.2s; }
+.scroll-reveal-stagger.scroll-reveal-visible > *:nth-child(4) { transition-delay: 0.25s; }
+.scroll-reveal-stagger.scroll-reveal-visible > *:nth-child(5) { transition-delay: 0.3s; }
+.scroll-reveal-stagger.scroll-reveal-visible > *:nth-child(6) { transition-delay: 0.35s; }
+
+.scroll-reveal-stagger.scroll-reveal-visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Section fade with blur */
+.section-fade-blur {
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(40px);
+  transition: 
+    opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 1s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.section-fade-blur.in-view {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+}
+
+/* Slide and scale */
+.section-slide-scale {
+  opacity: 0;
+  transform: translateY(60px) scale(0.95);
+  transition: 
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.section-slide-scale.in-view {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Parallax scroll effect */
+.parallax-slow {
+  transform: translateY(calc(var(--scroll-progress, 0) * 30px));
+  transition: transform 0.1s linear;
+}
+
+.parallax-fast {
+  transform: translateY(calc(var(--scroll-progress, 0) * -20px));
+  transition: transform 0.1s linear;
+}
+
+/* ==========================================================================
+   ENHANCED HOVER DEPTH EFFECTS
+   ========================================================================== */
+
+/* 3D card with perspective */
+.card-3d {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transition: transform 0.3s ease-out;
+}
+
+.card-3d:hover {
+  transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) translateZ(20px);
+}
+
+.card-3d > * {
+  transform: translateZ(20px);
+  transition: transform 0.3s ease-out;
+}
+
+.card-3d:hover > * {
+  transform: translateZ(40px);
+}
+
+/* Floating shadow effect */
+.shadow-float {
+  position: relative;
+  transition: transform 0.3s ease-out;
+}
+
+.shadow-float::after {
+  content: '';
+  position: absolute;
+  inset: 10px;
+  background: inherit;
+  border-radius: inherit;
+  filter: blur(20px);
+  opacity: 0;
+  transform: translateY(10px) scale(0.95);
+  transition: 
+    opacity 0.3s ease-out,
+    transform 0.3s ease-out;
+  z-index: -1;
+}
+
+.shadow-float:hover {
+  transform: translateY(-8px);
+}
+
+.shadow-float:hover::after {
+  opacity: 0.3;
+  transform: translateY(20px) scale(0.9);
+}
+
+/* Elastic hover */
+.hover-elastic {
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.hover-elastic:hover {
+  transform: scale(1.03);
+}
+
+.hover-elastic:active {
+  transform: scale(0.97);
+}
+
+/* Magnetic card effect */
+.card-magnetic {
+  transition: transform 0.15s ease-out;
+}
+
+/* Animated gradient background on hover */
+.hover-gradient-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+.hover-gradient-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    oklch(from var(--primary) l c h / 0),
+    oklch(from var(--primary) l c h / 0.1),
+    oklch(from var(--accent) l c h / 0.1),
+    oklch(from var(--accent) l c h / 0)
+  );
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: 
+    opacity 0.3s ease-out,
+    transform 0.5s ease-out;
+}
+
+.hover-gradient-bg:hover::before {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ==========================================================================
+   NAV GLASSMORPHISM
+   ========================================================================== */
+
+/* Navigation bar glassmorphism */
+nav.glass-nav {
+  background: oklch(from var(--background) l c h / 0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid oklch(from var(--border) l c h / 0.3);
+  box-shadow: 
+    0 4px 30px oklch(from var(--shadow-color) l c h / 0.04),
+    0 1px 3px oklch(from var(--shadow-color) l c h / 0.02);
+}
+
+.dark nav.glass-nav {
+  background: oklch(from var(--background) l c h / 0.7);
+  border-bottom: 1px solid oklch(from var(--border) l c h / 0.2);
+  box-shadow: 
+    0 4px 30px oklch(0 0 0 / 0.15),
+    0 1px 3px oklch(0 0 0 / 0.1);
+}
+
+/* ==========================================================================
+   SCROLL INDICATOR ENHANCEMENTS
+   ========================================================================== */
+
+/* Scroll progress glow */
+.scroll-progress-glow {
+  position: relative;
+}
+
+.scroll-progress-glow::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  background: linear-gradient(
+    to left,
+    oklch(from var(--primary) l c h / 0.6),
+    transparent
+  );
+  filter: blur(8px);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   HIDE SCROLLBAR UTILITY
+   ========================================================================== */
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* ==========================================================================
+   REDUCED MOTION - Disable all fancy animations
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal,
+  .section-fade-blur,
+  .section-slide-scale {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+  
+  .scroll-reveal-stagger > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  
+  .card-3d:hover,
+  .shadow-float:hover,
+  .hover-elastic:hover,
+  .hover-gradient-bg::before {
+    transform: none;
+    opacity: 0;
+  }
+  
+  .glass-morphing::before {
+    animation: none;
+  }
+  
+  .parallax-slow,
+  .parallax-fast {
+    transform: none;
+  }
+}

@@ -550,24 +550,25 @@ function App() {
 
       {/* Navigation - Beautiful glassmorphism with gradient border */}
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-out ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${
           isNavVisible 
             ? 'translate-y-0 opacity-100' 
             : '-translate-y-full opacity-0'
         } ${prefersReducedMotion ? '!transition-none' : ''}`}
         aria-label="Main navigation"
       >
-        {/* Gradient border bottom */}
-        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+        {/* Animated gradient border bottom */}
+        <div className="absolute inset-x-0 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-accent/20 to-transparent animate-[gradient-x_4s_ease_infinite]" style={{ animationDelay: '-2s' }} />
         
-        {/* Glassmorphism background - reduced blur for scroll performance */}
-        <div className="absolute inset-0 bg-background/80 backdrop-blur-md" />
+        {/* Enhanced Glassmorphism background */}
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-xl dark:bg-background/70 shadow-lg shadow-black/[0.03] dark:shadow-black/10" />
         
         <div className="max-w-5xl mx-auto px-6 py-4 relative z-10">
           <div className="flex items-center justify-between gap-2">
             <button
               onClick={() => scrollToSection("home")}
-              className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground hover:from-primary hover:to-accent transition-all duration-300 flex-shrink-0 z-10 relative"
+              className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground hover:from-primary hover:to-accent transition-all duration-300 flex-shrink-0 z-10 relative hover:scale-105 active:scale-95"
               aria-label="Go to home section"
             >
               Kiarash Adl
@@ -576,9 +577,9 @@ function App() {
             {/* Nav links - scrollable on mobile with fade edges */}
             <div className="flex-1 min-w-0 mx-2 relative">
               {/* Left fade gradient */}
-              <div className="absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-background/80 to-transparent z-10 pointer-events-none" />
+              <div className="absolute left-0 top-0 bottom-0 w-6 bg-gradient-to-r from-background/80 to-transparent z-10 pointer-events-none dark:from-background/70" />
               {/* Right fade gradient */}
-              <div className="absolute right-0 top-0 bottom-0 w-4 bg-gradient-to-l from-background/80 to-transparent z-10 pointer-events-none" />
+              <div className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-background/80 to-transparent z-10 pointer-events-none dark:from-background/70" />
               
               <div ref={navScrollRef} className="overflow-x-auto scrollbar-hide" role="navigation">
                 <div className="flex items-center gap-1 w-max px-2">
@@ -587,14 +588,16 @@ function App() {
                       key={item.id}
                       onClick={() => scrollToSection(item.id)}
                       onMouseEnter={playHover}
-                      className={`min-h-[44px] px-3 py-2 text-sm font-medium rounded-xl transition-all duration-300 whitespace-nowrap ${
+                      className={`min-h-[44px] px-3.5 py-2 text-sm font-medium rounded-xl transition-all duration-300 whitespace-nowrap relative overflow-hidden group ${
                         activeSection === item.id
-                          ? "bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-md shadow-primary/20"
-                          : "text-muted-foreground hover:text-foreground hover:bg-muted/80"
+                          ? "bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-lg shadow-primary/25"
+                          : "text-muted-foreground hover:text-foreground hover:bg-muted/60 hover:backdrop-blur-sm"
                       }`}
                       aria-current={activeSection === item.id ? "page" : undefined}
                     >
-                      {item.label}
+                      {/* Hover shine effect */}
+                      <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+                      <span className="relative">{item.label}</span>
                     </button>
                   ))}
                 </div>
@@ -602,7 +605,7 @@ function App() {
             </div>
             
             {/* Toggles - always visible, never scroll */}
-            <div className="flex items-center gap-1 flex-shrink-0 border-l border-border/50 pl-2 z-10 relative">
+            <div className="flex items-center gap-1.5 flex-shrink-0 border-l border-border/30 pl-2 z-10 relative">
               <SoundToggle />
               <ThemeToggle />
             </div>
@@ -1438,14 +1441,14 @@ function App() {
             
             {/* Social Links */}
             <div className="flex items-center gap-4">
-              <a href="https://www.linkedin.com/in/kiarashadl/" target="_blank" rel="noopener noreferrer" className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl bg-muted/50 hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-0.5 group" aria-label="Visit Kiarash's LinkedIn profile">
-                <Linkedin className="h-5 w-5 group-hover:scale-110 transition-transform" />
+              <a href="https://www.linkedin.com/in/kiarashadl/" target="_blank" rel="noopener noreferrer" className="min-h-[48px] min-w-[48px] flex items-center justify-center rounded-xl bg-muted/50 backdrop-blur-sm border border-border/30 hover:bg-primary hover:text-primary-foreground hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/25 hover:-translate-y-1 hover:scale-105 active:scale-95 group" aria-label="Visit Kiarash's LinkedIn profile">
+                <Linkedin className="h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
               </a>
-              <a href="https://github.com/kiarashplusplus/" target="_blank" rel="noopener noreferrer" className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl bg-muted/50 hover:bg-foreground hover:text-background transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 group" aria-label="Visit Kiarash's GitHub profile">
-                <Github className="h-5 w-5 group-hover:scale-110 transition-transform" />
+              <a href="https://github.com/kiarashplusplus/" target="_blank" rel="noopener noreferrer" className="min-h-[48px] min-w-[48px] flex items-center justify-center rounded-xl bg-muted/50 backdrop-blur-sm border border-border/30 hover:bg-foreground hover:text-background hover:border-foreground/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:scale-105 active:scale-95 group" aria-label="Visit Kiarash's GitHub profile">
+                <Github className="h-5 w-5 group-hover:scale-110 group-hover:rotate-12 transition-all duration-300" />
               </a>
-              <a href="mailto:kiarasha@alum.mit.edu" className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl bg-muted/50 hover:bg-accent hover:text-accent-foreground transition-all duration-300 hover:shadow-lg hover:shadow-accent/20 hover:-translate-y-0.5 group" aria-label="Email Kiarash">
-                <Mail className="h-5 w-5 group-hover:scale-110 transition-transform" />
+              <a href="mailto:kiarasha@alum.mit.edu" className="min-h-[48px] min-w-[48px] flex items-center justify-center rounded-xl bg-muted/50 backdrop-blur-sm border border-border/30 hover:bg-accent hover:text-accent-foreground hover:border-accent/50 transition-all duration-300 hover:shadow-xl hover:shadow-accent/25 hover:-translate-y-1 hover:scale-105 active:scale-95 group" aria-label="Email Kiarash">
+                <Mail className="h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
               </a>
             </div>
             
@@ -1481,10 +1484,12 @@ function App() {
       {showScrollTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 min-h-[48px] min-w-[48px] p-3 bg-gradient-to-br from-primary to-accent text-primary-foreground rounded-full shadow-lg hover:shadow-xl hover:shadow-primary/30 hover:scale-110 transition-all duration-300 z-40 animate-in fade-in zoom-in group"
+          className="fixed bottom-8 right-8 min-h-[52px] min-w-[52px] p-3 bg-gradient-to-br from-primary via-primary to-accent text-primary-foreground rounded-2xl shadow-xl shadow-primary/30 hover:shadow-2xl hover:shadow-primary/40 hover:scale-110 hover:-translate-y-1 active:scale-95 transition-all duration-300 z-40 animate-in fade-in zoom-in group backdrop-blur-sm border border-white/10"
           aria-label="Scroll to top"
         >
-          <ChevronUp className="h-6 w-6 group-hover:-translate-y-0.5 transition-transform" />
+          {/* Animated glow ring */}
+          <span className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary to-accent opacity-50 blur-lg group-hover:opacity-75 transition-opacity" />
+          <ChevronUp className="h-6 w-6 relative z-10 group-hover:-translate-y-1 transition-transform duration-300" />
         </button>
       )}
 

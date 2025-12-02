@@ -16,7 +16,7 @@ import "./main.css"
 initMCP()
 
 console.log(
-  '%c👋 Hey there, curious dev!',
+  '%c👋 Hey there!',
   'font-size: 16px; font-weight: bold; color: #22c55e;'
 );
 // Console Easter Egg

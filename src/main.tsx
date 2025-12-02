@@ -15,36 +15,40 @@ import "./main.css"
 // Initialize MCP tools for AI agent discovery
 initMCP()
 
-// Fun console message for fellow developers 👋
-console.log(
-  '%c👋 Hey there, curious developer!',
-  'font-size: 20px; font-weight: bold; color: #22c55e; text-shadow: 0 0 10px rgba(34, 197, 94, 0.3);'
-);
+// ============================================================================
+// Console Easter Egg - A delightful surprise for curious developers
+// ============================================================================
+const styles = {
+  banner: 'font-size: 14px; font-weight: bold; color: #22c55e; line-height: 1.4;',
+  title: 'font-size: 18px; font-weight: bold; background: linear-gradient(90deg, #22c55e, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;',
+  subtitle: 'font-size: 13px; color: #a78bfa; font-style: italic;',
+  hint: 'font-size: 12px; color: #fbbf24; font-family: monospace; background: #fbbf2415; padding: 2px 6px; border-radius: 4px;',
+  body: 'font-size: 12px; color: #94a3b8; line-height: 1.6;',
+  email: 'font-size: 13px; color: #38bdf8; font-weight: 600; text-decoration: underline;',
+  tech: 'font-size: 11px; color: #64748b; font-family: monospace;',
+  divider: 'font-size: 10px; color: #334155;',
+}
 
-console.log(
-  '%c🎉 You found the secret console! Achievement unlocked!',
-  'font-size: 14px; color: #a78bfa; margin: 4px 0;'
-);
+// ASCII Art Banner
+console.log(`%c
+    ╭─────────────────────────────────────╮
+    │                                     │
+    │   👋  Hey there, curious dev!       │
+    │                                     │
+    ╰─────────────────────────────────────╯
+`, styles.banner);
 
-console.log(
-  '%c💡 Try the Konami code on the page: ↑ ↑ ↓ ↓ ← → ← →',
-  'font-size: 12px; color: #fbbf24; font-family: monospace;'
-);
+console.log('%c🎉 Achievement Unlocked: Source Code Explorer!', styles.subtitle);
 
-console.log(
-  '%c\nSince you\'re already poking around...\nWhy not build something awesome together?',
-  'font-size: 12px; color: #94a3b8; line-height: 1.8;'
-);
+console.log('%c\n💡 Secret: Try the Konami code → ↑ ↑ ↓ ↓ ← → ← →', styles.hint);
 
-console.log(
-  '%c📧 kiarasha@alum.mit.edu',
-  'font-size: 13px; color: #38bdf8; font-weight: 500;'
-);
+console.log('%c\nSince you appreciate looking under the hood...\nI bet you build cool stuff too! Let\'s collaborate.', styles.body);
 
-console.log(
-  '%c\n✨ Built with React 19 • TypeScript • Tailwind 4 • Web Audio API • Custom MCP Server',
-  'font-size: 11px; color: #64748b;'
-);
+console.log('%c\n📧 kiarasha@alum.mit.edu', styles.email);
+
+console.log('%c\n─────────────────────────────────────────', styles.divider);
+console.log('%c⚡ Preact • TypeScript • Tailwind 4 • Vite • Web Audio • MCP', styles.tech);
+console.log('%c─────────────────────────────────────────', styles.divider);
 
 // Separate MCP info for AI agents (collapsed by default)
 console.groupCollapsed('%c🤖 MCP Tools for AI Agents', 'font-size: 11px; color: #64748b;');

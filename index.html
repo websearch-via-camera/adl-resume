@@ -373,9 +373,9 @@
         animation: letter-reveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         filter: drop-shadow(0 4px 12px rgba(0,0,0,0.1));
       }
-      .loader-letter:nth-child(1) { animation-delay: 0.15s; }
-      .loader-letter:nth-child(2) { animation-delay: 0.25s; }
-      .loader-letter:nth-child(3) { animation-delay: 0.35s; }
+      .loader-letter:nth-child(1) { animation-delay: 0.1s; }
+      .loader-letter:nth-child(2) { animation-delay: 0.2s; }
+      .loader-letter:nth-child(3) { animation-delay: 0.3s; }
       .loader-tagline {
         font-size: 0.875rem;
         color: var(--muted-foreground);
@@ -399,7 +399,7 @@
         background: linear-gradient(90deg, var(--primary), var(--accent));
         border-radius: 2px;
         width: 0%;
-        animation: progress-fill 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.7s forwards;
+        animation: progress-fill 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards;
       }
       @keyframes loader-fade-in {
         from { opacity: 0; transform: scale(0.95); }
@@ -645,7 +645,7 @@
             loader.classList.add('loaded');
             // Remove from DOM after transition
             setTimeout(() => loader.remove(), 500);
-          }, 1800); // Wait for progress bar animation
+          }, 1000); // Reduced from 1800 for faster LCP
         }
       };
       

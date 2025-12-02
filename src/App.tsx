@@ -10,8 +10,8 @@ import { useState, useEffect, lazy, Suspense, useRef, useCallback } from "react"
 import { toast } from "sonner"
 import resumePdf from "@/assets/documents/Kiarash-Adl-Resume-20251129.pdf"
 
-// Animated hero visual component
-const AnimatedHeroVisual = lazy(() => import("@/components/AnimatedHeroVisual").then(m => ({ default: m.AnimatedHeroVisual })))
+// Animated hero visual component - loaded eagerly for LCP
+import { AnimatedHeroVisual } from "@/components/AnimatedHeroVisual"
 
 // Lightweight components loaded immediately
 import { ThemeToggle } from "@/components/ThemeToggle"
@@ -707,14 +707,8 @@ function App() {
         
         <div className="max-w-5xl mx-auto relative z-10">
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-            {/* Animated Hero Visual - Modern alternative to portrait */}
-            <Suspense fallback={
-              <div className="w-56 h-56 md:w-64 md:h-64 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 animate-pulse flex items-center justify-center">
-                <span className="text-4xl font-bold text-muted-foreground">Adl</span>
-              </div>
-            }>
-              <AnimatedHeroVisual prefersReducedMotion={prefersReducedMotion} />
-            </Suspense>
+            {/* Animated Hero Visual - Eagerly loaded for optimal LCP */}
+            <AnimatedHeroVisual prefersReducedMotion={prefersReducedMotion} />
             
             <div className="flex-1 text-center md:text-left">
               {/* Live Status - Enhanced pulsing button with sub-line */}
@@ -733,7 +727,7 @@ function App() {
               
               {/* Primary Name - Animated letter reveal with hover effects */}
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-2 text-foreground overflow-hidden">
-                <AnimatedName name="Kiarash Adl" delay={400} />
+                <AnimatedName name="Kiarash Adl" delay={100} />
               </h1>
               <TypewriterTagline />
               

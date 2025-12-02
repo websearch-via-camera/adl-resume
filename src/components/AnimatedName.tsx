@@ -15,21 +15,21 @@ interface AnimatedNameProps {
 export const AnimatedName = memo(function AnimatedName({
   name,
   className,
-  delay = 300,
+  delay = 100,
 }: AnimatedNameProps) {
-  const [isRevealed, setIsRevealed] = useState(false)
+  // Start revealed for instant LCP, animation is enhancement only
+  const [isRevealed, setIsRevealed] = useState(true)
   const [isHovered, setIsHovered] = useState(false)
   
   // Respect reduced motion preference
   const prefersReducedMotion = typeof window !== 'undefined' 
     && window.matchMedia('(prefers-reduced-motion: reduce)').matches
   
-  // Trigger reveal animation after delay (instant if reduced motion)
+  // Animation is just an enhancement - text is visible immediately
   useEffect(() => {
-    if (prefersReducedMotion) {
-      setIsRevealed(true)
-      return
-    }
+    if (prefersReducedMotion) return
+    // Brief "unrevealed" state for subtle entrance animation
+    setIsRevealed(false)
     const timer = setTimeout(() => setIsRevealed(true), delay)
     return () => clearTimeout(timer)
   }, [delay, prefersReducedMotion])

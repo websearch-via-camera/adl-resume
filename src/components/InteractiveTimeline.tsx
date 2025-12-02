@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import type { LucideIcon } from "lucide-react"
 import { 
   Briefcase, 
   Lightbulb, 
@@ -11,7 +12,6 @@ import {
   Building2,
   MapPin,
   Calendar,
-  ArrowRight,
   X,
   ChevronDown,
   Sparkles,
@@ -31,7 +31,7 @@ interface TimelineEntry {
   highlights: string[]
   technologies: string[]
   impact?: string
-  icon: React.ComponentType<{ className?: string }>
+  icon: LucideIcon
 }
 
 const timelineData: TimelineEntry[] = [

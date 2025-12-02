@@ -5,18 +5,10 @@ import { SectionDivider } from "@/components/SectionDivider"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Mail, Phone, Download, Github, Linkedin, ArrowUpRight, Send, ChevronUp, ChevronDown, Link, Calendar, Bot, Copy, Check, ChevronLeft, ChevronRight } from "lucide-react"
+import { Mail, Phone, Download, Github, Linkedin, ArrowUpRight, Send, ChevronUp, Link, Calendar, Bot, Copy, Check, ChevronLeft, ChevronRight } from "lucide-react"
 import { useState, useEffect, lazy, Suspense, useRef, useCallback } from "react"
 import { toast } from "sonner"
 import resumePdf from "@/assets/documents/Kiarash-Adl-Resume-20251129.pdf"
-
-// Responsive profile images - WebP with JPEG fallback
-import profileWebp192 from "@/assets/images/profile-192w.webp"
-import profileWebp384 from "@/assets/images/profile-384w.webp"
-import profileWebp224 from "@/assets/images/profile-224w.webp"
-import profileWebp448 from "@/assets/images/profile-448w.webp"
-import profileJpg384 from "@/assets/images/profile-384w.jpg"
 
 // Animated hero visual component
 const AnimatedHeroVisual = lazy(() => import("@/components/AnimatedHeroVisual").then(m => ({ default: m.AnimatedHeroVisual })))
@@ -39,7 +31,7 @@ import { OnboardingChoice } from "@/components/OnboardingChoice"
 const CustomCursor = lazy(() => import("@/components/CustomCursor").then(m => ({ default: m.CustomCursor })))
 const KeyboardHelp = lazy(() => import("@/components/KeyboardHelp").then(m => ({ default: m.KeyboardHelp })))
 const MorphingBlob = lazy(() => import("@/components/MorphingBlob").then(m => ({ default: m.BlobBackground })))
-import { A11yProvider, SkipLinks, useA11y } from "@/components/A11yProvider"
+import { SkipLinks, useA11y } from "@/components/A11yProvider"
 import { TextScramble } from "@/components/TextScramble"
 import { MagneticButton } from "@/components/MagneticButton"
 import { AnimatedName } from "@/components/AnimatedName"
@@ -256,7 +248,6 @@ function App() {
   const { 
     isNavVisible, 
     showScrollTop, 
-    showScrollIndicator, 
     scrollProgress, 
     activeSection 
   } = useNativeScroll(navItems.map(item => item.id))
@@ -268,7 +259,8 @@ function App() {
   const { announce, prefersReducedMotion } = useA11y()
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
+    const target = e.target as HTMLInputElement | HTMLTextAreaElement
+    const { name, value } = target
     setFormData(prev => ({
       ...prev,
       [name]: value
@@ -445,7 +437,7 @@ function App() {
   const dismissSwipeHint = useCallback(() => {
     swipeHintDismissedRef.current = true
     setSwipeHint(false)
-    try { localStorage.setItem('kiarash-swipe-hint', 'true') } catch {}
+    try { localStorage.setItem('kiarash-swipe-hint', 'true') } catch { /* localStorage not available */ }
   }, [])
 
   // Don't render anything until fonts are loaded and localStorage is checked

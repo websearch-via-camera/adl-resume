@@ -45,6 +45,60 @@ export const EasterEgg = memo(function EasterEgg() {
     }
   }, [])
   
+  // Activation sound - dramatic chord with arpeggio (defined before useEffect that uses it)
+  const playActivationSound = useCallback(() => {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const ctx = new (window.AudioContext || (window as any).webkitAudioContext)()
+      
+      // Create dramatic Am9 chord arpeggio
+      const frequencies = [220, 261.63, 329.63, 392, 493.88, 587.33]
+      
+      frequencies.forEach((freq, i) => {
+        const osc = ctx.createOscillator()
+        const gain = ctx.createGain()
+        
+        osc.type = i < 3 ? "sine" : "triangle"
+        osc.frequency.setValueAtTime(freq, ctx.currentTime)
+        
+        gain.gain.setValueAtTime(0, ctx.currentTime)
+        gain.gain.linearRampToValueAtTime(0.12, ctx.currentTime + 0.05 + i * 0.04)
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2.5)
+        
+        osc.connect(gain)
+        gain.connect(ctx.destination)
+        
+        osc.start(ctx.currentTime + i * 0.04)
+        osc.stop(ctx.currentTime + 2.5)
+      })
+      
+      // Add subtle white noise sweep
+      const noise = ctx.createBufferSource()
+      const noiseBuffer = ctx.createBuffer(1, ctx.sampleRate * 0.5, ctx.sampleRate)
+      const data = noiseBuffer.getChannelData(0)
+      for (let i = 0; i < data.length; i++) {
+        data[i] = (Math.random() * 2 - 1) * 0.3
+      }
+      noise.buffer = noiseBuffer
+      
+      const noiseGain = ctx.createGain()
+      const noiseFilter = ctx.createBiquadFilter()
+      noiseFilter.type = "highpass"
+      noiseFilter.frequency.setValueAtTime(2000, ctx.currentTime)
+      noiseFilter.frequency.exponentialRampToValueAtTime(8000, ctx.currentTime + 0.3)
+      
+      noiseGain.gain.setValueAtTime(0.08, ctx.currentTime)
+      noiseGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4)
+      
+      noise.connect(noiseFilter)
+      noiseFilter.connect(noiseGain)
+      noiseGain.connect(ctx.destination)
+      noise.start()
+    } catch {
+      // Audio not supported
+    }
+  }, [])
+  
   // Listen for Konami code
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -117,59 +171,6 @@ export const EasterEgg = memo(function EasterEgg() {
     
     return () => clearInterval(interval)
   }, [isActive])
-  
-  // Activation sound - dramatic chord with arpeggio
-  const playActivationSound = () => {
-    try {
-      const ctx = new (window.AudioContext || (window as any).webkitAudioContext)()
-      
-      // Create dramatic Am9 chord arpeggio
-      const frequencies = [220, 261.63, 329.63, 392, 493.88, 587.33]
-      
-      frequencies.forEach((freq, i) => {
-        const osc = ctx.createOscillator()
-        const gain = ctx.createGain()
-        
-        osc.type = i < 3 ? "sine" : "triangle"
-        osc.frequency.setValueAtTime(freq, ctx.currentTime)
-        
-        gain.gain.setValueAtTime(0, ctx.currentTime)
-        gain.gain.linearRampToValueAtTime(0.12, ctx.currentTime + 0.05 + i * 0.04)
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2.5)
-        
-        osc.connect(gain)
-        gain.connect(ctx.destination)
-        
-        osc.start(ctx.currentTime + i * 0.04)
-        osc.stop(ctx.currentTime + 2.5)
-      })
-      
-      // Add subtle white noise sweep
-      const noise = ctx.createBufferSource()
-      const noiseBuffer = ctx.createBuffer(1, ctx.sampleRate * 0.5, ctx.sampleRate)
-      const data = noiseBuffer.getChannelData(0)
-      for (let i = 0; i < data.length; i++) {
-        data[i] = (Math.random() * 2 - 1) * 0.3
-      }
-      noise.buffer = noiseBuffer
-      
-      const noiseGain = ctx.createGain()
-      const noiseFilter = ctx.createBiquadFilter()
-      noiseFilter.type = "highpass"
-      noiseFilter.frequency.setValueAtTime(2000, ctx.currentTime)
-      noiseFilter.frequency.exponentialRampToValueAtTime(8000, ctx.currentTime + 0.3)
-      
-      noiseGain.gain.setValueAtTime(0.08, ctx.currentTime)
-      noiseGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4)
-      
-      noise.connect(noiseFilter)
-      noiseFilter.connect(noiseGain)
-      noiseGain.connect(ctx.destination)
-      noise.start()
-    } catch {
-      // Audio not supported
-    }
-  }
   
   // Exit handler
   const handleExit = () => {

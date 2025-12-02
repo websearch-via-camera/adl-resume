@@ -39,8 +39,8 @@ export function CustomCursor() {
     let gx = 0, gy = 0  // glow position (slower lerp)
     let rafId: number | null = null
     let isHoveringClickable = false
-    let velocity = { x: 0, y: 0 }
-    let lastPos = { x: 0, y: 0 }
+    const velocity = { x: 0, y: 0 }
+    const lastPos = { x: 0, y: 0 }
     
     // Trail points for ribbon effect
     const trail: TrailPoint[] = []

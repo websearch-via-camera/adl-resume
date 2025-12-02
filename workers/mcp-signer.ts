@@ -116,7 +116,7 @@ export default {
       });
     }
     
-    let responseManifest: any = { ...mcpManifest };
+    const responseManifest: any = { ...mcpManifest };
     
     // Add trust section
     if (env.MCP_PRIVATE_KEY) {

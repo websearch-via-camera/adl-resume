@@ -101,7 +101,7 @@ export function Guestbook() {
                   id="gb-name"
                   placeholder="Ada Lovelace"
                   value={formData.name}
-                  onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                  onChange={(e) => setFormData(prev => ({ ...prev, name: (e.target as HTMLInputElement).value }))}
                   maxLength={50}
                 />
               </div>
@@ -134,7 +134,7 @@ export function Guestbook() {
                 id="gb-message"
                 placeholder="Great portfolio! Love the terminal section..."
                 value={formData.message}
-                onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
+                onChange={(e) => setFormData(prev => ({ ...prev, message: (e.target as HTMLTextAreaElement).value }))}
                 maxLength={280}
                 rows={3}
               />

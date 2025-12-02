@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Card } from "@/components/ui/card"
 import { Terminal, Sparkles, Copy, Check, Monitor, Code2, ChevronRight } from "lucide-react"
-import { isMCPMode, enableMCPMode, disableMCPMode, type UseMCPResult } from "@/mcp/useMCP"
+import { isMCPMode, enableMCPMode, disableMCPMode } from "@/mcp/useMCP"
 import { useIsMobile } from "@/hooks/use-mobile"
 
 interface CommandOutput {
@@ -572,7 +572,7 @@ function DesktopTerminal() {
     setHistoryIndex(-1)
   }
   
-  const handleKeyDown = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       processCommand(currentInput)
       setCurrentInput("")
@@ -719,10 +719,10 @@ function DesktopTerminal() {
             ref={inputRef}
             type="text"
             value={currentInput}
-            onChange={(e) => setCurrentInput(e.target.value)}
+            onChange={(e) => setCurrentInput((e.target as HTMLInputElement).value)}
             onKeyDown={handleKeyDown}
             className="flex-1 bg-transparent outline-none text-zinc-100 caret-zinc-100"
-            spellCheck={false}
+            spellcheck={false}
             autoComplete="off"
             aria-label="Terminal command input. Type help for available commands."
           />

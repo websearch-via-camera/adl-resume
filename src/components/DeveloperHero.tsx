@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge"
-import { Terminal, Code, ArrowDown } from "lucide-react"
+import { Terminal, ArrowDown } from "lucide-react"
 import { motion } from "framer-motion"
 
 interface DeveloperHeroProps {

@@ -6,10 +6,11 @@ import { cn } from "@/lib/utils"
 // Native Slot implementation - removes @radix-ui/react-slot dependency
 function Slot({ children, ...props }: ComponentProps<"span"> & { children?: React.ReactNode }) {
   if (isValidElement(children)) {
-    return cloneElement(children as ReactElement<Record<string, unknown>>, {
+    const childElement = children as ReactElement<{ className?: string } & Record<string, unknown>>
+    return cloneElement(childElement, {
       ...props,
-      ...children.props,
-      className: cn((props as { className?: string }).className, (children.props as { className?: string }).className),
+      ...childElement.props,
+      className: cn((props as { className?: string }).className, childElement.props.className),
     })
   }
   return <span {...props}>{children}</span>

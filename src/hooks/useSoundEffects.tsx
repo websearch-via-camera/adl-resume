@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from "react"
 
 // Sound effect types - expanded for richer UX
-type SoundType = "click" | "hover" | "success" | "whoosh" | "pop" | "chime" | "ambient" | "typing" | "scroll" | "error"
+type SoundType = "click" | "hover" | "success" | "whoosh" | "pop" | "chime" | "ambient" | "typing" | "scroll" | "error" | "swoosh"
 
 // Audio context singleton for better performance
 let audioContext: AudioContext | null = null
@@ -297,6 +297,55 @@ function createSound(type: SoundType): () => void {
           osc2.stop(now + 0.3)
           break
         }
+        
+        case "swoosh": {
+          // Rising swoosh - perfect for scroll-to-top action
+          // Combines filtered noise with a rising tone for a "swisssh" upward feel
+          const noise = ctx.createBufferSource()
+          const noiseBuffer = ctx.createBuffer(1, ctx.sampleRate * 0.4, ctx.sampleRate)
+          const noiseData = noiseBuffer.getChannelData(0)
+          
+          // Pink-ish noise for softer swoosh
+          for (let i = 0; i < noiseData.length; i++) {
+            noiseData[i] = (Math.random() * 2 - 1) * 0.4
+          }
+          noise.buffer = noiseBuffer
+          
+          // Bandpass filter that sweeps upward
+          const filter = ctx.createBiquadFilter()
+          filter.type = "bandpass"
+          filter.frequency.setValueAtTime(200, now)
+          filter.frequency.exponentialRampToValueAtTime(3000, now + 0.25)
+          filter.frequency.exponentialRampToValueAtTime(1500, now + 0.35)
+          filter.Q.setValueAtTime(3, now)
+          
+          // Rising sine tone for "lift" feeling
+          const osc = ctx.createOscillator()
+          osc.type = "sine"
+          osc.frequency.setValueAtTime(NOTES.C4, now)
+          osc.frequency.exponentialRampToValueAtTime(NOTES.C5, now + 0.2)
+          osc.frequency.exponentialRampToValueAtTime(NOTES.G5, now + 0.35)
+          
+          const oscGain = ctx.createGain()
+          oscGain.gain.setValueAtTime(0.08, now)
+          oscGain.gain.exponentialRampToValueAtTime(0.001, now + 0.35)
+          
+          const noiseGain = ctx.createGain()
+          noiseGain.gain.setValueAtTime(0.12, now)
+          noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.35)
+          
+          noise.connect(filter)
+          filter.connect(noiseGain)
+          noiseGain.connect(master)
+          
+          osc.connect(oscGain)
+          oscGain.connect(master)
+          
+          noise.start(now)
+          osc.start(now)
+          osc.stop(now + 0.4)
+          break
+        }
       }
     } catch (e) {
       // Silently fail if audio isn't supported
@@ -332,6 +381,7 @@ export function useSoundEffects() {
     typing: createSound("typing"),
     scroll: createSound("scroll"),
     error: createSound("error"),
+    swoosh: createSound("swoosh"),
   })
   
   // Throttle hover sounds
@@ -393,6 +443,7 @@ export function useSoundEffects() {
   const playTyping = useCallback(() => playSound("typing"), [playSound])
   const playScroll = useCallback(() => playSound("scroll"), [playSound])
   const playError = useCallback(() => playSound("error"), [playSound])
+  const playSwoosh = useCallback(() => playSound("swoosh"), [playSound])
   
   return {
     soundEnabled,
@@ -408,6 +459,7 @@ export function useSoundEffects() {
     playTyping,
     playScroll,
     playError,
+    playSwoosh,
   }
 }
 
@@ -427,6 +479,7 @@ interface SoundContextType {
   playTyping: () => void
   playScroll: () => void
   playError: () => void
+  playSwoosh: () => void
 }
 
 const SoundContext = createContext<SoundContextType | null>(null)
@@ -458,6 +511,7 @@ export function useSound() {
       playTyping: () => {},
       playScroll: () => {},
       playError: () => {},
+      playSwoosh: () => {},
     }
   }
   return context

@@ -263,7 +263,7 @@ function App() {
   } = useNativeScroll(navItems.map(item => item.id))
 
   // Sound effects for interactions
-  const { playWhoosh, playSuccess, playHover } = useSound()
+  const { playWhoosh, playSuccess, playHover, playSwoosh } = useSound()
 
   // Accessibility context
   const { announce, prefersReducedMotion } = useA11y()
@@ -354,6 +354,7 @@ function App() {
   }, [playWhoosh, prefersReducedMotion, announce])
   
   const scrollToTop = () => {
+    playSwoosh()
     window.scrollTo({
       top: 0,
       behavior: prefersReducedMotion ? "instant" : "smooth"

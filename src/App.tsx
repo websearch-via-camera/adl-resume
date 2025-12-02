@@ -43,6 +43,10 @@ import { A11yProvider, SkipLinks, useA11y } from "@/components/A11yProvider"
 import { TextScramble } from "@/components/TextScramble"
 import { MagneticButton } from "@/components/MagneticButton"
 import { AnimatedName } from "@/components/AnimatedName"
+import { GradientFlowText, ElasticText } from "@/components/KineticTypography"
+
+// Easter egg for Awwwards
+const EasterEgg = lazy(() => import("@/components/EasterEgg").then(m => ({ default: m.EasterEgg })))
 
 // Heavy components lazy loaded for better initial performance
 const GitHubActivity = lazy(() => import("@/components/GitHubActivity").then(m => ({ default: m.GitHubActivity })))
@@ -452,6 +456,11 @@ function App() {
     <>
       {/* Skip Links for keyboard/screen reader navigation */}
       <SkipLinks />
+      
+      {/* Easter Egg - Konami Code (↑↑↓↓←→←→BA) */}
+      <Suspense fallback={null}>
+        <EasterEgg />
+      </Suspense>
       
       {/* Show nothing while loading fonts and checking localStorage */}
       {!isReady ? (
@@ -1433,10 +1442,17 @@ function App() {
           <div className="flex flex-col items-center gap-6">
             {/* Logo/Name */}
             <div className="text-center">
-              <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent mb-2">
-                Kiarash Adl
+              <h3 className="text-xl font-bold mb-2">
+                <GradientFlowText 
+                  colors={["var(--primary)", "var(--accent)", "var(--primary)"]}
+                  speed={4}
+                >
+                  Kiarash Adl
+                </GradientFlowText>
               </h3>
-              <p className="text-sm text-muted-foreground">AI Systems Architect • MIT EECS '14</p>
+              <p className="text-sm text-muted-foreground">
+                <ElasticText>AI Systems Architect • MIT EECS '14</ElasticText>
+              </p>
             </div>
             
             {/* Social Links */}

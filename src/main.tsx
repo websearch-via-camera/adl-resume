@@ -22,13 +22,18 @@ console.log(
 );
 
 console.log(
-  '%cYou found the secret console message! 🎉',
+  '%c🎉 You found the secret console! Achievement unlocked!',
   'font-size: 14px; color: #a78bfa; margin: 4px 0;'
 );
 
 console.log(
-  '%cSince you\'re already poking around...\nWhy not build something awesome together?',
-  'font-size: 12px; color: #94a3b8; line-height: 1.6;'
+  '%c💡 Try the Konami code on the page: ↑↑↓↓←→←→BA',
+  'font-size: 12px; color: #fbbf24; font-family: monospace;'
+);
+
+console.log(
+  '%c\nSince you\'re already poking around...\nWhy not build something awesome together?',
+  'font-size: 12px; color: #94a3b8; line-height: 1.8;'
 );
 
 console.log(
@@ -37,18 +42,18 @@ console.log(
 );
 
 console.log(
-  '%c✨ Let\'s create some magic!',
-  'font-size: 12px; color: #fbbf24;'
+  '%c\n✨ Built with React 19 • TypeScript • Tailwind 4 • Web Audio API • Custom MCP Server',
+  'font-size: 11px; color: #64748b;'
 );
 
 // Separate MCP info for AI agents (collapsed by default)
-console.groupCollapsed('%c🤖 MCP Tools (for AI Agents)', 'font-size: 11px; color: #64748b;');
+console.groupCollapsed('%c🤖 MCP Tools for AI Agents', 'font-size: 11px; color: #64748b;');
 console.log('%cDiscovery URL:', 'color: #64748b; font-size: 11px;');
 console.log('%chttps://kiarash-adl.pages.dev/.well-known/mcp.llmfeed.json', 'color: #22c55e; font-family: monospace; font-size: 11px;');
-console.log('%cAvailable tools:', 'color: #64748b; font-size: 11px;');
-console.log('  • submit_contact - Send a message to Kiarash');
-console.log('  • get_project_details - Get project info');
-console.log('  • run_terminal_command - Run terminal commands');
+console.log('%c\nAvailable tools:', 'color: #64748b; font-size: 11px;');
+console.log('  • about, skills, projects, experience, contact');
+console.log('  • submit_contact - Send a message');
+console.log('  • run_terminal_command - Interactive terminal');
 console.groupEnd();
 
 // Mark hydration complete and remove initial loader

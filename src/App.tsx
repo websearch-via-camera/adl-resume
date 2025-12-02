@@ -578,8 +578,8 @@ function App() {
         <div className="absolute inset-x-0 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-accent/20 to-transparent animate-[gradient-x_4s_ease_infinite]" style={{ animationDelay: '-2s' }} />
         
-        {/* Enhanced Glassmorphism background */}
-        <div className="absolute inset-0 bg-background/80 backdrop-blur-xl dark:bg-background/70 shadow-lg shadow-black/[0.03] dark:shadow-black/10" />
+        {/* Enhanced Glassmorphism background - more opaque to work over dark sections */}
+        <div className="absolute inset-0 bg-background/95 backdrop-blur-xl shadow-lg shadow-black/[0.03] dark:bg-background/90 dark:shadow-black/10" />
         
         <div className="max-w-5xl mx-auto px-6 py-4 relative z-10">
           <div className="flex items-center justify-between gap-2">
@@ -594,9 +594,9 @@ function App() {
             {/* Nav links - scrollable on mobile with fade edges */}
             <div className="flex-1 min-w-0 mx-2 relative">
               {/* Left fade gradient */}
-              <div className="absolute left-0 top-0 bottom-0 w-6 bg-gradient-to-r from-background/80 to-transparent z-10 pointer-events-none dark:from-background/70" />
+              <div className="absolute left-0 top-0 bottom-0 w-6 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
               {/* Right fade gradient */}
-              <div className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-background/80 to-transparent z-10 pointer-events-none dark:from-background/70" />
+              <div className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
               
               <div ref={navScrollRef} className="overflow-x-auto scrollbar-hide" role="navigation">
                 <div className="flex items-center gap-1 w-max px-2">

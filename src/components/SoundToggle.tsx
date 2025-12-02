@@ -17,14 +17,14 @@ export function SoundToggle() {
     >
       {/* Animated icon swap */}
       <div className="relative w-5 h-5">
-        <Volume2 
+        <Volume2Icon 
           className={`absolute inset-0 h-5 w-5 transition-all duration-300 ${
             soundEnabled 
               ? "opacity-100 scale-100 text-primary" 
               : "opacity-0 scale-75"
           }`}
         />
-        <VolumeX 
+        <VolumeXIcon 
           className={`absolute inset-0 h-5 w-5 transition-all duration-300 ${
             !soundEnabled 
               ? "opacity-100 scale-100 text-muted-foreground" 

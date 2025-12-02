@@ -1555,7 +1555,7 @@ function App() {
         >
           {/* Animated glow ring */}
           <span className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary to-accent opacity-50 blur-lg group-hover:opacity-75 transition-opacity" />
-          <ChevronUp className="h-6 w-6 relative z-10 group-hover:-translate-y-1 transition-transform duration-300" />
+          <ChevronUpIcon className="h-6 w-6 relative z-10 group-hover:-translate-y-1 transition-transform duration-300" />
         </button>
       )}
 

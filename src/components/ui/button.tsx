@@ -116,7 +116,7 @@ function Button({
         data-slot="button"
         className={cn(buttonVariants({ variant, size, className }))}
         onClick={onClick}
-        {...props}
+        {...(props as Record<string, unknown>)}
       >
         {children}
       </Comp>

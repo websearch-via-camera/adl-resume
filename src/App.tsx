@@ -433,6 +433,7 @@ function App() {
         }
       }
     }
+    return undefined
   }, [showOnboarding])
   
   // Handler to dismiss swipe hint

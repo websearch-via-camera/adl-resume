@@ -16,7 +16,7 @@ import "./main.css"
 initMCP()
 
 // Console greeting with animated waving hand
-const wave = ['👋', '🖐️', '👋', '✋', '👋'];
+const wave = ['👋', '🖐️', '👋', '✋', '👋', '✋', '👋', '✋', '👋'];
 let waveIndex = 0;
 
 const printConsoleGreeting = (emoji: string, isFinal = false) => {
@@ -24,7 +24,7 @@ const printConsoleGreeting = (emoji: string, isFinal = false) => {
     `%c${emoji} Hey there, curious dev!`,
     'font-size: 16px; font-weight: bold; color: #22c55e;'
   );
-  console.log('%c\n💡 Konami: Try this arrow keys on the screen  → ↑ ↑ ↓ ↓ ← → ← →', 'font-size: 12px; color: #fbbf24; font-family: monospace; background: #fbbf2415; padding: 2px 6px; border-radius: 4px;');
+  console.log('%c\n💡 Konami: Try this arrow keys on the screen  ↑ ↑ ↓ ↓ ← → ← →', 'font-size: 12px; color: #fbbf24; font-family: monospace; background: #fbbf2415; padding: 2px 6px; border-radius: 4px;');
   console.log(
     '%cWelcome to the console of Kiarash Adl\'s portfolio site.',
     'font-size: 12px; color: #94a3b8;'

@@ -67,22 +67,27 @@ export function useKeyboardNavigation({
         case "h":
           scrollToSection("home")
           setCurrentSectionIndex(0)
+          setShowHelp(false)
           break
         case "p":
           scrollToSection("projects")
           setCurrentSectionIndex(1)
+          setShowHelp(false)
           break
         case "s":
           scrollToSection("skills")
           setCurrentSectionIndex(2)
+          setShowHelp(false)
           break
         case "e":
           scrollToSection("experience")
           setCurrentSectionIndex(3)
+          setShowHelp(false)
           break
         case "c":
           scrollToSection("contact")
           setCurrentSectionIndex(4)
+          setShowHelp(false)
           break
       }
       setLastKey(null)
@@ -101,6 +106,7 @@ export function useKeyboardNavigation({
         const nextIndex = Math.min(currentSectionIndex + 1, sections.length - 1)
         setCurrentSectionIndex(nextIndex)
         scrollToSection(sections[nextIndex])
+        setShowHelp(false)
         break
       }
       case "k": {
@@ -108,12 +114,14 @@ export function useKeyboardNavigation({
         const prevIndex = Math.max(currentSectionIndex - 1, 0)
         setCurrentSectionIndex(prevIndex)
         scrollToSection(sections[prevIndex])
+        setShowHelp(false)
         break
       }
       case "t":
         e.preventDefault()
         scrollToTop()
         setCurrentSectionIndex(0)
+        setShowHelp(false)
         break
     }
   }, [lastKey, currentSectionIndex, sections, scrollToSection, scrollToTop])

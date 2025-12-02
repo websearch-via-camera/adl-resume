@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { Terminal, User, Code, Sparkles } from "lucide-react"
+import { TerminalIcon, UserIcon, CodeIcon, SparklesIcon } from "@/components/icons/CriticalIcons"
 
 interface OnboardingChoiceProps {
   onChoice: (isDeveloper: boolean) => void
@@ -76,7 +76,7 @@ export function OnboardingChoice({ onChoice }: OnboardingChoiceProps) {
       >
         {/* Sparkle decoration */}
         <div className="absolute -top-8 left-1/2 -translate-x-1/2">
-          <Sparkles className={`h-6 w-6 text-primary/60 transition-all duration-700 delay-300 ${
+          <SparklesIcon className={`h-6 w-6 text-primary/60 transition-all duration-700 delay-300 ${
             showContent ? 'opacity-100 scale-100' : 'opacity-0 scale-50'
           }`} />
         </div>
@@ -136,7 +136,7 @@ export function OnboardingChoice({ onChoice }: OnboardingChoiceProps) {
                     : "bg-muted text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary"
                 }`}
               >
-                <Terminal className="h-7 w-7" />
+                <TerminalIcon className="h-7 w-7" />
               </div>
               <div className="flex-1">
                 <h2 className="text-xl md:text-2xl font-bold mb-2 group-hover:text-primary transition-colors">
@@ -163,7 +163,7 @@ export function OnboardingChoice({ onChoice }: OnboardingChoiceProps) {
 
             {/* Decorative code symbols */}
             <div className="absolute top-3 right-3 opacity-10 group-hover:opacity-20 transition-all duration-300 group-hover:rotate-12">
-              <Code className="h-8 w-8" />
+              <CodeIcon className="h-8 w-8" />
             </div>
           </button>
 
@@ -196,7 +196,7 @@ export function OnboardingChoice({ onChoice }: OnboardingChoiceProps) {
                     : "bg-muted text-muted-foreground group-hover:bg-accent/10 group-hover:text-accent"
                 }`}
               >
-                <User className="h-7 w-7" />
+                <UserIcon className="h-7 w-7" />
               </div>
               <div className="flex-1">
                 <h2 className="text-xl md:text-2xl font-bold mb-2 group-hover:text-accent transition-colors">
@@ -221,7 +221,7 @@ export function OnboardingChoice({ onChoice }: OnboardingChoiceProps) {
 
             {/* Decorative user symbol */}
             <div className="absolute top-3 right-3 opacity-10 group-hover:opacity-20 transition-all duration-300 group-hover:-rotate-12">
-              <User className="h-8 w-8" />
+              <UserIcon className="h-8 w-8" />
             </div>
           </button>
         </div>

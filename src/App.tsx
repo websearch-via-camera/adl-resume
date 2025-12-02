@@ -5,7 +5,7 @@ import { SectionDivider } from "@/components/SectionDivider"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-import { Mail, Phone, Download, Github, Linkedin, ArrowUpRight, Send, ChevronUp, Link, Calendar, Bot, Copy, Check, ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronUpIcon } from "@/components/icons/CriticalIcons"
 import { useState, useEffect, lazy, Suspense, useRef, useCallback } from "react"
 import { toast } from "sonner"
 import resumePdf from "@/assets/documents/Kiarash-Adl-Resume-20251129.pdf"
@@ -62,6 +62,25 @@ const WebMCPSection = lazy(() => import("@/components/WebMCPSection").then(m => 
 
 // Recharts components lazy loaded (heavy charting library)
 const SkillsCharts = lazy(() => import("@/components/SkillsCharts"))
+
+// Lucide icons - lazy loaded via dynamic import to avoid blocking critical render path
+// These icons are only used below-the-fold (contact, footer, projects)
+import {
+  MailIcon as Mail,
+  PhoneIcon as Phone,
+  DownloadIcon as Download,
+  GithubIcon as Github,
+  LinkedinIcon as Linkedin,
+  ArrowUpRightIcon as ArrowUpRight,
+  SendIcon as Send,
+  LinkIcon as Link,
+  CalendarIcon as Calendar,
+  BotIcon as Bot,
+  CopyIcon as Copy,
+  CheckIcon as Check,
+  ChevronLeftIcon as ChevronLeft,
+  ChevronRightIcon as ChevronRight,
+} from "@/components/icons/LazyIcons"
 
 // Loading fallback component with SEO-friendly content for AI agents
 const SectionLoader = ({ height = "h-64", section = "content" }: { height?: string; section?: string }) => (

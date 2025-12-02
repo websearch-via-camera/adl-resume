@@ -1,6 +1,6 @@
 import { useTheme } from "@/components/ThemeProvider"
 import { Button } from "@/components/ui/button"
-import { Moon, Sun } from "lucide-react"
+import { SunIcon, MoonIcon } from "@/components/icons/CriticalIcons"
 import { useEffect, useState } from "react"
 
 export function ThemeToggle() {
@@ -19,13 +19,13 @@ export function ThemeToggle() {
   }
 
   const getIcon = () => {
-    if (!mounted) return <Sun className="h-[18px] w-[18px]" />
+    if (!mounted) return <SunIcon className="h-[18px] w-[18px]" />
     
     // Use resolvedTheme to show the actual theme (handles "system" case)
     const currentTheme = resolvedTheme || "light"
     return currentTheme === "dark" 
-      ? <Moon className="h-[18px] w-[18px]" />
-      : <Sun className="h-[18px] w-[18px]" />
+      ? <MoonIcon className="h-[18px] w-[18px]" />
+      : <SunIcon className="h-[18px] w-[18px]" />
   }
 
   const getLabel = () => {

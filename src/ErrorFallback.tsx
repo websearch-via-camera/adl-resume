@@ -1,6 +1,6 @@
 import { Button } from "./components/ui/button";
 
-import { AlertTriangleIcon, RefreshCwIcon } from "lucide-react";
+import { AlertTriangleIcon, RefreshCwIcon } from "./components/icons/CriticalIcons";
 import { FallbackProps } from "react-error-boundary";
 
 export const ErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {

@@ -1,5 +1,5 @@
 import { useSound } from "@/hooks/useSoundEffects"
-import { Volume2, VolumeX } from "lucide-react"
+import { Volume2Icon, VolumeXIcon } from "@/components/icons/CriticalIcons"
 
 export function SoundToggle() {
   const { soundEnabled, toggleSound } = useSound()

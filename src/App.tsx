@@ -1041,7 +1041,7 @@ function App() {
                         {/* Client Story Snippet */}
                         <div className="flex items-center gap-2 p-2 rounded-lg bg-blue-500/5 border border-blue-500/20 text-xs">
                           <span className="text-blue-500" aria-hidden="true">✓</span>
-                          <span className="text-muted-foreground"><strong className="font-medium text-foreground">Impact:</strong> Helps startups cut hiring time by 40% with AI interviews</span>
+                          <span className="text-muted-foreground"><strong className="font-medium text-foreground">Impact:</strong> Helps startups cut hiring time with AI interviews</span>
                         </div>
                       </div>
                     </div>

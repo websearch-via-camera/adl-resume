@@ -59,7 +59,7 @@ const projects: Record<string, {
     links: {
       website: "https://www.align-a.com/about"
     },
-    impact: "Helps startups cut hiring time by 40% with AI interviews",
+    impact: "Helps startups cut hiring time with AI interviews",
     category: "saas"
   },
   aivision: {
@@ -134,7 +134,7 @@ FEATURED PROJECTS
    Status: Live
    Stack: Next.js, LiveKit, Azure OpenAI
    Conversational AI recruiter with voice interviews
-   Helps startups cut hiring time by 40%
+   Helps startups cut hiring time
 
 3. AI Vision
    Status: Live

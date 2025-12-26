@@ -8,7 +8,6 @@ import { Label } from "@/components/ui/label"
 import { ChevronUpIcon } from "@/components/icons/CriticalIcons"
 import { useState, useEffect, lazy, Suspense, useRef, useCallback } from "react"
 import { toast } from "sonner"
-import resumePdf from "@/assets/documents/Kiarash-Adl-Resume-20251129.pdf"
 
 // Animated hero visual component - loaded eagerly for LCP
 import { AnimatedHeroVisual } from "@/components/AnimatedHeroVisual"
@@ -1170,7 +1169,7 @@ function App() {
                 className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-medium px-4 py-2 bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all duration-300"
                 onClick={() => {
                   const link = document.createElement('a')
-                  link.href = resumePdf
+                  link.href = '/Kiarash-Adl-Resume.pdf'
                   link.download = 'Kiarash-Adl-Resume.pdf'
                   link.click()
                 }}

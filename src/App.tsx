@@ -1019,8 +1019,8 @@ function App() {
                             <div className="text-xs text-muted-foreground">Voice Interviews</div>
                           </li>
                           <li className="text-center p-3 bg-gradient-to-br from-muted/80 to-muted/40 rounded-xl border border-border/50 group-hover:border-blue-500/30 transition-colors">
-                            <div className="text-xl font-bold text-blue-500">11+</div>
-                            <div className="text-xs text-muted-foreground">Docker Services</div>
+                            <div className="text-xl font-bold text-blue-500">Built</div>
+                            <div className="text-xs text-muted-foreground">a Production AI</div>
                           </li>
                           <li className="text-center p-3 bg-gradient-to-br from-muted/80 to-muted/40 rounded-xl border border-border/50 group-hover:border-blue-500/30 transition-colors">
                             <div className="text-xl font-bold text-blue-500">2-Way</div>

@@ -71,6 +71,24 @@ const mcpManifest = {
   }
 };
 
+/**
+ * Recursively sorts all keys in an object for canonical JSON representation.
+ * This ensures that the signature protects all nested content, not just top-level keys.
+ * 
+ * @param obj - The object to sort recursively
+ * @returns A new object with all keys sorted at every level
+ */
+function deepSortObject(obj: unknown): unknown {
+  if (obj === null || typeof obj !== "object") return obj;
+  if (Array.isArray(obj)) return obj.map(deepSortObject);
+  
+  const sorted: Record<string, unknown> = {};
+  for (const key of Object.keys(obj).sort()) {
+    sorted[key] = deepSortObject((obj as Record<string, unknown>)[key]);
+  }
+  return sorted;
+}
+
 async function signManifest(manifest: object, privateKeyBase64: string): Promise<string> {
   // Decode the private key
   const privateKeyBytes = Uint8Array.from(atob(privateKeyBase64), c => c.charCodeAt(0));
@@ -84,8 +102,10 @@ async function signManifest(manifest: object, privateKeyBase64: string): Promise
     ["sign"]
   );
   
-  // Create canonical JSON (sorted keys, no whitespace)
-  const canonicalJson = JSON.stringify(manifest, Object.keys(manifest).sort());
+  // Create canonical JSON with deep recursive key sorting
+  // This ensures the signature protects all content, not just the empty structure
+  const sortedManifest = deepSortObject(manifest);
+  const canonicalJson = JSON.stringify(sortedManifest);
   const encoder = new TextEncoder();
   const data = encoder.encode(canonicalJson);
   

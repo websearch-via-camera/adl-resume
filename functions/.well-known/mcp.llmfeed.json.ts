@@ -21,7 +21,7 @@ const mcpManifest = {
     "description": "AI-enabled portfolio of Kiarash Adl, AI Systems Architect and Full-Stack Engineer. Query projects, skills, and contact information programmatically.",
     "lang": "en",
     "version": "2.0.0",
-    "last_updated": "2025-12-01T00:00:00Z",
+    "last_updated": "2025-12-26T00:00:00Z",
     "topics": ["ai", "machine-learning", "full-stack", "portfolio", "mit", "mcp"],
     "contact": {
       "email": "kiarasha@alum.mit.edu",

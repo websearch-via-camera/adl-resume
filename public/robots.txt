@@ -1,9 +1,4 @@
-# https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Allow: /
 
-# Sitemap location
 Sitemap: https://25x.codes/sitemap.xml
-
-# Crawl-delay (optional, be nice to bots)
-Crawl-delay: 1

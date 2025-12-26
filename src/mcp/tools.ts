@@ -32,7 +32,7 @@ export interface MCPTool {
 export const getProjectDetailsSchema = z.object({
   projectId: z
     .string()
-    .describe("The project ID to retrieve (e.g., 'fiml', 'hirealigna', 'aivision')"),
+    .describe("The project ID to retrieve (e.g., 'fiml', 'aligna', 'aivision')"),
   includeStack: z
     .boolean()
     .optional()
@@ -95,7 +95,7 @@ AI/ML:
    - 32K+ LOC | 1,403 tests | 100% pass rate
    - Tech: Python, MCP, AI Orchestration
 
-2. HireAligna.ai
+2. Aligna (www.align-a.com/about)
    - Conversational AI Recruiter
    - Voice interviews via LiveKit
    - Tech: Next.js, Azure OpenAI, Docker
@@ -307,8 +307,8 @@ const jsonSchemas: Record<string, object> = {
     properties: {
       projectId: {
         type: "string",
-        description: "The project ID to retrieve (e.g., 'fiml', 'hirealigna', 'aivision')",
-        enum: ["fiml", "hirealigna", "aivision"]
+        description: "The project ID to retrieve (e.g., 'fiml', 'aligna', 'aivision')",
+        enum: ["fiml", "aligna", "aivision"]
       },
       includeStack: {
         type: "boolean",

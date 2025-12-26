@@ -89,7 +89,7 @@ const commands: Record<string, string[]> = {
     "   32K+ LOC, 1,403 tests, 100% pass rate",
     "   Tech: Python, MCP, AI Orchestration",
     "",
-    "2. HireAligna.ai",
+    "2. Aligna (www.align-a.com/about)",
     "   Conversational AI Recruiter",
     "   Voice interviews via LiveKit",
     "   Tech: Next.js, Azure OpenAI, Docker",
@@ -625,7 +625,7 @@ function TerminalSEOContent() {
         <h3>Projects</h3>
         <ul role="list">
           <li>Financial Intelligence Meta-Layer (FIML): AI-native MCP server, 32K+ LOC, 1,403 tests, 100% pass rate. Tech: Python, MCP, AI Orchestration.</li>
-          <li>HireAligna.ai: Conversational AI Recruiter with voice interviews via LiveKit. Tech: Next.js, Azure OpenAI, Docker.</li>
+          <li>Aligna (align-a.com): Conversational AI Recruiter with voice interviews via LiveKit. Tech: Next.js, Azure OpenAI, Docker.</li>
         </ul>
       </section>
       
@@ -727,7 +727,7 @@ function DesktopTerminal() {
           "  POST https://25x.codes/mcp/invoke",
           "",
           "Available Tools:",
-          "  • get_project_details  Get project info (fiml, hirealigna, aivision)",
+          "  • get_project_details  Get project info (fiml, aligna, aivision)",
           "  • run_terminal_command Run: about, skills, projects, contact, experience",
           "",
           "Example:",

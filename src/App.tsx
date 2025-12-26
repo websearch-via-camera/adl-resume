@@ -1006,7 +1006,7 @@ function App() {
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-3">
                           <h3 className="text-xl md:text-2xl font-bold group-hover:text-blue-500 transition-colors" itemProp="name">
-                            HireAligna.ai
+                            <a href="https://www.align-a.com/about" target="_blank" rel="noopener noreferrer" className="hover:underline">Aligna</a>
                           </h3>
                           <Badge variant="outline" className="border-blue-500/50 text-blue-600 bg-blue-500/10 text-xs" itemProp="applicationCategory">SaaS Platform</Badge>
                         </div>
@@ -1019,7 +1019,7 @@ function App() {
                             <div className="text-xs text-muted-foreground">Voice Interviews</div>
                           </li>
                           <li className="text-center p-3 bg-gradient-to-br from-muted/80 to-muted/40 rounded-xl border border-border/50 group-hover:border-blue-500/30 transition-colors">
-                            <div className="text-xl font-bold text-blue-500">17+</div>
+                            <div className="text-xl font-bold text-blue-500">11+</div>
                             <div className="text-xs text-muted-foreground">Docker Services</div>
                           </li>
                           <li className="text-center p-3 bg-gradient-to-br from-muted/80 to-muted/40 rounded-xl border border-border/50 group-hover:border-blue-500/30 transition-colors">

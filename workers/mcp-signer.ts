@@ -36,7 +36,7 @@ const mcpManifest = {
         "properties": {
           "projectId": {
             "type": "string",
-            "enum": ["fiml", "hirealigna", "aivision"]
+            "enum": ["fiml", "aligna", "aivision"]
           },
           "includeStack": {
             "type": "boolean",

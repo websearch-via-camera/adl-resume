@@ -55,7 +55,7 @@ This portfolio implements the [Model Context Protocol (MCP)](https://modelcontex
 |------|-------------|
 | `submit_contact` | Send a message directly to Kiarash's inbox |
 | `run_terminal_command` | Execute terminal commands (about, skills, projects, contact, experience, resume, help) |
-| `get_project_details` | Get details about specific projects (fiml, hirealigna, aivision) |
+| `get_project_details` | Get details about specific projects (fiml, aligna, aivision) |
 
 ### Usage Example
 

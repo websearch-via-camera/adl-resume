@@ -43,20 +43,22 @@ const projects: Record<string, {
     impact: "Reduces financial data integration time by 70%",
     category: "open-source"
   },
-  hirealigna: {
-    id: "hirealigna",
-    title: "HireAligna.ai",
+  aligna: {
+    id: "aligna",
+    title: "Aligna",
     description: "Conversational AI recruiter that schedules and conducts voice interviews via LiveKit, transcribes with Azure OpenAI, and performs automated candidate-job matching with full observability.",
     shortDescription: "Conversational AI recruiter with voice interviews",
     stack: ["Next.js", "LiveKit", "Azure OpenAI", "PostgreSQL", "Docker"],
     metrics: [
       { label: "Feature", value: "AI Voice Interviews" },
-      { label: "Docker Services", value: "17+" },
+      { label: "Docker Services", value: "11+" },
       { label: "Matching", value: "2-Way Smart" },
       { label: "Observability", value: "Full" }
     ],
     status: "live",
-    links: {},
+    links: {
+      website: "https://www.align-a.com/about"
+    },
     impact: "Helps startups cut hiring time by 40% with AI interviews",
     category: "saas"
   },
@@ -128,7 +130,7 @@ FEATURED PROJECTS
    AI-native MCP server for financial data aggregation
    32K+ LOC | 1,403 tests | 100% pass rate
 
-2. HireAligna.ai  
+2. Aligna (www.align-a.com/about)
    Status: Live
    Stack: Next.js, LiveKit, Azure OpenAI
    Conversational AI recruiter with voice interviews
@@ -403,7 +405,7 @@ const toolDefinitions: Record<string, { description: string; inputSchema: object
         projectId: {
           type: "string",
           description: "The project ID to retrieve",
-          enum: ["fiml", "hirealigna", "aivision"]
+          enum: ["fiml", "aligna", "aivision"]
         },
         includeStack: {
           type: "boolean",
@@ -516,7 +518,7 @@ export const onRequest = async (context: { request: Request; env: Env }): Promis
           get_resume: "/mcp/invoke?command=resume",
           get_experience: "/mcp/invoke?command=experience",
           get_project_fiml: "/mcp/invoke?projectId=fiml",
-          get_project_hirealigna: "/mcp/invoke?projectId=hirealigna",
+          get_project_aligna: "/mcp/invoke?projectId=aligna",
           get_project_aivision: "/mcp/invoke?projectId=aivision"
         },
         availableCommands: Object.keys(terminalCommands),

@@ -45,22 +45,24 @@ export const projects: Record<string, Project> = {
     impact: "Reduces financial data integration time by 70%",
     category: "open-source",
   },
-  hirealigna: {
-    id: "hirealigna",
-    title: "HireAligna.ai",
+  aligna: {
+    id: "aligna",
+    title: "Aligna",
     description:
       "Conversational AI recruiter that schedules and conducts voice interviews via LiveKit, transcribes with Azure OpenAI, and performs automated candidate-job matching with full observability.",
     shortDescription: "Conversational AI recruiter with voice interviews",
     stack: ["Next.js", "LiveKit", "Azure OpenAI", "PostgreSQL", "Docker"],
     metrics: [
       { label: "Feature", value: "AI Voice Interviews" },
-      { label: "Docker Services", value: "17+" },
+      { label: "a Production AI", value: "Built" },
       { label: "Matching", value: "2-Way Smart" },
       { label: "Observability", value: "Full" },
     ],
     status: "live",
-    links: {},
-    impact: "Helps startups cut hiring time by 40% with AI interviews",
+    links: {
+      website: "https://www.align-a.com/about"
+    },
+    impact: "Helps startups cut hiring time with AI interviews",
     category: "saas",
   },
   aivision: {

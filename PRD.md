@@ -27,7 +27,7 @@ A sophisticated portfolio and resume website for Kiarash Adl, an AI innovator an
 - **Success criteria**: Visitor understands Kiarash's core value proposition within 3 seconds
 
 ### Featured Projects Section
-- **Functionality**: Showcase FIML and HireAligna AI projects with bold, prominent cards containing project descriptions
+- **Functionality**: Showcase FIML and Aligna AI projects with bold, prominent cards containing project descriptions
 - **Purpose**: Highlight most impressive and recent work to capture attention and demonstrate current capabilities
 - **Trigger**: Scroll or automatic visibility below header
 - **Progression**: Section title appears → Project cards fade in sequentially → Hover reveals additional emphasis

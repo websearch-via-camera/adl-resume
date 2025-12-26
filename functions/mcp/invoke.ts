@@ -51,7 +51,7 @@ const projects: Record<string, {
     stack: ["Next.js", "LiveKit", "Azure OpenAI", "PostgreSQL", "Docker"],
     metrics: [
       { label: "Feature", value: "AI Voice Interviews" },
-      { label: "Docker Services", value: "11+" },
+      { label: "a Production AI", value: "Built" },
       { label: "Matching", value: "2-Way Smart" },
       { label: "Observability", value: "Full" }
     ],

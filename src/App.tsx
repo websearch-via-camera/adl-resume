@@ -1044,6 +1044,11 @@ function App() {
                           <span className="text-muted-foreground"><strong className="font-medium text-foreground">Impact:</strong> Helps startups cut hiring time with AI interviews</span>
                         </div>
                       </div>
+                      <nav className="flex flex-row gap-2" aria-label="Project links">
+                        <a href="https://www.align-a.com/about" target="_blank" rel="noopener noreferrer" className="flex-shrink-0 min-h-[44px] min-w-[44px] p-3 rounded-xl bg-muted/80 hover:bg-primary hover:text-primary-foreground transition-all duration-300 flex items-center justify-center group/btn hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-0.5" aria-label="View Aligna project website" itemProp="url">
+                          <Link className="h-5 w-5 group-hover/btn:scale-110 transition-transform" />
+                        </a>
+                      </nav>
                     </div>
                   </Card>
                 </article>
